@@ -12,9 +12,9 @@ delete process.env.GITHUB_TOKEN;
 delete process.env.ACTIONS_RUNTIME_TOKEN;
 delete process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN;
 
-function command(program, argumentsList, { cwd = process.cwd(), timeout = 480000, allowFailure = false, authenticated = false } = {}) {
+function command(program, argumentsList, { cwd = process.cwd(), timeout = 480000, allowFailure = false, authenticated = false, capture = true } = {}) {
   console.log(`> ${program} ${argumentsList.join(" ")}`);
-  const result = spawnSync(program, argumentsList, { cwd, encoding: "utf8", timeout, maxBuffer: 16 * 1024 * 1024, env: authenticated ? { ...process.env, GH_TOKEN: githubToken } : process.env });
+  const result = spawnSync(program, argumentsList, { cwd, encoding: "utf8", timeout, maxBuffer: 16 * 1024 * 1024, stdio: capture ? ["ignore", "pipe", "pipe"] : "inherit", env: authenticated ? { ...process.env, GH_TOKEN: githubToken } : process.env });
   if (result.stdout) process.stdout.write(result.stdout);
   if (result.stderr) process.stderr.write(result.stderr);
   if (!allowFailure && (result.error || result.status !== 0)) throw new Error(`Cloud stage failed: ${program}; exit ${result.status ?? "timeout"}`);
@@ -30,7 +30,7 @@ async function main() {
   const unit = command("npm", ["test"]);
   if (process.env.PIPELINE_MODE === "unit") return;
   if (process.env.PIPELINE_MODE === "live") {
-    command("npx", ["--no-install", "playwright", "install", "--with-deps", "chromium", "webkit"]);
+    command("npx", ["--no-install", "playwright", "install", "--with-deps", "chromium", "webkit"], { capture: false });
     command(process.execPath, ["scripts/live-check.mjs"]);
     command("gh", ["auth", "setup-git"], { authenticated: true });
     command("git", ["config", "user.name", "github-actions[bot]"]);
@@ -59,8 +59,8 @@ async function main() {
   }
   const generatedInputsSha = command("git", ["rev-parse", "HEAD"]).stdout.trim();
   command("npm", ["run", "build"]);
-  command("npx", ["--no-install", "playwright", "install", "--with-deps", "chromium", "webkit"]);
-  command("npm", ["run", "test:browser"]);
+  command("npx", ["--no-install", "playwright", "install", "--with-deps", "chromium", "webkit"], { capture: false });
+  command("npm", ["run", "test:browser"], { capture: false });
   const browserReport = JSON.parse(readFileSync("test-results/results.json", "utf8"));
   if (browserReport.stats.unexpected || browserReport.stats.flaky || browserReport.stats.skipped) throw new Error("Browser report contains failed, flaky or skipped tests.");
   const { default: browserConfig } = await import("../playwright.config.mjs");
