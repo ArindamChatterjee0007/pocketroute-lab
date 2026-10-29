@@ -44,7 +44,9 @@ function fixture(id = "import-0001", overrides = {}) {
   return createRecord({ source: sampleSource, title: "Imported synthetic visit", site: "North-17", date: "2026-10-29", reference: "00042", category: "Maintenance", summary: "Two filters need replacement.\nThe unit remains isolated.", reviewed: true, ...overrides }, { id, version: 1, createdAt: "2026-10-29T10:00:00.000Z", updatedAt: "2026-10-29T10:00:00.000Z" });
 }
 async function importBackup(page, content) {
-  await page.locator("#backup-file").setInputFiles({ name: "synthetic-backup.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(content)) });
+  await expect(page.getByRole("button", { name: "Import backup", exact: true })).toBeEnabled();
+  const [chooser] = await Promise.all([page.waitForEvent("filechooser"), page.getByRole("button", { name: "Import backup", exact: true }).click()]);
+  await chooser.setFiles({ name: "synthetic-backup.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(content)) });
   await expect(page.getByRole("dialog")).toContainText("Import reviewed records?");
   await page.getByRole("button", { name: "Import records", exact: true }).click();
 }
@@ -223,6 +225,7 @@ test("delete and restore cannot bypass the stale-record guard with the same vers
   await other.locator(".saved-record").click();
   await other.getByRole("button", { name: "Delete saved record", exact: true }).click();
   await other.getByRole("button", { name: "Delete record", exact: true }).click();
+  await expect(other.locator("#work-status")).toHaveText("Saved record deleted from this browser.");
   const restored = { ...snapshot.records[0], title: "Different restored content, same ID and version" };
   await importBackup(other, createBackup([restored]));
   await page.locator("#record-title").fill("Stale edit after restore");
