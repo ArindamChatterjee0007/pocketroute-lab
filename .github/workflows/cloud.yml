@@ -1,0 +1,41 @@
+name: PocketRoute cloud build and experiment
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Verification scope
+        type: choice
+        options: [publish, unit]
+        default: publish
+      experiment:
+        description: Run the bounded SmolLM2 CPU smoke experiment
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: pocketroute-cloud-publication
+  cancel-in-progress: false
+
+jobs:
+  verify-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PIPELINE_MODE: ${{ inputs.mode }}
+      RUN_SLM_EXPERIMENT: ${{ inputs.experiment }}
+      ONNXRUNTIME_NODE_INSTALL_CUDA: skip
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Build, test, experiment and publish on GitHub only
+        run: node scripts/pipeline.mjs
