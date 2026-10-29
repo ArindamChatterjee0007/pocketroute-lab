@@ -5,9 +5,15 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync
 import { join } from "node:path";
 import { createHash } from "node:crypto";
 
-function command(program, argumentsList, { cwd = process.cwd(), timeout = 480000, allowFailure = false } = {}) {
+const githubToken = process.env.GH_TOKEN;
+delete process.env.GH_TOKEN;
+delete process.env.GITHUB_TOKEN;
+delete process.env.ACTIONS_RUNTIME_TOKEN;
+delete process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN;
+
+function command(program, argumentsList, { cwd = process.cwd(), timeout = 480000, allowFailure = false, authenticated = false } = {}) {
   console.log(`> ${program} ${argumentsList.join(" ")}`);
-  const result = spawnSync(program, argumentsList, { cwd, encoding: "utf8", timeout, maxBuffer: 16 * 1024 * 1024, env: process.env });
+  const result = spawnSync(program, argumentsList, { cwd, encoding: "utf8", timeout, maxBuffer: 16 * 1024 * 1024, env: authenticated ? { ...process.env, GH_TOKEN: githubToken } : process.env });
   if (result.stdout) process.stdout.write(result.stdout);
   if (result.stderr) process.stderr.write(result.stderr);
   if (!allowFailure && (result.error || result.status !== 0)) throw new Error(`Cloud stage failed: ${program}; exit ${result.status ?? "timeout"}`);
@@ -15,27 +21,24 @@ function command(program, argumentsList, { cwd = process.cwd(), timeout = 480000
 }
 
 async function main() {
-  if (process.env.PIPELINE_MODE === "unit") {
-    command(process.execPath, ["--test", "tests/domain.test.mjs"]);
-    return;
-  }
   if (!existsSync("package-lock.json")) command("npm", ["install", "--package-lock-only", "--ignore-scripts", "--no-audit", "--no-fund"]);
   command("npm", ["ci", "--ignore-scripts", "--no-audit", "--no-fund"]);
   command("npm", ["audit", "--audit-level=high"]);
   const unit = command("npm", ["test"]);
+  if (process.env.PIPELINE_MODE === "unit") return;
   if (process.env.RUN_SLM_EXPERIMENT === "true") command(process.execPath, ["scripts/experiment.mjs"], { timeout: 420000 });
   const licenseResponse = await fetch("https://www.apache.org/licenses/LICENSE-2.0.txt");
   if (!licenseResponse.ok) throw new Error("Unable to retrieve the Apache-2.0 license text.");
   const license = await licenseResponse.text();
   if (!license.includes("Version 2.0, January 2004") || !license.includes("Grant of Copyright License")) throw new Error("Unexpected license response.");
   writeFileSync("LICENSE", license);
-  command("gh", ["auth", "setup-git"]);
+  command("gh", ["auth", "setup-git"], { authenticated: true });
   command("git", ["config", "user.name", "github-actions[bot]"]);
   command("git", ["config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"]);
   command("git", ["add", "--", "package-lock.json", "data/slm-results.json", "LICENSE"]);
   if (command("git", ["diff", "--cached", "--quiet"], { allowFailure: true }).status === 1) {
     command("git", ["commit", "-m", "Record cloud-generated lock, model evidence and license [skip ci]"]);
-    command("git", ["push", "origin", "HEAD:main"]);
+    command("git", ["push", "origin", "HEAD:main"], { authenticated: true });
   }
   const generatedInputsSha = command("git", ["rev-parse", "HEAD"]).stdout.trim();
   command("npm", ["run", "build"]);
@@ -96,9 +99,9 @@ async function main() {
   command("git", ["add", "--all"], { cwd: destination });
   if (command("git", ["diff", "--cached", "--quiet"], { cwd: destination, allowFailure: true }).status === 1) {
     command("git", ["commit", "-m", `Publish verified research dashboard ${process.env.GITHUB_RUN_ID}`], { cwd: destination });
-    command("git", ["push", "origin", "HEAD:gh-pages"], { cwd: destination });
+    command("git", ["push", "origin", "HEAD:gh-pages"], { cwd: destination, authenticated: true });
   }
-  const pages = command("gh", ["api", "--method", "POST", `repos/${repository}/pages/builds`], { allowFailure: true, timeout: 30000 });
+  const pages = command("gh", ["api", "--method", "POST", `repos/${repository}/pages/builds`], { allowFailure: true, timeout: 30000, authenticated: true });
   const summary = { ...verification, pagesBuildRequested: pages.status === 0, publicationBranch: "gh-pages", artifactStorageUsed: false, cachesConfigured: false };
   writeFileSync(process.env.GITHUB_STEP_SUMMARY, `## PocketRoute cloud verification\n\n\`\`\`json\n${JSON.stringify(summary, null, 2)}\n\`\`\`\n`);
   console.log(JSON.stringify(summary, null, 2));

@@ -7,7 +7,7 @@
   "scripts": {
     "preinstall": "node scripts/cloud-only.mjs",
     "build": "node scripts/build.mjs",
-    "test": "node scripts/cloud-only.mjs && node --test tests/domain.test.mjs",
+    "test": "node scripts/cloud-only.mjs && node --test --test-reporter=tap tests/domain.test.mjs",
     "test:browser": "node scripts/cloud-only.mjs && playwright test",
     "experiment": "node scripts/experiment.mjs",
     "cloud": "node scripts/pipeline.mjs"
@@ -21,6 +21,6 @@
     "@huggingface/transformers": "4.3.2",
     "@playwright/test": "1.64.1",
     "esbuild": "0.28.2",
-    "sharp": "0.35.4"
+    "sharp": "0.35.5"
   }
 }
