@@ -1,4 +1,4 @@
-import { createRecord, normalizeRecord, recordLimit } from "../app/note-core.mjs";
+import { createRecord, normalizeRecord, planImport, recordLimit } from "../app/note-core.mjs";
 
 let databasePromise;
 
@@ -7,7 +7,7 @@ function database() {
     if (!globalThis.indexedDB) { reject(new Error("Browser storage is unavailable. The draft can still be exported.")); return; }
     const request = indexedDB.open("pocketroute-notes-v1", 1);
     request.onupgradeneeded = () => request.result.createObjectStore("records", { keyPath: "id" });
-    request.onsuccess = () => { request.result.onversionchange = () => request.result.close(); resolve(request.result); };
+    request.onsuccess = () => { request.result.onversionchange = () => { request.result.close(); databasePromise = null; }; request.result.onclose = () => { databasePromise = null; }; resolve(request.result); };
     request.onerror = () => reject(new Error("Browser storage could not be opened. Keep or export your draft."));
     request.onblocked = () => reject(new Error("Close other versions of PocketRoute Notes before opening storage."));
   });
@@ -22,24 +22,27 @@ async function transaction(mode, operation) {
     let result;
     let failure;
     tx.oncomplete = () => resolve(result);
-    tx.onabort = tx.onerror = () => reject(failure || new Error(tx.error?.name === "QuotaExceededError" ? "Storage is full. Export a backup before removing records." : "Storage did not commit. Your draft has not been discarded."));
+    tx.onabort = () => reject(failure || new Error(tx.error?.name === "QuotaExceededError" ? "Storage is full. Export a backup before removing records." : "Storage did not commit. Your draft has not been discarded."));
     operation(store, value => { result = value; }, error => { failure = error; tx.abort(); });
   });
 }
 
 export async function listRecords() {
-  return transaction("readonly", (store, complete, fail) => {
+  return transaction("readonly", (store, complete) => {
     const request = store.getAll();
     request.onsuccess = () => {
-      try { complete(request.result.map(normalizeRecord).sort((first, second) => second.updatedAt.localeCompare(first.updatedAt))); }
-      catch { fail(new Error("Stored data is not a supported record format. No data has been changed.")); }
+      const records = [];
+      let unreadable = 0;
+      for (const value of request.result) { try { records.push(normalizeRecord(value)); } catch { unreadable += 1; } }
+      complete({ records: records.sort((first, second) => second.updatedAt.localeCompare(first.updatedAt)), unreadable });
     };
   });
 }
 
-export async function saveRecord(draft, previous = null) {
+export async function saveRecord(draft, previous = null, draftId = crypto.randomUUID()) {
   const now = new Date().toISOString();
-  const record = createRecord(draft, { id: previous?.id || crypto.randomUUID(), createdAt: previous?.createdAt || now, updatedAt: now, version: (previous?.version || 0) + 1 });
+  const record = createRecord(draft, { id: previous?.id || draftId, createdAt: previous?.createdAt || now, updatedAt: previous && now < previous.updatedAt ? previous.updatedAt : now, version: (previous?.version || 0) + 1 });
+  if (previous && draft.summary === previous.summary && draft.source === previous.source) { record.summaryOrigin = previous.summaryOrigin; record.engineVersion = previous.engineVersion; }
   return transaction("readwrite", (store, complete, fail) => {
     const lookup = store.get(record.id);
     lookup.onsuccess = () => {
@@ -70,17 +73,23 @@ export async function importRecords(records) {
   const clean = records.map(normalizeRecord);
   if (clean.length > recordLimit || new Set(clean.map(record => record.id)).size !== clean.length) throw new Error("Invalid backup record count or duplicate IDs.");
   return transaction("readwrite", (store, complete, fail) => {
-    const lookup = store.getAllKeys();
+    const lookup = store.getAll();
     lookup.onsuccess = () => {
-      const existing = new Set(lookup.result);
-      const additions = clean.filter(record => !existing.has(record.id));
-      if (existing.size + additions.length > recordLimit) { fail(new Error(`Import would exceed ${recordLimit} records. Nothing was imported.`)); return; }
-      for (const record of additions) store.add(record);
-      complete({ imported: additions.length, skipped: clean.length - additions.length });
+      const plan = planImport(lookup.result, clean);
+      if (lookup.result.length + plan.additions.length > recordLimit) { fail(new Error(`Import would exceed ${recordLimit} records. Nothing was imported.`)); return; }
+      for (const record of plan.additions) store.add(record);
+      complete({ imported: plan.additions.length, unchanged: plan.unchanged.length, conflicts: plan.conflicts });
     };
   });
 }
 
 export async function clearRecords() {
   return transaction("readwrite", (store, complete) => { store.clear(); complete(true); });
+}
+
+export async function exportRecovery() {
+  return transaction("readonly", (store, complete) => {
+    const request = store.getAll();
+    request.onsuccess = () => complete({ kind: "pocketroute-notes-recovery", schemaVersion: 1, exportedAt: new Date().toISOString(), warning: "Raw local records; may contain unsupported or damaged data. Keep this unencrypted file private.", records: request.result });
+  });
 }

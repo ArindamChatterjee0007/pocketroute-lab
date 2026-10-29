@@ -94,7 +94,8 @@ export function createRecord(draft, metadata) {
 
 export function normalizeRecord(record) {
   if (!record || record.schemaVersion !== 1 || record.engine !== "rules-and-extractive" || record.modelExecuted !== false) throw new TypeError("Unsupported record format or processing engine.");
-  return createRecord(record, record);
+  if (!["extractive", "user-edited"].includes(record.summaryOrigin) || !/^\d+\.\d+\.\d+$/.test(record.engineVersion || "")) throw new TypeError("Invalid processing provenance.");
+  return { ...createRecord(record, record), summaryOrigin: record.summaryOrigin, engineVersion: record.engineVersion };
 }
 
 export function createBackup(records, exportedAt = new Date().toISOString()) {
@@ -110,4 +111,21 @@ export function parseBackup(text) {
   try { value = JSON.parse(text); } catch { throw new TypeError("The selected file is not valid JSON."); }
   if (value?.kind !== "pocketroute-notes-backup" || value.schemaVersion !== 1) throw new TypeError("This is not a supported PocketRoute Notes backup.");
   return createBackup(value.records, value.exportedAt).records;
+}
+
+export function planImport(existing, incoming) {
+  const known = new Map(existing.map(record => [record.id, record]));
+  const additions = [];
+  const conflicts = [];
+  const unchanged = [];
+  for (const value of incoming) {
+    const record = normalizeRecord(value);
+    if (!known.has(record.id)) additions.push(record);
+    else {
+      let same = false;
+      try { same = JSON.stringify(normalizeRecord(known.get(record.id))) === JSON.stringify(record); } catch {}
+      (same ? unchanged : conflicts).push(record.id);
+    }
+  }
+  return { additions, conflicts, unchanged };
 }

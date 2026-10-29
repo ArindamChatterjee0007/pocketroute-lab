@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { assertGitHubRunner, repository } from "../scripts/cloud-only.mjs";
 import { escapeHtml, routeRequest, filterTasks, summarizeRun, parseRoute, formatDuration, scenarioEconomics, safeGitHubUrl } from "../app/domain.mjs";
 import { tasks, sources, units } from "../data/office.mjs";
-import { analyzeNote, validateRecordDraft, validDate, createRecord, createBackup, parseBackup } from "../app/note-core.mjs";
+import { analyzeNote, validateRecordDraft, validDate, createRecord, createBackup, parseBackup, planImport } from "../app/note-core.mjs";
 import { recordsToCsv } from "../notes/export.mjs";
 import Papa from "papaparse";
 
@@ -50,6 +50,19 @@ test("portable records and backups preserve review provenance without extra keys
   const restored = parseBackup(JSON.stringify(backup));
   assert.deepEqual(restored, [record]);
   assert.equal(restored[0].privateExtra, undefined);
+  const historic = { ...record, engineVersion: "0.1.0", summaryOrigin: "extractive", summary: "A previous engine's source excerpt." };
+  assert.deepEqual(parseBackup(JSON.stringify(createBackup([historic])))[0], historic);
+  assert.equal(Papa.parse(recordsToCsv([historic]), { header: true }).data[0]["Summary origin"], "extractive");
+});
+
+test("import planning distinguishes identical records from conflicting versions and content", () => {
+  const record = recordFixture();
+  const conflict = { ...record, title: "A newer edit", version: 2 };
+  const plan = planImport([record], [conflict, { ...record, id: "record-0002" }]);
+  assert.deepEqual(plan.conflicts, [record.id]);
+  assert.equal(plan.additions.length, 1);
+  assert.deepEqual(planImport([record], [record]).unchanged, [record.id]);
+  assert.deepEqual(planImport([record], [{ ...record, summary: "Different same-version content" }]).conflicts, [record.id]);
 });
 
 test("backup validation rejects malformed, duplicate, unreviewed and oversized data", () => {
