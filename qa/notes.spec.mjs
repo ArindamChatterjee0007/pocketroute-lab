@@ -243,6 +243,8 @@ if (process.env.FINAL_SNAPSHOT === "true") test("final published snapshot Notes 
   await prepare(page);
   await save(page);
   await expect(page.locator("body")).toHaveAttribute("data-offline-ready", "true");
+  await expect(page.locator(".skip-link")).not.toBeFocused();
+  await expect(page.locator(".skip-link")).toHaveCSS("clip-path", "inset(100%)");
   await checkLayout(page);
   if (["desktop", "phone"].includes(testInfo.project.name)) {
     await mkdir("test-results/screenshots", { recursive: true });
