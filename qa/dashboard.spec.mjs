@@ -4,7 +4,7 @@ import { mkdir, readFile } from "node:fs/promises";
 import sharp from "sharp";
 
 const views = [
-  ["overview", "Research overview"],
+  ["overview", "PocketRoute overview"],
   ["execution", "Execution board"],
   ["lab", "Model lab"],
   ["sessions", "Research sessions"],
@@ -42,6 +42,7 @@ for (const [view, title] of views) test(`${view} is nonblank, responsive and sel
   await expect(page.getByRole("heading", { level: 1, name: title, exact: true })).toBeVisible();
   expect(await page.evaluate(() => innerWidth)).toBe(testInfo.project.use.viewport.width);
   await checkLayout(page);
+  if (view === "overview" && testInfo.project.use.viewport.width < 561) expect(await page.locator(".recent-sessions").evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
   if (["desktop", "phone"].includes(testInfo.project.name)) {
     await mkdir("test-results/screenshots", { recursive: true });
     const filename = `test-results/screenshots/${view}-${testInfo.project.name}.png`;
@@ -145,6 +146,29 @@ test("export is a real public JSON download without personal notes", async ({ pa
   expect(data.personalNotes).toBeUndefined();
 });
 
+test("cloud evidence preserves model outputs, baseline and downloadable receipt", async ({ page }, testInfo) => {
+  await openView(page, "lab");
+  const receipt = await page.evaluate(async () => (await fetch("./data/slm-results.json")).json());
+  expect(receipt.status).toBe("completed");
+  await page.getByRole("tab", { name: "Cloud evidence", exact: true }).click();
+  await expect(page.locator(".cloud-case")).toHaveCount(receipt.cases.length);
+  await expect(page.locator(".cloud-case .case-output").first()).toHaveText(receipt.cases[0].output);
+  const expectedMatches = receipt.cases.filter(item => item.routeCorrect).length;
+  const baselineMatches = receipt.cases.filter(item => item.ruleBaselineCorrect).length;
+  await expect(page.locator(".metric-value").nth(1)).toHaveText(`${expectedMatches} / ${receipt.cases.length}`);
+  await expect(page.locator("#workspace")).toContainText(`${baselineMatches} / ${receipt.cases.length} exact labels`);
+  await expect(page.locator("#workspace")).toContainText("Phone energy");
+  await checkLayout(page);
+  const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "JSON receipt", exact: true }).click()]);
+  const downloaded = JSON.parse(await readFile(await download.path(), "utf8"));
+  expect(downloaded).toEqual(receipt);
+  if (["desktop", "phone"].includes(testInfo.project.name)) {
+    await mkdir("test-results/screenshots", { recursive: true });
+    const bytes = await page.screenshot({ fullPage: true, caret: "initial" });
+    await sharp(bytes).resize({ width: testInfo.project.name === "desktop" ? 1000 : 390 }).png().toFile(`test-results/screenshots/cloud-model-${testInfo.project.name}-review.png`);
+  }
+});
+
 test("missing evidence remains visibly unavailable, never a fake pass", async ({ page }) => {
   await page.route("**/data/*.json", route => route.abort());
   await page.goto("/#evidence", { waitUntil: "domcontentloaded" });
@@ -193,6 +217,14 @@ if (process.env.FINAL_SNAPSHOT === "true") test("final published snapshot matche
       await page.screenshot({ path: filename, fullPage: true, caret: "initial" });
       await sharp(filename).resize({ width: testInfo.project.name === "desktop" ? 1000 : 390 }).png().toFile(`test-results/screenshots/${view}-${testInfo.project.name}-review.png`);
     }
+  }
+  await openView(page, "lab");
+  await page.getByRole("tab", { name: "Cloud evidence", exact: true }).click();
+  await expect(page.locator("#evidence-status")).toContainText("Cloud checks recorded");
+  await checkLayout(page);
+  if (["desktop", "phone"].includes(testInfo.project.name)) {
+    const bytes = await page.screenshot({ fullPage: true, caret: "initial" });
+    await sharp(bytes).resize({ width: testInfo.project.name === "desktop" ? 1000 : 390 }).png().toFile(`test-results/screenshots/cloud-model-${testInfo.project.name}-review.png`);
   }
   expect(errors).toEqual([]);
 });
