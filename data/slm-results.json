@@ -1,12 +1,153 @@
 {
   "schemaVersion": 1,
-  "status": "not-run",
+  "status": "completed",
   "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
-  "modelRevision": null,
+  "modelRevision": "12fd25f77366fa6b3b4b768ec3050bf629380bac",
+  "modelLicense": "Apache-2.0",
+  "parameterCount": 134515008,
+  "runtime": "@huggingface/transformers 4.3.2 / ONNX Runtime CPU",
+  "dtype": "q8",
   "environment": "GitHub-hosted Linux CPU",
+  "cpu": "AMD EPYC 7763 64-Core Processor",
+  "sourceSha": "b2bca3a8acfcb82a58976e1c361a85d1de9598b3",
+  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40958691635",
+  "startedAt": "2026-10-29T21:33:04.745Z",
   "mobileBenchmark": false,
   "newModelTrained": false,
   "energyJoules": null,
-  "cases": [],
-  "note": "Awaiting a bounded GitHub Actions inference run. No model executes in this dashboard."
+  "datasetSha256": "fa39fb632b4454ec43dd5f58fc8e611ead1bfb9d43f7738be087b37a430647c2",
+  "datasetType": "Original synthetic development smoke fixtures; not held-out confirmation",
+  "generation": {
+    "maxNewTokens": 12,
+    "sampling": false,
+    "intraOpThreads": 2,
+    "interOpThreads": 1
+  },
+  "cases": [
+    {
+      "id": "route-01",
+      "input": "Extract the site ID and visit date from this inspection note.",
+      "expected": "extract",
+      "output": "extract",
+      "predicted": "extract",
+      "routeCorrect": true,
+      "elapsedMs": 392,
+      "ruleBaselineRoute": "extract",
+      "ruleBaselineCorrect": true
+    },
+    {
+      "id": "route-02",
+      "input": "Turn a visit note into structured JSON fields.",
+      "expected": "extract",
+      "output": "unsupported",
+      "predicted": "unsupported",
+      "routeCorrect": false,
+      "elapsedMs": 307,
+      "ruleBaselineRoute": "extract",
+      "ruleBaselineCorrect": true
+    },
+    {
+      "id": "route-03",
+      "input": "Classify a support request into one service category.",
+      "expected": "classify",
+      "output": "unsupported",
+      "predicted": "unsupported",
+      "routeCorrect": false,
+      "elapsedMs": 298,
+      "ruleBaselineRoute": "classify",
+      "ruleBaselineCorrect": true
+    },
+    {
+      "id": "route-04",
+      "input": "Assign a category label to the incoming repair request.",
+      "expected": "classify",
+      "output": "Extracts",
+      "predicted": null,
+      "routeCorrect": false,
+      "elapsedMs": 302,
+      "ruleBaselineRoute": "classify",
+      "ruleBaselineCorrect": true
+    },
+    {
+      "id": "route-05",
+      "input": "Summarize the supplied shift handover in one sentence.",
+      "expected": "summarize",
+      "output": "Extracts",
+      "predicted": null,
+      "routeCorrect": false,
+      "elapsedMs": 319,
+      "ruleBaselineRoute": "summarize",
+      "ruleBaselineCorrect": true
+    },
+    {
+      "id": "route-06",
+      "input": "Condense the visit notes into a short summary.",
+      "expected": "summarize",
+      "output": "Extracts the following information:\n\n- A visit is",
+      "predicted": null,
+      "routeCorrect": false,
+      "elapsedMs": 483,
+      "ruleBaselineRoute": "summarize",
+      "ruleBaselineCorrect": true
+    },
+    {
+      "id": "route-07",
+      "input": "Buy replacement equipment with my credit card.",
+      "expected": "unsupported",
+      "output": "Extracts the name of the product and its price.",
+      "predicted": null,
+      "routeCorrect": false,
+      "elapsedMs": 483,
+      "ruleBaselineRoute": "unsupported",
+      "ruleBaselineCorrect": true
+    },
+    {
+      "id": "route-08",
+      "input": "Send an email to the customer.",
+      "expected": "unsupported",
+      "output": "send",
+      "predicted": null,
+      "routeCorrect": false,
+      "elapsedMs": 343,
+      "ruleBaselineRoute": "unsupported",
+      "ruleBaselineCorrect": true
+    }
+  ],
+  "loadElapsedMs": 1339,
+  "artifacts": [
+    {
+      "path": "HuggingFaceTB/SmolLM2-135M-Instruct/12fd25f77366fa6b3b4b768ec3050bf629380bac/config.json",
+      "bytes": 861,
+      "sha256": "8eb740e8bbe4cff95ea7b4588d17a2432deb16e8075bc5828ff7ba9be94d982a"
+    },
+    {
+      "path": "HuggingFaceTB/SmolLM2-135M-Instruct/12fd25f77366fa6b3b4b768ec3050bf629380bac/generation_config.json",
+      "bytes": 132,
+      "sha256": "87b916edaaab66b3899b9d0dd0752727dff6666686da0504d89ae0a6e055a013"
+    },
+    {
+      "path": "HuggingFaceTB/SmolLM2-135M-Instruct/12fd25f77366fa6b3b4b768ec3050bf629380bac/onnx/model_quantized.onnx",
+      "bytes": 137147981,
+      "sha256": "ecc1a19eece6494e2963cf74f78ace35916e8d0b803168ddd41db00979f18e39"
+    },
+    {
+      "path": "HuggingFaceTB/SmolLM2-135M-Instruct/12fd25f77366fa6b3b4b768ec3050bf629380bac/tokenizer.json",
+      "bytes": 2104556,
+      "sha256": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c"
+    },
+    {
+      "path": "HuggingFaceTB/SmolLM2-135M-Instruct/12fd25f77366fa6b3b4b768ec3050bf629380bac/tokenizer_config.json",
+      "bytes": 3764,
+      "sha256": "4ec77d44f62efeb38d7e044a1db318f6a939438425312dfa333b8382dbad98df"
+    },
+    {
+      "path": "HuggingFaceTB/SmolLM2-135M-Instruct/config.json",
+      "bytes": 861,
+      "sha256": "8eb740e8bbe4cff95ea7b4588d17a2432deb16e8075bc5828ff7ba9be94d982a"
+    }
+  ],
+  "note": "Eight synthetic development route-label cases with an existing pretrained SLM. Exact-label matches are not task-completion quality, generalization, phone latency or battery evidence. No model was trained by this project.",
+  "completedAt": "2026-10-29T21:33:09.521Z",
+  "totalElapsedMs": 4776,
+  "cloudPeakRssBytes": 907345920
 }
