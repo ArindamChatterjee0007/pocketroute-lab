@@ -1,0 +1,291 @@
+{
+  "schemaVersion": 1,
+  "stage": "prepublication-checks-passed",
+  "checkedAt": "2026-10-29T21:35:41.779Z",
+  "sourceSha": "2a54a6528f8ba8a5e0d4c4106590f301e29cbdb9",
+  "generatedInputsSha": "2a54a6528f8ba8a5e0d4c4106590f301e29cbdb9",
+  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40958908710",
+  "unitTests": 15,
+  "browserTests": 84,
+  "browserSpecs": 14,
+  "browserConfigurations": [
+    {
+      "name": "desktop",
+      "browser": "chromium",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "wide",
+      "browser": "chromium",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "name": "phone",
+      "browser": "chromium",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "small-phone",
+      "browser": "chromium",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      }
+    },
+    {
+      "name": "webkit-desktop",
+      "browser": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "webkit-phone",
+      "browser": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    }
+  ],
+  "browserFailures": 0,
+  "localBuildsOrTests": 0,
+  "phoneBenchmarks": 0,
+  "energyJoules": null,
+  "viewports": [
+    1440,
+    1920,
+    390,
+    320
+  ],
+  "browsers": [
+    "Chromium",
+    "WebKit"
+  ],
+  "model": "completed",
+  "screenshots": [
+    "evidence-desktop-review.png",
+    "evidence-desktop.png",
+    "evidence-phone-review.png",
+    "evidence-phone.png",
+    "execution-desktop-review.png",
+    "execution-desktop.png",
+    "execution-phone-review.png",
+    "execution-phone.png",
+    "lab-desktop-review.png",
+    "lab-desktop.png",
+    "lab-phone-review.png",
+    "lab-phone.png",
+    "overview-desktop-review.png",
+    "overview-desktop.png",
+    "overview-phone-review.png",
+    "overview-phone.png",
+    "roadmap-desktop-review.png",
+    "roadmap-desktop.png",
+    "roadmap-phone-review.png",
+    "roadmap-phone.png",
+    "sessions-desktop-review.png",
+    "sessions-desktop.png",
+    "sessions-phone-review.png",
+    "sessions-phone.png"
+  ],
+  "screenshotState": "Final prepublication receipt; no synthetic verification fixture",
+  "finalSnapshotChecks": 6,
+  "inventory": [
+    {
+      "path": ".nojekyll",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "LICENSE.txt",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.txt",
+      "bytes": 12553,
+      "sha256": "92becc8cc4f86d8e557d28d2928aa55d955eaf6dd569725b926e828570b8f122"
+    },
+    {
+      "path": "assets/app.js",
+      "bytes": 57219,
+      "sha256": "2c3ba08e4e7fbf98116544b1a19829f2d788f12f8afdcd4df25d0b4c56b6c555"
+    },
+    {
+      "path": "assets/app.js.LEGAL.txt",
+      "bytes": 2114,
+      "sha256": "ee535fc125f437177dc6d3f68834510b4d5674a35dfd9b4a813295132f7ad473"
+    },
+    {
+      "path": "assets/manrope.woff2",
+      "bytes": 24836,
+      "sha256": "a30ddcd349703aff7464c34bef3fffdff405ee50c113440d7c8693c02d210972"
+    },
+    {
+      "path": "assets/mark.png",
+      "bytes": 2777,
+      "sha256": "9a24eb1d3b2c554c3d62db2b5c2afb350bc813e631fe34c30e3b20a7489bc6cd"
+    },
+    {
+      "path": "assets/space-grotesk.woff2",
+      "bytes": 22288,
+      "sha256": "0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d"
+    },
+    {
+      "path": "assets/topology.png",
+      "bytes": 14488,
+      "sha256": "f21ce1f552d70a95a99944f2df11b9b661bb827e079a748c2779a2c4369cae8a"
+    },
+    {
+      "path": "data/slm-results.json",
+      "bytes": 5344,
+      "sha256": "45920dba8fb8b5fa8c3b117bd6320a56d33c8a022ee08d50594278881581ad21"
+    },
+    {
+      "path": "data/verification.json",
+      "bytes": 2359,
+      "sha256": "9995df313f709dc32a4da4a031e4487cf32a387f3ddee5924f2736887dc815aa"
+    },
+    {
+      "path": "evidence/evidence-desktop-review.png",
+      "bytes": 221425,
+      "sha256": "3eda2885c9f74ae7e95a3522cf58f6fce12e982cd39c2bd9fcd9a9a7c3ffe795"
+    },
+    {
+      "path": "evidence/evidence-desktop.png",
+      "bytes": 146935,
+      "sha256": "0d28b0c7cb2ee634a025337f180c397d28055e1d194c1feaf6929313607ae8b0"
+    },
+    {
+      "path": "evidence/evidence-phone-review.png",
+      "bytes": 114890,
+      "sha256": "f6e5e0952c22edd7af596b369d90b6d1c1c3d143c791fda1def7dd6032b01e99"
+    },
+    {
+      "path": "evidence/evidence-phone.png",
+      "bytes": 129045,
+      "sha256": "a5e3f85f7982971bb8252408f73b70e151574dd22a9139efb08acacebb37a1c3"
+    },
+    {
+      "path": "evidence/execution-desktop-review.png",
+      "bytes": 177038,
+      "sha256": "c52a44e02997bb52d7f44314b1986920d08e7fcbf9248562e8b455f2bb9b7e85"
+    },
+    {
+      "path": "evidence/execution-desktop.png",
+      "bytes": 116500,
+      "sha256": "c74698c5b89eea62f8bfe351f1169b473bca158e9086ca3ce6f7a8f2dbdf026c"
+    },
+    {
+      "path": "evidence/execution-phone-review.png",
+      "bytes": 88426,
+      "sha256": "7239d0413f40cff9f50db3dfd67cad83fedc552d07b3da8804b574075472e704"
+    },
+    {
+      "path": "evidence/execution-phone.png",
+      "bytes": 95401,
+      "sha256": "832fbca6b402f33544d920f857728044be354df396bbfc6f1aab4852fb73dfc0"
+    },
+    {
+      "path": "evidence/lab-desktop-review.png",
+      "bytes": 177386,
+      "sha256": "f2361c3e869dc3180c51e42c5138e1efa1ee53d01fca6193ac0a787dcdd23598"
+    },
+    {
+      "path": "evidence/lab-desktop.png",
+      "bytes": 132196,
+      "sha256": "6a8052a1c4f8a3b5d6e4c42d7bb856c06fb8a8472f1c11ef4190153ca6902eb3"
+    },
+    {
+      "path": "evidence/lab-phone-review.png",
+      "bytes": 85235,
+      "sha256": "b2371d7850163d744743a7345efba430ca4c70fddd4b37c42609b7c87e3a8db5"
+    },
+    {
+      "path": "evidence/lab-phone.png",
+      "bytes": 95490,
+      "sha256": "423911b8e147e242d850b9b5134c021b7f7cb70bb156ca1b9c3aa4818c87b6db"
+    },
+    {
+      "path": "evidence/overview-desktop-review.png",
+      "bytes": 291414,
+      "sha256": "18e5bd34e43cc2a45b5b42bfdab13ad0b17c45c5634658353975dce0703eef10"
+    },
+    {
+      "path": "evidence/overview-desktop.png",
+      "bytes": 228275,
+      "sha256": "fb37e890520fc4724c8d69b05f06ec63a672762388b63166a825d0d06d10c6b4"
+    },
+    {
+      "path": "evidence/overview-phone-review.png",
+      "bytes": 150328,
+      "sha256": "82ebcf9b0fb5d9d5214263843321171e38e38130946393d3b82de37c717d24f4"
+    },
+    {
+      "path": "evidence/overview-phone.png",
+      "bytes": 202511,
+      "sha256": "91ec243eb3d86c3c64746addc5f4904e94cc062228b7e86a07b798189ed4af4b"
+    },
+    {
+      "path": "evidence/roadmap-desktop-review.png",
+      "bytes": 231676,
+      "sha256": "82f1428b345a84aff2bc97c3353805e94a7ce455342a2b37fbff3fe4b0b120fe"
+    },
+    {
+      "path": "evidence/roadmap-desktop.png",
+      "bytes": 153461,
+      "sha256": "2d618b388987f956eb67d57e49f6db1f8ed161b18b40183c39491a8ef5f0f197"
+    },
+    {
+      "path": "evidence/roadmap-phone-review.png",
+      "bytes": 100104,
+      "sha256": "11a348e530a0dff1f80575182e7e562f445961e27a47ccf9b45cc5eff3e7c457"
+    },
+    {
+      "path": "evidence/roadmap-phone.png",
+      "bytes": 114328,
+      "sha256": "5034ba1a51b633a6d6f3e892ff1cd3f0d8b4de527fe9470268bf9515e73efbba"
+    },
+    {
+      "path": "evidence/sessions-desktop-review.png",
+      "bytes": 134377,
+      "sha256": "831a4f75b1ec37293f51aefec2bda901a83010d47b36ef27925bc4dcdc6ff8c4"
+    },
+    {
+      "path": "evidence/sessions-desktop.png",
+      "bytes": 95773,
+      "sha256": "610b8588c07463900a5953ace1b560946f807e89bccd2196dd066851cc1970f6"
+    },
+    {
+      "path": "evidence/sessions-phone-review.png",
+      "bytes": 51099,
+      "sha256": "db15cb394b7559f4c27c5aee6408adab92a6079b72531c5c8999adc8e3c71f11"
+    },
+    {
+      "path": "evidence/sessions-phone.png",
+      "bytes": 59420,
+      "sha256": "46463a9cd506109c782718060166a8ee77ebb5506abc12a89f7e625337f73650"
+    },
+    {
+      "path": "index.html",
+      "bytes": 4151,
+      "sha256": "dd284a6bdd4fb498f5c2169dcc555c5866be8d216a5c4a4a00d99a29f7557920"
+    },
+    {
+      "path": "styles.css",
+      "bytes": 39467,
+      "sha256": "4ecbed22affd3e6e1fc3854bef0c9dc7cc3bc71f310effbdc23789d0663b475b"
+    }
+  ]
+}

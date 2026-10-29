@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "stage": "prepublication-checks-passed",
+  "checkedAt": "2026-10-29T21:35:41.779Z",
+  "sourceSha": "2a54a6528f8ba8a5e0d4c4106590f301e29cbdb9",
+  "generatedInputsSha": "2a54a6528f8ba8a5e0d4c4106590f301e29cbdb9",
+  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40958908710",
+  "unitTests": 15,
+  "browserTests": 84,
+  "browserSpecs": 14,
+  "browserConfigurations": [
+    {
+      "name": "desktop",
+      "browser": "chromium",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "wide",
+      "browser": "chromium",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "name": "phone",
+      "browser": "chromium",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "small-phone",
+      "browser": "chromium",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      }
+    },
+    {
+      "name": "webkit-desktop",
+      "browser": "webkit",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "webkit-phone",
+      "browser": "webkit",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    }
+  ],
+  "browserFailures": 0,
+  "localBuildsOrTests": 0,
+  "phoneBenchmarks": 0,
+  "energyJoules": null,
+  "viewports": [
+    1440,
+    1920,
+    390,
+    320
+  ],
+  "browsers": [
+    "Chromium",
+    "WebKit"
+  ],
+  "model": "completed",
+  "screenshots": [
+    "evidence-desktop-review.png",
+    "evidence-desktop.png",
+    "evidence-phone-review.png",
+    "evidence-phone.png",
+    "execution-desktop-review.png",
+    "execution-desktop.png",
+    "execution-phone-review.png",
+    "execution-phone.png",
+    "lab-desktop-review.png",
+    "lab-desktop.png",
+    "lab-phone-review.png",
+    "lab-phone.png",
+    "overview-desktop-review.png",
+    "overview-desktop.png",
+    "overview-phone-review.png",
+    "overview-phone.png",
+    "roadmap-desktop-review.png",
+    "roadmap-desktop.png",
+    "roadmap-phone-review.png",
+    "roadmap-phone.png",
+    "sessions-desktop-review.png",
+    "sessions-desktop.png",
+    "sessions-phone-review.png",
+    "sessions-phone.png"
+  ],
+  "screenshotState": "Final prepublication receipt; no synthetic verification fixture",
+  "finalSnapshotChecks": 6
+}
