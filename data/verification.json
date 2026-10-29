@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "stage": "prepublication-checks-passed",
-  "checkedAt": "2026-10-29T21:35:41.779Z",
-  "sourceSha": "2a54a6528f8ba8a5e0d4c4106590f301e29cbdb9",
-  "generatedInputsSha": "2a54a6528f8ba8a5e0d4c4106590f301e29cbdb9",
-  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40958908710",
+  "checkedAt": "2026-10-29T21:43:34.077Z",
+  "sourceSha": "8c4bcd5d66b00ac24e57c6bb9064ccb48591d61f",
+  "generatedInputsSha": "8c4bcd5d66b00ac24e57c6bb9064ccb48591d61f",
+  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40959960119",
   "unitTests": 15,
-  "browserTests": 84,
-  "browserSpecs": 14,
+  "browserTests": 90,
+  "browserSpecs": 15,
   "browserConfigurations": [
     {
       "name": "desktop",
@@ -74,6 +74,8 @@
   ],
   "model": "completed",
   "screenshots": [
+    "cloud-model-desktop-review.png",
+    "cloud-model-phone-review.png",
     "evidence-desktop-review.png",
     "evidence-desktop.png",
     "evidence-phone-review.png",

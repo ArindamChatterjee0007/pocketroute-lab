@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "stage": "prepublication-checks-passed",
-  "checkedAt": "2026-10-29T21:35:41.779Z",
-  "sourceSha": "2a54a6528f8ba8a5e0d4c4106590f301e29cbdb9",
-  "generatedInputsSha": "2a54a6528f8ba8a5e0d4c4106590f301e29cbdb9",
-  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40958908710",
+  "checkedAt": "2026-10-29T21:43:34.077Z",
+  "sourceSha": "8c4bcd5d66b00ac24e57c6bb9064ccb48591d61f",
+  "generatedInputsSha": "8c4bcd5d66b00ac24e57c6bb9064ccb48591d61f",
+  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40959960119",
   "unitTests": 15,
-  "browserTests": 84,
-  "browserSpecs": 14,
+  "browserTests": 90,
+  "browserSpecs": 15,
   "browserConfigurations": [
     {
       "name": "desktop",
@@ -74,6 +74,8 @@
   ],
   "model": "completed",
   "screenshots": [
+    "cloud-model-desktop-review.png",
+    "cloud-model-phone-review.png",
     "evidence-desktop-review.png",
     "evidence-desktop.png",
     "evidence-phone-review.png",
@@ -119,8 +121,8 @@
     },
     {
       "path": "assets/app.js",
-      "bytes": 57219,
-      "sha256": "2c3ba08e4e7fbf98116544b1a19829f2d788f12f8afdcd4df25d0b4c56b6c555"
+      "bytes": 57656,
+      "sha256": "1c4e94810781a28dacd45a6c98f216c2b05b18ea4c413f6c50d464e5c7d69970"
     },
     {
       "path": "assets/app.js.LEGAL.txt",
@@ -154,38 +156,48 @@
     },
     {
       "path": "data/verification.json",
-      "bytes": 2359,
-      "sha256": "9995df313f709dc32a4da4a031e4487cf32a387f3ddee5924f2736887dc815aa"
+      "bytes": 2433,
+      "sha256": "e7dd8d77e95a0bedb82597b75051c04def622242e859f15b44208b8a6d963303"
+    },
+    {
+      "path": "evidence/cloud-model-desktop-review.png",
+      "bytes": 297547,
+      "sha256": "474f2b291da65a872bb6fe2eb6a0ef524f8989a56cce940baac79f87c4a39130"
+    },
+    {
+      "path": "evidence/cloud-model-phone-review.png",
+      "bytes": 151440,
+      "sha256": "6c116d723ec97a5918c0cc6f6f9d9d885270e4c1e0fe6281fb09b1517acaadd5"
     },
     {
       "path": "evidence/evidence-desktop-review.png",
-      "bytes": 221425,
-      "sha256": "3eda2885c9f74ae7e95a3522cf58f6fce12e982cd39c2bd9fcd9a9a7c3ffe795"
+      "bytes": 221908,
+      "sha256": "3f61a35724c0fdddafb30f5b85dee7b402998122c39d86f47d9d03634405a507"
     },
     {
       "path": "evidence/evidence-desktop.png",
-      "bytes": 146935,
-      "sha256": "0d28b0c7cb2ee634a025337f180c397d28055e1d194c1feaf6929313607ae8b0"
+      "bytes": 147300,
+      "sha256": "de84717af640bbc860dd914865cc52462849ba8fc0c65c936c44b13107d1b012"
     },
     {
       "path": "evidence/evidence-phone-review.png",
-      "bytes": 114890,
-      "sha256": "f6e5e0952c22edd7af596b369d90b6d1c1c3d143c791fda1def7dd6032b01e99"
+      "bytes": 114957,
+      "sha256": "de4910880a63cb7554007d873ae5e44ec74818d4785282ece7e89baa78124f5f"
     },
     {
       "path": "evidence/evidence-phone.png",
-      "bytes": 129045,
-      "sha256": "a5e3f85f7982971bb8252408f73b70e151574dd22a9139efb08acacebb37a1c3"
+      "bytes": 129034,
+      "sha256": "2f8630071dfd69be34aa84722b9a4a62a95be6f748a907a183360841e9b4c5a0"
     },
     {
       "path": "evidence/execution-desktop-review.png",
-      "bytes": 177038,
-      "sha256": "c52a44e02997bb52d7f44314b1986920d08e7fcbf9248562e8b455f2bb9b7e85"
+      "bytes": 177249,
+      "sha256": "b3a4649a5f39b50899106f680ef66b7072277dd289020d41bc5f5f8b26e24d1b"
     },
     {
       "path": "evidence/execution-desktop.png",
-      "bytes": 116500,
-      "sha256": "c74698c5b89eea62f8bfe351f1169b473bca158e9086ca3ce6f7a8f2dbdf026c"
+      "bytes": 116885,
+      "sha256": "8bacbfbf796f203ccaba92299655f9fc446bb04efb3cde42f9aea86d415579ec"
     },
     {
       "path": "evidence/execution-phone-review.png",
@@ -199,13 +211,13 @@
     },
     {
       "path": "evidence/lab-desktop-review.png",
-      "bytes": 177386,
-      "sha256": "f2361c3e869dc3180c51e42c5138e1efa1ee53d01fca6193ac0a787dcdd23598"
+      "bytes": 177642,
+      "sha256": "ff868d46fc0375732893a18c87d78ba6e1263544fbdcdf37b1ef3bc048e2750c"
     },
     {
       "path": "evidence/lab-desktop.png",
-      "bytes": 132196,
-      "sha256": "6a8052a1c4f8a3b5d6e4c42d7bb856c06fb8a8472f1c11ef4190153ca6902eb3"
+      "bytes": 132618,
+      "sha256": "14846a7996463c46cb0559cd9ec5b64dadb90bc5a2a8e6d46ab6f21227edf883"
     },
     {
       "path": "evidence/lab-phone-review.png",
@@ -219,33 +231,33 @@
     },
     {
       "path": "evidence/overview-desktop-review.png",
-      "bytes": 291414,
-      "sha256": "18e5bd34e43cc2a45b5b42bfdab13ad0b17c45c5634658353975dce0703eef10"
+      "bytes": 292875,
+      "sha256": "ebe530271d69e98b034b537428ce5cae79e5c2d5b3bf6aff3f1800228512a3a8"
     },
     {
       "path": "evidence/overview-desktop.png",
-      "bytes": 228275,
-      "sha256": "fb37e890520fc4724c8d69b05f06ec63a672762388b63166a825d0d06d10c6b4"
+      "bytes": 228560,
+      "sha256": "01c97ecc147fe033079ee72005c9145427e03ddeed7db92e43b9c080fb930885"
     },
     {
       "path": "evidence/overview-phone-review.png",
-      "bytes": 150328,
-      "sha256": "82ebcf9b0fb5d9d5214263843321171e38e38130946393d3b82de37c717d24f4"
+      "bytes": 150139,
+      "sha256": "4488633d24cdc06ebbefdd356d1ac22975f4b06d433c1cd86b9434cf45b3a58b"
     },
     {
       "path": "evidence/overview-phone.png",
-      "bytes": 202511,
-      "sha256": "91ec243eb3d86c3c64746addc5f4904e94cc062228b7e86a07b798189ed4af4b"
+      "bytes": 202502,
+      "sha256": "c52ce658f2d8f9ca06b9e641ea8486d2080b731d4040a06b0ac41b90278cc79b"
     },
     {
       "path": "evidence/roadmap-desktop-review.png",
-      "bytes": 231676,
-      "sha256": "82f1428b345a84aff2bc97c3353805e94a7ce455342a2b37fbff3fe4b0b120fe"
+      "bytes": 231935,
+      "sha256": "8f3d35d00c91e188e0d96fa3886229a014bbef58f4ba8ce4bb3fe8efcae36b66"
     },
     {
       "path": "evidence/roadmap-desktop.png",
-      "bytes": 153461,
-      "sha256": "2d618b388987f956eb67d57e49f6db1f8ed161b18b40183c39491a8ef5f0f197"
+      "bytes": 153822,
+      "sha256": "743c77408e773bc19782048620e3fb7365fe1845202796811bff9213235ec2b3"
     },
     {
       "path": "evidence/roadmap-phone-review.png",
@@ -259,13 +271,13 @@
     },
     {
       "path": "evidence/sessions-desktop-review.png",
-      "bytes": 134377,
-      "sha256": "831a4f75b1ec37293f51aefec2bda901a83010d47b36ef27925bc4dcdc6ff8c4"
+      "bytes": 134578,
+      "sha256": "073777643967211925f4ce4ecae7d4b4d5294244d1d3d4a46c56be5bdfeb4e0f"
     },
     {
       "path": "evidence/sessions-desktop.png",
-      "bytes": 95773,
-      "sha256": "610b8588c07463900a5953ace1b560946f807e89bccd2196dd066851cc1970f6"
+      "bytes": 96161,
+      "sha256": "8560995a3dbe7a4615de05c92e6f59dfbbcb3f99f7810a43dc82c9c34d23a775"
     },
     {
       "path": "evidence/sessions-phone-review.png",
@@ -279,13 +291,13 @@
     },
     {
       "path": "index.html",
-      "bytes": 4151,
-      "sha256": "dd284a6bdd4fb498f5c2169dcc555c5866be8d216a5c4a4a00d99a29f7557920"
+      "bytes": 4145,
+      "sha256": "2c93e24e3cfab8c31914681bdc3406f8b5e9211ec58ec0a5c664c49fb6dcf43c"
     },
     {
       "path": "styles.css",
-      "bytes": 39467,
-      "sha256": "4ecbed22affd3e6e1fc3854bef0c9dc7cc3bc71f310effbdc23789d0663b475b"
+      "bytes": 40099,
+      "sha256": "d58e31fa55a1053f63082db7c02478b0afb0745c520e260fd12979db32554d70"
     }
   ]
 }
