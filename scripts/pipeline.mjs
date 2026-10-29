@@ -26,6 +26,20 @@ async function main() {
   command("npm", ["audit", "--audit-level=high"]);
   const unit = command("npm", ["test"]);
   if (process.env.PIPELINE_MODE === "unit") return;
+  if (process.env.PIPELINE_MODE === "live") {
+    command("npx", ["--no-install", "playwright", "install", "--with-deps", "chromium", "webkit"]);
+    command(process.execPath, ["scripts/live-check.mjs"]);
+    command("gh", ["auth", "setup-git"], { authenticated: true });
+    command("git", ["config", "user.name", "github-actions[bot]"]);
+    command("git", ["config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"]);
+    command("git", ["add", "--", "data/live-verification.json"]);
+    if (command("git", ["diff", "--cached", "--quiet"], { allowFailure: true }).status === 1) {
+      command("git", ["commit", "-m", "Record live GitHub Pages acceptance [skip ci]"]);
+      command("git", ["push", "origin", "HEAD:main"], { authenticated: true });
+    }
+    writeFileSync(process.env.GITHUB_STEP_SUMMARY, `## Live GitHub Pages acceptance\n\n\`\`\`json\n${readFileSync("data/live-verification.json", "utf8")}\n\`\`\`\n`);
+    return;
+  }
   if (process.env.RUN_SLM_EXPERIMENT === "true") command(process.execPath, ["scripts/experiment.mjs"], { timeout: 420000 });
   const licenseResponse = await fetch("https://www.apache.org/licenses/LICENSE-2.0.txt");
   if (!licenseResponse.ok) throw new Error("Unable to retrieve the Apache-2.0 license text.");
