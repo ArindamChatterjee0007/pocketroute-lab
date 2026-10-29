@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "stage": "prepublication-checks-passed",
-  "checkedAt": "2026-10-29T22:43:35.107Z",
-  "sourceSha": "3d5f913cdcad7a707a7e65a9cf06d16d58ac752f",
-  "generatedInputsSha": "89e374efffdd87cf5b65c21cd663e2216537eaab",
-  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40967780046",
-  "unitTests": 22,
-  "browserTests": 132,
-  "browserSpecs": 22,
+  "checkedAt": "2026-10-29T22:56:50.006Z",
+  "sourceSha": "d517618737be7e2d4e149726f091cb58e600e56d",
+  "generatedInputsSha": "d517618737be7e2d4e149726f091cb58e600e56d",
+  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40969396804",
+  "unitTests": 23,
+  "browserTests": 144,
+  "browserSpecs": 24,
   "browserConfigurations": [
     {
       "name": "desktop",
@@ -169,22 +169,22 @@
     {
       "path": "data/verification.json",
       "bytes": 2838,
-      "sha256": "f59a0f8d2bf8bd660d4afbf3b40ece2b05029bee1d6da93b1c4cfa29d540fd96"
+      "sha256": "16ebddb6b890732a529fa684d986860e1329ad216fcf332a0523971eaafc877f"
     },
     {
       "path": "downloads/README.md",
-      "bytes": 5114,
-      "sha256": "d5b368f9d7fd0694d2fb3dec4e4b42aafc081cc827b6c0b73d3538277df6df88"
+      "bytes": 5258,
+      "sha256": "adf85658327cd43ffb0a4c6476aec91abed1d93fe06492e096b089d247b2beaa"
     },
     {
       "path": "downloads/pocketroute-core.mjs",
-      "bytes": 7650,
-      "sha256": "15a995829cdc2c88a1ff0132fd9463120fbaafb094847de70114a45dd88406d9"
+      "bytes": 9054,
+      "sha256": "dd5b96a4066a33da6588a710e661d0f7b18e3ee6aafdac883385bf283d131054"
     },
     {
       "path": "downloads/pocketroute-notes-0.2.0.zip",
-      "bytes": 119356,
-      "sha256": "9772ccfe0405308eb6e31b036fd8639379dc848e1416bb3b52af253669f56d79"
+      "bytes": 120241,
+      "sha256": "64c9c7bb3d3483e5f3e712d46ffd891cbe3546c069a1ab0be7555118b7c7c8ae"
     },
     {
       "path": "evidence/cloud-model-desktop-review.png",
@@ -198,23 +198,23 @@
     },
     {
       "path": "evidence/evidence-desktop-review.png",
-      "bytes": 225017,
-      "sha256": "c497a6613f36b472bd33a53d45cf8bc212bf080f758860ea0040a3f00e51ad74"
+      "bytes": 225097,
+      "sha256": "b5384915e2aa8e3b8fdb00c39c6bbda185b2da4bdab96e171334466f244caf2a"
     },
     {
       "path": "evidence/evidence-desktop.png",
-      "bytes": 149980,
-      "sha256": "00f662d9ee878bbaa3f8adbfe9dac3f9ea74a7c3c24b28c2e18ad5efeddcf12a"
+      "bytes": 150118,
+      "sha256": "c4231d81fad43211469f3888908c9a3f0f05a4360636cca11feaa0618577e28a"
     },
     {
       "path": "evidence/evidence-phone-review.png",
-      "bytes": 114825,
-      "sha256": "7730ba69a50f00fa630a663c9e4ec79cf715147b5acc20bbaf43c4b151fd84bb"
+      "bytes": 114880,
+      "sha256": "1ee18c931ed692cf077c47e514d42048f61e65e17ec75db7cb92a6f191d0cc16"
     },
     {
       "path": "evidence/evidence-phone.png",
-      "bytes": 128822,
-      "sha256": "581c44239ca93277c8c99fea7f68adf6d58d136c09941483f40b90cdfe2c7495"
+      "bytes": 128964,
+      "sha256": "fdb1f7e24659a32356467d5fe4bf4d808db4afa1915d0f1d9f26a363850e4a52"
     },
     {
       "path": "evidence/execution-desktop-review.png",
@@ -333,8 +333,8 @@
     },
     {
       "path": "notes/guide.html",
-      "bytes": 5636,
-      "sha256": "0ba3a08619018943f8c9413f7e7b40fd67860c69a1b0048e343da1d319ae0919"
+      "bytes": 5755,
+      "sha256": "d1003c08aacebdf26107f26e1fe8aa6ee50f062f1e08b66a9fbf2a99f6e1f80a"
     },
     {
       "path": "notes/icon-192.png",
@@ -363,8 +363,8 @@
     },
     {
       "path": "notes/notes.js",
-      "bytes": 47173,
-      "sha256": "87c57b668b63660a78683c5f0a04b9226e150f1e7c3f0e935a98bd875d086a69"
+      "bytes": 48547,
+      "sha256": "c507a044528808269a9611879b6de4275a34d5f38b87015c2f1d5e8fee0eaa14"
     },
     {
       "path": "notes/notes.js.LEGAL.txt",
@@ -374,7 +374,7 @@
     {
       "path": "notes/sw.js",
       "bytes": 1240,
-      "sha256": "129116cfbc08b4e22829447ab5db2821a5b13f1443943ab02e0d8d7f2acdf11a"
+      "sha256": "7233604248a0c2b478a845ead4506f203cf18167d0cca1728473827fd9e06960"
     },
     {
       "path": "styles.css",

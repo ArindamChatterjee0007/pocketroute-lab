@@ -10,7 +10,7 @@ The hosted app lives at https://arindamchatterjee007.github.io/pocketroute-lab/n
 - Category suggestions use keywords. Ambiguous categories fall back to General and need review.
 - The initial summary is up to three verbatim non-metadata source lines, not a comprehensive generated summary.
 - Every create or edit requires review confirmation. Cross-tab writes use record versions inside an atomic IndexedDB transaction.
-- JSON backups preserve values. Add-only import reports conflicts rather than overwriting. CSV export escapes spreadsheet-formula-like values; spreadsheets may still infer types.
+- JSON backups preserve values. Oversized exports are split into separately downloadable, independently importable files within the 8 MiB limit; retain and restore every part. Add-only import reports conflicts rather than overwriting. CSV export escapes spreadsheet-formula-like values; spreadsheets may still infer types.
 - Unsupported stored rows are retained with a separate raw recovery export. No data-recovery guarantee is made.
 
 Limits: 100 records, 12,000 characters per source/summary, 160-character title/site/reference, 8 MiB JSON backup import. English-labelled parsing; original text may contain Unicode.
