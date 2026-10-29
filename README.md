@@ -1,12 +1,47 @@
-# PocketRoute Lab
+# PocketRoute Notes And Research Lab
 
-An open-source research dashboard for a three-unit AI office, with a bounded small-language-model experiment. This is a public project demonstration, not a private customer office, paid SaaS service or native mobile SDK.
+An open-source local-first field-note product, reusable JavaScript core and research dashboard. This is an early product release, not a paid SaaS service, secure vault, newly trained language model or native mobile SDK.
+
+**Use Notes:** https://arindamchatterjee007.github.io/pocketroute-lab/notes/
+
+**Product bundle:** https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-notes-0.2.0.zip
+
+**Standalone core:** https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-core.mjs
 
 **Live dashboard:** https://arindamchatterjee007.github.io/pocketroute-lab/
 
 **Source:** https://github.com/ArindamChatterjee007/pocketroute-lab
 
-## Delivery Evidence
+## Notes 0.2 Alpha
+
+Capture a note, prepare conservative labelled fields and an extractive summary, review/edit, save locally, search records, and export JSON or spreadsheet-safe CSV. The product includes offline caching, version-checked edits/deletion, add-only backup import with conflict reporting, multipart backups and raw recovery for unsupported local records. The standalone Apache-2.0 core has no model, cloud or framework dependency.
+
+**It uses rules and verbatim source excerpts, not an SLM.** Unknown or conflicting fields remain empty; category suggestions and summaries require review. The previous pretrained SLM's weak routing result is retained in the research lab rather than promoted into the product.
+
+Records are unencrypted in the browser's IndexedDB. Browser cleanup can erase them, and same-origin scripts/profile users may access them. Keep private backups and use an isolated trusted origin for sensitive deployments. No note content is sent to a server by this application. See [notes/README.md](notes/README.md) for SDK usage, self-hosting, privacy and limits.
+
+## Current Product Evidence
+
+| Gate | Verified result |
+| --- | --- |
+| Application source | `86383dfb74e1c6ce09c805b3672a4770d13ac7a4` |
+| Static publication | `c450c179311481487187571f1cdf70e514b8138f` |
+| [Prepublication run 40970044604](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40970044604) | 23 unit checks, 144 browser test-configuration results, 12 final screenshot checks |
+| Browsers and viewports | Chromium 1440/1920/390/320; WebKit 1440/390 CSS pixels |
+| [Live run 40970654399](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40970654399) | 25 hosted files matched SHA-256; 18-entry ZIP passed integrity/required-content checks |
+| Live product acceptance | Four Chromium/WebKit configurations passed reviewed save, offline reload, backup, confirmed deletion and standalone browser SDK import; no page errors or outside requests |
+| Visual review | Cloud-generated desktop and phone captures inspected; unfocused skip-link painting corrected and retested |
+| Local installs/builds/tests/rendering/model runs | None; all execution occurred on standard GitHub-hosted Linux runners |
+
+The [publication manifest](https://arindamchatterjee007.github.io/pocketroute-lab/publication.json) and [saved live receipt](https://github.com/ArindamChatterjee007/pocketroute-lab/blob/main/data/live-verification.json) are authoritative. Test records and screenshots are synthetic, not customer work. No model was trained or rerun for this product release, and no phone energy measurement was made.
+
+## Selling Decision
+
+Build and validate first. No checkout, subscription, binding price, sales outreach, support SLA or customer contract has been created. The existing price examples in the research dashboard are hypothetical, not live offers. A possible future business is paid integration/customization/support around a useful open core; an external pilot and reliable support capacity are required before a production-ready sales claim.
+
+## Initial Dashboard Evidence
+
+The following records describe the earlier dashboard release. The product evidence above supersedes its site revision and acceptance counts.
 
 Application source `8c4bcd5d66b00ac24e57c6bb9064ccb48591d61f` passed [GitHub run 40959960119](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40959960119): 15 unit checks, 90 browser test-configuration results and 6 final screenshot checks. The browser matrix covers Chromium at 1440/1920/390/320 and WebKit at 1440/390 CSS pixels. Screenshots, fonts, bitmap assets and the build were generated on GitHub, not the founder's Mac. The hosted [publication manifest](https://arindamchatterjee007.github.io/pocketroute-lab/publication.json) records hashes and provenance.
 
@@ -34,7 +69,7 @@ The dashboard performs ordinary interface interactions and a tiny deterministic 
 
 ## Views
 
-Overview, execution board, model lab, research sessions, evidence library and roadmap. Filters, details, scenario controls, downloads and source links are functional. Browser preferences and personal notes, when enabled, are local to that browser and are never synchronized as shared execution evidence.
+The Notes product is linked from the dashboard. The research views remain overview, execution board, model lab, sessions, evidence library and roadmap. Product records, browser preferences and personal notes stay local to that browser and are never synchronized as shared research execution evidence.
 
 ## License
 
