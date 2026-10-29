@@ -1,4 +1,4 @@
-import { createRecord, normalizeRecord, planImport, recordLimit } from "../app/note-core.mjs";
+import { createRecord, normalizeRecord, planImport, sameRecord, recordLimit } from "../app/note-core.mjs";
 
 let databasePromise;
 
@@ -47,7 +47,7 @@ export async function saveRecord(draft, previous = null, draftId = crypto.random
     const lookup = store.get(record.id);
     lookup.onsuccess = () => {
       const current = lookup.result;
-      if ((previous && current?.version !== previous.version) || (!previous && current)) { fail(new Error("This record changed in another tab. Export your draft or reopen the saved record before retrying.")); return; }
+      if ((previous && !sameRecord(current, previous)) || (!previous && current)) { fail(new Error("This record changed in another tab. Export your draft or reopen the saved record before retrying.")); return; }
       const count = store.count();
       count.onsuccess = () => {
         if (!current && count.result >= recordLimit) { fail(new Error(`The ${recordLimit}-record limit is reached. Export a backup before deleting old records.`)); return; }
@@ -58,12 +58,12 @@ export async function saveRecord(draft, previous = null, draftId = crypto.random
   });
 }
 
-export async function deleteRecord(id, version) {
+export async function deleteRecord(previous) {
   return transaction("readwrite", (store, complete, fail) => {
-    const lookup = store.get(id);
+    const lookup = store.get(previous.id);
     lookup.onsuccess = () => {
-      if (lookup.result?.version !== version) { fail(new Error("This record changed in another tab. Reopen it before deleting.")); return; }
-      store.delete(id);
+      if (!sameRecord(lookup.result, previous)) { fail(new Error("This record changed in another tab. Reopen it before deleting.")); return; }
+      store.delete(previous.id);
       complete(true);
     };
   });

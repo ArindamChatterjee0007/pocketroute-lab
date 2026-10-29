@@ -196,6 +196,45 @@ test("future timestamps remain editable and unreadable rows retain a raw recover
   expect(recovery.records.some(item => item.schemaVersion === 999)).toBe(true);
 });
 
+test("clear-all confirmation works and does not erase unrelated browser data", async ({ page }) => {
+  await openNotes(page);
+  await prepare(page);
+  await save(page);
+  await page.evaluate(() => localStorage.setItem("unrelated-product-marker", "preserve"));
+  await page.getByRole("button", { name: "Storage and privacy", exact: true }).click();
+  await page.getByRole("button", { name: "Clear all local records", exact: true }).click();
+  await expect(page.getByRole("dialog")).toContainText("Clear all local records?");
+  await page.getByRole("button", { name: "Cancel", exact: true }).click();
+  await expect(page.locator("#record-count")).toHaveText("1");
+  await page.getByRole("button", { name: "Storage and privacy", exact: true }).click();
+  await page.getByRole("button", { name: "Clear all local records", exact: true }).click();
+  await page.getByRole("button", { name: "Clear records", exact: true }).click();
+  await expect(page.locator("#record-count")).toHaveText("0");
+  expect(await page.evaluate(() => localStorage.getItem("unrelated-product-marker"))).toBe("preserve");
+});
+
+test("delete and restore cannot bypass the stale-record guard with the same version", async ({ page, context }) => {
+  await openNotes(page);
+  await prepare(page);
+  await save(page);
+  const snapshot = await backup(page);
+  const other = await context.newPage();
+  await openNotes(other);
+  await other.locator(".saved-record").click();
+  await other.getByRole("button", { name: "Delete saved record", exact: true }).click();
+  await other.getByRole("button", { name: "Delete record", exact: true }).click();
+  const restored = { ...snapshot.records[0], title: "Different restored content, same ID and version" };
+  await importBackup(other, createBackup([restored]));
+  await page.locator("#record-title").fill("Stale edit after restore");
+  await page.locator("#review-confirmed").check();
+  await page.getByRole("button", { name: "Save reviewed record", exact: true }).click();
+  await expect(page.locator("#work-status")).toContainText("changed in another tab");
+  await page.getByRole("button", { name: "Delete saved record", exact: true }).click();
+  await page.getByRole("button", { name: "Delete record", exact: true }).click();
+  await expect(page.locator("#work-status")).toContainText("changed in another tab");
+  expect((await backup(other)).records[0].title).toBe(restored.title);
+});
+
 if (process.env.FINAL_SNAPSHOT === "true") test("final published snapshot Notes product with a synthetic reviewed record", async ({ page }, testInfo) => {
   await openNotes(page);
   await prepare(page);

@@ -1,5 +1,5 @@
 import { createIcons, Plus, Search, Download, Upload, Settings2, ShieldCheck, LayoutDashboard, FileUp, FileDown, ScanText, Workflow, Check, Trash2, Sheet, ArrowUpRight, GitBranch, X, RefreshCw, FileText } from "lucide";
-import { analyzeNote, categoryLabels, createBackup, createRecord, parseBackup, validateRecordDraft, noteLimit, backupByteLimit, coreVersion } from "../app/note-core.mjs";
+import { analyzeNote, createBackupFiles, parseBackup, validateRecordDraft, noteLimit, backupByteLimit, coreVersion } from "../app/note-core.mjs";
 import { escapeHtml } from "../app/domain.mjs";
 import { listRecords, saveRecord, deleteRecord, importRecords, clearRecords, exportRecovery } from "./store.mjs";
 import { recordsToCsv } from "./export.mjs";
@@ -79,12 +79,12 @@ async function busy(operation) {
 }
 function showDialog(title, body) {
   const dialog = element("notes-dialog");
-  if (dialog.open) dialog.close();
-  lastDialogFocus = document.activeElement;
+  const wasOpen = dialog.open;
+  if (!wasOpen) lastDialogFocus = document.activeElement;
   element("notes-dialog-content").innerHTML = `<div class="dialog-head"><p class="eyebrow">POCKETROUTE NOTES</p><button class="icon-button" id="notes-dialog-close" aria-label="Close dialog" title="Close dialog">${icon("x")}</button></div><div class="dialog-body"><h2 id="notes-dialog-title">${escapeHtml(title)}</h2>${body}</div>`;
   element("notes-dialog-close").onclick = () => dialog.close();
   renderIcons();
-  dialog.showModal();
+  if (!wasOpen) dialog.showModal();
 }
 function confirmAction(title, message, label, danger = false) {
   return new Promise(resolve => {
@@ -183,10 +183,18 @@ element("record-category").addEventListener("change", event => { state.category 
 element("delete-button").addEventListener("click", async () => {
   const previous = state.previous;
   if (!previous || state.busy || !await confirmAction("Delete this saved record?", `Delete ${previous.title} from this browser? Existing exported files are not deleted.`, "Delete record", true)) return;
-  busy(async () => { await deleteRecord(previous.id, previous.version); replaceDraft(); await refreshRecords(); notifyChange(); setStatus("Saved record deleted from this browser."); });
+  busy(async () => { await deleteRecord(previous); replaceDraft(); await refreshRecords(); notifyChange(); setStatus("Saved record deleted from this browser."); });
 });
 element("draft-export").addEventListener("click", () => { download(JSON.stringify({ kind: "pocketroute-note-draft", schemaVersion: 1, productVersion: coreVersion, ...state.draft, reviewed: false }, null, 2), "pocketroute-unsaved-draft.json"); setStatus("Unencrypted draft exported. Draft files are not reviewed-record backups."); });
-element("backup-button").addEventListener("click", () => busy(async () => { const { records } = await listRecords(); download(JSON.stringify(createBackup(records), null, 2), "pocketroute-notes-backup.json"); setStatus(`Private, unencrypted backup exported: ${records.length} readable record(s).`); }));
+element("backup-button").addEventListener("click", () => busy(async () => {
+  const { records } = await listRecords();
+  const files = createBackupFiles(records);
+  if (files.length === 1) { download(files[0].text, files[0].filename); setStatus(`Private, unencrypted backup exported: ${records.length} readable record(s).`); }
+  else {
+    showDialog("Download each backup part", `<p>The ${records.length} readable records require ${files.length} files to stay within the 8 MiB import limit. Keep every part private and import each part when restoring.</p><div class="notes-settings-actions">${files.map((file, index) => `<button class="button quiet" id="backup-part-${index}">${icon("download")}Part ${index + 1} / ${file.recordCount} records</button>`).join("")}</div><p id="part-status" class="subtle-note receipt-footer" role="status" aria-live="polite"></p>`);
+    files.forEach((file, index) => { element(`backup-part-${index}`).onclick = () => { download(file.text, file.filename); element("part-status").textContent = `Part ${index + 1} download requested. Keep all ${files.length} parts.`; }; });
+  }
+}));
 element("csv-button").addEventListener("click", () => busy(async () => { const { records } = await listRecords(); download(recordsToCsv(records), "pocketroute-notes.csv", "text/csv;charset=utf-8"); setStatus("CSV exported. Formula-like text is escaped; JSON backups preserve the original values."); }));
 element("import-button").addEventListener("click", () => element("backup-file").click());
 element("backup-file").addEventListener("change", async event => {

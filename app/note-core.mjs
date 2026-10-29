@@ -98,11 +98,34 @@ export function normalizeRecord(record) {
   return { ...createRecord(record, record), summaryOrigin: record.summaryOrigin, engineVersion: record.engineVersion };
 }
 
-export function createBackup(records, exportedAt = new Date().toISOString()) {
+function backupRecords(records) {
   if (!Array.isArray(records) || records.length > recordLimit) throw new RangeError(`A backup supports at most ${recordLimit} records.`);
   const clean = records.map(normalizeRecord);
   if (new Set(clean.map(record => record.id)).size !== clean.length) throw new TypeError("Duplicate identifiers in backup.");
-  return { kind: "pocketroute-notes-backup", schemaVersion: 1, productVersion: coreVersion, exportedAt, records: clean };
+  return clean;
+}
+
+export function createBackup(records, exportedAt = new Date().toISOString()) {
+  const backup = { kind: "pocketroute-notes-backup", schemaVersion: 1, productVersion: coreVersion, exportedAt, records: backupRecords(records) };
+  if (new TextEncoder().encode(JSON.stringify(backup)).byteLength > backupByteLimit) throw new RangeError("Backup exceeds the 8 MiB limit. Export separate backup parts.");
+  return backup;
+}
+
+export function createBackupFiles(records, exportedAt = new Date().toISOString()) {
+  const clean = backupRecords(records);
+  const encoder = new TextEncoder();
+  const envelopeBytes = encoder.encode(JSON.stringify(createBackup([], exportedAt))).byteLength;
+  const groups = [];
+  let group = [];
+  let bytes = envelopeBytes;
+  for (const record of clean) {
+    const recordBytes = encoder.encode(JSON.stringify(record)).byteLength;
+    if (group.length && bytes + recordBytes + 1 > backupByteLimit) { groups.push(group); group = []; bytes = envelopeBytes; }
+    bytes += recordBytes + (group.length ? 1 : 0);
+    group.push(record);
+  }
+  if (group.length || !groups.length) groups.push(group);
+  return groups.map((items, index) => ({ filename: groups.length === 1 ? "pocketroute-notes-backup.json" : `pocketroute-notes-backup-part-${index + 1}-of-${groups.length}.json`, recordCount: items.length, text: JSON.stringify(createBackup(items, exportedAt)) }));
 }
 
 export function parseBackup(text) {
@@ -128,4 +151,9 @@ export function planImport(existing, incoming) {
     }
   }
   return { additions, conflicts, unchanged };
+}
+
+export function sameRecord(first, second) {
+  try { return JSON.stringify(normalizeRecord(first)) === JSON.stringify(normalizeRecord(second)); }
+  catch { return false; }
 }

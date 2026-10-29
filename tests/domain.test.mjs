@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { assertGitHubRunner, repository } from "../scripts/cloud-only.mjs";
 import { escapeHtml, routeRequest, filterTasks, summarizeRun, parseRoute, formatDuration, scenarioEconomics, safeGitHubUrl } from "../app/domain.mjs";
 import { tasks, sources, units } from "../data/office.mjs";
-import { analyzeNote, validateRecordDraft, validDate, createRecord, createBackup, parseBackup, planImport } from "../app/note-core.mjs";
+import { analyzeNote, validateRecordDraft, validDate, createRecord, createBackup, createBackupFiles, parseBackup, planImport, sameRecord, backupByteLimit } from "../app/note-core.mjs";
 import { recordsToCsv } from "../notes/export.mjs";
 import Papa from "papaparse";
 
@@ -63,6 +63,17 @@ test("import planning distinguishes identical records from conflicting versions 
   assert.equal(plan.additions.length, 1);
   assert.deepEqual(planImport([record], [record]).unchanged, [record.id]);
   assert.deepEqual(planImport([record], [{ ...record, summary: "Different same-version content" }]).conflicts, [record.id]);
+  assert.equal(sameRecord(record, { ...record, summary: "Different same-version content" }), false);
+  assert.equal(sameRecord(record, { ...record }), true);
+});
+
+test("large escaped text is split into independently importable backup files", () => {
+  const records = Array.from({ length: 70 }, (_, index) => ({ ...recordFixture({ source: "\u0001".repeat(12000), summary: "\u0002".repeat(12000) }), id: `record-${String(index).padStart(4, "0")}` }));
+  assert.throws(() => createBackup(records), /8 MiB/);
+  const files = createBackupFiles(records);
+  assert.ok(files.length > 1);
+  const restored = files.flatMap(file => { assert.ok(new TextEncoder().encode(file.text).byteLength <= backupByteLimit); return parseBackup(file.text); });
+  assert.deepEqual(restored, records);
 });
 
 test("backup validation rejects malformed, duplicate, unreviewed and oversized data", () => {
