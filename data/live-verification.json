@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "status": "passed",
+  "checkedAt": "2026-10-29T21:49:14.085Z",
+  "url": "https://arindamchatterjee007.github.io/pocketroute-lab/",
+  "sourceSha": "8c4bcd5d66b00ac24e57c6bb9064ccb48591d61f",
+  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40960824135",
+  "artifactFilesVerified": 13,
+  "artifactHashAlgorithm": "SHA-256",
+  "configurations": [
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "height": 1000,
+      "views": 6,
+      "policyPreview": "passed",
+      "recordedModelCases": 8,
+      "outsideRequests": 0,
+      "pageErrors": 0,
+      "status": "passed"
+    },
+    {
+      "engine": "chromium",
+      "width": 390,
+      "height": 844,
+      "views": 6,
+      "policyPreview": "passed",
+      "recordedModelCases": 8,
+      "outsideRequests": 0,
+      "pageErrors": 0,
+      "status": "passed"
+    },
+    {
+      "engine": "chromium",
+      "width": 320,
+      "height": 740,
+      "views": 6,
+      "policyPreview": "passed",
+      "recordedModelCases": 8,
+      "outsideRequests": 0,
+      "pageErrors": 0,
+      "status": "passed"
+    },
+    {
+      "engine": "webkit",
+      "width": 390,
+      "height": 844,
+      "views": 6,
+      "policyPreview": "passed",
+      "recordedModelCases": 8,
+      "outsideRequests": 0,
+      "pageErrors": 0,
+      "status": "passed"
+    }
+  ],
+  "modelRerun": false,
+  "phoneBenchmark": false,
+  "energyJoules": null,
+  "localBuildsOrTests": 0
+}
