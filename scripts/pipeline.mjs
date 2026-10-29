@@ -108,8 +108,10 @@ async function main() {
   const finalSnapshots = command("npx", ["--no-install", "playwright", "test", "--grep", "final published snapshot", "--reporter=list"]);
   delete process.env.FINAL_SNAPSHOT;
   verification.finalSnapshotChecks = Number(/(\d+) passed/.exec(finalSnapshots.stdout)?.[1] ?? 0);
-  if (verification.finalSnapshotChecks !== testedProjects.length) throw new Error("Final snapshot matrix did not finish.");
+  if (verification.finalSnapshotChecks !== testedProjects.length * 2) throw new Error("Dashboard and Notes final snapshot matrices did not finish.");
   for (const name of readdirSync("test-results/screenshots")) if (name.endsWith(".png")) cpSync(join("test-results/screenshots", name), join("dist/evidence", name));
+  verification.screenshots = readdirSync("dist/evidence").filter(name => name.endsWith(".png"));
+  verification.product = { name: "PocketRoute Notes", version: "0.2.0-alpha", engine: "rules-and-extractive", localOnly: true, modelExecuted: false, screenshotData: "Synthetic reviewed record; not customer data", sdk: "downloads/pocketroute-core.mjs", bundle: "downloads/pocketroute-notes-0.2.0.zip" };
   writeFileSync("dist/data/verification.json", JSON.stringify(verification, null, 2));
   cpSync("LICENSE", "dist/LICENSE.txt");
   const inventory = [];
