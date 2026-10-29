@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "stage": "prepublication-checks-passed",
-  "checkedAt": "2026-10-29T22:56:50.006Z",
-  "sourceSha": "d517618737be7e2d4e149726f091cb58e600e56d",
-  "generatedInputsSha": "d517618737be7e2d4e149726f091cb58e600e56d",
-  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40969396804",
+  "checkedAt": "2026-10-29T23:03:49.337Z",
+  "sourceSha": "86383dfb74e1c6ce09c805b3672a4770d13ac7a4",
+  "generatedInputsSha": "86383dfb74e1c6ce09c805b3672a4770d13ac7a4",
+  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40970044604",
   "unitTests": 23,
   "browserTests": 144,
   "browserSpecs": 24,
@@ -169,7 +169,7 @@
     {
       "path": "data/verification.json",
       "bytes": 2838,
-      "sha256": "16ebddb6b890732a529fa684d986860e1329ad216fcf332a0523971eaafc877f"
+      "sha256": "fcfdf250d702f1ad421e977599a217ea03889c0e71c83d4daac7d2f2f2c733da"
     },
     {
       "path": "downloads/README.md",
@@ -183,8 +183,8 @@
     },
     {
       "path": "downloads/pocketroute-notes-0.2.0.zip",
-      "bytes": 120241,
-      "sha256": "64c9c7bb3d3483e5f3e712d46ffd891cbe3546c069a1ab0be7555118b7c7c8ae"
+      "bytes": 120272,
+      "sha256": "5bea60b84bda8ddaa25c68955f6d346de8e2bc14fd07cbb2c2610bde84a63903"
     },
     {
       "path": "evidence/cloud-model-desktop-review.png",
@@ -198,23 +198,23 @@
     },
     {
       "path": "evidence/evidence-desktop-review.png",
-      "bytes": 225097,
-      "sha256": "b5384915e2aa8e3b8fdb00c39c6bbda185b2da4bdab96e171334466f244caf2a"
+      "bytes": 225134,
+      "sha256": "e0273aff9d9d1462d316927973e92c943c07289f2faa8a7561d3ab18bec4ea4c"
     },
     {
       "path": "evidence/evidence-desktop.png",
-      "bytes": 150118,
-      "sha256": "c4231d81fad43211469f3888908c9a3f0f05a4360636cca11feaa0618577e28a"
+      "bytes": 150179,
+      "sha256": "8b24e014c36498f223b1aee75e3bc74dd48e930978f4b036fc9688206bd1307c"
     },
     {
       "path": "evidence/evidence-phone-review.png",
-      "bytes": 114880,
-      "sha256": "1ee18c931ed692cf077c47e514d42048f61e65e17ec75db7cb92a6f191d0cc16"
+      "bytes": 114919,
+      "sha256": "da254276b9a21cf39e3b4bfd5cd32063641d45f4ded042340df31e8612f547eb"
     },
     {
       "path": "evidence/evidence-phone.png",
-      "bytes": 128964,
-      "sha256": "fdb1f7e24659a32356467d5fe4bf4d808db4afa1915d0f1d9f26a363850e4a52"
+      "bytes": 129018,
+      "sha256": "0430205c0ededd8702bb7ca112a161422cac13dd257ea2228c3c1be3b19012ed"
     },
     {
       "path": "evidence/execution-desktop-review.png",
@@ -258,13 +258,13 @@
     },
     {
       "path": "evidence/notes-desktop-review.png",
-      "bytes": 142896,
-      "sha256": "f8467b1fddb030e17b532d565d6da904c669a79c1150d5379d17917fce2983fa"
+      "bytes": 142893,
+      "sha256": "2b286f025797f08ae63bcccd798ee46e045501d993ba9724548226c643a7e276"
     },
     {
       "path": "evidence/notes-phone-review.png",
-      "bytes": 75846,
-      "sha256": "4c12a5d3dee4ec3fced18676da1ad29561b0bfeaf1c1dce482ca7ccaa0c99917"
+      "bytes": 74391,
+      "sha256": "b1a52a75d96a17bc1ee4e08bd554b38c48c598d1e13d409406ff4f1ffb248093"
     },
     {
       "path": "evidence/overview-desktop-review.png",
@@ -358,8 +358,8 @@
     },
     {
       "path": "notes/notes.css",
-      "bytes": 11569,
-      "sha256": "2ea639a350833987946ed7597d4d3c3bc38e02f0cfdb32c555d5e10a79f46d4e"
+      "bytes": 11626,
+      "sha256": "d67172b0e02ffe09853e42fe7dc73bc00f93cda99e1c010d02ba5f352a426844"
     },
     {
       "path": "notes/notes.js",
@@ -374,7 +374,7 @@
     {
       "path": "notes/sw.js",
       "bytes": 1240,
-      "sha256": "7233604248a0c2b478a845ead4506f203cf18167d0cca1728473827fd9e06960"
+      "sha256": "0cfd50d9cd552d044aa92d8ff555c7e7f7299968538d53eb79812850cec270a1"
     },
     {
       "path": "styles.css",
