@@ -4,6 +4,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, cpSync, mkdtempSync } from "node:fs";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
+import { isDeepStrictEqual } from "node:util";
 
 const githubToken = process.env.GH_TOKEN;
 delete process.env.GH_TOKEN;
@@ -21,7 +22,9 @@ function command(program, argumentsList, { cwd = process.cwd(), timeout = 480000
 }
 
 async function main() {
-  if (!existsSync("package-lock.json")) command("npm", ["install", "--package-lock-only", "--ignore-scripts", "--no-audit", "--no-fund"]);
+  const packageData = JSON.parse(readFileSync("package.json", "utf8"));
+  const lockedRoot = existsSync("package-lock.json") ? JSON.parse(readFileSync("package-lock.json", "utf8")).packages?.[""] : null;
+  if (!lockedRoot || lockedRoot.version !== packageData.version || !isDeepStrictEqual(lockedRoot.dependencies, packageData.dependencies) || !isDeepStrictEqual(lockedRoot.devDependencies, packageData.devDependencies)) command("npm", ["install", "--package-lock-only", "--ignore-scripts", "--no-audit", "--no-fund"]);
   command("npm", ["ci", "--ignore-scripts", "--no-audit", "--no-fund"]);
   command("npm", ["audit", "--audit-level=high"]);
   const unit = command("npm", ["test"]);

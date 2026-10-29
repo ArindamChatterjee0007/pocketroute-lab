@@ -4,7 +4,9 @@ import assert from "node:assert/strict";
 import { assertGitHubRunner, repository } from "../scripts/cloud-only.mjs";
 import { escapeHtml, routeRequest, filterTasks, summarizeRun, parseRoute, formatDuration, scenarioEconomics, safeGitHubUrl } from "../app/domain.mjs";
 import { tasks, sources, units } from "../data/office.mjs";
-import { analyzeNote, validateRecordDraft, validDate } from "../app/note-core.mjs";
+import { analyzeNote, validateRecordDraft, validDate, createRecord, createBackup, parseBackup } from "../app/note-core.mjs";
+import { recordsToCsv } from "../notes/export.mjs";
+import Papa from "papaparse";
 
 test("field-note worker performs grounded extraction and an extractive summary", () => {
   const source = "Site: North-17\nDate: 2026-10-29\nTicket: JOB-0042\nTwo filters need replacement.\nThe team left the unit isolated.";
@@ -36,6 +38,39 @@ test("a field record cannot be saved without review or with malformed values", (
   assert.ok(validateRecordDraft({ ...draft, date: "2026-02-30" }).length);
   assert.ok(validateRecordDraft({ ...draft, title: "" }).length);
   assert.ok(validateRecordDraft({ ...draft, category: "Unrecognized" }).length);
+});
+
+const recordFixture = (overrides = {}) => createRecord({ source: "Site: North-17\nA complete inspection.", title: "Synthetic visit", site: "North-17", reference: "00042", date: "2026-10-29", category: "Inspection", summary: "A complete inspection.", reviewed: true, ...overrides }, { id: "record-0001", createdAt: "2026-10-29T10:00:00.000Z", updatedAt: "2026-10-29T10:00:00.000Z", version: 1 });
+
+test("portable records and backups preserve review provenance without extra keys", () => {
+  const record = recordFixture();
+  assert.equal(record.summaryOrigin, "extractive");
+  assert.equal(recordFixture({ summary: "Edited by the reviewer." }).summaryOrigin, "user-edited");
+  const backup = createBackup([{ ...record, privateExtra: "discard me" }]);
+  const restored = parseBackup(JSON.stringify(backup));
+  assert.deepEqual(restored, [record]);
+  assert.equal(restored[0].privateExtra, undefined);
+});
+
+test("backup validation rejects malformed, duplicate, unreviewed and oversized data", () => {
+  const record = recordFixture();
+  assert.throws(() => parseBackup("not JSON"));
+  assert.throws(() => parseBackup('{"schemaVersion":2,"records":[]}'));
+  assert.throws(() => createBackup([record, record]), /Duplicate/);
+  assert.throws(() => createBackup([{ ...record, reviewed: false }]), /Review/);
+  assert.throws(() => createBackup([{ ...record, modelExecuted: true }]), /Unsupported/);
+  assert.throws(() => createBackup([{ ...record, version: NaN }]), /metadata/);
+  assert.throws(() => parseBackup("a".repeat(8 * 1024 * 1024 + 1)), /8 MiB/);
+});
+
+test("CSV export uses text-safe quoting and spreadsheet formula protection", () => {
+  const csv = recordsToCsv([recordFixture({ title: '=HYPERLINK("https://example.invalid")', reference: "00042", summary: 'A comma, a "quote"\nand a newline.' })]);
+  const parsed = Papa.parse(csv, { header: true });
+  assert.deepEqual(parsed.errors, []);
+  assert.equal(parsed.data[0].Title, '\'=HYPERLINK("https://example.invalid")');
+  assert.equal(parsed.data[0].Reference, "00042");
+  assert.equal(parsed.data[0].Summary, 'A comma, a "quote"\nand a newline.');
+  for (const value of ["+SUM(1)", "-1+2", "@SUM(1)", "  =SUM(1)", "\tname", "\nvalue"]) assert.ok(Papa.parse(recordsToCsv([recordFixture({ summary: value })]), { header: true }).data[0].Summary.startsWith("'"));
 });
 
 test("verification workload has no inherited publishing credentials", () => {

@@ -1,5 +1,7 @@
 export const coreVersion = "0.2.0";
 export const noteLimit = 12000;
+export const recordLimit = 100;
+export const backupByteLimit = 8 * 1024 * 1024;
 export const categoryLabels = Object.freeze(["Maintenance", "Delivery", "Inspection", "General"]);
 
 const fieldPatterns = Object.freeze({
@@ -61,4 +63,51 @@ export function validateRecordDraft(draft) {
   if (typeof draft.summary !== "string" || draft.summary.length > noteLimit) errors.push("The summary exceeds the permitted length.");
   if (draft.reviewed !== true) errors.push("Review the record before saving it.");
   return errors;
+}
+
+export function createRecord(draft, metadata) {
+  const errors = validateRecordDraft(draft);
+  if (errors.length) throw new TypeError(errors.join(" "));
+  if (!metadata || !/^[a-zA-Z0-9][a-zA-Z0-9_-]{7,79}$/.test(metadata.id || "")) throw new TypeError("Invalid record identifier.");
+  const timestampValid = value => typeof value === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString() === value;
+  if (!timestampValid(metadata.createdAt) || !timestampValid(metadata.updatedAt) || metadata.updatedAt < metadata.createdAt || !Number.isSafeInteger(metadata.version) || metadata.version < 1) throw new TypeError("Invalid record metadata.");
+  return {
+    schemaVersion: 1,
+    id: metadata.id,
+    version: metadata.version,
+    createdAt: metadata.createdAt,
+    updatedAt: metadata.updatedAt,
+    title: draft.title.trim(),
+    site: draft.site.trim(),
+    date: draft.date,
+    reference: draft.reference.trim(),
+    category: draft.category,
+    source: draft.source,
+    summary: draft.summary,
+    summaryOrigin: draft.summary === analyzeNote(draft.source).summary ? "extractive" : "user-edited",
+    reviewed: true,
+    engine: "rules-and-extractive",
+    engineVersion: coreVersion,
+    modelExecuted: false,
+  };
+}
+
+export function normalizeRecord(record) {
+  if (!record || record.schemaVersion !== 1 || record.engine !== "rules-and-extractive" || record.modelExecuted !== false) throw new TypeError("Unsupported record format or processing engine.");
+  return createRecord(record, record);
+}
+
+export function createBackup(records, exportedAt = new Date().toISOString()) {
+  if (!Array.isArray(records) || records.length > recordLimit) throw new RangeError(`A backup supports at most ${recordLimit} records.`);
+  const clean = records.map(normalizeRecord);
+  if (new Set(clean.map(record => record.id)).size !== clean.length) throw new TypeError("Duplicate identifiers in backup.");
+  return { kind: "pocketroute-notes-backup", schemaVersion: 1, productVersion: coreVersion, exportedAt, records: clean };
+}
+
+export function parseBackup(text) {
+  if (typeof text !== "string" || new TextEncoder().encode(text).byteLength > backupByteLimit) throw new RangeError("Backup exceeds the 8 MiB limit.");
+  let value;
+  try { value = JSON.parse(text); } catch { throw new TypeError("The selected file is not valid JSON."); }
+  if (value?.kind !== "pocketroute-notes-backup" || value.schemaVersion !== 1) throw new TypeError("This is not a supported PocketRoute Notes backup.");
+  return createBackup(value.records, value.exportedAt).records;
 }
