@@ -6,8 +6,12 @@ on:
       mode:
         description: Verification scope
         type: choice
-        options: [publish, unit]
+        options: [publish, unit, live]
         default: publish
+      expected_source:
+        description: Exact published source SHA required for live verification
+        type: string
+        default: ''
       experiment:
         description: Run the bounded SmolLM2 CPU smoke experiment
         type: boolean
@@ -27,6 +31,7 @@ jobs:
     timeout-minutes: 25
     env:
       PIPELINE_MODE: ${{ inputs.mode }}
+      EXPECTED_SOURCE: ${{ inputs.expected_source }}
       RUN_SLM_EXPERIMENT: ${{ inputs.experiment }}
       ONNXRUNTIME_NODE_INSTALL_CUDA: skip
       GH_TOKEN: ${{ github.token }}
