@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" data-motion="on">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0e10">
+  <meta name="description" content="PocketRoute research office: execution, model experiments and evidence for offline mobile AI.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>PocketRoute / AI Office</title>
+  <link rel="icon" href="./assets/mark.png" type="image/png">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./assets/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Skip to workspace</a>
+  <div id="navigation-backdrop" class="navigation-backdrop" hidden></div>
+  <aside id="sidebar" class="sidebar" aria-label="Workspace navigation">
+    <a class="brand" href="#overview" aria-label="PocketRoute overview"><img src="./assets/mark.png" alt="" width="34" height="34"><span>PocketRoute<small>AI RESEARCH OFFICE</small></span></a>
+    <button id="close-navigation" class="icon-button mobile-only" aria-label="Close navigation" title="Close navigation"><i data-lucide="x"></i></button>
+    <div class="workspace-switcher"><span class="workspace-monogram">P</span><span>One business<small>Three business units</small></span><i data-lucide="chevron-down"></i></div>
+    <p class="nav-caption">WORKSPACE</p>
+    <nav id="primary-navigation"></nav>
+    <div class="sidebar-project"><span class="status-dot mint"></span><span>BU03 / PocketRoute<small>Research prototype</small></span><i data-lucide="git-branch"></i></div>
+    <div class="sidebar-bottom"><a href="https://github.com/ArindamChatterjee007/pocketroute-lab" target="_blank" rel="noopener noreferrer"><i data-lucide="github"></i> Open repository<i data-lucide="arrow-up-right"></i></a><span class="sidebar-footnote">Public-safe workspace <i data-lucide="shield-check"></i></span></div>
+  </aside>
+  <div class="workspace-shell">
+    <header class="topbar">
+      <button id="open-navigation" class="icon-button mobile-only" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false" title="Open navigation"><i data-lucide="menu"></i></button>
+      <div class="breadcrumb"><span>Office</span><i data-lucide="chevron-right"></i><span id="current-view-label">Overview</span></div>
+      <label class="workspace-search"><i data-lucide="search"></i><input id="workspace-search" type="search" placeholder="Search workspace" aria-label="Search workspace" autocomplete="off" maxlength="100"></label>
+      <div class="topbar-actions"><label class="motion-control" title="Interface motion"><input id="motion-toggle" type="checkbox" checked aria-label="Interface motion"><span class="switch-track"></span><span class="motion-label">Motion</span></label><button class="icon-button" id="refresh-evidence" title="Refresh published evidence" aria-label="Refresh published evidence"><i data-lucide="refresh-cw"></i></button><span class="avatar" title="Public research view">PR</span></div>
+    </header>
+    <div id="evidence-status" class="evidence-status" role="status" aria-live="polite">Loading published evidence</div>
+    <main id="workspace" tabindex="-1"></main>
+    <footer class="workspace-footer"><span><span class="status-dot mint"></span> PocketRoute research lab</span><span>GitHub-hosted execution <span class="footer-divider">/</span> Phone energy unmeasured</span><a href="./THIRD_PARTY_NOTICES.txt" target="_blank" rel="noopener noreferrer">Notices<i data-lucide="arrow-up-right"></i></a></footer>
+  </div>
+  <dialog id="detail-dialog" class="detail-dialog" aria-labelledby="dialog-title"><div id="dialog-content"></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <noscript><p class="noscript">JavaScript is required for the interactive research dashboard. Source and evidence are available in the linked GitHub repository.</p></noscript>
+</body>
+</html>

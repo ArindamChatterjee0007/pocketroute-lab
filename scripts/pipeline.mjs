@@ -24,11 +24,6 @@ async function main() {
   command("npm", ["audit", "--audit-level=high"]);
   const unit = command("npm", ["test"]);
   if (process.env.RUN_SLM_EXPERIMENT === "true") command(process.execPath, ["scripts/experiment.mjs"], { timeout: 420000 });
-  command("npm", ["run", "build"]);
-  command("npx", ["--no-install", "playwright", "install", "--with-deps", "chromium", "webkit"]);
-  command("npm", ["run", "test:browser"]);
-  const browserReport = JSON.parse(readFileSync("test-results/results.json", "utf8"));
-  if (browserReport.stats.unexpected || browserReport.stats.flaky || browserReport.stats.skipped) throw new Error("Browser report contains failed, flaky or skipped tests.");
   const licenseResponse = await fetch("https://www.apache.org/licenses/LICENSE-2.0.txt");
   if (!licenseResponse.ok) throw new Error("Unable to retrieve the Apache-2.0 license text.");
   const license = await licenseResponse.text();
@@ -43,6 +38,11 @@ async function main() {
     command("git", ["push", "origin", "HEAD:main"]);
   }
   const generatedInputsSha = command("git", ["rev-parse", "HEAD"]).stdout.trim();
+  command("npm", ["run", "build"]);
+  command("npx", ["--no-install", "playwright", "install", "--with-deps", "chromium", "webkit"]);
+  command("npm", ["run", "test:browser"]);
+  const browserReport = JSON.parse(readFileSync("test-results/results.json", "utf8"));
+  if (browserReport.stats.unexpected || browserReport.stats.flaky || browserReport.stats.skipped) throw new Error("Browser report contains failed, flaky or skipped tests.");
   const runUrl = `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`;
   mkdirSync("dist/evidence", { recursive: true });
   for (const name of readdirSync("test-results/screenshots")) if (name.endsWith(".png")) cpSync(join("test-results/screenshots", name), join("dist/evidence", name));
