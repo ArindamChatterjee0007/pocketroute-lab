@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "stage": "prepublication-checks-passed",
-  "checkedAt": "2026-10-29T21:43:34.077Z",
-  "sourceSha": "8c4bcd5d66b00ac24e57c6bb9064ccb48591d61f",
-  "generatedInputsSha": "8c4bcd5d66b00ac24e57c6bb9064ccb48591d61f",
-  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40959960119",
-  "unitTests": 15,
-  "browserTests": 90,
-  "browserSpecs": 15,
+  "checkedAt": "2026-10-29T22:43:35.107Z",
+  "sourceSha": "3d5f913cdcad7a707a7e65a9cf06d16d58ac752f",
+  "generatedInputsSha": "89e374efffdd87cf5b65c21cd663e2216537eaab",
+  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40967780046",
+  "unitTests": 22,
+  "browserTests": 132,
+  "browserSpecs": 22,
   "browserConfigurations": [
     {
       "name": "desktop",
@@ -88,6 +88,8 @@
     "lab-desktop.png",
     "lab-phone-review.png",
     "lab-phone.png",
+    "notes-desktop-review.png",
+    "notes-phone-review.png",
     "overview-desktop-review.png",
     "overview-desktop.png",
     "overview-phone-review.png",
@@ -102,5 +104,15 @@
     "sessions-phone.png"
   ],
   "screenshotState": "Final prepublication receipt; no synthetic verification fixture",
-  "finalSnapshotChecks": 6
+  "finalSnapshotChecks": 12,
+  "product": {
+    "name": "PocketRoute Notes",
+    "version": "0.2.0-alpha",
+    "engine": "rules-and-extractive",
+    "localOnly": true,
+    "modelExecuted": false,
+    "screenshotData": "Synthetic reviewed record; not customer data",
+    "sdk": "downloads/pocketroute-core.mjs",
+    "bundle": "downloads/pocketroute-notes-0.2.0.zip"
+  }
 }

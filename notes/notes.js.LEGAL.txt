@@ -1,0 +1,43 @@
+Bundled license information:
+
+papaparse/papaparse.min.js:
+  /* @license
+  Papa Parse
+  v5.7.0
+  https://github.com/mholt/PapaParse
+  License: MIT
+  */
+
+lucide/dist/esm/defaultAttributes.mjs:
+lucide/dist/esm/createElement.mjs:
+lucide/dist/esm/shared/src/utils/mergeClasses.mjs:
+lucide/dist/esm/shared/src/utils/hasA11yProp.mjs:
+lucide/dist/esm/shared/src/utils/toCamelCase.mjs:
+lucide/dist/esm/shared/src/utils/toPascalCase.mjs:
+lucide/dist/esm/replaceElement.mjs:
+lucide/dist/esm/icons/arrow-up-right.mjs:
+lucide/dist/esm/icons/check.mjs:
+lucide/dist/esm/icons/download.mjs:
+lucide/dist/esm/icons/file-down.mjs:
+lucide/dist/esm/icons/file-text.mjs:
+lucide/dist/esm/icons/file-up.mjs:
+lucide/dist/esm/icons/git-branch.mjs:
+lucide/dist/esm/icons/layout-dashboard.mjs:
+lucide/dist/esm/icons/plus.mjs:
+lucide/dist/esm/icons/refresh-cw.mjs:
+lucide/dist/esm/icons/scan-text.mjs:
+lucide/dist/esm/icons/search.mjs:
+lucide/dist/esm/icons/settings-2.mjs:
+lucide/dist/esm/icons/sheet.mjs:
+lucide/dist/esm/icons/shield-check.mjs:
+lucide/dist/esm/icons/trash.mjs:
+lucide/dist/esm/icons/upload.mjs:
+lucide/dist/esm/icons/workflow.mjs:
+lucide/dist/esm/icons/x.mjs:
+lucide/dist/esm/lucide.mjs:
+  /**
+   * @license lucide v1.64.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */

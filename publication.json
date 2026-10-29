@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "stage": "prepublication-checks-passed",
-  "checkedAt": "2026-10-29T21:43:34.077Z",
-  "sourceSha": "8c4bcd5d66b00ac24e57c6bb9064ccb48591d61f",
-  "generatedInputsSha": "8c4bcd5d66b00ac24e57c6bb9064ccb48591d61f",
-  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40959960119",
-  "unitTests": 15,
-  "browserTests": 90,
-  "browserSpecs": 15,
+  "checkedAt": "2026-10-29T22:43:35.107Z",
+  "sourceSha": "3d5f913cdcad7a707a7e65a9cf06d16d58ac752f",
+  "generatedInputsSha": "89e374efffdd87cf5b65c21cd663e2216537eaab",
+  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40967780046",
+  "unitTests": 22,
+  "browserTests": 132,
+  "browserSpecs": 22,
   "browserConfigurations": [
     {
       "name": "desktop",
@@ -88,6 +88,8 @@
     "lab-desktop.png",
     "lab-phone-review.png",
     "lab-phone.png",
+    "notes-desktop-review.png",
+    "notes-phone-review.png",
     "overview-desktop-review.png",
     "overview-desktop.png",
     "overview-phone-review.png",
@@ -102,7 +104,17 @@
     "sessions-phone.png"
   ],
   "screenshotState": "Final prepublication receipt; no synthetic verification fixture",
-  "finalSnapshotChecks": 6,
+  "finalSnapshotChecks": 12,
+  "product": {
+    "name": "PocketRoute Notes",
+    "version": "0.2.0-alpha",
+    "engine": "rules-and-extractive",
+    "localOnly": true,
+    "modelExecuted": false,
+    "screenshotData": "Synthetic reviewed record; not customer data",
+    "sdk": "downloads/pocketroute-core.mjs",
+    "bundle": "downloads/pocketroute-notes-0.2.0.zip"
+  },
   "inventory": [
     {
       "path": ".nojekyll",
@@ -116,8 +128,8 @@
     },
     {
       "path": "THIRD_PARTY_NOTICES.txt",
-      "bytes": 12553,
-      "sha256": "92becc8cc4f86d8e557d28d2928aa55d955eaf6dd569725b926e828570b8f122"
+      "bytes": 13651,
+      "sha256": "6d35cad8a0f11f8e4dada66c2c3a652f269dfb87440e641ff2772e5aa872399e"
     },
     {
       "path": "assets/app.js",
@@ -156,13 +168,28 @@
     },
     {
       "path": "data/verification.json",
-      "bytes": 2433,
-      "sha256": "e7dd8d77e95a0bedb82597b75051c04def622242e859f15b44208b8a6d963303"
+      "bytes": 2838,
+      "sha256": "f59a0f8d2bf8bd660d4afbf3b40ece2b05029bee1d6da93b1c4cfa29d540fd96"
+    },
+    {
+      "path": "downloads/README.md",
+      "bytes": 5114,
+      "sha256": "d5b368f9d7fd0694d2fb3dec4e4b42aafc081cc827b6c0b73d3538277df6df88"
+    },
+    {
+      "path": "downloads/pocketroute-core.mjs",
+      "bytes": 7650,
+      "sha256": "15a995829cdc2c88a1ff0132fd9463120fbaafb094847de70114a45dd88406d9"
+    },
+    {
+      "path": "downloads/pocketroute-notes-0.2.0.zip",
+      "bytes": 119356,
+      "sha256": "9772ccfe0405308eb6e31b036fd8639379dc848e1416bb3b52af253669f56d79"
     },
     {
       "path": "evidence/cloud-model-desktop-review.png",
-      "bytes": 297547,
-      "sha256": "474f2b291da65a872bb6fe2eb6a0ef524f8989a56cce940baac79f87c4a39130"
+      "bytes": 300746,
+      "sha256": "65a09f278868ed6c86d914e585149547223f16d13ef0d9cf2de6d9a2021572ed"
     },
     {
       "path": "evidence/cloud-model-phone-review.png",
@@ -171,33 +198,33 @@
     },
     {
       "path": "evidence/evidence-desktop-review.png",
-      "bytes": 221908,
-      "sha256": "3f61a35724c0fdddafb30f5b85dee7b402998122c39d86f47d9d03634405a507"
+      "bytes": 225017,
+      "sha256": "c497a6613f36b472bd33a53d45cf8bc212bf080f758860ea0040a3f00e51ad74"
     },
     {
       "path": "evidence/evidence-desktop.png",
-      "bytes": 147300,
-      "sha256": "de84717af640bbc860dd914865cc52462849ba8fc0c65c936c44b13107d1b012"
+      "bytes": 149980,
+      "sha256": "00f662d9ee878bbaa3f8adbfe9dac3f9ea74a7c3c24b28c2e18ad5efeddcf12a"
     },
     {
       "path": "evidence/evidence-phone-review.png",
-      "bytes": 114957,
-      "sha256": "de4910880a63cb7554007d873ae5e44ec74818d4785282ece7e89baa78124f5f"
+      "bytes": 114825,
+      "sha256": "7730ba69a50f00fa630a663c9e4ec79cf715147b5acc20bbaf43c4b151fd84bb"
     },
     {
       "path": "evidence/evidence-phone.png",
-      "bytes": 129034,
-      "sha256": "2f8630071dfd69be34aa84722b9a4a62a95be6f748a907a183360841e9b4c5a0"
+      "bytes": 128822,
+      "sha256": "581c44239ca93277c8c99fea7f68adf6d58d136c09941483f40b90cdfe2c7495"
     },
     {
       "path": "evidence/execution-desktop-review.png",
-      "bytes": 177249,
-      "sha256": "b3a4649a5f39b50899106f680ef66b7072277dd289020d41bc5f5f8b26e24d1b"
+      "bytes": 180623,
+      "sha256": "60095c733716c357d8739fa9f8c7a8cd8484a75775fbd8c35c740f28c4bafe1b"
     },
     {
       "path": "evidence/execution-desktop.png",
-      "bytes": 116885,
-      "sha256": "8bacbfbf796f203ccaba92299655f9fc446bb04efb3cde42f9aea86d415579ec"
+      "bytes": 119792,
+      "sha256": "45e718abd60ec2973d87a8ec5eb6f974745ef382de35cd8feb54e474401556ef"
     },
     {
       "path": "evidence/execution-phone-review.png",
@@ -211,13 +238,13 @@
     },
     {
       "path": "evidence/lab-desktop-review.png",
-      "bytes": 177642,
-      "sha256": "ff868d46fc0375732893a18c87d78ba6e1263544fbdcdf37b1ef3bc048e2750c"
+      "bytes": 181124,
+      "sha256": "5429e22fddada80b9f3c9a1d5fd65753bfceecf72e4ffb22533ac162bead2ff5"
     },
     {
       "path": "evidence/lab-desktop.png",
-      "bytes": 132618,
-      "sha256": "14846a7996463c46cb0559cd9ec5b64dadb90bc5a2a8e6d46ab6f21227edf883"
+      "bytes": 135523,
+      "sha256": "9c30ffc2b56af6ecd546288bae4a9eda27c719d0ba1ec4c36111e5a4c32f80e4"
     },
     {
       "path": "evidence/lab-phone-review.png",
@@ -230,14 +257,24 @@
       "sha256": "423911b8e147e242d850b9b5134c021b7f7cb70bb156ca1b9c3aa4818c87b6db"
     },
     {
+      "path": "evidence/notes-desktop-review.png",
+      "bytes": 142896,
+      "sha256": "f8467b1fddb030e17b532d565d6da904c669a79c1150d5379d17917fce2983fa"
+    },
+    {
+      "path": "evidence/notes-phone-review.png",
+      "bytes": 75846,
+      "sha256": "4c12a5d3dee4ec3fced18676da1ad29561b0bfeaf1c1dce482ca7ccaa0c99917"
+    },
+    {
       "path": "evidence/overview-desktop-review.png",
-      "bytes": 292875,
-      "sha256": "ebe530271d69e98b034b537428ce5cae79e5c2d5b3bf6aff3f1800228512a3a8"
+      "bytes": 296029,
+      "sha256": "e6093c5ced9a97ca9591fe6370b802c9acd263c70457eee01743f5f26f75779e"
     },
     {
       "path": "evidence/overview-desktop.png",
-      "bytes": 228560,
-      "sha256": "01c97ecc147fe033079ee72005c9145427e03ddeed7db92e43b9c080fb930885"
+      "bytes": 231790,
+      "sha256": "6a55a4485b7762e435caff9ac8d131d79a5f8a3831a230963f2b6a2160f2a535"
     },
     {
       "path": "evidence/overview-phone-review.png",
@@ -251,13 +288,13 @@
     },
     {
       "path": "evidence/roadmap-desktop-review.png",
-      "bytes": 231935,
-      "sha256": "8f3d35d00c91e188e0d96fa3886229a014bbef58f4ba8ce4bb3fe8efcae36b66"
+      "bytes": 235502,
+      "sha256": "8753f238f38d86eb3f252be83f4d30d2bee3df8a68fcfdee5afbe3ddd361f688"
     },
     {
       "path": "evidence/roadmap-desktop.png",
-      "bytes": 153822,
-      "sha256": "743c77408e773bc19782048620e3fb7365fe1845202796811bff9213235ec2b3"
+      "bytes": 156674,
+      "sha256": "8f4468c89417ab230d3f26037e1524806992952437f9a85fd2ed20da88ee4195"
     },
     {
       "path": "evidence/roadmap-phone-review.png",
@@ -271,13 +308,13 @@
     },
     {
       "path": "evidence/sessions-desktop-review.png",
-      "bytes": 134578,
-      "sha256": "073777643967211925f4ce4ecae7d4b4d5294244d1d3d4a46c56be5bdfeb4e0f"
+      "bytes": 138275,
+      "sha256": "2e9610d616bbcca39f9f2c8b1d8b5e2c301ec342f945597faebe42e5d1964303"
     },
     {
       "path": "evidence/sessions-desktop.png",
-      "bytes": 96161,
-      "sha256": "8560995a3dbe7a4615de05c92e6f59dfbbcb3f99f7810a43dc82c9c34d23a775"
+      "bytes": 99003,
+      "sha256": "1cf0904d79b60c9f5a4bd6eae15d774b92b0054729bc2be6f47ba855b2463c85"
     },
     {
       "path": "evidence/sessions-phone-review.png",
@@ -291,13 +328,58 @@
     },
     {
       "path": "index.html",
-      "bytes": 4145,
-      "sha256": "2c93e24e3cfab8c31914681bdc3406f8b5e9211ec58ec0a5c664c49fb6dcf43c"
+      "bytes": 4288,
+      "sha256": "88f04569670edd1d3e653e4c76afb5c9416903847842d5d36304e3fec61b8830"
+    },
+    {
+      "path": "notes/guide.html",
+      "bytes": 5636,
+      "sha256": "0ba3a08619018943f8c9413f7e7b40fd67860c69a1b0048e343da1d319ae0919"
+    },
+    {
+      "path": "notes/icon-192.png",
+      "bytes": 4633,
+      "sha256": "80c7fe00945b7992d1b7abcf92c42b0de6dacafef845e8058b0738964740dea6"
+    },
+    {
+      "path": "notes/icon-512.png",
+      "bytes": 17304,
+      "sha256": "8da534fd9b47cfaa0e658796dd8757c9b7c2153caa1acdb139ee9831d24faeb2"
+    },
+    {
+      "path": "notes/index.html",
+      "bytes": 7492,
+      "sha256": "568b7de8c53032fdde5f44d1f7729d70791e5ad9f066aed19fbab6810ec7fa73"
+    },
+    {
+      "path": "notes/manifest.webmanifest",
+      "bytes": 518,
+      "sha256": "24cd994c9e5d8b5435f1db4adc562db1a20e198bff7c1467c59d03db864532ae"
+    },
+    {
+      "path": "notes/notes.css",
+      "bytes": 11569,
+      "sha256": "2ea639a350833987946ed7597d4d3c3bc38e02f0cfdb32c555d5e10a79f46d4e"
+    },
+    {
+      "path": "notes/notes.js",
+      "bytes": 47173,
+      "sha256": "87c57b668b63660a78683c5f0a04b9226e150f1e7c3f0e935a98bd875d086a69"
+    },
+    {
+      "path": "notes/notes.js.LEGAL.txt",
+      "bytes": 1356,
+      "sha256": "2439a7b33435978322cdcccaabf5f6593d35a52a00ba11f6e94fb22cd6a26fd8"
+    },
+    {
+      "path": "notes/sw.js",
+      "bytes": 1240,
+      "sha256": "129116cfbc08b4e22829447ab5db2821a5b13f1443943ab02e0d8d7f2acdf11a"
     },
     {
       "path": "styles.css",
-      "bytes": 40099,
-      "sha256": "d58e31fa55a1053f63082db7c02478b0afb0745c520e260fd12979db32554d70"
+      "bytes": 40209,
+      "sha256": "b8c1c962fec7c050cd14d51c0aae121459b26b3a71f8410c637d1f62e949c638"
     }
   ]
 }
