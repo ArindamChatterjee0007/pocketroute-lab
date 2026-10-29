@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "status": "not-run",
+  "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
+  "modelRevision": null,
+  "environment": "GitHub-hosted Linux CPU",
+  "mobileBenchmark": false,
+  "newModelTrained": false,
+  "energyJoules": null,
+  "cases": [],
+  "note": "Awaiting a bounded GitHub Actions inference run. No model executes in this dashboard."
+}

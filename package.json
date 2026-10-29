@@ -1,0 +1,26 @@
+{
+  "name": "pocketroute-lab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "preinstall": "node scripts/cloud-only.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/cloud-only.mjs && node --test tests/domain.test.mjs",
+    "test:browser": "node scripts/cloud-only.mjs && playwright test",
+    "experiment": "node scripts/experiment.mjs",
+    "cloud": "node scripts/pipeline.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "5.3.0",
+    "@fontsource-variable/space-grotesk": "5.3.0",
+    "lucide": "1.64.0"
+  },
+  "devDependencies": {
+    "@huggingface/transformers": "4.3.2",
+    "@playwright/test": "1.64.1",
+    "esbuild": "0.28.2",
+    "sharp": "0.35.4"
+  }
+}
