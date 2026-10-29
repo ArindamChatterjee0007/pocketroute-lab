@@ -46,6 +46,21 @@ async function main() {
   command("npm", ["run", "test:browser"]);
   const browserReport = JSON.parse(readFileSync("test-results/results.json", "utf8"));
   if (browserReport.stats.unexpected || browserReport.stats.flaky || browserReport.stats.skipped) throw new Error("Browser report contains failed, flaky or skipped tests.");
+  const { default: browserConfig } = await import("../playwright.config.mjs");
+  const completedProjects = new Set();
+  const completedSpecs = new Set();
+  function collectResults(suite) {
+    for (const spec of suite.specs || []) for (const test of spec.tests || []) {
+      if (test.results?.some(result => result.status === "passed")) {
+        completedProjects.add(test.projectName);
+        completedSpecs.add(spec.title);
+      }
+    }
+    for (const nested of suite.suites || []) collectResults(nested);
+  }
+  for (const suite of browserReport.suites) collectResults(suite);
+  const testedProjects = browserConfig.projects.filter(project => completedProjects.has(project.name));
+  if (testedProjects.length !== browserConfig.projects.length) throw new Error("Configured browser matrix was not fully executed.");
   const runUrl = `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`;
   mkdirSync("dist/evidence", { recursive: true });
   for (const name of readdirSync("test-results/screenshots")) if (name.endsWith(".png")) cpSync(join("test-results/screenshots", name), join("dist/evidence", name));
@@ -58,16 +73,26 @@ async function main() {
     runUrl,
     unitTests: Number(/# tests (\d+)/.exec(unit.stdout)?.[1] ?? 0),
     browserTests: browserReport.stats.expected,
+    browserSpecs: completedSpecs.size,
+    browserConfigurations: testedProjects.map(project => ({ name: project.name, browser: project.use.browserName, viewport: project.use.viewport })),
     browserFailures: browserReport.stats.unexpected,
     localBuildsOrTests: 0,
     phoneBenchmarks: 0,
     energyJoules: null,
-    viewports: [1440, 1920, 390, 320],
-    browsers: ["Chromium", "WebKit"],
+    viewports: [...new Set(testedProjects.map(project => project.use.viewport.width))],
+    browsers: [...new Set(testedProjects.map(project => ({ chromium: "Chromium", webkit: "WebKit" })[project.use.browserName]))],
     model: JSON.parse(readFileSync("data/slm-results.json", "utf8")).status,
     screenshots: readdirSync("dist/evidence").filter(name => name.endsWith(".png")),
+    screenshotState: "Final prepublication receipt; no synthetic verification fixture",
   };
   if (!verification.unitTests || !verification.browserTests) throw new Error("Missing test receipt counts.");
+  writeFileSync("dist/data/verification.json", JSON.stringify(verification, null, 2));
+  process.env.FINAL_SNAPSHOT = "true";
+  const finalSnapshots = command("npx", ["--no-install", "playwright", "test", "--grep", "final published snapshot", "--reporter=list"]);
+  delete process.env.FINAL_SNAPSHOT;
+  verification.finalSnapshotChecks = Number(/(\d+) passed/.exec(finalSnapshots.stdout)?.[1] ?? 0);
+  if (verification.finalSnapshotChecks !== testedProjects.length) throw new Error("Final snapshot matrix did not finish.");
+  for (const name of readdirSync("test-results/screenshots")) if (name.endsWith(".png")) cpSync(join("test-results/screenshots", name), join("dist/evidence", name));
   writeFileSync("dist/data/verification.json", JSON.stringify(verification, null, 2));
   cpSync("LICENSE", "dist/LICENSE.txt");
   const inventory = [];

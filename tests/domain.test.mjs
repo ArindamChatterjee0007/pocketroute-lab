@@ -5,6 +5,12 @@ import { assertGitHubRunner, repository } from "../scripts/cloud-only.mjs";
 import { escapeHtml, routeRequest, filterTasks, summarizeRun, parseRoute, formatDuration, scenarioEconomics, safeGitHubUrl } from "../app/domain.mjs";
 import { tasks, sources, units } from "../data/office.mjs";
 
+test("verification workload has no inherited publishing credentials", () => {
+  assert.equal(process.env.GH_TOKEN, undefined);
+  assert.equal(process.env.GITHUB_TOKEN, undefined);
+  assert.equal(process.env.ACTIONS_RUNTIME_TOKEN, undefined);
+});
+
 test("cloud guard rejects a local or wrong-repository environment", () => {
   assert.throws(() => assertGitHubRunner({}), /Local execution is disabled/);
   assert.throws(() => assertGitHubRunner({ GITHUB_ACTIONS: "true", RUNNER_OS: "Linux", RUNNER_ENVIRONMENT: "self-hosted", GITHUB_REPOSITORY: repository, GITHUB_WORKSPACE: "/workspace" }));

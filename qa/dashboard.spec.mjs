@@ -83,6 +83,7 @@ test("task filters, detail dialog and personal notes persist safely", async ({ p
   const note = 'Synthetic personal note <img src=x onerror="window.noteExecuted=true">';
   await page.locator("#personal-note").fill(note);
   await page.getByRole("button", { name: "Save note", exact: true }).click();
+  await expect(page.getByRole("dialog").getByRole("status")).toHaveText("Personal note saved in this browser");
   await page.getByRole("button", { name: "Close details" }).click();
   await page.reload({ waitUntil: "domcontentloaded" });
   await expect(page.locator("#evidence-status")).toContainText("Published snapshot");
@@ -153,6 +154,15 @@ test("missing evidence remains visibly unavailable, never a fake pass", async ({
   await expect(page.locator(".source-row")).toHaveCount(19);
 });
 
+test("successful receipt state is readable and links to the correct project", async ({ page }) => {
+  await page.route("**/data/verification.json", route => route.fulfill({ json: { schemaVersion: 1, stage: "prepublication-checks-passed", checkedAt: "2026-10-30T00:00:00Z", sourceSha: "0123456789abcdef", runUrl: "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/1", unitTests: 15, browserTests: 84, browsers: ["Chromium", "WebKit"] } }));
+  await openView(page, "evidence");
+  await expect(page.locator("#workspace")).toContainText("Checks passed");
+  await expect(page.locator("#workspace")).toContainText("Chromium / WebKit");
+  await expect(page.getByRole("link", { name: "Run", exact: true })).toHaveAttribute("href", "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/1");
+  await checkLayout(page);
+});
+
 test("motion is finite and can be disabled including pseudo-elements", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await openView(page, "lab");
@@ -167,4 +177,22 @@ test("motion is finite and can be disabled including pseudo-elements", async ({ 
   await page.getByRole("checkbox", { name: "Interface motion", exact: true }).check();
   await page.getByRole("button", { name: "Preview route", exact: true }).click();
   await expect.poll(() => page.evaluate(() => document.getAnimations().filter(animation => animation.playState === "running").length)).toBe(0);
+});
+
+if (process.env.FINAL_SNAPSHOT === "true") test("final published snapshot matches real receipt and layout", async ({ page }, testInfo) => {
+  const errors = [];
+  page.on("pageerror", error => errors.push(error.message));
+  for (const [view, title] of views) {
+    await openView(page, view);
+    await expect(page.getByRole("heading", { level: 1, name: title, exact: true })).toBeVisible();
+    await expect(page.locator("#evidence-status")).toContainText("Cloud checks recorded");
+    await checkLayout(page);
+    if (["desktop", "phone"].includes(testInfo.project.name)) {
+      await mkdir("test-results/screenshots", { recursive: true });
+      const filename = `test-results/screenshots/${view}-${testInfo.project.name}.png`;
+      await page.screenshot({ path: filename, fullPage: true, caret: "initial" });
+      await sharp(filename).resize({ width: testInfo.project.name === "desktop" ? 1000 : 390 }).png().toFile(`test-results/screenshots/${view}-${testInfo.project.name}-review.png`);
+    }
+  }
+  expect(errors).toEqual([]);
 });
