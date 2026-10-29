@@ -4,6 +4,39 @@ import assert from "node:assert/strict";
 import { assertGitHubRunner, repository } from "../scripts/cloud-only.mjs";
 import { escapeHtml, routeRequest, filterTasks, summarizeRun, parseRoute, formatDuration, scenarioEconomics, safeGitHubUrl } from "../app/domain.mjs";
 import { tasks, sources, units } from "../data/office.mjs";
+import { analyzeNote, validateRecordDraft, validDate } from "../app/note-core.mjs";
+
+test("field-note worker performs grounded extraction and an extractive summary", () => {
+  const source = "Site: North-17\nDate: 2026-10-29\nTicket: JOB-0042\nTwo filters need replacement.\nThe team left the unit isolated.";
+  const result = analyzeNote(source);
+  assert.deepEqual(result.fields, { site: "North-17", date: "2026-10-29", reference: "JOB-0042" });
+  assert.equal(result.category, "Maintenance");
+  assert.equal(result.summary, "Two filters need replacement.\nThe team left the unit isolated.");
+  assert.equal(result.evidence.reference.line, 3);
+  assert.equal(result.modelExecuted, false);
+  assert.equal(result.reviewRequired, true);
+  for (const item of result.summaryEvidence) assert.ok(source.includes(item.text));
+});
+
+test("unknown, invalid and conflicting note fields are not invented", () => {
+  const result = analyzeNote("Site: A\nSite: B\nDate: 2026-02-30\nNo ticket supplied.\nInspection found a broken seal.");
+  assert.deepEqual(result.fields, { site: "", date: "", reference: "" });
+  assert.equal(result.category, "General");
+  assert.equal(result.warnings.length, 3);
+  assert.equal(validDate("2024-02-29"), true);
+  assert.equal(validDate("2026-02-29"), false);
+  assert.throws(() => analyzeNote(" "), /Enter a note/);
+  assert.throws(() => analyzeNote("a".repeat(12001)), /at most/);
+});
+
+test("a field record cannot be saved without review or with malformed values", () => {
+  const draft = { source: "A synthetic note.", title: "Visit", site: "", reference: "", date: "", category: "General", summary: "A synthetic note.", reviewed: true };
+  assert.deepEqual(validateRecordDraft(draft), []);
+  assert.ok(validateRecordDraft({ ...draft, reviewed: false }).length);
+  assert.ok(validateRecordDraft({ ...draft, date: "2026-02-30" }).length);
+  assert.ok(validateRecordDraft({ ...draft, title: "" }).length);
+  assert.ok(validateRecordDraft({ ...draft, category: "Unrecognized" }).length);
+});
 
 test("verification workload has no inherited publishing credentials", () => {
   assert.equal(process.env.GH_TOKEN, undefined);
