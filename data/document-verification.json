@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "status": "passed",
+  "sourceSha": "b4cd57ffd925d08c5c8a5aa7889f17df925e891d",
+  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41088602836",
+  "generatedAt": "2026-10-30T16:19:00.289Z",
+  "rendering": "GitHub-hosted Chromium PDF plus Poppler raster/text inspection",
+  "documents": [
+    {
+      "id": "device-integration",
+      "path": "downloads/pocketroute-device-integration.pdf",
+      "pages": 14,
+      "bytes": 520690,
+      "sha256": "99d8dd87a93dbbdd20a0de8f05589297963a83b0f06dae657cd932b2d02c1111",
+      "sources": [
+        {
+          "path": "ai/DEVICE_INTEGRATION.md",
+          "sha256": "decdbbaf26b588c69bcffe7b77194fc5a3e2179af0824a1bee7a1ab52b60adf1"
+        }
+      ],
+      "contentBlocks": 106,
+      "overflow": 0,
+      "clippedText": 0,
+      "fontsReady": true,
+      "textExtracted": true,
+      "hyperlinksVerified": true,
+      "allActualPdfPagesRasterChecked": true,
+      "pageErrors": 0,
+      "externalRequests": 0
+    },
+    {
+      "id": "sdk-reference",
+      "path": "downloads/pocketroute-sdk-reference.pdf",
+      "pages": 11,
+      "bytes": 472276,
+      "sha256": "528857e5c7971a1e99a0be2f17ce030621aa20b56f463586717aa23c1b586028",
+      "sources": [
+        {
+          "path": "ai/README.md",
+          "sha256": "cc4824b7b17d1960105f9ce968574a5df853ea631f5c9c9ff6db39fcf9fa5712"
+        },
+        {
+          "path": "ai/MODEL_CARD.md",
+          "sha256": "73bb1060adad0dec4838c2408fe817e72077aff8321f9cb49aa5a31d201a8c02"
+        }
+      ],
+      "contentBlocks": 69,
+      "overflow": 0,
+      "clippedText": 0,
+      "fontsReady": true,
+      "textExtracted": true,
+      "hyperlinksVerified": true,
+      "allActualPdfPagesRasterChecked": true,
+      "pageErrors": 0,
+      "externalRequests": 0
+    },
+    {
+      "id": "india-showcase",
+      "path": "downloads/pocketroute-india-showcase.pdf",
+      "pages": 8,
+      "bytes": 396509,
+      "sha256": "ad6aefec3baa50b4bab2165ad527388c55388a4c3ec736d75cf3d35c3b295118",
+      "sources": [
+        {
+          "path": "documents/INDIA_SHOWCASE.md",
+          "sha256": "c6c40f929aa8f034662f964339cf7d36603bd186e5ed74ba5a321373dbea584e"
+        }
+      ],
+      "contentBlocks": 51,
+      "overflow": 0,
+      "clippedText": 0,
+      "fontsReady": true,
+      "textExtracted": true,
+      "hyperlinksVerified": true,
+      "allActualPdfPagesRasterChecked": true,
+      "pageErrors": 0,
+      "externalRequests": 0
+    }
+  ],
+  "privatePaperPlanIncluded": false,
+  "localRendering": false
+}
