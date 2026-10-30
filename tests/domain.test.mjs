@@ -8,6 +8,9 @@ import { analyzeNote, validateRecordDraft, validDate, createRecord, createBackup
 import { recordsToCsv } from "../notes/export.mjs";
 import Papa from "papaparse";
 import { validateServiceRequest, parseServiceLabel, summarizeClassification, pilotGate } from "../ai/contract.mjs";
+import { examples, development, confirmation } from "../ai/dataset.mjs";
+import { examples as runtimeExamples } from "../ai/examples.mjs";
+import { createServiceClassifier } from "../ai/client.mjs";
 
 test("AI service interface bounds input and rejects unstructured model labels", () => {
   assert.equal(validateServiceRequest("  A pump needs attention.  "), "A pump needs attention.");
@@ -42,6 +45,33 @@ test("AI pilot gate cannot mistake a tiny or all-review result for product readi
   assert.throws(() => summarizeClassification([{ id: "one", expected: "review", output: "review" }, { id: "one", expected: "review", output: "review" }]));
   assert.equal(pilotGate({ total: 48, labels: Object.fromEntries(["maintenance", "delivery", "inspection", "review"].map(label => [label, { total: 12 }])) }).passed, false);
   assert.equal(pilotGate({ ...tiny, accuracy: NaN }).passed, false);
+});
+
+test("AI request dataset is balanced and disjoint before model execution", () => {
+  assert.equal(examples.length, 8);
+  assert.equal(development.length, 24);
+  assert.equal(confirmation.length, 48);
+  const all = [...examples, ...development, ...confirmation];
+  assert.equal(new Set(all.map(entry => entry.id)).size, all.length);
+  assert.equal(new Set(all.map(entry => entry.family)).size, all.length);
+  assert.equal(new Set(all.map(entry => entry.input.trim().toLowerCase())).size, all.length);
+  for (const label of ["maintenance", "delivery", "inspection", "review"]) assert.equal(confirmation.filter(entry => entry.expected === label).length, 12);
+  for (const entry of all) assert.ok(validateServiceRequest(entry.input));
+  assert.deepEqual(runtimeExamples, examples.map(({ input, expected }) => ({ input, expected })));
+});
+
+test("AI SDK refuses implicit models or invalid cache settings before starting a worker", async () => {
+  await assert.rejects(createServiceClassifier({ cacheDir: "/tmp/model-cache" }), /supported/);
+  await assert.rejects(createServiceClassifier({ model: "qwen-0.5b" }), /cache/);
+  await assert.rejects(createServiceClassifier({ model: "qwen-0.5b", cacheDir: "/tmp/model-cache", initializationTimeoutMs: 0 }), /timeout/);
+});
+
+test("passing synthetic classification gates never implies production or phone readiness", () => {
+  const metrics = summarizeClassification(confirmation.map(entry => ({ ...entry, output: entry.expected })));
+  const gate = pilotGate(metrics);
+  assert.equal(gate.passed, true);
+  assert.equal(gate.productionReady, false);
+  assert.equal(gate.phoneValidated, false);
 });
 
 test("field-note worker performs grounded extraction and an extractive summary", () => {

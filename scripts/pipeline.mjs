@@ -29,6 +29,19 @@ async function main() {
   command("npm", ["audit", "--audit-level=high"]);
   const unit = command("npm", ["test"]);
   if (process.env.PIPELINE_MODE === "unit") return;
+  if (process.env.PIPELINE_MODE === "ai") {
+    command(process.execPath, ["scripts/evaluate-service.mjs"], { timeout: 900000, capture: false });
+    const report = JSON.parse(readFileSync("data/ai-service-results.json", "utf8"));
+    command("gh", ["auth", "setup-git"], { authenticated: true });
+    command("git", ["config", "user.name", "github-actions[bot]"]);
+    command("git", ["config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"]);
+    command("git", ["add", "--", "data/ai-service-results.json", `data/ai-runs/${process.env.GITHUB_RUN_ID}.json`]);
+    command("git", ["commit", "-m", "Record frozen AI service evaluation, including failed gates [skip ci]"]);
+    command("git", ["push", "origin", "HEAD:main"], { authenticated: true });
+    writeFileSync(process.env.GITHUB_STEP_SUMMARY, `## AI service evaluation\n\n\`\`\`json\n${JSON.stringify({ status: report.status, selected: report.selected, metrics: report.metrics, pilotScreen: report.pilotScreen, commercialReadiness: report.commercialReadiness }, null, 2)}\n\`\`\`\n`);
+    if (report.status !== "completed") throw new Error("AI evaluation was incomplete; the diagnostic receipt was preserved.");
+    return;
+  }
   if (process.env.PIPELINE_MODE === "live") {
     command("npx", ["--no-install", "playwright", "install", "--with-deps", "chromium", "webkit"], { capture: false });
     command(process.execPath, ["scripts/live-check.mjs"]);
