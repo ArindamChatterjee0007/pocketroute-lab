@@ -12,6 +12,29 @@ import { examples, development, confirmation } from "../ai/dataset.mjs";
 import { examples as runtimeExamples } from "../ai/examples.mjs";
 import { createServiceClassifier } from "../ai/client.mjs";
 import { serviceEvidenceView } from "../ai/presentation.mjs";
+import { choiceLabels, decodeChoice, validateChoiceTokenIds } from "../ai/labels.mjs";
+import { ServiceChoiceLogitsProcessor } from "../ai/logits.mjs";
+import { Tensor } from "@huggingface/transformers";
+
+test("constrained AI choices are strict, distinct single tokens", () => {
+  assert.equal(decodeChoice(" A\n"), "maintenance");
+  assert.equal(decodeChoice("D"), "review");
+  assert.equal(decodeChoice("A because"), null);
+  assert.equal(decodeChoice("a"), null);
+  assert.deepEqual(validateChoiceTokenIds({ A: [1], B: [3], C: [5], D: [7] }), [1, 3, 5, 7]);
+  assert.throws(() => validateChoiceTokenIds({ A: [1, 2], B: [3], C: [5], D: [7] }));
+  assert.throws(() => validateChoiceTokenIds({ A: [1], B: [1], C: [5], D: [7] }));
+});
+
+test("constrained decoding preserves model preference among classes without forcing the correct answer", () => {
+  const processor = new ServiceChoiceLogitsProcessor({ A: [1], B: [3], C: [5], D: [7] });
+  const logits = new Tensor("float32", Float32Array.from([99, 2, 88, 8, 77, 3, 66, 4]), [1, 8]);
+  const result = processor([[1n]], logits);
+  assert.deepEqual([...result.data], [-Infinity, 2, -Infinity, 8, -Infinity, 3, -Infinity, 4]);
+  assert.equal(result.data[3], 8);
+  const invalid = new Tensor("float32", Float32Array.from([0, NaN, 0, 1, 0, 1, 0, 1]), [1, 8]);
+  assert.throws(() => processor([[1n]], invalid), /SCORES_INVALID/);
+});
 
 test("AI service interface bounds input and rejects unstructured model labels", () => {
   assert.equal(validateServiceRequest("  A pump needs attention.  "), "A pump needs attention.");
@@ -58,7 +81,8 @@ test("AI request dataset is balanced and disjoint before model execution", () =>
   assert.equal(new Set(all.map(entry => entry.input.trim().toLowerCase())).size, all.length);
   for (const label of ["maintenance", "delivery", "inspection", "review"]) assert.equal(confirmation.filter(entry => entry.expected === label).length, 12);
   for (const entry of all) assert.ok(validateServiceRequest(entry.input));
-  assert.deepEqual(runtimeExamples, examples.map(({ input, expected }) => ({ input, expected })));
+  assert.equal(runtimeExamples.length, 16);
+  for (const example of runtimeExamples) { assert.ok(Object.values(choiceLabels).includes(example.expected)); assert.ok(validateServiceRequest(example.input)); }
   const stopWords = new Set("a an the and or to for of in on at by as is are was were be been being it its this that these those our we us you your please need needs with without not no only has have had from into will can could should would do does did".split(" "));
   const trigrams = text => { const words = (text.toLowerCase().match(/[a-z0-9]+/g) || []).filter(word => !stopWords.has(word)); return words.slice(0, -2).map((_, index) => words.slice(index, index + 3).join(" ")); };
   const seen = new Set([...examples, ...development].flatMap(record => trigrams(record.input)));
