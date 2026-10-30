@@ -2,6 +2,17 @@
 
 An open-source local-first field-note product, reusable JavaScript core and research dashboard. This is an early product release, not a paid SaaS service, secure vault, newly trained language model or native mobile SDK.
 
+## PDF Manuals And Team Access
+
+The repository is now [ArindamChatterjee0007/pocketroute-lab](https://github.com/ArindamChatterjee0007/pocketroute-lab), owned by the new Free organization. **ArindamChatterjee007 remains the active organization owner and repository admin; Ayush-Khamrui has repository Admin access.** The personal account, repository history and Apache-2.0 license are preserved. Historical GitHub repository links redirect; the previous GitHub Pages address does not.
+
+- [Device Integration & Test Handbook (PDF)](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-device-integration.pdf)
+- [SDK & Evidence Reference (PDF)](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-sdk-reference.pdf)
+- [India Showcase Field Guide (PDF)](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-india-showcase.pdf)
+- [Current dashboard](https://arindamchatterjee0007.github.io/pocketroute-lab/)
+
+Reader-facing manuals are PDF-first, with clickable contents, embedded fonts, code panels and actual-PDF validation. Duplicate Markdown manuals are excluded from the SDK and regression-kit bundles; editable source and historical failure receipts remain for reproducibility. The private paper strategy is not included. No model or native-device result was improved by this document release.
+
 ## Device Integration Delivery
 
 The [multi-device manual](ai/DEVICE_INTEGRATION.md) and [portable regression kit](https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-device-test-kit-0.1.0.zip) are available for integrators/testers. Profiles and native adapter interfaces are specified, not implemented mobile/MCU runtimes. The kit separates 96 exposed inputs from expected/reference labels and scores complete recorded reports without inference; parity with the failing reference is not release acceptance.
@@ -45,15 +56,15 @@ Earlier failed runs are preserved, not replaced by a success narrative. The sele
 
 Next technical decision: use this failure analysis as development evidence for a lighter or task-adapted model, reserve a new independently labelled confirmation set, establish safe rejection behavior and validate actual target devices. No checkout, paid offer, customer promise or production SLA is enabled.
 
-**Use Notes:** https://arindamchatterjee007.github.io/pocketroute-lab/notes/
+**Use Notes:** https://arindamchatterjee0007.github.io/pocketroute-lab/notes/
 
-**Product bundle:** https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-notes-0.2.0.zip
+**Product bundle:** https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-notes-0.2.0.zip
 
-**Standalone core:** https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-core.mjs
+**Standalone core:** https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-core.mjs
 
-**Live dashboard:** https://arindamchatterjee007.github.io/pocketroute-lab/
+**Live dashboard:** https://arindamchatterjee0007.github.io/pocketroute-lab/
 
-**Source:** https://github.com/ArindamChatterjee007/pocketroute-lab
+**Source:** https://github.com/ArindamChatterjee0007/pocketroute-lab
 
 ## Notes 0.2 Alpha
 
