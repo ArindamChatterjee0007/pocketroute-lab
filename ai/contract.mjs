@@ -43,8 +43,9 @@ export function summarizeClassification(cases) {
 
 export function pilotGate(metrics) {
   const reasons = [];
+  if (!metrics || !Number.isSafeInteger(metrics.total) || metrics.total < 1 || ["accuracy", "acceptedPrecision", "supportedCoverage"].some(key => !Number.isFinite(metrics[key]) || metrics[key] < 0 || metrics[key] > 1) || !Number.isSafeInteger(metrics.unsafeAcceptances) || metrics.unsafeAcceptances < 0) reasons.push("Evaluation metrics are incomplete or invalid.");
   if (!metrics || metrics.total < 48) reasons.push("At least 48 frozen synthetic test cases are required.");
-  if (!metrics || serviceLabels.some(label => (metrics.labels?.[label]?.total || 0) < 12)) reasons.push("Each category needs at least 12 test cases.");
+  if (!metrics || serviceLabels.some(label => !Number.isSafeInteger(metrics.labels?.[label]?.total) || metrics.labels[label].total < 12)) reasons.push("Each category needs at least 12 test cases.");
   if (!metrics || metrics.accuracy < 0.9) reasons.push("Exact-label accuracy is below 90%.");
   if (!metrics || metrics.acceptedPrecision === null || metrics.acceptedPrecision < 0.95) reasons.push("Precision of accepted service labels is below 95%.");
   if (!metrics || metrics.supportedCoverage === null || metrics.supportedCoverage < 0.8) reasons.push("Coverage of supported requests is below 80%.");

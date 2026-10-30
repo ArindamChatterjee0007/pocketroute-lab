@@ -40,6 +40,8 @@ test("AI pilot gate cannot mistake a tiny or all-review result for product readi
   assert.equal(tiny.acceptedPrecision, null);
   assert.equal(pilotGate(tiny).passed, false);
   assert.throws(() => summarizeClassification([{ id: "one", expected: "review", output: "review" }, { id: "one", expected: "review", output: "review" }]));
+  assert.equal(pilotGate({ total: 48, labels: Object.fromEntries(["maintenance", "delivery", "inspection", "review"].map(label => [label, { total: 12 }])) }).passed, false);
+  assert.equal(pilotGate({ ...tiny, accuracy: NaN }).passed, false);
 });
 
 test("field-note worker performs grounded extraction and an extractive summary", () => {
