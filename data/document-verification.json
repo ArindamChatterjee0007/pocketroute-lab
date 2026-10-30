@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
   "status": "passed",
-  "sourceSha": "b4cd57ffd925d08c5c8a5aa7889f17df925e891d",
-  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41088602836",
-  "generatedAt": "2026-10-30T16:19:00.289Z",
+  "sourceSha": "e467cac4b8017b1f4b8d96e30c8e934ce5248ee2",
+  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41091046670",
+  "generatedAt": "2026-10-30T16:35:02.683Z",
   "rendering": "GitHub-hosted Chromium PDF plus Poppler raster/text inspection",
   "documents": [
     {
       "id": "device-integration",
       "path": "downloads/pocketroute-device-integration.pdf",
       "pages": 14,
-      "bytes": 520690,
-      "sha256": "99d8dd87a93dbbdd20a0de8f05589297963a83b0f06dae657cd932b2d02c1111",
+      "bytes": 521008,
+      "sha256": "bbf28ac498243e1ea9fafca36088deeb037875982bd7cd244e93ce435a338efd",
       "sources": [
         {
           "path": "ai/DEVICE_INTEGRATION.md",
-          "sha256": "decdbbaf26b588c69bcffe7b77194fc5a3e2179af0824a1bee7a1ab52b60adf1"
+          "sha256": "a5135b54d7637e4d67137716fdf4574dbee5c48bb1ca2e1f34e15b44f1fffb93"
         }
       ],
       "contentBlocks": 106,
@@ -32,8 +32,8 @@
       "id": "sdk-reference",
       "path": "downloads/pocketroute-sdk-reference.pdf",
       "pages": 11,
-      "bytes": 472276,
-      "sha256": "528857e5c7971a1e99a0be2f17ce030621aa20b56f463586717aa23c1b586028",
+      "bytes": 471655,
+      "sha256": "23d45fb38bae08b297ac9f62aeab60ef4be0182a97ae5e1605c47ceb3c0e3a77",
       "sources": [
         {
           "path": "ai/README.md",
@@ -58,8 +58,8 @@
       "id": "india-showcase",
       "path": "downloads/pocketroute-india-showcase.pdf",
       "pages": 8,
-      "bytes": 396509,
-      "sha256": "ad6aefec3baa50b4bab2165ad527388c55388a4c3ec736d75cf3d35c3b295118",
+      "bytes": 396221,
+      "sha256": "b09bb6b843e91136bed8a5db43dbf9ac983564eeed89d05261f2fc465d2bf1e2",
       "sources": [
         {
           "path": "documents/INDIA_SHOWCASE.md",
