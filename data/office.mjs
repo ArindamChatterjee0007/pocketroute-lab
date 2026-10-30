@@ -2,34 +2,33 @@ export const project = {
   name: "PocketRoute",
   repository: "https://github.com/ArindamChatterjee0007/pocketroute-lab",
   workflow: "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/workflows/cloud.yml",
-  date: "2026-10-30",
+  date: "2026-10-31",
   scope: "Public research snapshot",
 };
 
 export const units = [
-  { id: "b01", number: "01", name: "Astrology Lab", category: "Consumer experience", status: "Operating", tone: "amber", icon: "sparkles", detail: "Free web experience with founder-reviewed fulfilment.", href: "https://astrology-lab-readings.pages.dev/" },
-  { id: "b02", number: "02", name: "Services Studio", category: "Direct-client services", status: "Discovery", tone: "cyan", icon: "briefcase-business", detail: "Scoped software delivery and public synthetic case studies.", href: "https://arindamchatterjee007.github.io/business-02-demos/" },
-  { id: "b03", number: "03", name: "PocketRoute", category: "Mobile AI research", status: "Prototyping", tone: "mint", icon: "network", detail: "Offline task intelligence. Evidence before efficiency claims.", href: "#lab" },
+  { id: "b01", number: "01", name: "PocketRoute Notes", category: "Offline note review", status: "Alpha", tone: "amber", icon: "file-text", detail: "Rule-based extraction, editable review and browser-local records.", href: "./notes/" },
+  { id: "b02", number: "02", name: "Service AI", category: "Experimental Node SDK", status: "Experimental", tone: "cyan", icon: "cpu", detail: "Model-backed classification with published results and unresolved quality gates.", href: "#service" },
+  { id: "b03", number: "03", name: "Model lab", category: "Mobile AI research", status: "Research", tone: "mint", icon: "network", detail: "Routing experiments, reproducible evaluation and device qualification.", href: "#lab" },
 ];
 
 export const tasks = [
   { id: "B03-001", unit: "b03", title: "Frame the mobile AI thesis", phase: "Inception", owner: "Coordinator", status: "done", priority: "P1", acceptance: "Bounded tasks, alternatives and a falsifiable efficiency hypothesis recorded.", dependency: "None", evidence: "Research charter" },
-  { id: "B03-002", unit: "b03", title: "Challenge the architecture", phase: "Inception", owner: "Research", status: "done", priority: "P1", acceptance: "Primary-source research and separate technical/commercial reviews returned.", dependency: "B03-001", evidence: "19-source research ledger" },
+  { id: "B03-002", unit: "b03", title: "Challenge the architecture", phase: "Inception", owner: "Research", status: "done", priority: "P1", acceptance: "Primary-source research and technical architecture review recorded.", dependency: "B03-001", evidence: "19-source research register" },
   { id: "B03-003", unit: "b03", title: "Define the benchmark protocol", phase: "Inception", owner: "Evaluation", status: "done", priority: "P1", acceptance: "Quality, aggregate memory, whole-device energy and stop rules specified. Not experimental proof.", dependency: "B03-002", evidence: "Protocol draft 0.1" },
-  { id: "B03-004", unit: "b03", title: "Verify device and release readiness", phase: "Construction", owner: "Founder", status: "blocked", priority: "P0", acceptance: "Actual phone, energy instrumentation, model artifact rights and publication scope recorded.", dependency: "Physical device and instrumentation", evidence: "Phone energy remains unmeasured" },
+  { id: "B03-004", unit: "b03", title: "Verify device and release readiness", phase: "Construction", owner: "Device validation", status: "blocked", priority: "P0", acceptance: "Actual phone, energy instrumentation, model artifact rights and publication scope recorded.", dependency: "Physical device and instrumentation", evidence: "Phone energy remains unmeasured" },
   { id: "B03-005", unit: "b03", title: "Prepare the evaluation corpus", phase: "Construction", owner: "Evaluation", status: "ready", priority: "P1", acceptance: "Disjoint original synthetic cases and human-scoring rubric; a smoke fixture is not the full corpus.", dependency: "Protocol draft", evidence: "360 development cases proposed" },
   { id: "B03-006", unit: "b03", title: "Establish the native baseline", phase: "Construction", owner: "Mobile runtime", status: "blocked", priority: "P1", acceptance: "A useful single-model baseline measured on a real phone at the fixed quality bar.", dependency: "B03-004, B03-005", evidence: "Not executed on a phone" },
   { id: "B03-007", unit: "b03", title: "Measure specialist switching", phase: "Construction", owner: "Research", status: "blocked", priority: "P1", acceptance: "Worker quality frontier and model-loading costs measured, including negative results.", dependency: "B03-006", evidence: "Awaiting native baseline" },
   { id: "B03-008", unit: "b03", title: "Compare routing strategies", phase: "Verification", owner: "Implementation + QA", status: "blocked", priority: "P1", acceptance: "Classifier and coordinator use the same workers; held-out correctness and resources reported.", dependency: "B03-007", evidence: "Cloud smoke is a separate early probe" },
   { id: "B03-009", unit: "b03", title: "Reproduce on a second device", phase: "Verification", owner: "Independent reviewer", status: "blocked", priority: "P1", acceptance: "Second Android SoC and independent reproduction of one configuration.", dependency: "B03-008 and reviewer availability", evidence: "No reviewer assignment implied" },
-  { id: "B03-010", unit: "b03", title: "Prepare design-partner discovery", phase: "Operations", owner: "Commercial", status: "ready", priority: "P2", acceptance: "An opt-in interview brief and qualified workflow hypothesis; no unsolicited campaign.", dependency: "Customer research preparation", evidence: "No buyer interviews recorded" },
+  { id: "B03-010", unit: "b03", title: "Publish the device regression kit", phase: "Verification", owner: "Evaluation", status: "done", priority: "P2", acceptance: "Frozen inputs, separate reference answers and a portable scorer reject incomplete reports.", dependency: "Recorded synthetic evaluation", evidence: "Published regression kit; physical-device validation remains open" },
   { id: "B03-011", unit: "b03", title: "Release a verified mobile SDK", phase: "Operations", owner: "Release", status: "blocked", priority: "P2", acceptance: "Rights-cleared native release, independent evidence, notices and rollback. This dashboard is not that SDK.", dependency: "B03-009 and release rights", evidence: "Research dashboard is a separate release" },
-  { id: "B03-012", unit: "b03", title: "Deliver the first funded pilot", phase: "Operations", owner: "Founder + delivery", status: "blocked", priority: "P2", acceptance: "Agreed scope, data permission, funding, acceptance and cash recorded separately.", dependency: "Buyer agreement", evidence: "No paid pilot established" },
+  { id: "B03-012", unit: "b01", title: "Publish PocketRoute Notes alpha", phase: "Release", owner: "Implementation + QA", status: "done", priority: "P2", acceptance: "Editable note review, offline storage, backup and recovery verified on cloud browsers.", dependency: "Rule-based extraction and browser storage", evidence: "Notes 0.2 alpha; not a model-backed or native mobile release" },
 ];
 
 export const sessions = [
   { id: "B03-R01", title: "Mobile architecture review", kind: "Research", status: "Returned", date: "2026-10-30", detail: "Routing overhead, shared-base adapters, cold/warm costs and quality-matched experiments.", model: "GPT-6 Astra requested; runtime unattested", outcome: "Compare simpler baselines before a coordinator SLM." },
-  { id: "B03-R02", title: "Open-source business review", kind: "Commercial", status: "Returned", date: "2026-10-30", detail: "Code versus weight licenses, integration economics and buyer-validation gates.", model: "Claude Fable 5.1 requested; runtime unattested", outcome: "Earn through scoped delivery and support; acquisition is not the plan." },
   { id: "B03-R03", title: "Protocol consistency review", kind: "Verification", status: "Returned", date: "2026-10-30", detail: "Three protocol findings: whole-device measurement, aggregate memory and accepted-task counting.", model: "GPT-6 Astra requested; runtime unattested", outcome: "All three documented gaps corrected. No experimental reproduction claimed." },
 ];
 
@@ -67,7 +66,7 @@ export const milestones = [
   { title: "Establish the baseline", days: "08-21", state: "pending", gate: "G1 / G2", detail: "One useful small model, worker quality and an optimistic specialization bound." },
   { title: "Test the architecture", days: "22-35", state: "pending", gate: "G3-G5", detail: "Real loading costs, quality-qualified routing and sustained device behavior." },
   { title: "Reproduce the evidence", days: "36-60", state: "pending", gate: "G6", detail: "Independent reproduction, a second SoC and a rights-cleared release candidate." },
-  { title: "Validate willingness to pay", days: "61-90", state: "pending", gate: "G7", detail: "One funded, bounded pilot with acceptance and payment tracked separately." },
+  { title: "Qualify each runtime", days: "61-90", state: "pending", gate: "Device checks", detail: "Native adapters, cancellation, installation and complete per-device regression reports." },
 ];
 
 export const samples = [

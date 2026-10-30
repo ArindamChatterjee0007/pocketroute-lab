@@ -3,7 +3,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { assertGitHubRunner, repository } from "../scripts/cloud-only.mjs";
 import { escapeHtml, routeRequest, filterTasks, summarizeRun, parseRoute, formatDuration, scenarioEconomics, safeGitHubUrl } from "../app/domain.mjs";
-import { tasks, sources, units } from "../data/office.mjs";
+import { tasks, sources, units, sessions, milestones } from "../data/office.mjs";
 import { analyzeNote, validateRecordDraft, validDate, createRecord, createBackup, createBackupFiles, parseBackup, planImport, sameRecord, backupByteLimit } from "../app/note-core.mjs";
 import { recordsToCsv } from "../notes/export.mjs";
 import Papa from "papaparse";
@@ -26,6 +26,12 @@ import { reusableDevelopment } from "../ai/evaluation-replay.mjs";
 import { createDeviceReference, evaluateDeviceReport } from "../ai/device-report.mjs";
 import { fetchEvidence } from "../scripts/evidence-fetch.mjs";
 import { documentBlocks } from "../scripts/pdf-content.mjs";
+
+test("public project catalog contains technical work, not operational or financial records", () => {
+  const catalog = JSON.stringify({ units, tasks, sessions, milestones });
+  assert.doesNotMatch(catalog, /business units?|direct-client|founder|commercial|revenue|funded|paid pilot|willingness to pay|support reserve|contribution margin|astrology-lab|business-02-demos|fulfilment|buyer/i);
+  assert.deepEqual(units.map(unit => unit.href), ["./notes/", "#service", "#lab"]);
+});
 
 test("print document blocks preserve steps, table rows, code and safe source text", () => {
   const source = "# Cover\n\n## Install\n\n5. Keep the pinned file.\n6. Verify its digest.\n\n| Device | State |\n| --- | --- |\n| Phone | unqualified |\n| Board | unqualified |\n| Watch | unqualified |\n| MCU | unqualified |\n| Other | unavailable |\n\n```sh\nnode validate-device-report.mjs reference.json report.json parity\n```\n\n<script>alert(1)</script>\n\n[Reference](https://example.invalid/manual)";
