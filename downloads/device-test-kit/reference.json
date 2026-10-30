@@ -1,0 +1,491 @@
+{
+  "schemaVersion": 1,
+  "suiteId": "service-confirmation-v2-independent-synthetic",
+  "referenceRunUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41043171464",
+  "protocolSha256": "3190c95ddec4596ae6491b8b55326627c46d894b8ec74b0f26ba9df09a318173",
+  "datasetSha256": "4c00633b9cc4d83a13d3f7981132081a3dffa0a305295799f506366a84359b14",
+  "modelRevision": "d54957e3af1be04546436e874a60fe386041b244",
+  "scope": "Exposed synthetic regression/parity cases, not a fresh quality test or physical-device evidence.",
+  "cases": [
+    {
+      "id": "v2-test-001",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-002",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-003",
+      "expected": "maintenance",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-004",
+      "expected": "maintenance",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-005",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-006",
+      "expected": "maintenance",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-007",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-008",
+      "expected": "maintenance",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-009",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-010",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-011",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-012",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-013",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-014",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-015",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-016",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-017",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-018",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-019",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-020",
+      "expected": "maintenance",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-021",
+      "expected": "maintenance",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-022",
+      "expected": "maintenance",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-023",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-024",
+      "expected": "maintenance",
+      "output": "maintenance"
+    },
+    {
+      "id": "v2-test-025",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-026",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-027",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-028",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-029",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-030",
+      "expected": "delivery",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-031",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-032",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-033",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-034",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-035",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-036",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-037",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-038",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-039",
+      "expected": "delivery",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-040",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-041",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-042",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-043",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-044",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-045",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-046",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-047",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-048",
+      "expected": "delivery",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-049",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-050",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-051",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-052",
+      "expected": "inspection",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-053",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-054",
+      "expected": "inspection",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-055",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-056",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-057",
+      "expected": "inspection",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-058",
+      "expected": "inspection",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-059",
+      "expected": "inspection",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-060",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-061",
+      "expected": "inspection",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-062",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-063",
+      "expected": "inspection",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-064",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-065",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-066",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-067",
+      "expected": "inspection",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-068",
+      "expected": "inspection",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-069",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-070",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-071",
+      "expected": "inspection",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-072",
+      "expected": "inspection",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-073",
+      "expected": "review",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-074",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-075",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-076",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-077",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-078",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-079",
+      "expected": "review",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-080",
+      "expected": "review",
+      "output": "delivery"
+    },
+    {
+      "id": "v2-test-081",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-082",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-083",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-084",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-085",
+      "expected": "review",
+      "output": "inspection"
+    },
+    {
+      "id": "v2-test-086",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-087",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-088",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-089",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-090",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-091",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-092",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-093",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-094",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-095",
+      "expected": "review",
+      "output": "review"
+    },
+    {
+      "id": "v2-test-096",
+      "expected": "review",
+      "output": "review"
+    }
+  ]
+}
