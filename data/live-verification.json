@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
   "status": "passed",
-  "checkedAt": "2026-10-30T11:14:22.994Z",
+  "checkedAt": "2026-10-30T13:01:37.190Z",
   "url": "https://arindamchatterjee007.github.io/pocketroute-lab/",
   "productUrl": "https://arindamchatterjee007.github.io/pocketroute-lab/notes/",
-  "sourceSha": "e83496411eaa949f74dbe37ab303619b44357ec7",
-  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41046509450",
-  "artifactFilesVerified": 53,
+  "sourceSha": "96da4a02f99f647c2195ba47465efadaf5007994",
+  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41059650241",
+  "artifactFilesVerified": 65,
   "artifactHashAlgorithm": "SHA-256",
   "bundleIntegrity": "passed",
   "bundleEntries": 18,
   "experimentalAiSdkBundle": {
     "integrity": "passed",
-    "entries": 19,
+    "entries": 20,
     "weightsBundled": false,
     "modelQualityAccepted": false
   },
@@ -89,5 +89,25 @@
   "modelRerun": false,
   "phoneBenchmark": false,
   "energyJoules": null,
-  "localBuildsOrTests": 0
+  "localBuildsOrTests": 0,
+  "deviceRegressionKit": {
+    "integrity": "passed",
+    "entries": 11,
+    "inputCases": 96,
+    "expectedAnswersSeparate": true,
+    "incompleteTemplateRejected": true,
+    "portableScorerSmoke": "passed using cloud fixture, no inference",
+    "physicalDeviceTest": false
+  },
+  "hostedRetrieval": {
+    "policy": "At most three GET attempts for HTTP 502/503/504 only; final status, byte count and SHA-256 remain mandatory.",
+    "retries": [
+      {
+        "path": "data/ai-runs/41017074929.json",
+        "attempt": 1,
+        "status": 503
+      }
+    ],
+    "availabilityGuarantee": false
+  }
 }
