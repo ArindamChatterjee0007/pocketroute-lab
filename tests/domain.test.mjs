@@ -15,7 +15,11 @@ import { serviceEvidenceView } from "../ai/presentation.mjs";
 import { choiceLabels, decodeChoice, validateChoiceTokenIds } from "../ai/labels.mjs";
 import { ServiceChoiceLogitsProcessor } from "../ai/logits.mjs";
 import { Tensor } from "@huggingface/transformers";
-import { readFileSync } from "node:fs";
+import { readFileSync, mkdtempSync, writeFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 import { selectEntailmentLabel, entailmentProbability } from "../ai/entailment.mjs";
 import { reviewPolicyReason } from "../ai/review-policy.mjs";
 import { reusableDevelopment } from "../ai/evaluation-replay.mjs";
@@ -61,6 +65,27 @@ test("device timeout stays in the accuracy and coverage denominator", () => {
   assert.equal(assessment.performance.errors, 1);
   assert.equal(assessment.parity.passed, false);
   assert.equal(assessment.nonRegression.passed, false);
+});
+
+test("portable device-report CLI distinguishes parity, regression and invalid evidence", () => {
+  const { reference, report } = deviceReportFixture();
+  const directory = mkdtempSync(join(tmpdir(), "pocketroute-device-report-"));
+  const referencePath = join(directory, "reference.json");
+  const reportPath = join(directory, "report.json");
+  const command = () => spawnSync(process.execPath, [fileURLToPath(new URL("../ai/validate-device-report.mjs", import.meta.url)), referencePath, reportPath], { encoding: "utf8", timeout: 5000 });
+  try {
+    writeFileSync(referencePath, JSON.stringify(reference));
+    writeFileSync(reportPath, JSON.stringify(report));
+    const same = command();
+    assert.equal(same.status, 0, same.stderr);
+    assert.equal(JSON.parse(same.stdout).syntheticQualityScreen.passed, false);
+    report.cases[0].output = "review";
+    writeFileSync(reportPath, JSON.stringify(report));
+    assert.equal(command().status, 1);
+    report.cases.pop();
+    writeFileSync(reportPath, JSON.stringify(report));
+    assert.equal(command().status, 2);
+  } finally { rmSync(directory, { recursive: true, force: true }); }
 });
 
 test("interrupted confirmation can reuse only complete qualified regression under identical protocol and runtime", () => {
