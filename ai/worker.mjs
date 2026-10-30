@@ -4,6 +4,7 @@ import { modelCandidates, systemPrompt, inferencePolicy } from "./config.mjs";
 import { examples } from "./examples.mjs";
 import { validateServiceRequest, parseServiceLabel, requestTokenLimit } from "./contract.mjs";
 import { join } from "node:path";
+import { access } from "node:fs/promises";
 
 let generator;
 let candidate;
@@ -30,12 +31,18 @@ process.on("message", async message => {
       env.localModelPath = join(message.cacheDir, "__unversioned_local_models_disabled__");
       env.allowRemoteModels = message.allowDownload === true;
       if (!message.allowDownload) { globalThis.fetch = blockNetwork; env.fetch = blockNetwork; }
+      const modelLocation = message.allowDownload ? candidate.id : join(message.cacheDir, candidate.id, candidate.revision);
+      if (!message.allowDownload) { await access(join(modelLocation, "config.json")); await access(join(modelLocation, "tokenizer.json")); }
       const started = performance.now();
-      generator = await pipeline("text-generation", candidate.id, { revision: candidate.revision, local_files_only: message.allowDownload !== true, dtype: candidate.dtype, device: "cpu", session_options: { intraOpNumThreads: inferencePolicy.intraOpThreads, interOpNumThreads: inferencePolicy.interOpThreads } });
+      generator = await pipeline("text-generation", modelLocation, { revision: candidate.revision, local_files_only: message.allowDownload !== true, dtype: candidate.dtype, device: "cpu", session_options: { intraOpNumThreads: inferencePolicy.intraOpThreads, interOpNumThreads: inferencePolicy.interOpThreads } });
+      let tokenizerProbeTokens;
+      try { tokenizerProbeTokens = generator.tokenizer.encode("Local model readiness check.", { add_special_tokens: false }).length; }
+      catch (error) { throw new Error(`MODEL_TOKENIZER_NOT_READY: ${error.name}: ${String(error.message).replace(/https?:\/\/\S+/g, "[remote resource]").slice(0, 180)}`); }
+      if (!Number.isSafeInteger(tokenizerProbeTokens) || tokenizerProbeTokens < 1) throw new Error("MODEL_TOKENIZER_NOT_READY");
       env.allowRemoteModels = false;
       globalThis.fetch = blockNetwork;
       env.fetch = blockNetwork;
-      process.send?.({ id: message.id, result: { model: candidate.id, revision: candidate.revision, dtype: candidate.dtype, loadMs: Math.round(performance.now() - started), inferenceNetworkDisabled: true, networkAttemptsDuringLoad: networkAttempts, runtime: `@huggingface/transformers ${env.version}`, node: process.version } });
+      process.send?.({ id: message.id, result: { model: candidate.id, revision: candidate.revision, dtype: candidate.dtype, loadMs: Math.round(performance.now() - started), tokenizerProbeTokens, directPinnedDirectory: !message.allowDownload, inferenceNetworkDisabled: true, networkAttemptsDuringLoad: networkAttempts, runtime: `@huggingface/transformers ${env.version}`, node: process.version } });
     } else if (message.kind === "classify") {
       if (!generator) throw new Error("MODEL_NOT_INITIALIZED");
       const input = validateServiceRequest(message.input);
