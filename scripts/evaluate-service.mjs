@@ -28,6 +28,7 @@ assert.equal(confirmation.length, 96);
 assert.equal(development.length, 48);
 assert.equal(new Set(confirmation.map(entry => entry.id)).size, 96);
 assert.equal(new Set(confirmation.map(entry => entry.family)).size, 96);
+assert.equal(new Set(confirmation.map(entry => entry.input.trim().toLowerCase())).size, 96);
 const knownInputs = new Set([...examples, ...development].map(entry => entry.input.trim().toLowerCase()));
 assert.ok(confirmation.every(entry => !knownInputs.has(entry.input.trim().toLowerCase())));
 for (const label of ["maintenance", "delivery", "inspection", "review"]) assert.equal(confirmation.filter(entry => entry.expected === label).length, 24);

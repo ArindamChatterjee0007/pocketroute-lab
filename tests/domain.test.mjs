@@ -43,6 +43,7 @@ test("fresh confirmation is balanced, bounded and separate from exposed cases an
   assert.equal(dataset.cases.length, 96);
   assert.equal(new Set(dataset.cases.map(entry => entry.id)).size, 96);
   assert.equal(new Set(dataset.cases.map(entry => entry.family)).size, 96);
+  assert.equal(new Set(dataset.cases.map(entry => entry.input.trim().toLowerCase())).size, 96);
   const known = new Set([...examples, ...development, ...confirmation, ...runtimeExamples].map(entry => entry.input.trim().toLowerCase()));
   for (const entry of dataset.cases) { assert.ok(validateServiceRequest(entry.input)); assert.ok(!known.has(entry.input.trim().toLowerCase()), entry.id); }
   for (const label of Object.values(choiceLabels)) assert.equal(dataset.cases.filter(entry => entry.expected === label).length, 24);
