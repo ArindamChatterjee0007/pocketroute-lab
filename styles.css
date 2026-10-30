@@ -6,6 +6,8 @@
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 body.navigation-open{overflow:hidden}
 .receipt-footer,.run-summary-footer{margin-top:18px}
+#service-ai-evidence .receipt-footer{flex-flow:row wrap;justify-content:flex-start;column-gap:18px;row-gap:6px}
+#service-ai-evidence .receipt-footer>a{min-width:0;max-width:100%;overflow-wrap:anywhere}
 .task-inline-badge{margin-top:8px}
 .baseline-note{margin-bottom:24px}
 .product-link{margin-top:14px}
