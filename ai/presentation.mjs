@@ -17,7 +17,7 @@ export function serviceEvidenceView(report) {
   const modelCalls = report.testCases.filter(entry => entry.modelExecuted === true).length;
   const policyReviews = report.testCases.filter(entry => entry.decisionPath === "policy-review").length;
   return `<section id="service-ai-evidence">
-    <div class="section-heading"><h2>${hybrid ? "Hybrid service classifier" : "Model-backed service classifier"}</h2><span class="badge amber">Commercial release blocked</span></div>
+    <div class="section-heading"><h2>${hybrid ? "Hybrid service classifier" : "Model-backed service classifier"}</h2><span class="badge amber">Release qualification blocked</span></div>
     <div class="cloud-context"><span>${hybrid ? "Qwen2.5 1.5B plus a reject-only policy. System accuracy, not pure-model accuracy." : "Recorded model-backed CPU evaluation."} ${gate.passed ? "The synthetic quality screen passed; production and mobile readiness remain unverified." : "The synthetic pilot-quality gate failed."} No inference runs in this browser.</span></div>
     <div class="metric-strip">
       <div class="metric"><div class="metric-label">Correct test labels</div><div class="metric-value">${metrics.correct} / ${metrics.total}</div><p class="metric-note">${percentage(metrics.accuracy)} / synthetic test set</p></div>
@@ -41,6 +41,6 @@ export function serviceEvidenceView(report) {
     </section></div>
     <div class="section-heading"><h2>Confirmation errors / ${failed.length}</h2><button class="text-button" data-action="export-service">Export AI receipt</button></div>
     <div>${failed.map(entry => `<article class="cloud-case"><div><label>${escapeHtml(entry.id)} / SYNTHETIC REQUEST</label><p>${escapeHtml(entry.input)}</p><p class="case-output">${escapeHtml(entry.output)}</p></div><div><label>Expected</label><strong>${escapeHtml(entry.expected)}</strong></div><div><label>System result</label><strong>${escapeHtml(entry.rawLabel || "invalid")}</strong></div></article>`).join("")}</div>
-    <div class="section-heading receipt-footer"><a class="button quiet" href="./downloads/pocketroute-service-ai-0.1.0-experimental.zip" download>Experimental SDK</a><a class="button quiet" href="./downloads/pocketroute-device-test-kit-0.1.0.zip" download>Device test kit</a><a class="text-button" href="./downloads/pocketroute-sdk-reference.pdf" download>SDK reference (PDF)</a><a class="text-button" href="./downloads/pocketroute-india-showcase.pdf" download>India showcase (PDF)</a>${runUrl ? `<a class="text-button" href="${escapeHtml(runUrl)}" target="_blank" rel="noopener noreferrer">Evaluation run</a>` : ""}</div>
+    <div class="section-heading receipt-footer"><a class="button quiet" href="./downloads/pocketroute-service-ai-0.1.0-experimental.zip" download>Experimental SDK</a><a class="button quiet" href="./downloads/pocketroute-device-test-kit-0.1.0.zip" download>Device test kit</a><a class="text-button" href="./downloads/pocketroute-sdk-reference.pdf" download>SDK reference (PDF)</a>${runUrl ? `<a class="text-button" href="${escapeHtml(runUrl)}" target="_blank" rel="noopener noreferrer">Evaluation run</a>` : ""}</div>
   </section>`;
 }

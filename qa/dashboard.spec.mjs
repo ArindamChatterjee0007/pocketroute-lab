@@ -79,7 +79,7 @@ test("navigation works with keyboard and a closed mobile drawer", async ({ page 
 test("task filters, detail dialog and personal notes persist safely", async ({ page }) => {
   await openView(page, "execution");
   await page.getByLabel("Filter tasks by status").selectOption("done");
-  await expect(page.locator(".task-card")).toHaveCount(3);
+  await expect(page.locator(".task-card")).toHaveCount(5);
   await page.locator('[data-task="B03-001"]').click();
   await expect(page.getByRole("dialog")).toBeVisible();
   const note = 'Synthetic personal note <img src=x onerror="window.noteExecuted=true">';
@@ -95,7 +95,10 @@ test("task filters, detail dialog and personal notes persist safely", async ({ p
   await page.getByRole("button", { name: "Clear note", exact: true }).click();
   await expect(page.locator("#personal-note")).toHaveValue("");
   await page.keyboard.press("Escape");
-  await page.getByLabel("Filter tasks by unit").selectOption("b01");
+  await page.getByLabel("Filter tasks by project").selectOption("b01");
+  await expect(page.locator(".task-card")).toHaveCount(1);
+  await expect(page.locator(".task-card")).toContainText("Publish PocketRoute Notes alpha");
+  await page.getByLabel("Filter tasks by status").selectOption("blocked");
   await expect(page.getByRole("heading", { name: "No matching public tasks" })).toBeVisible();
 });
 
@@ -117,7 +120,7 @@ test("policy workbench routes, abstains and respects scenario floors", async ({ 
   await checkLayout(page);
 });
 
-test("workspace search, source filters and economic scenarios work", async ({ page }) => {
+test("workspace search, source filters and engineering roadmap work", async ({ page }) => {
   await openView(page, "overview");
   await page.getByRole("searchbox", { name: "Search workspace" }).fill("B03-004");
   await expect(page.locator(".search-result")).toHaveCount(1);
@@ -129,11 +132,10 @@ test("workspace search, source filters and economic scenarios work", async ({ pa
   await page.getByLabel("Source category").selectOption("Measurement");
   await expect(page.locator(".source-row")).toHaveCount(3);
   await openView(page, "roadmap");
-  await page.locator("#economic-price").fill("60000");
-  await expect(page.locator("#economic-contribution")).toContainText("30,000");
-  await expect(page.locator("#economic-margin")).toContainText("50%");
-  await page.getByRole("button", { name: "Reset", exact: true }).click();
-  await expect(page.locator("#economic-contribution")).toContainText("20,000");
+  await expect(page.locator(".roadmap-step")).toHaveCount(5);
+  await expect(page.getByRole("link", { name: "Device manual (PDF)", exact: true })).toBeVisible();
+  await expect(page.locator("[data-economics]")).toHaveCount(0);
+  await expect(page.locator("body")).not.toContainText(/commercial scenario|contribution margin|pilot price|funded pilot/i);
 });
 
 test("export is a real public JSON download without personal notes", async ({ page }) => {
@@ -143,7 +145,10 @@ test("export is a real public JSON download without personal notes", async ({ pa
   const data = JSON.parse(await readFile(file, "utf8"));
   expect(data.privateCustomerDataIncluded).toBe(false);
   expect(data.tasks).toHaveLength(12);
-  expect(data.units).toHaveLength(3);
+  expect(data.projects).toHaveLength(3);
+  expect(data.units).toBeUndefined();
+  expect(data.scope).toBe("technical-work-only");
+  expect(JSON.stringify(data)).not.toMatch(/business units?|direct-client|revenue|funded pilot|pilot price|support reserve|contribution margin/i);
   expect(data.personalNotes).toBeUndefined();
 });
 
@@ -182,7 +187,7 @@ test("missing evidence remains visibly unavailable, never a fake pass", async ({
 test("real service AI evidence preserves blocked quality and exact exported results", async ({ page }) => {
   await openView(page, "service");
   const receipt = await page.evaluate(async () => (await fetch("./data/ai-service-results.json")).json());
-  await expect(page.locator("#service-ai-evidence")).toContainText("Commercial release blocked");
+  await expect(page.locator("#service-ai-evidence")).toContainText("Release qualification blocked");
   await expect(page.locator("#service-ai-evidence")).toContainText("73 / 96");
   await expect(page.locator("#service-ai-evidence")).toContainText("80.3%");
   await expect(page.locator("#service-ai-evidence")).toContainText("5.42 GiB");
@@ -205,7 +210,8 @@ test("real service AI evidence preserves blocked quality and exact exported resu
   const [kit] = await Promise.all([page.waitForEvent("download"), page.getByRole("link", { name: "Device test kit", exact: true }).click()]);
   expect(kit.suggestedFilename()).toBe("pocketroute-device-test-kit-0.1.0.zip");
   expect((await readFile(await kit.path())).subarray(0, 4).toString("hex")).toBe("504b0304");
-  for (const [label, filename] of [["Device manual (PDF)", "pocketroute-device-integration.pdf"], ["SDK reference (PDF)", "pocketroute-sdk-reference.pdf"], ["India showcase (PDF)", "pocketroute-india-showcase.pdf"]]) {
+  await expect(page.getByRole("link", { name: "India showcase (PDF)", exact: true })).toHaveCount(0);
+  for (const [label, filename] of [["Device manual (PDF)", "pocketroute-device-integration.pdf"], ["SDK reference (PDF)", "pocketroute-sdk-reference.pdf"]]) {
     const [pdf] = await Promise.all([page.waitForEvent("download"), page.getByRole("link", { name: label, exact: true }).click()]);
     expect(pdf.suggestedFilename()).toBe(filename);
     expect((await readFile(await pdf.path())).subarray(0, 5).toString()).toBe("%PDF-");

@@ -2,7 +2,7 @@ import "../scripts/cloud-only.mjs";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { assertGitHubRunner, repository } from "../scripts/cloud-only.mjs";
-import { escapeHtml, routeRequest, filterTasks, summarizeRun, parseRoute, formatDuration, scenarioEconomics, safeGitHubUrl } from "../app/domain.mjs";
+import { escapeHtml, routeRequest, filterTasks, summarizeRun, parseRoute, formatDuration, safeGitHubUrl } from "../app/domain.mjs";
 import { tasks, sources, units, sessions, milestones } from "../data/office.mjs";
 import { analyzeNote, validateRecordDraft, validDate, createRecord, createBackup, createBackupFiles, parseBackup, planImport, sameRecord, backupByteLimit } from "../app/note-core.mjs";
 import { recordsToCsv } from "../notes/export.mjs";
@@ -29,7 +29,7 @@ import { documentBlocks } from "../scripts/pdf-content.mjs";
 
 test("public project catalog contains technical work, not operational or financial records", () => {
   const catalog = JSON.stringify({ units, tasks, sessions, milestones });
-  assert.doesNotMatch(catalog, /business units?|direct-client|founder|commercial|revenue|funded|paid pilot|willingness to pay|support reserve|contribution margin|astrology-lab|business-02-demos|fulfilment|buyer/i);
+  assert.doesNotMatch(catalog, /business units?|direct-client|founder|commercial|revenue|funded|paid pilot|willingness to pay|support reserve|contribution margin|fulfilment|buyer/i);
   assert.deepEqual(units.map(unit => unit.href), ["./notes/", "#service", "#lab"]);
 });
 
@@ -270,7 +270,7 @@ test("passing synthetic classification gates never implies production or phone r
 test("service evidence recomputes quality from cases and escapes model text", () => {
   const record = { schemaVersion: 1, status: "completed", testCases: [{ id: "case-one", expected: "review", output: '<img src=x onerror="alert(1)">', rawLabel: null, input: "Synthetic text" }], commercialReadiness: { blockers: ["License review required."] }, pilotScreen: { passed: true } };
   const html = serviceEvidenceView(record);
-  assert.ok(html.includes("Commercial release blocked"));
+  assert.ok(html.includes("Release qualification blocked"));
   assert.ok(html.includes("pilot-quality gate failed"));
   assert.ok(html.includes("&lt;img"));
   assert.ok(!html.includes("<img"));
@@ -455,10 +455,13 @@ test("SLM route output must be exactly an allowlisted label", () => {
   assert.equal(parseRoute("unsupported"), "unsupported");
 });
 
-test("economic scenarios are explicit assumptions, with valid zero handling", () => {
-  assert.deepEqual(scenarioEconomics({ price: 50000, hours: 20, hourlyCost: 1000, testCost: 5000, reserve: 5000 }), { contribution: 20000, margin: 0.4, hypothetical: true });
-  assert.equal(scenarioEconomics({ price: 0, hours: 0, hourlyCost: 0, testCost: 0, reserve: 0 }).margin, null);
-  assert.equal(scenarioEconomics({ price: -1, hours: 0, hourlyCost: 0, testCost: 0, reserve: 0 }), null);
+test("dashboard source omits financial widgets and preserves valid JavaScript", () => {
+  for (const path of ["../app/entry.mjs", "../app/domain.mjs", "../index.html"]) {
+    const source = readFileSync(new URL(path, import.meta.url), "utf8");
+    assert.doesNotMatch(source, /business units?|BU0[123]|commercial scenario|pilot price|support reserve|contribution margin|funded pilot|scenarioEconomics|economic-price|INR\s*\d/i);
+  }
+  const syntax = spawnSync(process.execPath, ["--check", fileURLToPath(new URL("../app/entry.mjs", import.meta.url))], { encoding: "utf8", timeout: 5000 });
+  assert.equal(syntax.status, 0, syntax.stderr);
 });
 
 test("public source data has stable unique IDs", () => {

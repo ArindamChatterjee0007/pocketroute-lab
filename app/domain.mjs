@@ -38,13 +38,6 @@ export function formatDuration(milliseconds) {
   return milliseconds < 1000 ? `${Math.round(milliseconds)} ms` : `${(milliseconds / 1000).toFixed(2)} s`;
 }
 
-export function scenarioEconomics({ price, hours, hourlyCost, testCost, reserve }) {
-  const inputs = [price, hours, hourlyCost, testCost, reserve];
-  if (inputs.some(value => !Number.isFinite(value) || value < 0)) return null;
-  const contribution = price - hours * hourlyCost - testCost - reserve;
-  return { contribution, margin: price > 0 ? contribution / price : null, hypothetical: true };
-}
-
 export function safeGitHubUrl(value) {
   try {
     const url = new URL(value);
