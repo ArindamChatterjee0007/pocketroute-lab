@@ -19,6 +19,49 @@ import { readFileSync } from "node:fs";
 import { selectEntailmentLabel, entailmentProbability } from "../ai/entailment.mjs";
 import { reviewPolicyReason } from "../ai/review-policy.mjs";
 import { reusableDevelopment } from "../ai/evaluation-replay.mjs";
+import { createDeviceReference, evaluateDeviceReport } from "../ai/device-report.mjs";
+
+const deviceReportFixture = () => {
+  const cases = ["maintenance", "delivery", "inspection", "review"].map((expected, index) => ({ id: `device-${index}`, expected, output: expected === "review" ? "delivery" : expected }));
+  const reference = createDeviceReference({ status: "completed", protocol: { sha256: "a".repeat(64) }, dataset: { version: "synthetic-regression", sha256: "b".repeat(64) }, selected: { revision: "c".repeat(40) }, testCases: cases });
+  const report = { schemaVersion: 1, suiteId: reference.suiteId, protocolSha256: reference.protocolSha256, datasetSha256: reference.datasetSha256, modelRevision: reference.modelRevision, executionKind: "cloud-fixture", phase: "warm", appSourceSha: "d".repeat(40), device: { class: "phone", model: "Synthetic fixture", os: "Test only", architecture: "test" }, runtime: { name: "Fixture", version: "1", backend: "No inference" }, cases: cases.map(entry => ({ id: entry.id, output: entry.output, outcome: "completed", elapsedMs: 100, peakMemoryBytes: null })) };
+  return { reference, report };
+};
+
+test("device parity never promotes a bad reference to quality or hardware acceptance", () => {
+  const { reference, report } = deviceReportFixture();
+  const assessment = evaluateDeviceReport(reference, report);
+  assert.equal(assessment.parity.passed, true);
+  assert.equal(assessment.nonRegression.passed, true);
+  assert.equal(assessment.metrics.unsafeAcceptances, 1);
+  assert.equal(assessment.syntheticQualityScreen.passed, false);
+  assert.equal(assessment.productionReady, false);
+  assert.equal(assessment.physicalEvidenceIndependentlyVerified, false);
+  assert.equal(assessment.performance.peakMemoryBytes, null);
+  assert.equal(assessment.performance.energyJoules, null);
+});
+
+test("device reports reject missing, duplicate, foreign and unexecuted cases and changed provenance", () => {
+  const { reference, report } = deviceReportFixture();
+  assert.throws(() => evaluateDeviceReport(reference, { ...report, cases: report.cases.slice(1) }));
+  assert.throws(() => evaluateDeviceReport(reference, { ...report, cases: [report.cases[0], ...report.cases.slice(0, 3)] }));
+  assert.throws(() => evaluateDeviceReport(reference, { ...report, protocolSha256: "e".repeat(64) }));
+  assert.throws(() => evaluateDeviceReport(reference, { ...report, device: { ...report.device, model: "" } }));
+  assert.throws(() => evaluateDeviceReport(reference, { ...report, cases: report.cases.map(entry => ({ ...entry, outcome: "not-run" })) }));
+  assert.throws(() => evaluateDeviceReport(reference, { ...report, cases: report.cases.map(entry => ({ ...entry, elapsedMs: NaN })) }));
+});
+
+test("device timeout stays in the accuracy and coverage denominator", () => {
+  const { reference, report } = deviceReportFixture();
+  report.cases[0] = { ...report.cases[0], outcome: "timeout", output: null, elapsedMs: 20000 };
+  const assessment = evaluateDeviceReport(reference, report);
+  assert.equal(assessment.metrics.total, 4);
+  assert.equal(assessment.metrics.correct, 2);
+  assert.equal(assessment.metrics.supportedCoverage, 2 / 3);
+  assert.equal(assessment.performance.errors, 1);
+  assert.equal(assessment.parity.passed, false);
+  assert.equal(assessment.nonRegression.passed, false);
+});
 
 test("interrupted confirmation can reuse only complete qualified regression under identical protocol and runtime", () => {
   const candidate = { key: "model", id: "model/id", revision: "pinned", dtype: "q4" };
