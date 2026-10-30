@@ -7,6 +7,7 @@ const views = [
   ["overview", "PocketRoute overview"],
   ["execution", "Execution board"],
   ["lab", "Model lab"],
+  ["service", "Service AI"],
   ["sessions", "Research sessions"],
   ["evidence", "Evidence library"],
   ["roadmap", "Research roadmap"],
@@ -176,6 +177,31 @@ test("missing evidence remains visibly unavailable, never a fake pass", async ({
   await expect(page.locator("#workspace")).toContainText("No receipt");
   await expect(page.locator("#workspace")).not.toContainText("Checks passed");
   await expect(page.locator(".source-row")).toHaveCount(19);
+});
+
+test("real service AI evidence preserves blocked quality and exact exported results", async ({ page }) => {
+  await openView(page, "service");
+  await expect(page.locator("#service-ai-evidence")).toContainText("Commercial release blocked");
+  await expect(page.locator("#service-ai-evidence")).toContainText("41 / 48");
+  await expect(page.locator("#service-ai-evidence")).toContainText("87.2%");
+  await expect(page.locator("#service-ai-evidence")).toContainText("4.44 GiB");
+  await expect(page.locator("#service-ai-evidence .cloud-case")).toHaveCount(7);
+  await checkLayout(page);
+  const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "Export AI receipt", exact: true }).click()]);
+  const report = JSON.parse(await readFile(await download.path(), "utf8"));
+  expect(report.status).toBe("completed");
+  expect(report.pilotScreen.passed).toBe(false);
+  expect(report.metrics.correct).toBe(41);
+  expect(report.testCases).toHaveLength(48);
+  expect(report.runtimeChecks.cancellationStopsProcess).toBe(true);
+  expect(report.phoneEnergyJoules).toBeNull();
+});
+
+test("missing service AI receipt never implies model readiness", async ({ page }) => {
+  await page.route("**/data/ai-service-results.json", route => route.abort());
+  await page.goto("/#service", { waitUntil: "domcontentloaded" });
+  await expect(page.locator("#workspace")).toContainText("AI service evidence unavailable");
+  await expect(page.locator("#workspace")).not.toContainText("41 / 48");
 });
 
 test("successful receipt state is readable and links to the correct project", async ({ page }) => {

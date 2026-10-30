@@ -10,6 +10,8 @@ body.navigation-open{overflow:hidden}
 .baseline-note{margin-bottom:24px}
 .product-link{margin-top:14px}
 .product-link .badge{margin-left:auto;font-size:8px}
+.service-blockers{padding-left:18px;margin:0;color:var(--muted);font-size:11px;line-height:1.9}
+.service-blockers li{padding-bottom:8px;overflow-wrap:anywhere}
 .sidebar{overflow-y:auto}
 html{min-width:280px;background:var(--bg);scroll-behavior:smooth;scroll-padding-top:90px}
 body{margin:0;font:13px/1.6 var(--font);color:var(--text);background:linear-gradient(90deg,transparent 99.7%,#26303312 99.7%) 0 0/80px 80px,var(--bg);min-height:100vh}

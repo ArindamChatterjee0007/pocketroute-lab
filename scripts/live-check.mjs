@@ -17,6 +17,7 @@ assert.equal(publication.sourceSha, expectedSource);
 assert.equal(publication.stage, "prepublication-checks-passed");
 const assets = publication.inventory.filter(item => !item.path.startsWith("evidence/"));
 let bundleBytes;
+let aiBundleBytes;
 for (const asset of assets) {
   assert.ok(!asset.path.includes("..") && !asset.path.startsWith("/"));
   const assetResponse = await fetch(`${base}${asset.path}?source=${expectedSource}`, { signal: AbortSignal.timeout(30000) });
@@ -25,6 +26,7 @@ for (const asset of assets) {
   assert.equal(bytes.length, asset.bytes, `${asset.path} length`);
   assert.equal(createHash("sha256").update(bytes).digest("hex"), asset.sha256, `${asset.path} digest`);
   if (asset.path === "downloads/pocketroute-notes-0.2.0.zip") bundleBytes = bytes;
+  if (asset.path === "downloads/pocketroute-service-ai-0.1.0-experimental.zip") aiBundleBytes = bytes;
 }
 assert.ok(bundleBytes, "The product bundle is absent from the publication.");
 const bundleDirectory = await mkdtemp(join(process.env.RUNNER_TEMP, "pocketroute-release-"));
@@ -34,6 +36,13 @@ execFileSync("unzip", ["-tq", bundlePath], { stdio: "inherit" });
 const bundleEntries = execFileSync("unzip", ["-Z1", bundlePath], { encoding: "utf8" }).trim().split(/\r?\n/);
 for (const required of ["notes/index.html", "notes/notes.js", "notes/sw.js", "notes/manifest.webmanifest", "notes/guide.html", "LICENSE.txt", "THIRD_PARTY_NOTICES.txt", "downloads/pocketroute-core.mjs", "downloads/README.md"]) assert.ok(bundleEntries.includes(required), `Missing bundle file: ${required}`);
 assert.ok(bundleEntries.every(name => !name.startsWith("/") && !name.split("/").includes("..") && !/^(data|\.git|\.local|node_modules)\//.test(name)), "Unexpected private or nonportable bundle path.");
+assert.ok(aiBundleBytes, "The experimental AI SDK bundle is missing.");
+const aiBundlePath = join(bundleDirectory, "service-ai.zip");
+await writeFile(aiBundlePath, aiBundleBytes);
+execFileSync("unzip", ["-tq", aiBundlePath], { stdio: "inherit" });
+const aiEntries = execFileSync("unzip", ["-Z1", aiBundlePath], { encoding: "utf8" }).trim().split(/\r?\n/);
+for (const required of ["ai/client.mjs", "ai/worker.mjs", "ai/config.mjs", "ai/contract.mjs", "ai/cli.mjs", "package.json", "package-lock.json", "LICENSE", "MODEL_CARD.md", "README.md"]) assert.ok(aiEntries.includes(`downloads/service-ai/${required}`), `Missing AI SDK file: ${required}`);
+assert.ok(aiEntries.every(name => !name.startsWith("/") && !name.split("/").includes("..") && !/\.(onnx|onnx_data|safetensors)$/.test(name)), "Model weights or unsafe paths entered the SDK bundle.");
 const configurations = [
   { engine: "chromium", width: 1440, height: 1000 },
   { engine: "chromium", width: 390, height: 844 },
@@ -53,9 +62,9 @@ for (const configuration of configurations) {
     await page.goto(`${base}#overview`, { waitUntil: "domcontentloaded", timeout: 30000 });
     await expect(page.getByRole("heading", { level: 1, name: "PocketRoute overview", exact: true })).toBeVisible();
     await expect(page.locator("#evidence-status")).toContainText("Cloud checks recorded");
-    for (const view of ["overview", "execution", "lab", "sessions", "evidence", "roadmap"]) {
+    for (const view of ["overview", "execution", "lab", "service", "sessions", "evidence", "roadmap"]) {
       await page.goto(`${base}#${view}`, { waitUntil: "domcontentloaded" });
-      await expect(page.locator("#workspace h1")).toHaveText({ overview: "PocketRoute overview", execution: "Execution board", lab: "Model lab", sessions: "Research sessions", evidence: "Evidence library", roadmap: "Research roadmap" }[view]);
+      await expect(page.locator("#workspace h1")).toHaveText({ overview: "PocketRoute overview", execution: "Execution board", lab: "Model lab", service: "Service AI", sessions: "Research sessions", evidence: "Evidence library", roadmap: "Research roadmap" }[view]);
       assert.equal(await page.evaluate(() => innerWidth), configuration.width);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, `${view} overflow`);
     }
@@ -66,6 +75,10 @@ for (const configuration of configurations) {
     await page.getByRole("tab", { name: "Cloud evidence", exact: true }).click();
     await expect(page.locator(".cloud-case")).toHaveCount(8);
     await expect(page.locator("#workspace")).toContainText("8 / 8 exact labels");
+    await page.goto(`${base}#service`, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("#service-ai-evidence")).toContainText("Commercial release blocked");
+    await expect(page.locator("#service-ai-evidence")).toContainText("41 / 48");
+    await expect(page.locator("#service-ai-evidence .cloud-case")).toHaveCount(7);
     await page.goto(`${base}notes/`, { waitUntil: "domcontentloaded" });
     await expect(page.getByRole("heading", { level: 1, name: "Field-note workbench" })).toBeVisible();
     await expect(page.locator("body")).toHaveAttribute("data-storage", "ready");
@@ -102,9 +115,9 @@ for (const configuration of configurations) {
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, "Notes overflow");
     assert.deepEqual(errors, []);
     assert.deepEqual(outsideRequests, []);
-    results.push({ ...configuration, views: 7, policyPreview: "passed", recordedModelCases: 8, notesLifecycle: "passed", offlineReload: "passed", standaloneSdk: "passed", privateBackup: "passed", confirmedLocalDeletion: "passed", outsideRequests: 0, pageErrors: 0, status: "passed" });
+    results.push({ ...configuration, views: 8, policyPreview: "passed", recordedModelCases: 8, aiServiceEvidence: "passed; failed quality gate visible", notesLifecycle: "passed", offlineReload: "passed", standaloneSdk: "passed", privateBackup: "passed", confirmedLocalDeletion: "passed", outsideRequests: 0, pageErrors: 0, status: "passed" });
   } finally { await browser.close(); }
 }
-const receipt = { schemaVersion: 1, status: "passed", checkedAt: new Date().toISOString(), url: base, productUrl: `${base}notes/`, sourceSha: expectedSource, runUrl: `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`, artifactFilesVerified: assets.length, artifactHashAlgorithm: "SHA-256", bundleIntegrity: "passed", bundleEntries: bundleEntries.length, configurations: results, modelRerun: false, phoneBenchmark: false, energyJoules: null, localBuildsOrTests: 0 };
+const receipt = { schemaVersion: 1, status: "passed", checkedAt: new Date().toISOString(), url: base, productUrl: `${base}notes/`, sourceSha: expectedSource, runUrl: `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`, artifactFilesVerified: assets.length, artifactHashAlgorithm: "SHA-256", bundleIntegrity: "passed", bundleEntries: bundleEntries.length, experimentalAiSdkBundle: { integrity: "passed", entries: aiEntries.length, weightsBundled: false, modelQualityAccepted: false }, configurations: results, modelRerun: false, phoneBenchmark: false, energyJoules: null, localBuildsOrTests: 0 };
 await writeFile("data/live-verification.json", JSON.stringify(receipt, null, 2));
 console.log(JSON.stringify(receipt, null, 2));

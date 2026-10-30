@@ -11,6 +11,7 @@ import { validateServiceRequest, parseServiceLabel, summarizeClassification, pil
 import { examples, development, confirmation } from "../ai/dataset.mjs";
 import { examples as runtimeExamples } from "../ai/examples.mjs";
 import { createServiceClassifier } from "../ai/client.mjs";
+import { serviceEvidenceView } from "../ai/presentation.mjs";
 
 test("AI service interface bounds input and rejects unstructured model labels", () => {
   assert.equal(validateServiceRequest("  A pump needs attention.  "), "A pump needs attention.");
@@ -77,6 +78,16 @@ test("passing synthetic classification gates never implies production or phone r
   assert.equal(gate.passed, true);
   assert.equal(gate.productionReady, false);
   assert.equal(gate.phoneValidated, false);
+});
+
+test("service evidence recomputes quality from cases and escapes model text", () => {
+  const record = { schemaVersion: 1, status: "completed", testCases: [{ id: "case-one", expected: "review", output: '<img src=x onerror="alert(1)">', rawLabel: null, input: "Synthetic text" }], commercialReadiness: { blockers: ["License review required."] }, pilotScreen: { passed: true } };
+  const html = serviceEvidenceView(record);
+  assert.ok(html.includes("Commercial release blocked"));
+  assert.ok(html.includes("pilot-quality gate failed"));
+  assert.ok(html.includes("&lt;img"));
+  assert.ok(!html.includes("<img"));
+  assert.ok(serviceEvidenceView(null).includes("evidence unavailable"));
 });
 
 test("field-note worker performs grounded extraction and an extractive summary", () => {

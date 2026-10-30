@@ -1,5 +1,5 @@
 import "./cloud-only.mjs";
-import { mkdir, readFile, writeFile, copyFile, rm } from "node:fs/promises";
+import { mkdir, readFile, writeFile, copyFile, rm, cp } from "node:fs/promises";
 import { build } from "esbuild";
 import sharp from "sharp";
 import { execFileSync } from "node:child_process";
@@ -14,6 +14,8 @@ if (Object.keys(bundle.metafile.inputs).some(path => /transformers|onnxruntime|s
 await copyFile("index.html", "dist/index.html");
 await copyFile("styles.css", "dist/styles.css");
 await copyFile("data/slm-results.json", "dist/data/slm-results.json");
+await copyFile("data/ai-service-results.json", "dist/data/ai-service-results.json");
+await cp("data/ai-runs", "dist/data/ai-runs", { recursive: true });
 await copyFile("node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2", "dist/assets/manrope.woff2");
 await copyFile("node_modules/@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2", "dist/assets/space-grotesk.woff2");
 await writeFile("dist/.nojekyll", "");
@@ -51,6 +53,17 @@ await writeFile("dist/notes/manifest.webmanifest", JSON.stringify({ id: "./", na
 const offlineAssets = ["./index.html", "./notes.js", "./notes.css", "./guide.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "../styles.css", "../assets/mark.png", "../assets/manrope.woff2", "../assets/space-grotesk.woff2"];
 await build({ entryPoints: ["notes/sw.mjs"], outfile: "dist/notes/sw.js", bundle: true, minify: true, format: "iife", target: "es2022", define: { __BUILD_VERSION__: JSON.stringify(process.env.GITHUB_SHA), __OFFLINE_ASSETS__: JSON.stringify(offlineAssets) } });
 execFileSync("zip", ["-q", "-r", "downloads/pocketroute-notes-0.2.0.zip", "notes", "styles.css", "assets/mark.png", "assets/manrope.woff2", "assets/space-grotesk.woff2", "LICENSE.txt", "THIRD_PARTY_NOTICES.txt", "downloads/pocketroute-core.mjs", "downloads/README.md"], { cwd: "dist", stdio: "inherit" });
+const aiPackage = "downloads/service-ai";
+await mkdir(`dist/${aiPackage}/ai`, { recursive: true });
+for (const name of ["client.mjs", "worker.mjs", "cli.mjs", "contract.mjs", "config.mjs", "examples.mjs"]) await copyFile(`ai/${name}`, `dist/${aiPackage}/ai/${name}`);
+await copyFile("ai/README.md", `dist/${aiPackage}/README.md`);
+await copyFile("ai/MODEL_CARD.md", `dist/${aiPackage}/MODEL_CARD.md`);
+await copyFile("LICENSE", `dist/${aiPackage}/LICENSE`);
+await writeFile(`dist/${aiPackage}/package.json`, JSON.stringify({ name: "pocketroute-service-ai-experimental", version: "0.1.0-experimental", private: true, type: "module", license: "Apache-2.0", engines: { node: ">=24" }, exports: "./ai/client.mjs", dependencies: { "@huggingface/transformers": "4.3.2" } }, null, 2));
+execFileSync("npm", ["install", "--package-lock-only", "--ignore-scripts", "--no-audit", "--no-fund"], { cwd: `dist/${aiPackage}`, stdio: "inherit" });
+execFileSync("npm", ["audit", "--audit-level=high"], { cwd: `dist/${aiPackage}`, stdio: "inherit" });
+await writeFile(`dist/${aiPackage}/NOTICE`, "Original wrapper source: Apache-2.0. Hugging Face Transformers.js: Apache-2.0, with separately licensed transitive dependencies. Qwen base model: Apache-2.0; ONNX conversion license metadata is absent. No model weights, runtime binaries or customer data are distributed in this source bundle. See MODEL_CARD.md for exact provenance and blocked launch gates.\n");
+execFileSync("zip", ["-q", "-r", "downloads/pocketroute-service-ai-0.1.0-experimental.zip", aiPackage], { cwd: "dist", stdio: "inherit" });
 const scriptBytes = (await readFile("dist/assets/app.js")).byteLength;
 if (scriptBytes > 180000) throw new Error("Browser script budget exceeded.");
 const notesBytes = (await readFile("dist/notes/notes.js")).byteLength;
