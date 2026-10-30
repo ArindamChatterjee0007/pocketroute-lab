@@ -2,6 +2,25 @@
 
 An open-source local-first field-note product, reusable JavaScript core and research dashboard. This is an early product release, not a paid SaaS service, secure vault, newly trained language model or native mobile SDK.
 
+## Actual AI Component
+
+The original model-backed work is now implemented as an **experimental service-classification SDK and CLI**, separate from the rule-only Notes product. It uses pinned Qwen2.5 ONNX weights in an isolated CPU worker, with strict output labels, bounded input/context, explicit model-download consent, cached inference and cancellation that stops the worker. **It is not ready to sell as a production or low-power mobile AI engine.**
+
+- [Service AI evidence](https://arindamchatterjee007.github.io/pocketroute-lab/#service)
+- [Experimental SDK download](https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-service-ai-0.1.0-experimental.zip)
+- [SDK/API instructions](ai/README.md)
+- [Model card and failure analysis](ai/MODEL_CARD.md)
+
+The completed [model evaluation 41017525215](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41017525215) recorded 24/24 development labels but **41/48 confirmation labels (85.4%)**, **87.2% accepted-label precision** and **four unsafe acceptances**. Preset gates required 90%, 95% and zero respectively; they failed. The keyword baseline scored 22/48 on the same confirmation cases. These are small original synthetic sets, not external customer validation.
+
+Cloud runtime: 8,254 ms mean, 8,520 ms p95, 4,770,783,232-byte peak worker process memory (about 4.44 GiB). Cached reload with zero fetch attempts, input/token limits, cancellation and closed-worker rejection passed. These figures are GitHub CPU measurements, not phone or energy results. No foundation model was trained or fine-tuned.
+
+Earlier failed runs are preserved, not replaced by a success narrative. The selected base weights declare Apache-2.0; the ONNX conversion repository does not declare separate license metadata. The SDK ships original source, locked dependencies and a model card, **not model weights or blanket commercial clearance**.
+
+[Distribution/UI run 41019186198](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41019186198) passed 30 unit checks, 162 browser test-configuration results and 12 final snapshot checks at source `05de46a706279220fd234f97de15fd02f291ebf0`. [Live acceptance 41019522606](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41019522606) verified 42 hosted-file hashes, the 14-entry weight-free AI SDK ZIP and eight views across four browser configurations, preserving Notes offline/backup/deletion behavior. Passing software tests does not clear the failed model-quality gate. The original model protocol and all raw predictions are in the [per-run receipt](https://github.com/ArindamChatterjee007/pocketroute-lab/blob/main/data/ai-runs/41017525215.json). No inference runs in the public dashboard.
+
+Next technical decision: use this failure analysis as development evidence for a lighter or task-adapted model, reserve a new independently labelled confirmation set, establish safe rejection behavior and validate actual target devices. No checkout, paid offer, customer promise or production SLA is enabled.
+
 **Use Notes:** https://arindamchatterjee007.github.io/pocketroute-lab/notes/
 
 **Product bundle:** https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-notes-0.2.0.zip
@@ -53,7 +72,7 @@ The separate `live` workflow mode verifies a supplied exact source SHA against t
 
 All dependency installation, builds, automated tests, image generation and model inference run in this repository's standard GitHub-hosted Linux workflow. The entry points reject local execution. No self-hosted runner, GPU rental, paid API, persistent service, scheduled job, model weight publication or Actions cache is configured.
 
-Use the **PocketRoute cloud build and experiment** workflow. `unit` mode runs the dependency audit and focused pure-logic checks. `publish` mode installs locked dependencies, runs unit and responsive browser checks, optionally runs the bounded pretrained SmolLM2 probe, and publishes verified static output to `gh-pages`. `live` mode requires `expected_source` and checks the actual hosted release without rerunning the model. Pages uses `gh-pages` at the repository root with HTTPS enforced. No local development server is needed or authorized for this project.
+Use the **PocketRoute cloud build and experiment** workflow. `unit` mode runs the dependency audit and focused pure-logic checks. Explicit `ai` mode runs the frozen service-classification evaluator and archives its result, including failures; it is not run by an ordinary UI build. `publish` mode installs locked dependencies, runs unit and responsive browser checks, optionally runs the separate legacy SmolLM2 smoke probe, and publishes verified static output to `gh-pages`. `live` mode requires `expected_source` and checks the actual hosted release and SDK package without rerunning a model. Pages uses `gh-pages` at the repository root with HTTPS enforced. No local development server is needed or authorized for this project.
 
 Cloud-generated package locks and model/live receipts on GitHub are authoritative. Source uploads must preserve them; never overwrite a measured receipt with an older local seed. The custom build workflow is manual-only; GitHub's built-in Pages deployment serves the published branch. No nightly schedule is enabled. Run links require the owner's normal GitHub authorization and do not silently enqueue work from the public dashboard.
 
