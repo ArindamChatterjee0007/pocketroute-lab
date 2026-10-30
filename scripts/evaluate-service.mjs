@@ -44,7 +44,7 @@ async function installedVersion(name) {
 }
 const runtimeVersions = { node: process.version, transformers: await installedVersion("@huggingface/transformers"), onnxruntimeNode: await installedVersion("onnxruntime-node") };
 assert.equal(`@huggingface/transformers ${runtimeVersions.transformers}`, inferencePolicy.runtime);
-const implementationSha256 = hash((await Promise.all(["ai/worker.mjs", "ai/client.mjs", "ai/contract.mjs", "ai/labels.mjs", "ai/logits.mjs", "ai/entailment.mjs"].map(path => readFile(path, "utf8")))).join("\n"));
+const implementationSha256 = hash((await Promise.all(["ai/worker.mjs", "ai/client.mjs", "ai/contract.mjs", "ai/labels.mjs", "ai/logits.mjs", "ai/entailment.mjs", "ai/review-policy.mjs"].map(path => readFile(path, "utf8")))).join("\n"));
 const protocolSha256 = hash(JSON.stringify({ evaluationRevision, evaluationCandidateKeys, modelCandidates, systemPrompt, inferencePolicy, examples, implementationSha256, runtimeVersions: { transformers: runtimeVersions.transformers, onnxruntimeNode: runtimeVersions.onnxruntimeNode } }));
 const result = {
   schemaVersion: 1,
@@ -55,7 +55,7 @@ const result = {
   runUrl: `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`,
   environment: { runner: "GitHub-hosted Linux", cpu: cpus()[0]?.model, runtimeVersions },
   dataset: { version: datasetVersion, notice: datasetNotice, examples: examples.length, development: development.length, confirmation: confirmation.length, sha256: hash(JSON.stringify({ examples, development, confirmation })), sourceSha256: hash(confirmationBytes), developmentScope: "Previously exposed v1 confirmation cases, now regression/development data only.", confirmationScope: "Fresh 96-case separate-agent-authored synthetic set; not human-labelled or customer data." },
-  protocol: { revision: evaluationRevision, candidateOrder: evaluationCandidateKeys, selection: "Revision 6 retains the compact NLI model, fixed hypotheses and conservative abstention thresholds, but normalizes all three NLI logits instead of dropping neutral as the multi-label pipeline does. No generative instructions or examples enter this model. The same exposed 48 cases are a regression gate. Only after >90% regression accuracy, >=95% accepted precision, >=80% coverage and zero unsafe acceptances may the unchanged fresh balanced 96-case confirmation set run. No policy or threshold tuning after confirmation.", sha256: protocolSha256, implementationSha256, systemPromptSha256: hash(systemPrompt), policy: inferencePolicy, entailmentPolicy, serviceHypotheses, modelUsesPromptExamples: false, accuracyTarget: ">90%", testSetUsedForSelection: false, confirmationUse: "not-started" },
+  protocol: { revision: evaluationRevision, candidateOrder: evaluationCandidateKeys, selection: "Revision 7 returns to revision 3's fixed Qwen prompt/letter decoder and adds a deterministic reject-only policy for explicit manipulation, secret requests, unsupported content generation and weather queries. This measures a HYBRID SYSTEM, not pure-model accuracy. Policy rules never assign a supported category. Both NLI alternatives and the category-word failure remain archived. The same exposed 48 cases are a regression gate. Only after >90% regression accuracy, >=95% accepted precision, >=80% coverage and zero unsafe acceptances may the unchanged fresh balanced 96-case confirmation set run. No policy or threshold tuning after confirmation.", sha256: protocolSha256, implementationSha256, systemPromptSha256: hash(systemPrompt), policy: inferencePolicy, entailmentPolicy, serviceHypotheses, modelUsesPromptExamples: true, systemKind: "model-plus-deterministic-review-policy", accuracyTarget: ">90%", testSetUsedForSelection: false, confirmationUse: "not-started" },
   candidates: [],
   selected: null,
   testCases: [],
@@ -146,6 +146,7 @@ try {
     const evaluated = await evaluate(engine, confirmation, "confirmation", result.testCases);
     result.metrics = evaluated.metrics;
     result.pilotScreen = pilotGate(result.metrics);
+    result.executionPaths = { scope: "Complete hybrid system; not pure-model accuracy.", modelCalls: evaluated.cases.filter(entry => entry.modelExecuted === true).length, policyReviews: evaluated.cases.filter(entry => entry.decisionPath === "policy-review").length };
     result.userAccuracyTarget = { required: ">90%", observed: result.metrics.accuracy, met: result.metrics.accuracy > 0.9, sampleType: "fresh synthetic confirmation", populationAccuracyEstablished: false };
     const ruleCases = confirmation.map(record => ({ ...record, output: ({ Maintenance: "maintenance", Delivery: "delivery", Inspection: "inspection", General: "review" })[analyzeNote(record.input).category] }));
     result.ruleBaseline = { cases: ruleCases, metrics: summarizeClassification(ruleCases), scope: "Existing keyword rules on the exact same confirmation requests." };

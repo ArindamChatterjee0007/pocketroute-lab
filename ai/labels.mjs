@@ -1,4 +1,4 @@
-export const choiceLabels = Object.freeze({ maintenance: "maintenance", delivery: "delivery", inspection: "inspection", review: "review" });
+export const choiceLabels = Object.freeze({ A: "maintenance", B: "delivery", C: "inspection", D: "review" });
 
 export function decodeChoice(output) {
   if (typeof output !== "string") return null;
