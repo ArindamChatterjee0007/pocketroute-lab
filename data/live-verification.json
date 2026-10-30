@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
   "status": "passed",
-  "checkedAt": "2026-10-30T13:01:37.190Z",
-  "url": "https://arindamchatterjee007.github.io/pocketroute-lab/",
-  "productUrl": "https://arindamchatterjee007.github.io/pocketroute-lab/notes/",
-  "sourceSha": "96da4a02f99f647c2195ba47465efadaf5007994",
-  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41059650241",
-  "artifactFilesVerified": 65,
+  "checkedAt": "2026-10-30T16:48:13.152Z",
+  "url": "https://arindamchatterjee0007.github.io/pocketroute-lab/",
+  "productUrl": "https://arindamchatterjee0007.github.io/pocketroute-lab/notes/",
+  "sourceSha": "c23caf7fb4f0e817fcdb1d84698592489f910707",
+  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41092983981",
+  "artifactFilesVerified": 67,
   "artifactHashAlgorithm": "SHA-256",
   "bundleIntegrity": "passed",
   "bundleEntries": 18,
   "experimentalAiSdkBundle": {
     "integrity": "passed",
-    "entries": 20,
+    "entries": 18,
     "weightsBundled": false,
     "modelQualityAccepted": false
   },
@@ -101,13 +101,29 @@
   },
   "hostedRetrieval": {
     "policy": "At most three GET attempts for HTTP 502/503/504 only; final status, byte count and SHA-256 remain mandatory.",
-    "retries": [
+    "retries": [],
+    "availabilityGuarantee": false
+  },
+  "pdfManuals": {
+    "status": "passed",
+    "documents": [
       {
-        "path": "data/ai-runs/41017074929.json",
-        "attempt": 1,
-        "status": 503
+        "id": "device-integration",
+        "pages": 14,
+        "sha256": "742db5bd74f7c01488bed0414dfcc0083bacc432c4367a75c013eba9c5b59e39"
+      },
+      {
+        "id": "sdk-reference",
+        "pages": 11,
+        "sha256": "98f262f76ce49ee9bd9177d0fa0af31945e9d9306df10a040b839f1daad1c3dd"
+      },
+      {
+        "id": "india-showcase",
+        "pages": 8,
+        "sha256": "54ba833e8f591c617f86f36541989b571f9e3165510f2ff2a249645ecf7c7c77"
       }
     ],
-    "availabilityGuarantee": false
+    "sourceMarkdownExcludedFromBundles": true,
+    "privatePaperPlanIncluded": false
   }
 }
