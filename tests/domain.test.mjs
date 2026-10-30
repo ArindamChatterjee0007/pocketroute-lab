@@ -25,6 +25,19 @@ import { reviewPolicyReason } from "../ai/review-policy.mjs";
 import { reusableDevelopment } from "../ai/evaluation-replay.mjs";
 import { createDeviceReference, evaluateDeviceReport } from "../ai/device-report.mjs";
 import { fetchEvidence } from "../scripts/evidence-fetch.mjs";
+import { documentBlocks } from "../scripts/pdf-content.mjs";
+
+test("print document blocks preserve steps, table rows, code and safe source text", () => {
+  const source = "# Cover\n\n## Install\n\n5. Keep the pinned file.\n6. Verify its digest.\n\n| Device | State |\n| --- | --- |\n| Phone | unqualified |\n| Board | unqualified |\n| Watch | unqualified |\n| MCU | unqualified |\n| Other | unavailable |\n\n```sh\nnode validate-device-report.mjs reference.json report.json parity\n```\n\n<script>alert(1)</script>\n\n[Reference](https://example.invalid/manual)";
+  const document = documentBlocks([{ text: source }]);
+  assert.equal(document.chapters.length, 1);
+  assert.equal(document.chapters[0].title, "Install");
+  assert.equal(document.blocks.filter(block => block.kind === "table").length, 2);
+  const html = document.blocks.map(block => block.html).join("");
+  for (const required of ["5.", "6.", "Other", "node validate-device-report.mjs", "&lt;script&gt;", "https://example.invalid/manual"]) assert.ok(html.includes(required), required);
+  assert.ok(!html.includes("<script>"));
+  assert.throws(() => documentBlocks([]));
+});
 
 test("evidence retrieval retries only transient GET status codes and records them", async () => {
   const requested = [];
