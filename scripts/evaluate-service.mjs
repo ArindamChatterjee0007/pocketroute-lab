@@ -7,16 +7,30 @@ import { join, relative, dirname } from "node:path";
 import { createRequire } from "node:module";
 import { cpus } from "node:os";
 import assert from "node:assert/strict";
-import { examples, development, confirmation, datasetVersion, datasetNotice } from "../ai/dataset.mjs";
+import { confirmation as exposedConfirmation } from "../ai/dataset.mjs";
+import { examples } from "../ai/examples.mjs";
 import { modelCandidates, systemPrompt, inferencePolicy, evaluationRevision, evaluationCandidateKeys } from "../ai/config.mjs";
 import { createServiceClassifier } from "../ai/client.mjs";
 import { summarizeClassification, pilotGate } from "../ai/contract.mjs";
 import { analyzeNote } from "../app/note-core.mjs";
 
 const startedAt = new Date().toISOString();
-const deadline = Date.now() + 12 * 60 * 1000;
+const deadline = Date.now() + 20 * 60 * 1000;
 const cacheDir = join(process.env.RUNNER_TEMP, "pocketroute-service-models");
 const hash = value => createHash("sha256").update(value).digest("hex");
+const confirmationBytes = await readFile("ai/confirmation-v2.json");
+const confirmationSource = JSON.parse(confirmationBytes);
+const confirmation = confirmationSource.cases.map(({ id, family, expected, input }) => ({ id, family, expected, input }));
+const development = exposedConfirmation.map(entry => ({ ...entry, id: `regression-${entry.id}` }));
+const datasetVersion = confirmationSource.datasetId;
+const datasetNotice = confirmationSource.provenance;
+assert.equal(confirmation.length, 96);
+assert.equal(development.length, 48);
+assert.equal(new Set(confirmation.map(entry => entry.id)).size, 96);
+assert.equal(new Set(confirmation.map(entry => entry.family)).size, 96);
+const knownInputs = new Set([...examples, ...development].map(entry => entry.input.trim().toLowerCase()));
+assert.ok(confirmation.every(entry => !knownInputs.has(entry.input.trim().toLowerCase())));
+for (const label of ["maintenance", "delivery", "inspection", "review"]) assert.equal(confirmation.filter(entry => entry.expected === label).length, 24);
 const require = createRequire(import.meta.url);
 async function installedVersion(name) {
   let directory = dirname(require.resolve(name));
@@ -28,17 +42,18 @@ async function installedVersion(name) {
 }
 const runtimeVersions = { node: process.version, transformers: await installedVersion("@huggingface/transformers"), onnxruntimeNode: await installedVersion("onnxruntime-node") };
 assert.equal(`@huggingface/transformers ${runtimeVersions.transformers}`, inferencePolicy.runtime);
-const protocolSha256 = hash(JSON.stringify({ evaluationRevision, evaluationCandidateKeys, modelCandidates, systemPrompt, inferencePolicy, examples, runtimeVersions: { transformers: runtimeVersions.transformers, onnxruntimeNode: runtimeVersions.onnxruntimeNode } }));
+const implementationSha256 = hash((await Promise.all(["ai/worker.mjs", "ai/client.mjs", "ai/contract.mjs", "ai/labels.mjs", "ai/logits.mjs"].map(path => readFile(path, "utf8")))).join("\n"));
+const protocolSha256 = hash(JSON.stringify({ evaluationRevision, evaluationCandidateKeys, modelCandidates, systemPrompt, inferencePolicy, examples, implementationSha256, runtimeVersions: { transformers: runtimeVersions.transformers, onnxruntimeNode: runtimeVersions.onnxruntimeNode } }));
 const result = {
   schemaVersion: 1,
-  id: `service-v1-${process.env.GITHUB_RUN_ID}`,
+  id: `service-v2-${process.env.GITHUB_RUN_ID}`,
   status: "running",
   startedAt,
   sourceSha: process.env.GITHUB_SHA,
   runUrl: `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`,
   environment: { runner: "GitHub-hosted Linux", cpu: cpus()[0]?.model, runtimeVersions },
-  dataset: { version: datasetVersion, notice: datasetNotice, examples: examples.length, development: development.length, confirmation: confirmation.length, sha256: hash(JSON.stringify({ examples, development, confirmation })), sourceSha256: hash(await readFile("ai/dataset.mjs")) },
-  protocol: { revision: evaluationRevision, candidateOrder: evaluationCandidateKeys, selection: "Revision 2 evaluates the fixed 1.5B candidate after revision 1 development results. One explicit vague-request prompt example was added using development evidence only. Confirmation runs only if development accuracy >=90%, accepted precision >=95%, supported coverage >=80% and zero unsafe acceptances. The 48 confirmation requests and pilot thresholds are unchanged.", sha256: protocolSha256, systemPromptSha256: hash(systemPrompt), policy: inferencePolicy, testSetUsedForSelection: false, confirmationUse: "not-started" },
+  dataset: { version: datasetVersion, notice: datasetNotice, examples: examples.length, development: development.length, confirmation: confirmation.length, sha256: hash(JSON.stringify({ examples, development, confirmation })), sourceSha256: hash(confirmationBytes), developmentScope: "Previously exposed v1 confirmation cases, now regression/development data only.", confirmationScope: "Fresh 96-case separate-agent-authored synthetic set; not human-labelled or customer data." },
+  protocol: { revision: evaluationRevision, candidateOrder: evaluationCandidateKeys, selection: "Revision 3 keeps the pinned 1.5B q4 model, introduces four-choice single-token constrained decoding and rejection-first guidance using exposed v1 failures as development evidence. The exposed 48 cases are a regression gate. Only after >90% regression accuracy, >=95% accepted precision, >=80% coverage and zero unsafe acceptances may the fresh balanced 96-case confirmation set run. No prompt or threshold tuning after confirmation.", sha256: protocolSha256, implementationSha256, systemPromptSha256: hash(systemPrompt), policy: inferencePolicy, accuracyTarget: ">90%", testSetUsedForSelection: false, confirmationUse: "not-started" },
   candidates: [],
   selected: null,
   testCases: [],
@@ -51,7 +66,7 @@ const result = {
 };
 const engines = new Set();
 const timeLeft = () => { const remaining = deadline - Date.now(); if (remaining < 1000) throw new Error("Evaluation budget exhausted."); return remaining; };
-const qualifiedDevelopment = metrics => metrics.total === 24 && metrics.accuracy >= 0.9 && metrics.acceptedPrecision >= 0.95 && metrics.supportedCoverage >= 0.8 && metrics.unsafeAcceptances === 0;
+const qualifiedDevelopment = metrics => metrics.total === development.length && metrics.accuracy > 0.9 && metrics.acceptedPrecision >= 0.95 && metrics.supportedCoverage >= 0.8 && metrics.unsafeAcceptances === 0;
 const rank = entry => [entry.metrics.unsafeAcceptances === 0 ? 1 : 0, entry.metrics.acceptedPrecision ?? 0, entry.metrics.accuracy, entry.metrics.supportedCoverage ?? 0];
 function best(first, second) {
   if (!first) return second;
@@ -123,10 +138,13 @@ try {
   assert.equal(engine.metadata.networkAttemptsDuringLoad, 0);
   result.cachedLoad = { passed: true, allowDownload: false, metadata: engine.metadata };
   if (result.selected.developmentQualified) {
+    result.confirmationBaseline = await evaluate(engine, [{ id: "regression-parity", input: development[0].input, expected: development[0].expected }], "cached-parity", []);
+    assert.equal(result.confirmationBaseline.cases[0].rawLabel, selected.cases[0].rawLabel, "Cached model changed its regression prediction.");
     result.protocol.confirmationUse = priorConfirmation ? "exact-protocol-reproduction" : "first-use";
     const evaluated = await evaluate(engine, confirmation, "confirmation", result.testCases);
     result.metrics = evaluated.metrics;
     result.pilotScreen = pilotGate(result.metrics);
+    result.userAccuracyTarget = { required: ">90%", observed: result.metrics.accuracy, met: result.metrics.accuracy > 0.9, sampleType: "fresh synthetic confirmation", populationAccuracyEstablished: false };
     const ruleCases = confirmation.map(record => ({ ...record, output: ({ Maintenance: "maintenance", Delivery: "delivery", Inspection: "inspection", General: "review" })[analyzeNote(record.input).category] }));
     result.ruleBaseline = { cases: ruleCases, metrics: summarizeClassification(ruleCases), scope: "Existing keyword rules on the exact same confirmation requests." };
     const durations = evaluated.cases.map(record => record.elapsedMs).sort((first, second) => first - second);

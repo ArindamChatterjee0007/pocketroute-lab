@@ -15,6 +15,7 @@ import { serviceEvidenceView } from "../ai/presentation.mjs";
 import { choiceLabels, decodeChoice, validateChoiceTokenIds } from "../ai/labels.mjs";
 import { ServiceChoiceLogitsProcessor } from "../ai/logits.mjs";
 import { Tensor } from "@huggingface/transformers";
+import { readFileSync } from "node:fs";
 
 test("constrained AI choices are strict, distinct single tokens", () => {
   assert.equal(decodeChoice(" A\n"), "maintenance");
@@ -34,6 +35,17 @@ test("constrained decoding preserves model preference among classes without forc
   assert.equal(result.data[3], 8);
   const invalid = new Tensor("float32", Float32Array.from([0, NaN, 0, 1, 0, 1, 0, 1]), [1, 8]);
   assert.throws(() => processor([[1n]], invalid), /SCORES_INVALID/);
+});
+
+test("fresh confirmation is balanced, bounded and separate from exposed cases and runtime examples", () => {
+  const dataset = JSON.parse(readFileSync(new URL("../ai/confirmation-v2.json", import.meta.url), "utf8"));
+  assert.equal(dataset.schemaVersion, 1);
+  assert.equal(dataset.cases.length, 96);
+  assert.equal(new Set(dataset.cases.map(entry => entry.id)).size, 96);
+  assert.equal(new Set(dataset.cases.map(entry => entry.family)).size, 96);
+  const known = new Set([...examples, ...development, ...confirmation, ...runtimeExamples].map(entry => entry.input.trim().toLowerCase()));
+  for (const entry of dataset.cases) { assert.ok(validateServiceRequest(entry.input)); assert.ok(!known.has(entry.input.trim().toLowerCase()), entry.id); }
+  for (const label of Object.values(choiceLabels)) assert.equal(dataset.cases.filter(entry => entry.expected === label).length, 24);
 });
 
 test("AI service interface bounds input and rejects unstructured model labels", () => {

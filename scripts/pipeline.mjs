@@ -30,7 +30,7 @@ async function main() {
   const unit = command("npm", ["test"]);
   if (process.env.PIPELINE_MODE === "unit") return;
   if (process.env.PIPELINE_MODE === "ai") {
-    command(process.execPath, ["scripts/evaluate-service.mjs"], { timeout: 900000, capture: false });
+    command(process.execPath, ["scripts/evaluate-service.mjs"], { timeout: 1320000, capture: false });
     const report = JSON.parse(readFileSync("data/ai-service-results.json", "utf8"));
     command("gh", ["auth", "setup-git"], { authenticated: true });
     command("git", ["config", "user.name", "github-actions[bot]"]);
