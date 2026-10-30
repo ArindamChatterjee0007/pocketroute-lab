@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
   "status": "passed",
-  "sourceSha": "e467cac4b8017b1f4b8d96e30c8e934ce5248ee2",
-  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41091046670",
-  "generatedAt": "2026-10-30T16:35:02.683Z",
+  "sourceSha": "8bf26f6e3767ac91770e9a7dd28240aedcdf2420",
+  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41091716000",
+  "generatedAt": "2026-10-30T16:39:33.826Z",
   "rendering": "GitHub-hosted Chromium PDF plus Poppler raster/text inspection",
   "documents": [
     {
       "id": "device-integration",
       "path": "downloads/pocketroute-device-integration.pdf",
       "pages": 14,
-      "bytes": 521008,
-      "sha256": "bbf28ac498243e1ea9fafca36088deeb037875982bd7cd244e93ce435a338efd",
+      "bytes": 522028,
+      "sha256": "4ebb858871a06dc54648a2c6e555d30d8b99e1f7e141c40dc2b1f5cdfcbafe41",
       "sources": [
         {
           "path": "ai/DEVICE_INTEGRATION.md",
@@ -32,16 +32,16 @@
       "id": "sdk-reference",
       "path": "downloads/pocketroute-sdk-reference.pdf",
       "pages": 11,
-      "bytes": 471655,
-      "sha256": "23d45fb38bae08b297ac9f62aeab60ef4be0182a97ae5e1605c47ceb3c0e3a77",
+      "bytes": 472718,
+      "sha256": "bcf169ac82b07a7acadacc32ae6aa647f9f3af8877c6adf3dd898d8a3f538de0",
       "sources": [
         {
           "path": "ai/README.md",
-          "sha256": "cc4824b7b17d1960105f9ce968574a5df853ea631f5c9c9ff6db39fcf9fa5712"
+          "sha256": "646357d90b78c1b493818cdf88744469faec0571987066e41fae216b25e6f9b9"
         },
         {
           "path": "ai/MODEL_CARD.md",
-          "sha256": "73bb1060adad0dec4838c2408fe817e72077aff8321f9cb49aa5a31d201a8c02"
+          "sha256": "bd8c4244e0926a2dd8933fd4a518c84bdb8683111c70ad03cca5732b16af3f31"
         }
       ],
       "contentBlocks": 69,
@@ -58,8 +58,8 @@
       "id": "india-showcase",
       "path": "downloads/pocketroute-india-showcase.pdf",
       "pages": 8,
-      "bytes": 396221,
-      "sha256": "b09bb6b843e91136bed8a5db43dbf9ac983564eeed89d05261f2fc465d2bf1e2",
+      "bytes": 397258,
+      "sha256": "d5773e0011dd0da4b5b3ea046b112d43b3b52bdd77fa563ec11d21f861608e37",
       "sources": [
         {
           "path": "documents/INDIA_SHOWCASE.md",

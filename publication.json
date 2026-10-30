@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "stage": "prepublication-checks-passed",
-  "checkedAt": "2026-10-30T16:36:26.654Z",
-  "sourceSha": "e467cac4b8017b1f4b8d96e30c8e934ce5248ee2",
-  "generatedInputsSha": "e467cac4b8017b1f4b8d96e30c8e934ce5248ee2",
-  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41091046670",
+  "checkedAt": "2026-10-30T16:40:38.993Z",
+  "sourceSha": "8bf26f6e3767ac91770e9a7dd28240aedcdf2420",
+  "generatedInputsSha": "8bf26f6e3767ac91770e9a7dd28240aedcdf2420",
+  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41091716000",
   "unitTests": 43,
   "browserTests": 162,
   "browserSpecs": 27,
@@ -218,7 +218,7 @@
     {
       "path": "data/document-verification.json",
       "bytes": 2554,
-      "sha256": "47cebf7f0fe7bafe8e9637afd88a81407a264ec97d33b65b42fa8e4e590b9966"
+      "sha256": "4937e6234cee1240422c837e7078c81503785c576921a28ee31c8667ddbf6d1f"
     },
     {
       "path": "data/slm-results.json",
@@ -228,7 +228,7 @@
     {
       "path": "data/verification.json",
       "bytes": 2957,
-      "sha256": "6e1fd1788321f58568a550c977a98b89162352eccb7f0746ed62b3dedc2e1032"
+      "sha256": "7f3dcd3c2f450661306756554d504f5ec45a64505e1102e073e2a7b8b989177a"
     },
     {
       "path": "downloads/README.md",
@@ -242,8 +242,8 @@
     },
     {
       "path": "downloads/device-test-kit/MANUAL.pdf",
-      "bytes": 521008,
-      "sha256": "bbf28ac498243e1ea9fafca36088deeb037875982bd7cd244e93ce435a338efd"
+      "bytes": 522028,
+      "sha256": "4ebb858871a06dc54648a2c6e555d30d8b99e1f7e141c40dc2b1f5cdfcbafe41"
     },
     {
       "path": "downloads/device-test-kit/contract.mjs",
@@ -258,7 +258,7 @@
     {
       "path": "downloads/device-test-kit/protocol.json",
       "bytes": 6264,
-      "sha256": "d2d6c249d6e29c283dd877b3b4dbfde1473391c0ab030056f96455b14dfe67a0"
+      "sha256": "5a83cd24621e4a3aa5eb00d09c8d265e975b04b84a622631a5c91f1f03d0778a"
     },
     {
       "path": "downloads/device-test-kit/reference.json",
@@ -292,33 +292,33 @@
     },
     {
       "path": "downloads/pocketroute-device-integration.pdf",
-      "bytes": 521008,
-      "sha256": "bbf28ac498243e1ea9fafca36088deeb037875982bd7cd244e93ce435a338efd"
+      "bytes": 522028,
+      "sha256": "4ebb858871a06dc54648a2c6e555d30d8b99e1f7e141c40dc2b1f5cdfcbafe41"
     },
     {
       "path": "downloads/pocketroute-device-test-kit-0.1.0.zip",
-      "bytes": 323936,
-      "sha256": "5b51bdedd0a6f5bf50835f6ef647ca548cb426cc15089e46f541249fdd9b3d7a"
+      "bytes": 324432,
+      "sha256": "11217efdd6d7c4b9b2588ccbf3730cdc6325dfb789755a424169ad057d103125"
     },
     {
       "path": "downloads/pocketroute-india-showcase.pdf",
-      "bytes": 396221,
-      "sha256": "b09bb6b843e91136bed8a5db43dbf9ac983564eeed89d05261f2fc465d2bf1e2"
+      "bytes": 397258,
+      "sha256": "d5773e0011dd0da4b5b3ea046b112d43b3b52bdd77fa563ec11d21f861608e37"
     },
     {
       "path": "downloads/pocketroute-notes-0.2.0.zip",
-      "bytes": 120815,
-      "sha256": "2c61815531034fc8cf30d10ebf493ab504794293cbe93087c71be5eb7a429ce8"
+      "bytes": 120816,
+      "sha256": "60850dbb4aae52c8b1bf2691b56fa59c68408e092b460e1a8a92e90c55bd9b56"
     },
     {
       "path": "downloads/pocketroute-sdk-reference.pdf",
-      "bytes": 471655,
-      "sha256": "23d45fb38bae08b297ac9f62aeab60ef4be0182a97ae5e1605c47ceb3c0e3a77"
+      "bytes": 472718,
+      "sha256": "bcf169ac82b07a7acadacc32ae6aa647f9f3af8877c6adf3dd898d8a3f538de0"
     },
     {
       "path": "downloads/pocketroute-service-ai-0.1.0-experimental.zip",
-      "bytes": 605986,
-      "sha256": "6a3a9adeefb8b6cf6c0ca949a6425e56c61806187a4dd807dbd2751ed1f1fba6"
+      "bytes": 606931,
+      "sha256": "01f759e59fa82ae6a5f0d534a5c4b129b821d08f884c249b12e000a470c918e0"
     },
     {
       "path": "downloads/service-ai/LICENSE",
@@ -327,8 +327,8 @@
     },
     {
       "path": "downloads/service-ai/MANUAL.pdf",
-      "bytes": 521008,
-      "sha256": "bbf28ac498243e1ea9fafca36088deeb037875982bd7cd244e93ce435a338efd"
+      "bytes": 522028,
+      "sha256": "4ebb858871a06dc54648a2c6e555d30d8b99e1f7e141c40dc2b1f5cdfcbafe41"
     },
     {
       "path": "downloads/service-ai/NOTICE",
@@ -337,8 +337,8 @@
     },
     {
       "path": "downloads/service-ai/SDK_REFERENCE.pdf",
-      "bytes": 471655,
-      "sha256": "23d45fb38bae08b297ac9f62aeab60ef4be0182a97ae5e1605c47ceb3c0e3a77"
+      "bytes": 472718,
+      "sha256": "bcf169ac82b07a7acadacc32ae6aa647f9f3af8877c6adf3dd898d8a3f538de0"
     },
     {
       "path": "downloads/service-ai/ai/cli.mjs",
@@ -402,8 +402,8 @@
     },
     {
       "path": "evidence/cloud-model-desktop-review.png",
-      "bytes": 302580,
-      "sha256": "18976d379ea960a1206c19c09cfbc26bd94f30f2692c7a3c27d6748cf99a9fb4"
+      "bytes": 302567,
+      "sha256": "303e64a62a85b4d3e8087f4734c14ff1aadec0e566bf28bfd0b17c49625f6463"
     },
     {
       "path": "evidence/cloud-model-phone-review.png",
@@ -412,33 +412,33 @@
     },
     {
       "path": "evidence/evidence-desktop-review.png",
-      "bytes": 226643,
-      "sha256": "f0852be74cf3d0d256011e902bb7f57fbe1de5ff3f28f054f11057331bfe2a26"
+      "bytes": 226619,
+      "sha256": "6f8e11693f7e12003ee938c505d350e27bc25f35e064dcf62fa46e658b14c0a2"
     },
     {
       "path": "evidence/evidence-desktop.png",
-      "bytes": 151880,
-      "sha256": "11b54f85dba1b70c333d2a92eac64b611c80c1e59c4b43cdad128f522a6f6b78"
+      "bytes": 151860,
+      "sha256": "c1af5ffb1e74766ec8009e089ac995e60292c8a06669171d88c33bf3bbc2a49b"
     },
     {
       "path": "evidence/evidence-phone-review.png",
-      "bytes": 114911,
-      "sha256": "f430de9ab7e4d86d2db6f714a888bda1f108ab44e78372dc1a239c4f859b90cf"
+      "bytes": 114883,
+      "sha256": "1f8e0f41922a3199d2e4f24e4af8a52539e4cb1da7166799bd089dd1c14d73ab"
     },
     {
       "path": "evidence/evidence-phone.png",
-      "bytes": 129126,
-      "sha256": "911b64a24bafe465298c48895ec6283bf411430d2581212d6de23dc5c86ec5c3"
+      "bytes": 129089,
+      "sha256": "fc376b47c55a419e01743ef03e31945d3e74e384b01b6e6e821c938f26634ec3"
     },
     {
       "path": "evidence/execution-desktop-review.png",
-      "bytes": 182816,
-      "sha256": "89da6d20eea19d685aeadfee3ad4be756a87783341c944663a35dbb37355c3e3"
+      "bytes": 182817,
+      "sha256": "bc539c0034193061e97f9e9588056d3c5ce70abde293c8f262f8256107260a9f"
     },
     {
       "path": "evidence/execution-desktop.png",
-      "bytes": 121489,
-      "sha256": "ab0c1bf10d50388ae1c53547930510a7e3f3db70b30019e531c28caae6b9acc3"
+      "bytes": 121496,
+      "sha256": "329cbf8d470cf19fecbabc16dee4446dc6591a6bb309629dbcb8e68160fe3025"
     },
     {
       "path": "evidence/execution-phone-review.png",
@@ -452,13 +452,13 @@
     },
     {
       "path": "evidence/lab-desktop-review.png",
-      "bytes": 182598,
-      "sha256": "421c1342dabd2f8bb5ade0875aca16c14edb35486c09a03ed6862a364336f8e8"
+      "bytes": 182596,
+      "sha256": "b2c0837565f74acfaea823893ffb46204c223c3e8d24d3db0b85b345905fce20"
     },
     {
       "path": "evidence/lab-desktop.png",
-      "bytes": 137327,
-      "sha256": "b8790d51a4cae06427784fd13f36e9a1c0243729cf6b1cc89163898da25043ca"
+      "bytes": 137335,
+      "sha256": "94e6f43781463e0b4c467c903943d9eab7e0bce3318c68bcb10318cc3b1fa9a3"
     },
     {
       "path": "evidence/lab-phone-review.png",
@@ -472,48 +472,48 @@
     },
     {
       "path": "evidence/manuals/device-integration-contact-sheet.png",
-      "bytes": 483925,
-      "sha256": "e5fac13ae3bf6ee1c70f1f2cf3162b865141a01f613586a5b02bedaf97c5d6ec"
+      "bytes": 483982,
+      "sha256": "8ccec6f1d543c1304b438d87f83a348e93c334c4d659859bbc737cab80919254"
     },
     {
       "path": "evidence/manuals/device-integration-page-1.png",
-      "bytes": 24057,
-      "sha256": "38732e3108f6b7a80b6af7c9bb439b2e2a9ebdc6ab543683417d84eba5076229"
+      "bytes": 24068,
+      "sha256": "c731718fd0efe3e0f04f4e13ce3133f1f886c40b6ef0296b63f62300d00f2390"
     },
     {
       "path": "evidence/manuals/device-integration-page-3.png",
-      "bytes": 35070,
-      "sha256": "32515f6fef9cd6bb1a7a78ca2aa0d4636ee6eaac7045fcadb16206a2045c8876"
+      "bytes": 35090,
+      "sha256": "f9bd4b59852bf7d9542aa9ee87006ec530f4ee142891b2b66b43a177a49cafa1"
     },
     {
       "path": "evidence/manuals/india-showcase-contact-sheet.png",
-      "bytes": 247694,
-      "sha256": "f0967ff7851612e7eb4d8aeb3f20fd413fe1735397bfa54602663bf164c97092"
+      "bytes": 247751,
+      "sha256": "525ccb2bb5a94031cb91f4967103852751077508161e27e1a078feda10d8781d"
     },
     {
       "path": "evidence/manuals/india-showcase-page-1.png",
-      "bytes": 24566,
-      "sha256": "ef1d118087834334a31ea4987a3b8dcb81fe06408ef6e7c8f29913be84cb6aa4"
+      "bytes": 24576,
+      "sha256": "106d70e356c518a0c4ea057857a74798732b5e0417f9f576b5e55be78dff6de9"
     },
     {
       "path": "evidence/manuals/india-showcase-page-3.png",
-      "bytes": 36216,
-      "sha256": "022bc2db277fc3f5ac548416ea3119a4d80e76bd02fd08a0432c5e2a84c02afe"
+      "bytes": 36235,
+      "sha256": "4c78f6b7e3ce7e0832ead17491f5ca3fcef8df390030520df5fed25eece3bde8"
     },
     {
       "path": "evidence/manuals/sdk-reference-contact-sheet.png",
-      "bytes": 379064,
-      "sha256": "104efa4397d858d95c8102b132e9b09eac1cc8b723aa316ef18a7345514d81a5"
+      "bytes": 379740,
+      "sha256": "cf69eaf55d283dbdf928910823166a3eef3ae0a374c843b618cc34ac0a75d376"
     },
     {
       "path": "evidence/manuals/sdk-reference-page-1.png",
-      "bytes": 24678,
-      "sha256": "2d2b40f6811acc8c68c96edae43557836386b8672e25ddde2f4cfaba7dd81310"
+      "bytes": 24700,
+      "sha256": "1c47bbee59fcfd3feda329193e184988759ca1449dac73f6fe31b19030fe6d4e"
     },
     {
       "path": "evidence/manuals/sdk-reference-page-3.png",
-      "bytes": 36621,
-      "sha256": "1973ed94724b10e99c756e09cc0ed7cabd5af6c380fd53d7a40f6cc7e6481fb3"
+      "bytes": 36640,
+      "sha256": "ae3962ee62e8e1d8a36ebafa5339d868c26d9ccae9e212f183d79cf4d30b9065"
     },
     {
       "path": "evidence/notes-desktop-review.png",
@@ -527,13 +527,13 @@
     },
     {
       "path": "evidence/overview-desktop-review.png",
-      "bytes": 297877,
-      "sha256": "e39590ede00cab356a98c47a5452c9e51f780a352c6a5a4cd833e2b1ce5fa8df"
+      "bytes": 297883,
+      "sha256": "7c9ceba931028a659241c3f40adbd1d998d0eaeb9efd84461f912c2c2908aa1a"
     },
     {
       "path": "evidence/overview-desktop.png",
-      "bytes": 233585,
-      "sha256": "1415b5fca5e717a94f3c4897539cbd8c68f5abd699e7d92382f826545e7774b3"
+      "bytes": 233577,
+      "sha256": "ae2cb9ba00127eb1b7ee9c023361476a78432e33713e02b82e414500792802f1"
     },
     {
       "path": "evidence/overview-phone-review.png",
@@ -653,7 +653,7 @@
     {
       "path": "notes/sw.js",
       "bytes": 1240,
-      "sha256": "15c7a5edd16ba0ffc276b701972106f4e6be04f8b0d734cdbe639273dfd8d6df"
+      "sha256": "9a874771f6543f0a65846694bc8183ea085453b884a95c0280bd072fcb45035b"
     },
     {
       "path": "styles.css",
