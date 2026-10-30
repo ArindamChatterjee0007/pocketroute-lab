@@ -10,6 +10,17 @@ The original model-backed work is now implemented as an **experimental service-c
 - [Experimental SDK download](https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-service-ai-0.1.0-experimental.zip)
 - [SDK/API instructions](ai/README.md)
 - [Model card and failure analysis](ai/MODEL_CARD.md)
+- [Later physical-phone testing steps](ai/PHONE_TESTING.md)
+
+### Latest 96-Case Result
+
+The requested **greater-than-90% target remains unmet**. [Run 41043171464](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41043171464) completed the frozen hybrid system (Qwen plus a reject-only policy): **73/96, 76.0% accuracy**, **80.3% accepted-label precision**, **86.1% supported coverage**, **four unsafe acceptances**, zero invalid labels. There were 94 model calls and two policy rejections; this is not pure-model accuracy. The same-case keyword baseline was 25/96.
+
+The separate AI-authored synthetic set was not used for prompt/policy design and is not human/customer validation. Exposed development cases scored 46/48 (95.8%) but did not generalize. An initial run reached 86 cases before the 20-minute overall budget; the completed run repeated all 96 with unchanged model/prompt/policy/data/runtime and reused only hash-verified qualifying regression. Both receipts remain archived, and the repeat is labelled explicitly. No tuning followed confirmation exposure.
+
+Mean/p95 cloud request time was 11,988/12,559 ms; peak worker RSS was 5,820,387,328 bytes (5.42 GiB). Runtime controls passed, but quality and mobile readiness did not. The 96 cases are now exposed. Further accuracy claims need permitted human-labelled development/calibration data and a new untouched confirmation set, not threshold relaxation or repeated easier synthetic tests. The phone plan requires a GitHub-built native harness before real offline, memory, latency and energy tests; no APK or phone result exists yet.
+
+### Earlier 48-Case Checkpoint
 
 The completed [model evaluation 41017525215](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41017525215) recorded 24/24 development labels but **41/48 confirmation labels (85.4%)**, **87.2% accepted-label precision** and **four unsafe acceptances**. Preset gates required 90%, 95% and zero respectively; they failed. The keyword baseline scored 22/48 on the same confirmation cases. These are small original synthetic sets, not external customer validation.
 
