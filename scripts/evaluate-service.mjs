@@ -13,6 +13,7 @@ import { modelCandidates, systemPrompt, inferencePolicy, evaluationRevision, eva
 import { createServiceClassifier } from "../ai/client.mjs";
 import { summarizeClassification, pilotGate } from "../ai/contract.mjs";
 import { analyzeNote } from "../app/note-core.mjs";
+import { entailmentPolicy, serviceHypotheses } from "../ai/entailment.mjs";
 
 const startedAt = new Date().toISOString();
 const deadline = Date.now() + 20 * 60 * 1000;
@@ -43,7 +44,7 @@ async function installedVersion(name) {
 }
 const runtimeVersions = { node: process.version, transformers: await installedVersion("@huggingface/transformers"), onnxruntimeNode: await installedVersion("onnxruntime-node") };
 assert.equal(`@huggingface/transformers ${runtimeVersions.transformers}`, inferencePolicy.runtime);
-const implementationSha256 = hash((await Promise.all(["ai/worker.mjs", "ai/client.mjs", "ai/contract.mjs", "ai/labels.mjs", "ai/logits.mjs"].map(path => readFile(path, "utf8")))).join("\n"));
+const implementationSha256 = hash((await Promise.all(["ai/worker.mjs", "ai/client.mjs", "ai/contract.mjs", "ai/labels.mjs", "ai/logits.mjs", "ai/entailment.mjs"].map(path => readFile(path, "utf8")))).join("\n"));
 const protocolSha256 = hash(JSON.stringify({ evaluationRevision, evaluationCandidateKeys, modelCandidates, systemPrompt, inferencePolicy, examples, implementationSha256, runtimeVersions: { transformers: runtimeVersions.transformers, onnxruntimeNode: runtimeVersions.onnxruntimeNode } }));
 const result = {
   schemaVersion: 1,
@@ -54,7 +55,7 @@ const result = {
   runUrl: `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`,
   environment: { runner: "GitHub-hosted Linux", cpu: cpus()[0]?.model, runtimeVersions },
   dataset: { version: datasetVersion, notice: datasetNotice, examples: examples.length, development: development.length, confirmation: confirmation.length, sha256: hash(JSON.stringify({ examples, development, confirmation })), sourceSha256: hash(confirmationBytes), developmentScope: "Previously exposed v1 confirmation cases, now regression/development data only.", confirmationScope: "Fresh 96-case separate-agent-authored synthetic set; not human-labelled or customer data." },
-  protocol: { revision: evaluationRevision, candidateOrder: evaluationCandidateKeys, selection: "Revision 4 keeps the pinned 1.5B q4 model and sixteen development-only examples. After revision 3 failed the exposed regression cases, it replaces letter codes with constrained category-word tokens, shortens policy and appends a trusted classification reminder after quoted data. The same exposed 48 cases are a regression gate. Only after >90% regression accuracy, >=95% accepted precision, >=80% coverage and zero unsafe acceptances may the unchanged fresh balanced 96-case confirmation set run. No prompt or threshold tuning after confirmation.", sha256: protocolSha256, implementationSha256, systemPromptSha256: hash(systemPrompt), policy: inferencePolicy, accuracyTarget: ">90%", testSetUsedForSelection: false, confirmationUse: "not-started" },
+  protocol: { revision: evaluationRevision, candidateOrder: evaluationCandidateKeys, selection: "Revision 5 tests a pinned compact NLI encoder after both constrained Qwen variants failed exposed regression. It independently scores fixed service hypotheses with conservative weak/competing/manipulation abstention; no generative instructions or examples enter this model. The same exposed 48 cases are a regression gate. Only after >90% regression accuracy, >=95% accepted precision, >=80% coverage and zero unsafe acceptances may the unchanged fresh balanced 96-case confirmation set run. No policy or threshold tuning after confirmation.", sha256: protocolSha256, implementationSha256, systemPromptSha256: hash(systemPrompt), policy: inferencePolicy, entailmentPolicy, serviceHypotheses, modelUsesPromptExamples: false, accuracyTarget: ">90%", testSetUsedForSelection: false, confirmationUse: "not-started" },
   candidates: [],
   selected: null,
   testCases: [],

@@ -7,6 +7,7 @@ import { join } from "node:path";
 import { access } from "node:fs/promises";
 import { choiceLabels, decodeChoice, validateChoiceTokenIds } from "./labels.mjs";
 import { ServiceChoiceLogitsProcessor } from "./logits.mjs";
+import { classifyEntailment, entailmentPolicy } from "./entailment.mjs";
 
 let generator;
 let candidate;
@@ -40,17 +41,19 @@ process.on("message", async message => {
       const modelLocation = message.allowDownload ? candidate.id : join(message.cacheDir, candidate.id, candidate.revision);
       if (!message.allowDownload) { await access(join(modelLocation, "config.json")); await access(join(modelLocation, "tokenizer.json")); }
       const started = performance.now();
-      generator = await pipeline("text-generation", modelLocation, { revision: candidate.revision, local_files_only: message.allowDownload !== true, dtype: candidate.dtype, device: "cpu", session_options: { intraOpNumThreads: inferencePolicy.intraOpThreads, interOpNumThreads: inferencePolicy.interOpThreads } });
+      generator = await pipeline(candidate.task || "text-generation", modelLocation, { revision: candidate.revision, local_files_only: message.allowDownload !== true, dtype: candidate.dtype, device: "cpu", session_options: { intraOpNumThreads: inferencePolicy.intraOpThreads, interOpNumThreads: inferencePolicy.interOpThreads } });
       let tokenizerProbeTokens;
       try { tokenizerProbeTokens = generator.tokenizer.encode("Local model readiness check.", { add_special_tokens: false }).length; }
       catch (error) { throw new Error(`MODEL_TOKENIZER_NOT_READY: ${error.name}: ${String(error.message).replace(/https?:\/\/\S+/g, "[remote resource]").slice(0, 180)}`); }
       if (!Number.isSafeInteger(tokenizerProbeTokens) || tokenizerProbeTokens < 1) throw new Error("MODEL_TOKENIZER_NOT_READY");
-      choiceTokens = Object.fromEntries(Object.keys(choiceLabels).map(choice => [choice, generator.tokenizer.encode(choice, { add_special_tokens: false })]));
-      choiceTokenIds = validateChoiceTokenIds(choiceTokens);
+      if (candidate.task !== "zero-shot-classification") {
+        choiceTokens = Object.fromEntries(Object.keys(choiceLabels).map(choice => [choice, generator.tokenizer.encode(choice, { add_special_tokens: false })]));
+        choiceTokenIds = validateChoiceTokenIds(choiceTokens);
+      }
       env.allowRemoteModels = false;
       globalThis.fetch = blockNetwork;
       env.fetch = blockNetwork;
-      process.send?.({ id: message.id, result: { model: candidate.id, revision: candidate.revision, dtype: candidate.dtype, loadMs: Math.round(performance.now() - started), tokenizerProbeTokens, choiceTokenIds, outputMode: inferencePolicy.outputMode, directPinnedDirectory: !message.allowDownload, inferenceNetworkDisabled: true, networkAttemptsDuringLoad: networkAttempts, runtime: `@huggingface/transformers ${env.version}`, node: process.version } });
+      process.send?.({ id: message.id, result: { model: candidate.id, revision: candidate.revision, dtype: candidate.dtype, task: candidate.task || "text-generation", loadMs: Math.round(performance.now() - started), tokenizerProbeTokens, choiceTokenIds, outputMode: candidate.task ? entailmentPolicy.outputMode : inferencePolicy.outputMode, directPinnedDirectory: !message.allowDownload, inferenceNetworkDisabled: true, networkAttemptsDuringLoad: networkAttempts, runtime: `@huggingface/transformers ${env.version}`, node: process.version } });
     } else if (message.kind === "classify") {
       if (!generator) throw new Error("MODEL_NOT_INITIALIZED");
       const input = validateServiceRequest(message.input);
@@ -58,6 +61,14 @@ process.on("message", async message => {
       try { tokens = generator.tokenizer.encode(input, { add_special_tokens: false }); }
       catch { throw new Error("REQUEST_TOKENIZATION_FAILED"); }
       if (tokens.length > requestTokenLimit) throw new Error("REQUEST_TOKEN_LIMIT");
+      if (candidate.task === "zero-shot-classification") {
+        const started = performance.now();
+        const prediction = await classifyEntailment(generator, input, tokens.length);
+        const parsed = parseServiceLabel(prediction.output);
+        const status = parsed && parsed !== "review" ? "suggested" : "review-required";
+        process.send?.({ id: message.id, result: { schemaVersion: 1, ...prediction, status, label: status === "suggested" ? parsed : null, rawLabel: parsed, modelExecuted: true, model: candidate.id, modelRevision: candidate.revision, requiresHumanReview: true, confidenceCalibrated: false, confidence: null, requestTokens: tokens.length, elapsedMs: Math.round(performance.now() - started), processPeakRssBytes: process.resourceUsage().maxRSS * 1024, networkAttemptsDuringInference: networkAttempts, phoneEnergyJoules: null } });
+        return;
+      }
       const messages = messagesFor(input);
       const prompt = generator.tokenizer.apply_chat_template(messages, { tokenize: false, add_generation_prompt: true });
       const promptTokens = generator.tokenizer.encode(prompt, { add_special_tokens: false }).length;

@@ -16,6 +16,18 @@ import { choiceLabels, decodeChoice, validateChoiceTokenIds } from "../ai/labels
 import { ServiceChoiceLogitsProcessor } from "../ai/logits.mjs";
 import { Tensor } from "@huggingface/transformers";
 import { readFileSync } from "node:fs";
+import { selectEntailmentLabel } from "../ai/entailment.mjs";
+
+test("NLI suggestions require one strong supported category and reject weak, competing or manipulative requests", () => {
+  assert.equal(selectEntailmentLabel({ maintenance: 0.95, delivery: 0.1, inspection: 0.1, review: 0.1 }), "maintenance");
+  assert.equal(selectEntailmentLabel({ maintenance: 0.1, delivery: 0.95, inspection: 0.1, review: 0.1 }), "delivery");
+  assert.equal(selectEntailmentLabel({ maintenance: 0.1, delivery: 0.1, inspection: 0.95, review: 0.1 }), "inspection");
+  assert.equal(selectEntailmentLabel({ maintenance: 0.79, delivery: 0.1, inspection: 0.1, review: 0.1 }), "review");
+  assert.equal(selectEntailmentLabel({ maintenance: 0.95, delivery: 0.5, inspection: 0.1, review: 0.1 }), "review");
+  assert.equal(selectEntailmentLabel({ maintenance: 0.95, delivery: 0.1, inspection: 0.1, review: 0.5 }), "review");
+  assert.throws(() => selectEntailmentLabel({ maintenance: NaN, delivery: 0.1, inspection: 0.1, review: 0.1 }));
+  assert.throws(() => selectEntailmentLabel({ maintenance: 0.9 }));
+});
 
 test("constrained AI choices are strict, distinct single tokens", () => {
   assert.equal(decodeChoice(" maintenance\n"), "maintenance");
