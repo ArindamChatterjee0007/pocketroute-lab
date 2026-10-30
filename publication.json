@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "stage": "prepublication-checks-passed",
-  "checkedAt": "2026-10-30T07:19:58.643Z",
-  "sourceSha": "05de46a706279220fd234f97de15fd02f291ebf0",
-  "generatedInputsSha": "05de46a706279220fd234f97de15fd02f291ebf0",
-  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41019186198",
-  "unitTests": 30,
+  "checkedAt": "2026-10-30T11:12:04.029Z",
+  "sourceSha": "e83496411eaa949f74dbe37ab303619b44357ec7",
+  "generatedInputsSha": "e83496411eaa949f74dbe37ab303619b44357ec7",
+  "runUrl": "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41046055531",
+  "unitTests": 37,
   "browserTests": 162,
   "browserSpecs": 27,
   "browserConfigurations": [
@@ -137,8 +137,8 @@
     },
     {
       "path": "assets/app.js",
-      "bytes": 64879,
-      "sha256": "6d71cd0565f8efad9425149cfcdae50f3fdf9e1bb5beb31a435757a0774bf6b9"
+      "bytes": 66125,
+      "sha256": "b986c4894db3c170fa7dc819364b8230df3abce05984ba73a951b420426392cf"
     },
     {
       "path": "assets/app.js.LEGAL.txt",
@@ -181,9 +181,39 @@
       "sha256": "675b965b8c6bfbf3f65bf332e088a68e438a27343ab6ee45cdf99f9b3536c2d1"
     },
     {
+      "path": "data/ai-runs/41033163428.json",
+      "bytes": 54960,
+      "sha256": "c4f11e08baf704dc2523f3ac79424d798f474ff2aae8990f730bf1e6596ba44c"
+    },
+    {
+      "path": "data/ai-runs/41038253532.json",
+      "bytes": 55566,
+      "sha256": "4f4cb265fb199fa6c1ce2254045ff001d9bc447faabe58f8f1511e940a36be79"
+    },
+    {
+      "path": "data/ai-runs/41039941000.json",
+      "bytes": 66190,
+      "sha256": "2578effaac689ee6e8654298f9ff957f68d64f94fc6fb492e0255ea8cf731139"
+    },
+    {
+      "path": "data/ai-runs/41040157531.json",
+      "bytes": 66303,
+      "sha256": "6c65426b5955240dde93dafb51262e3b40ad25b2a2487bc55c67ddbc3a328d93"
+    },
+    {
+      "path": "data/ai-runs/41040367529.json",
+      "bytes": 138747,
+      "sha256": "52a55ccc1ee94096c2c36221df44555447d57ad97f7e8d9bc44e5613f06ab346"
+    },
+    {
+      "path": "data/ai-runs/41043171464.json",
+      "bytes": 180615,
+      "sha256": "988984e8d87d647b8dc9da80fe8be07062d18875d90a7039325dea14ed075716"
+    },
+    {
       "path": "data/ai-service-results.json",
-      "bytes": 78556,
-      "sha256": "675b965b8c6bfbf3f65bf332e088a68e438a27343ab6ee45cdf99f9b3536c2d1"
+      "bytes": 180615,
+      "sha256": "988984e8d87d647b8dc9da80fe8be07062d18875d90a7039325dea14ed075716"
     },
     {
       "path": "data/slm-results.json",
@@ -193,7 +223,7 @@
     {
       "path": "data/verification.json",
       "bytes": 2956,
-      "sha256": "40de42c9e649198f53503ead7f93fc79297e8dab317016789505c1c356451835"
+      "sha256": "dfac9e78fe61b5719acf8800844c4e013ce169b80e09f78809be843508864042"
     },
     {
       "path": "downloads/README.md",
@@ -208,12 +238,12 @@
     {
       "path": "downloads/pocketroute-notes-0.2.0.zip",
       "bytes": 120761,
-      "sha256": "bee6735c2b32695a4e71f1da28cbc4d052944325629118f8270f22521d529968"
+      "sha256": "eada1e04cdf14ce832c772a6854ff583a377345f6833055904aaf567ec563974"
     },
     {
       "path": "downloads/pocketroute-service-ai-0.1.0-experimental.zip",
-      "bytes": 27610,
-      "sha256": "dc6039997130d438923b4ed7db844c38446fa7b3befd73c6e25100bbd07aaa01"
+      "bytes": 38614,
+      "sha256": "5b5e32e7b04343b297c3223c7a06e2aafc4bc318fdf3bbd87ee11bdd2d3f3949"
     },
     {
       "path": "downloads/service-ai/LICENSE",
@@ -222,8 +252,8 @@
     },
     {
       "path": "downloads/service-ai/MODEL_CARD.md",
-      "bytes": 5436,
-      "sha256": "92396c41ba89400be20f7390462eeb03dcbe8edcd23086d787ffa7754a0cecda"
+      "bytes": 9508,
+      "sha256": "73bb1060adad0dec4838c2408fe817e72077aff8321f9cb49aa5a31d201a8c02"
     },
     {
       "path": "downloads/service-ai/NOTICE",
@@ -231,9 +261,14 @@
       "sha256": "7425eb267ca3f9ce1a237fb5e9a8c212dc7a8152e43d7dc13d98368c35b34277"
     },
     {
+      "path": "downloads/service-ai/PHONE_TESTING.md",
+      "bytes": 7177,
+      "sha256": "e529f8eabc7c5cdc540b46fc94f4a339b92bf50368e84e7123e51f5d1d85cdf3"
+    },
+    {
       "path": "downloads/service-ai/README.md",
-      "bytes": 6120,
-      "sha256": "3384168c18be7140a647afbc71cabd814abe5f224a61e142c6f274858bd8431d"
+      "bytes": 9161,
+      "sha256": "90ef9c022423b354d5a1019a4d764fb0a7801d3b62ac0e94ea46dc4fe7de64c4"
     },
     {
       "path": "downloads/service-ai/ai/cli.mjs",
@@ -247,8 +282,8 @@
     },
     {
       "path": "downloads/service-ai/ai/config.mjs",
-      "bytes": 1994,
-      "sha256": "3b3f9a4018fe15c3a767963fdb88346b65771e3e9d143ac70215b47c1584a4b2"
+      "bytes": 3043,
+      "sha256": "1308afc0cf5835320a6fd90a0b024cf9459649e62a2df25d3a536b04d73d7286"
     },
     {
       "path": "downloads/service-ai/ai/contract.mjs",
@@ -256,14 +291,34 @@
       "sha256": "a6ab06ccbf243ac6fa84e5690b4dc9d1596631d7ccc25bbe472c3232fbcc5e7f"
     },
     {
+      "path": "downloads/service-ai/ai/entailment.mjs",
+      "bytes": 2922,
+      "sha256": "dbb20eb7c759569ff16a492461e78086e0e930326919e3e7c633435d6ab85ad8"
+    },
+    {
       "path": "downloads/service-ai/ai/examples.mjs",
-      "bytes": 925,
-      "sha256": "6ecc5d1733b1871a23b9357e997420ff79fcddee3457b20f17820f74b9a27f74"
+      "bytes": 1626,
+      "sha256": "690029b902800db7ec68613dc7c062d3fed78f5a20b3474bc739733696bf2700"
+    },
+    {
+      "path": "downloads/service-ai/ai/labels.mjs",
+      "bytes": 818,
+      "sha256": "48786ac19fdddad934886d47dcb7ea9171812d69a68177d4dcc040dda6741635"
+    },
+    {
+      "path": "downloads/service-ai/ai/logits.mjs",
+      "bytes": 733,
+      "sha256": "6d5da4a3748d85df172aa3cc4b569c1e22be5b06dc4f1c537b1ee194a69a3822"
+    },
+    {
+      "path": "downloads/service-ai/ai/review-policy.mjs",
+      "bytes": 1224,
+      "sha256": "6a1bc921037c0d9e8fb02a8d284a565043903eecb8c28ac8df7f561be7935522"
     },
     {
       "path": "downloads/service-ai/ai/worker.mjs",
-      "bytes": 5738,
-      "sha256": "ef618f28526409ac0b270677b655fe9c6a2feb62e71a8d8509ca587cee167dfd"
+      "bytes": 8673,
+      "sha256": "8b37b9aa98cfe7037dcb7d9094cd11fa4398cfd969fb1e70d77e77e1eda268c0"
     },
     {
       "path": "downloads/service-ai/package-lock.json",
@@ -287,23 +342,23 @@
     },
     {
       "path": "evidence/evidence-desktop-review.png",
-      "bytes": 226760,
-      "sha256": "6e644160bd716fcc9a6c638796b9ba7e6d54d07c627825b39729ea1b501a2d3d"
+      "bytes": 226581,
+      "sha256": "00fca46b0982b4ded9cc0947730a019274c48927b4de5c5ea0428ab6f2ec0baa"
     },
     {
       "path": "evidence/evidence-desktop.png",
-      "bytes": 151961,
-      "sha256": "20ee7902d78495c71e68aeca7f8c2eec7cdaf60c588d3045cb51a4ed89b98620"
+      "bytes": 152010,
+      "sha256": "aaeb1ae7cc5a3baa3ba1fb451db3cc94540ec2062668a309684c7f046304d0cb"
     },
     {
       "path": "evidence/evidence-phone-review.png",
-      "bytes": 115036,
-      "sha256": "cf8a94e7898faf5e941b417dd48794410695baf1691ef0cf9764b2eee01d589c"
+      "bytes": 114996,
+      "sha256": "493329e6f299cc2295794e0b099e1933115be286f992f3dd4ccc2119cd8cfbaa"
     },
     {
       "path": "evidence/evidence-phone.png",
-      "bytes": 129182,
-      "sha256": "be0d72cbef3db83a41dab3d265d91c1ee06edb92af19c5b83675ffdcc459c4bf"
+      "bytes": 129177,
+      "sha256": "3e9ac0739c74c853016c48333c8684cee604ccfcb68c649feea2199a2e0b8fef"
     },
     {
       "path": "evidence/execution-desktop-review.png",
@@ -327,13 +382,13 @@
     },
     {
       "path": "evidence/lab-desktop-review.png",
-      "bytes": 182598,
-      "sha256": "421c1342dabd2f8bb5ade0875aca16c14edb35486c09a03ed6862a364336f8e8"
+      "bytes": 182596,
+      "sha256": "b2c0837565f74acfaea823893ffb46204c223c3e8d24d3db0b85b345905fce20"
     },
     {
       "path": "evidence/lab-desktop.png",
-      "bytes": 137327,
-      "sha256": "b8790d51a4cae06427784fd13f36e9a1c0243729cf6b1cc89163898da25043ca"
+      "bytes": 137335,
+      "sha256": "94e6f43781463e0b4c467c903943d9eab7e0bce3318c68bcb10318cc3b1fa9a3"
     },
     {
       "path": "evidence/lab-phone-review.png",
@@ -397,43 +452,43 @@
     },
     {
       "path": "evidence/service-desktop-review.png",
-      "bytes": 282255,
-      "sha256": "98d8ae1546eb67473886c4314961927b65992695e9f65596fbef12bb205559a4"
+      "bytes": 625832,
+      "sha256": "1f5508a0348b4b3d9586ad3719fc922d2a5e6c4a83dfd84b3df720ca6e9c690a"
     },
     {
       "path": "evidence/service-desktop.png",
-      "bytes": 180945,
-      "sha256": "5243fa184684ba952441d0bf18c9ec49b5e524a4ba92f1fa949b5829bc0f5145"
+      "bytes": 361910,
+      "sha256": "9f0c9892b4bb0ff81ded1f8167dbb99c57078482517da211404a7f660758db37"
     },
     {
       "path": "evidence/service-phone-review.png",
-      "bytes": 127341,
-      "sha256": "9b412a5a03e28a68dc4c04880a2583b6b5c441706d04d2a3faa923116781d8c1"
+      "bytes": 286283,
+      "sha256": "3de84c5e74aab885008a8a4eedcad012d450b37806611af9c7836bacb128fb96"
     },
     {
       "path": "evidence/service-phone.png",
-      "bytes": 146552,
-      "sha256": "d8bcc9795a56aa2f6f7157ce3a36d23080b38674930bdfb8b55d4511d278c6aa"
+      "bytes": 329820,
+      "sha256": "b071ca338cb1ba9e70e8db1708487790301bc0476c3e2a398d70c3d53eafb92e"
     },
     {
       "path": "evidence/sessions-desktop-review.png",
-      "bytes": 152640,
-      "sha256": "7906ddea8d0cd0814718c564406b81ba3b54a1ebe78126d9cf273c403966b637"
+      "bytes": 154021,
+      "sha256": "f64dba8c66c40274582c0564fc1fab91b66a85b031af77d2951e4a4f28c676f2"
     },
     {
       "path": "evidence/sessions-desktop.png",
-      "bytes": 108798,
-      "sha256": "cd88d2293d051e13384ebb84bb15c319140c03473cad62d75ee5c509bc00df48"
+      "bytes": 109050,
+      "sha256": "6500f82eb46a6ee008c84a98b2472054ef98b7030245cd9597f9f30d29902c63"
     },
     {
       "path": "evidence/sessions-phone-review.png",
-      "bytes": 59029,
-      "sha256": "f3dce61058573f50897280e271c6eb1c58851cd65d2321c63f2c93c46d4fb427"
+      "bytes": 59267,
+      "sha256": "646d0b94eec36f69fa199ac3b3fbabbc3f97d9cefd3930827c7370d61556c217"
     },
     {
       "path": "evidence/sessions-phone.png",
-      "bytes": 68737,
-      "sha256": "1c6cad68d90dc901183b655c81956a1306d16d0d986ef2698717f41dea4f71a8"
+      "bytes": 68895,
+      "sha256": "13594eaf79845db1ecd5b74715024aae6864e7b61e7d3ab6586a32b5a710d337"
     },
     {
       "path": "index.html",
@@ -483,7 +538,7 @@
     {
       "path": "notes/sw.js",
       "bytes": 1240,
-      "sha256": "7d305473a6575d2f8347331eafe92a896a4af8ba697519e959b1c380f6872ba1"
+      "sha256": "8fd1e22492e3e7b77b2e5d8d093d7af21da12aa2a56f05b79dcdd9b1dccba795"
     },
     {
       "path": "styles.css",

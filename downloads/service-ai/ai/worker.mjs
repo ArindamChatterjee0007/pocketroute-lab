@@ -1,19 +1,26 @@
 import { performance } from "node:perf_hooks";
-import { pipeline, env } from "@huggingface/transformers";
+import { pipeline, env, LogitsProcessorList } from "@huggingface/transformers";
 import { modelCandidates, systemPrompt, inferencePolicy } from "./config.mjs";
 import { examples } from "./examples.mjs";
 import { validateServiceRequest, parseServiceLabel, requestTokenLimit } from "./contract.mjs";
 import { join } from "node:path";
 import { access } from "node:fs/promises";
+import { choiceLabels, decodeChoice, validateChoiceTokenIds } from "./labels.mjs";
+import { ServiceChoiceLogitsProcessor } from "./logits.mjs";
+import { classifyEntailment, entailmentPolicy } from "./entailment.mjs";
+import { reviewPolicyReason } from "./review-policy.mjs";
 
 let generator;
 let candidate;
 let active = false;
 let networkAttempts = 0;
+let choiceTokens;
+let choiceTokenIds;
+const labelChoices = Object.fromEntries(Object.entries(choiceLabels).map(([choice, label]) => [label, choice]));
 const blockNetwork = async () => { networkAttempts += 1; throw new Error("NETWORK_DISABLED_DURING_INFERENCE"); };
 const messagesFor = input => [
   { role: "system", content: systemPrompt },
-  ...examples.flatMap(example => [{ role: "user", content: JSON.stringify({ request: example.input }) }, { role: "assistant", content: example.expected }]),
+  ...examples.flatMap(example => [{ role: "user", content: JSON.stringify({ request: example.input }) }, { role: "assistant", content: labelChoices[example.expected] }]),
   { role: "user", content: JSON.stringify({ request: input }) },
 ];
 
@@ -34,33 +41,55 @@ process.on("message", async message => {
       const modelLocation = message.allowDownload ? candidate.id : join(message.cacheDir, candidate.id, candidate.revision);
       if (!message.allowDownload) { await access(join(modelLocation, "config.json")); await access(join(modelLocation, "tokenizer.json")); }
       const started = performance.now();
-      generator = await pipeline("text-generation", modelLocation, { revision: candidate.revision, local_files_only: message.allowDownload !== true, dtype: candidate.dtype, device: "cpu", session_options: { intraOpNumThreads: inferencePolicy.intraOpThreads, interOpNumThreads: inferencePolicy.interOpThreads } });
+      generator = await pipeline(candidate.task || "text-generation", modelLocation, { revision: candidate.revision, local_files_only: message.allowDownload !== true, dtype: candidate.dtype, device: "cpu", session_options: { intraOpNumThreads: inferencePolicy.intraOpThreads, interOpNumThreads: inferencePolicy.interOpThreads } });
       let tokenizerProbeTokens;
       try { tokenizerProbeTokens = generator.tokenizer.encode("Local model readiness check.", { add_special_tokens: false }).length; }
       catch (error) { throw new Error(`MODEL_TOKENIZER_NOT_READY: ${error.name}: ${String(error.message).replace(/https?:\/\/\S+/g, "[remote resource]").slice(0, 180)}`); }
       if (!Number.isSafeInteger(tokenizerProbeTokens) || tokenizerProbeTokens < 1) throw new Error("MODEL_TOKENIZER_NOT_READY");
+      if (candidate.task !== "zero-shot-classification") {
+        choiceTokens = Object.fromEntries(Object.keys(choiceLabels).map(choice => [choice, generator.tokenizer.encode(choice, { add_special_tokens: false })]));
+        choiceTokenIds = validateChoiceTokenIds(choiceTokens);
+      }
       env.allowRemoteModels = false;
       globalThis.fetch = blockNetwork;
       env.fetch = blockNetwork;
-      process.send?.({ id: message.id, result: { model: candidate.id, revision: candidate.revision, dtype: candidate.dtype, loadMs: Math.round(performance.now() - started), tokenizerProbeTokens, directPinnedDirectory: !message.allowDownload, inferenceNetworkDisabled: true, networkAttemptsDuringLoad: networkAttempts, runtime: `@huggingface/transformers ${env.version}`, node: process.version } });
+      process.send?.({ id: message.id, result: { model: candidate.id, revision: candidate.revision, dtype: candidate.dtype, task: candidate.task || "text-generation", loadMs: Math.round(performance.now() - started), tokenizerProbeTokens, choiceTokenIds, outputMode: candidate.task ? entailmentPolicy.outputMode : inferencePolicy.outputMode, directPinnedDirectory: !message.allowDownload, inferenceNetworkDisabled: true, networkAttemptsDuringLoad: networkAttempts, runtime: `@huggingface/transformers ${env.version}`, node: process.version } });
     } else if (message.kind === "classify") {
       if (!generator) throw new Error("MODEL_NOT_INITIALIZED");
+      const requestStarted = performance.now();
       const input = validateServiceRequest(message.input);
       let tokens;
       try { tokens = generator.tokenizer.encode(input, { add_special_tokens: false }); }
       catch { throw new Error("REQUEST_TOKENIZATION_FAILED"); }
       if (tokens.length > requestTokenLimit) throw new Error("REQUEST_TOKEN_LIMIT");
+      const policyReason = reviewPolicyReason(input);
+      if (policyReason) {
+        process.send?.({ id: message.id, result: { schemaVersion: 1, status: "review-required", label: null, rawLabel: "review", output: "review", generatedChoice: null, outputMode: "deterministic-policy-review", decisionPath: "policy-review", policyReason, modelExecuted: false, model: candidate.id, modelRevision: candidate.revision, requiresHumanReview: true, confidenceCalibrated: false, confidence: null, requestTokens: tokens.length, promptTokens: 0, elapsedMs: Math.round(performance.now() - requestStarted), processPeakRssBytes: process.resourceUsage().maxRSS * 1024, networkAttemptsDuringInference: networkAttempts, phoneEnergyJoules: null } });
+        return;
+      }
+      if (candidate.task === "zero-shot-classification") {
+        const started = performance.now();
+        const prediction = await classifyEntailment(generator, input, tokens.length);
+        const parsed = parseServiceLabel(prediction.output);
+        const status = parsed && parsed !== "review" ? "suggested" : "review-required";
+        process.send?.({ id: message.id, result: { schemaVersion: 1, ...prediction, status, label: status === "suggested" ? parsed : null, rawLabel: parsed, modelExecuted: true, model: candidate.id, modelRevision: candidate.revision, requiresHumanReview: true, confidenceCalibrated: false, confidence: null, requestTokens: tokens.length, elapsedMs: Math.round(performance.now() - started), processPeakRssBytes: process.resourceUsage().maxRSS * 1024, networkAttemptsDuringInference: networkAttempts, phoneEnergyJoules: null } });
+        return;
+      }
       const messages = messagesFor(input);
       const prompt = generator.tokenizer.apply_chat_template(messages, { tokenize: false, add_generation_prompt: true });
       const promptTokens = generator.tokenizer.encode(prompt, { add_special_tokens: false }).length;
       if (promptTokens > inferencePolicy.maxPromptTokens) throw new Error("PROMPT_TOKEN_LIMIT");
+      const processors = new LogitsProcessorList();
+      processors.push(new ServiceChoiceLogitsProcessor(choiceTokens));
       const started = performance.now();
-      const response = await generator(messages, { max_new_tokens: inferencePolicy.maxNewTokens, do_sample: false });
+      const response = await generator(messages, { max_new_tokens: inferencePolicy.maxNewTokens, do_sample: false, logits_processor: processors });
       const generated = response[0]?.generated_text;
-      const output = Array.isArray(generated) ? String(generated.at(-1)?.content || "") : "";
-      const parsed = parseServiceLabel(output);
+      const generatedChoice = Array.isArray(generated) ? String(generated.at(-1)?.content || "") : "";
+      const decoded = decodeChoice(generatedChoice);
+      const output = decoded || generatedChoice;
+      const parsed = parseServiceLabel(decoded);
       const status = parsed && parsed !== "review" ? "suggested" : "review-required";
-      process.send?.({ id: message.id, result: { schemaVersion: 1, status, label: status === "suggested" ? parsed : null, rawLabel: parsed, output: output.slice(0, 500), modelExecuted: true, model: candidate.id, modelRevision: candidate.revision, requiresHumanReview: true, confidenceCalibrated: false, confidence: null, requestTokens: tokens.length, promptTokens, elapsedMs: Math.round(performance.now() - started), processPeakRssBytes: process.resourceUsage().maxRSS * 1024, networkAttemptsDuringInference: networkAttempts, phoneEnergyJoules: null } });
+      process.send?.({ id: message.id, result: { schemaVersion: 1, status, label: status === "suggested" ? parsed : null, rawLabel: parsed, output: output.slice(0, 500), generatedChoice, outputMode: inferencePolicy.outputMode, modelExecuted: true, model: candidate.id, modelRevision: candidate.revision, requiresHumanReview: true, confidenceCalibrated: false, confidence: null, requestTokens: tokens.length, promptTokens, elapsedMs: Math.round(performance.now() - started), processPeakRssBytes: process.resourceUsage().maxRSS * 1024, networkAttemptsDuringInference: networkAttempts, phoneEnergyJoules: null } });
     } else throw new Error("UNSUPPORTED_WORKER_OPERATION");
   } catch (error) {
     const controlled = /^(MODEL_|INVALID_|ALREADY_|REQUEST_|PROMPT_|NETWORK_|UNSUPPORTED_)/.test(error.message || "");
