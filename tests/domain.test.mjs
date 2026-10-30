@@ -58,6 +58,11 @@ test("AI request dataset is balanced and disjoint before model execution", () =>
   for (const label of ["maintenance", "delivery", "inspection", "review"]) assert.equal(confirmation.filter(entry => entry.expected === label).length, 12);
   for (const entry of all) assert.ok(validateServiceRequest(entry.input));
   assert.deepEqual(runtimeExamples, examples.map(({ input, expected }) => ({ input, expected })));
+  const stopWords = new Set("a an the and or to for of in on at by as is are was were be been being it its this that these those our we us you your please need needs with without not no only has have had from into will can could should would do does did".split(" "));
+  const trigrams = text => { const words = (text.toLowerCase().match(/[a-z0-9]+/g) || []).filter(word => !stopWords.has(word)); return words.slice(0, -2).map((_, index) => words.slice(index, index + 3).join(" ")); };
+  const seen = new Set([...examples, ...development].flatMap(record => trigrams(record.input)));
+  const overlaps = confirmation.flatMap(record => trigrams(record.input).filter(phrase => seen.has(phrase)).map(phrase => `${record.id}: ${phrase}`));
+  assert.deepEqual(overlaps, [], "Confirmation text must not reuse development content trigrams.");
 });
 
 test("AI SDK refuses implicit models or invalid cache settings before starting a worker", async () => {

@@ -3,7 +3,8 @@ import { repository } from "./cloud-only.mjs";
 import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
-import { join, relative } from "node:path";
+import { join, relative, dirname } from "node:path";
+import { createRequire } from "node:module";
 import { cpus } from "node:os";
 import assert from "node:assert/strict";
 import { examples, development, confirmation, datasetVersion, datasetNotice } from "../ai/dataset.mjs";
@@ -16,6 +17,18 @@ const startedAt = new Date().toISOString();
 const deadline = Date.now() + 12 * 60 * 1000;
 const cacheDir = join(process.env.RUNNER_TEMP, "pocketroute-service-models");
 const hash = value => createHash("sha256").update(value).digest("hex");
+const require = createRequire(import.meta.url);
+async function installedVersion(name) {
+  let directory = dirname(require.resolve(name));
+  for (let depth = 0; depth < 8; depth += 1) {
+    try { const metadata = JSON.parse(await readFile(join(directory, "package.json"), "utf8")); if (metadata.name === name) return metadata.version; } catch {}
+    directory = dirname(directory);
+  }
+  throw new Error(`Unable to record installed runtime version for ${name}.`);
+}
+const runtimeVersions = { node: process.version, transformers: await installedVersion("@huggingface/transformers"), onnxruntimeNode: await installedVersion("onnxruntime-node") };
+assert.equal(`@huggingface/transformers ${runtimeVersions.transformers}`, inferencePolicy.runtime);
+const protocolSha256 = hash(JSON.stringify({ modelCandidates, systemPrompt, inferencePolicy, examples, runtimeVersions: { transformers: runtimeVersions.transformers, onnxruntimeNode: runtimeVersions.onnxruntimeNode } }));
 const result = {
   schemaVersion: 1,
   id: `service-v1-${process.env.GITHUB_RUN_ID}`,
@@ -23,9 +36,9 @@ const result = {
   startedAt,
   sourceSha: process.env.GITHUB_SHA,
   runUrl: `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`,
-  environment: { runner: "GitHub-hosted Linux", cpu: cpus()[0]?.model, runtime: inferencePolicy.runtime },
+  environment: { runner: "GitHub-hosted Linux", cpu: cpus()[0]?.model, runtimeVersions },
   dataset: { version: datasetVersion, notice: datasetNotice, examples: examples.length, development: development.length, confirmation: confirmation.length, sha256: hash(JSON.stringify({ examples, development, confirmation })), sourceSha256: hash(await readFile("ai/dataset.mjs")) },
-  protocol: { candidateOrder: modelCandidates.map(candidate => candidate.key), selection: "Use the smaller model if development accuracy >=90%, accepted precision >=95%, supported coverage >=80% and zero unsafe acceptances; otherwise compare the fixed larger candidate on development only. Prefer zero unsafe acceptances, then precision, accuracy, coverage, then smaller size. Evaluate only the selected candidate on the confirmation set.", systemPromptSha256: hash(systemPrompt), policy: inferencePolicy, testSetUsedForSelection: false, promptTunedAfterConfirmation: false },
+  protocol: { candidateOrder: modelCandidates.map(candidate => candidate.key), selection: "Use the smaller model if development accuracy >=90%, accepted precision >=95%, supported coverage >=80% and zero unsafe acceptances; otherwise compare the fixed larger candidate on development only. Prefer zero unsafe acceptances, then precision, accuracy, coverage, then smaller size. Confirmation runs only if the selected candidate passes development gates.", sha256: protocolSha256, systemPromptSha256: hash(systemPrompt), policy: inferencePolicy, testSetUsedForSelection: false, confirmationUse: "not-started" },
   candidates: [],
   selected: null,
   testCases: [],
@@ -53,7 +66,7 @@ async function modelMetadata(candidate) {
   if (!baseResponse.ok || !convertedResponse.ok) throw new Error("Pinned model metadata unavailable.");
   const base = await baseResponse.json();
   const converted = await convertedResponse.json();
-  if (base.sha !== candidate.baseRevision || base.private || base.gated || base.cardData?.license !== "apache-2.0" || converted.sha !== candidate.revision || converted.private || converted.gated || converted.cardData?.base_model !== candidate.baseId) throw new Error("Pinned model identity, base license or conversion provenance did not match.");
+  if (base.sha !== candidate.baseRevision || base.private || base.gated || base.cardData?.license !== "apache-2.0" || converted.sha !== candidate.revision || converted.private || converted.gated || ![].concat(converted.cardData?.base_model || []).includes(candidate.baseId)) throw new Error("Pinned model identity, base license or conversion provenance did not match.");
   return { baseLicense: base.cardData.license, conversionLicenseMetadata: converted.cardData?.license || null, baseRevision: base.sha, conversionRevision: converted.sha };
 }
 async function open(candidate, allowDownload) {
@@ -73,6 +86,16 @@ async function evaluate(engine, records, split, cases) {
 }
 
 try {
+  let priorConfirmation = false;
+  const testInputs = new Set(confirmation.map(record => record.input.trim().toLowerCase()));
+  const priorFiles = await readdir("data/ai-runs").catch(() => []);
+  for (const filename of priorFiles.filter(name => name.endsWith(".json"))) {
+    const prior = JSON.parse(await readFile(join("data/ai-runs", filename), "utf8"));
+    if (prior.testCases?.some(record => testInputs.has(record.input.trim().toLowerCase()))) {
+      if (prior.protocol?.sha256 !== protocolSha256 || prior.dataset?.sha256 !== result.dataset.sha256) throw new Error("Confirmation examples were previously exposed under a different protocol. Create a fresh confirmation set before further tuning.");
+      priorConfirmation = true;
+    }
+  }
   let selected;
   for (const candidate of modelCandidates) {
     let engine;
@@ -97,15 +120,21 @@ try {
   result.selected = { key: selected.key, id: selected.id, revision: selected.revision, dtype: selected.dtype, parameters: selected.parameters, developmentQualified: qualifiedDevelopment(selected.metrics) };
   const candidate = modelCandidates.find(value => value.key === selected.key);
   const engine = await open(candidate, false);
+  assert.equal(engine.metadata.networkAttemptsDuringLoad, 0);
   result.cachedLoad = { passed: true, allowDownload: false, metadata: engine.metadata };
-  const evaluated = await evaluate(engine, confirmation, "confirmation", result.testCases);
-  result.testCases = evaluated.cases;
-  result.metrics = evaluated.metrics;
-  result.pilotScreen = pilotGate(result.metrics);
-  const ruleCases = confirmation.map(record => ({ ...record, output: ({ Maintenance: "maintenance", Delivery: "delivery", Inspection: "inspection", General: "review" })[analyzeNote(record.input).category] }));
-  result.ruleBaseline = { cases: ruleCases, metrics: summarizeClassification(ruleCases), scope: "Existing keyword rules on the exact same confirmation requests." };
-  const durations = evaluated.cases.map(record => record.elapsedMs).sort((first, second) => first - second);
-  result.performance = { meanMs: Math.round(durations.reduce((sum, value) => sum + value, 0) / durations.length), p50Ms: durations[Math.ceil(durations.length * 0.5) - 1], p95Ms: durations[Math.ceil(durations.length * 0.95) - 1], processPeakRssBytes: Math.max(...evaluated.cases.map(record => record.processPeakRssBytes)), scope: "This GitHub CPU run only; not a mobile or energy measurement." };
+  if (result.selected.developmentQualified) {
+    result.protocol.confirmationUse = priorConfirmation ? "exact-protocol-reproduction" : "first-use";
+    const evaluated = await evaluate(engine, confirmation, "confirmation", result.testCases);
+    result.metrics = evaluated.metrics;
+    result.pilotScreen = pilotGate(result.metrics);
+    const ruleCases = confirmation.map(record => ({ ...record, output: ({ Maintenance: "maintenance", Delivery: "delivery", Inspection: "inspection", General: "review" })[analyzeNote(record.input).category] }));
+    result.ruleBaseline = { cases: ruleCases, metrics: summarizeClassification(ruleCases), scope: "Existing keyword rules on the exact same confirmation requests." };
+    const durations = evaluated.cases.map(record => record.elapsedMs).sort((first, second) => first - second);
+    result.performance = { meanMs: Math.round(durations.reduce((sum, value) => sum + value, 0) / durations.length), p50Ms: durations[Math.ceil(durations.length * 0.5) - 1], p95Ms: durations[Math.ceil(durations.length * 0.95) - 1], processPeakRssBytes: Math.max(...evaluated.cases.map(record => record.processPeakRssBytes)), scope: "This GitHub CPU run only; not a mobile or energy measurement." };
+  } else {
+    result.protocol.confirmationUse = "withheld-development-gate-failed";
+    result.pilotScreen = { passed: false, reasons: ["No candidate met development quality gates; confirmation cases were not executed."], productionReady: false };
+  }
   const preAborted = new AbortController();
   preAborted.abort();
   await assert.rejects(engine.classify("Inspect the routine checklist.", { signal: preAborted.signal }), /aborted/);
@@ -123,7 +152,7 @@ try {
     for (const entry of await readdir(directory, { withFileTypes: true })) {
       const location = join(directory, entry.name);
       if (entry.isDirectory()) await inventory(location);
-      else if (/\.(onnx|json|txt)$/.test(entry.name)) {
+      else if (/\.(onnx|onnx_data|json|txt)$/.test(entry.name)) {
         const digest = createHash("sha256");
         let bytes = 0;
         for await (const chunk of createReadStream(location)) { digest.update(chunk); bytes += chunk.length; }
@@ -133,7 +162,7 @@ try {
   }
   await inventory(cacheDir);
   if (!result.artifacts.some(entry => entry.path.endsWith(".onnx"))) throw new Error("No model artifact fingerprint was recorded.");
-  result.status = "completed";
+  result.status = result.selected.developmentQualified ? "completed" : "development-only";
 } catch (error) {
   result.status = "failed";
   result.error = String(error.message).replace(/https?:\/\/\S+/g, "[remote resource]").slice(0, 250);

@@ -3,11 +3,13 @@ import { pipeline, env } from "@huggingface/transformers";
 import { modelCandidates, systemPrompt, inferencePolicy } from "./config.mjs";
 import { examples } from "./examples.mjs";
 import { validateServiceRequest, parseServiceLabel, requestTokenLimit } from "./contract.mjs";
+import { join } from "node:path";
 
 let generator;
 let candidate;
 let active = false;
 let networkAttempts = 0;
+const blockNetwork = async () => { networkAttempts += 1; throw new Error("NETWORK_DISABLED_DURING_INFERENCE"); };
 const messagesFor = input => [
   { role: "system", content: systemPrompt },
   ...examples.flatMap(example => [{ role: "user", content: JSON.stringify({ request: example.input }) }, { role: "assistant", content: example.expected }]),
@@ -24,13 +26,16 @@ process.on("message", async message => {
       candidate = modelCandidates.find(value => value.key === message.model);
       if (!candidate || typeof message.cacheDir !== "string") throw new Error("INVALID_MODEL_CONFIGURATION");
       env.cacheDir = message.cacheDir;
-      env.allowLocalModels = false;
+      env.allowLocalModels = message.allowDownload !== true;
+      env.localModelPath = join(message.cacheDir, "__unversioned_local_models_disabled__");
       env.allowRemoteModels = message.allowDownload === true;
+      if (!message.allowDownload) { globalThis.fetch = blockNetwork; env.fetch = blockNetwork; }
       const started = performance.now();
-      generator = await pipeline("text-generation", candidate.id, { revision: candidate.revision, dtype: candidate.dtype, device: "cpu", session_options: { intraOpNumThreads: inferencePolicy.intraOpThreads, interOpNumThreads: inferencePolicy.interOpThreads } });
+      generator = await pipeline("text-generation", candidate.id, { revision: candidate.revision, local_files_only: message.allowDownload !== true, dtype: candidate.dtype, device: "cpu", session_options: { intraOpNumThreads: inferencePolicy.intraOpThreads, interOpNumThreads: inferencePolicy.interOpThreads } });
       env.allowRemoteModels = false;
-      globalThis.fetch = async () => { networkAttempts += 1; throw new Error("NETWORK_DISABLED_DURING_INFERENCE"); };
-      process.send?.({ id: message.id, result: { model: candidate.id, revision: candidate.revision, dtype: candidate.dtype, loadMs: Math.round(performance.now() - started), inferenceNetworkDisabled: true, runtime: inferencePolicy.runtime } });
+      globalThis.fetch = blockNetwork;
+      env.fetch = blockNetwork;
+      process.send?.({ id: message.id, result: { model: candidate.id, revision: candidate.revision, dtype: candidate.dtype, loadMs: Math.round(performance.now() - started), inferenceNetworkDisabled: true, networkAttemptsDuringLoad: networkAttempts, runtime: `@huggingface/transformers ${env.version}`, node: process.version } });
     } else if (message.kind === "classify") {
       if (!generator) throw new Error("MODEL_NOT_INITIALIZED");
       const input = validateServiceRequest(message.input);

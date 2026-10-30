@@ -12,7 +12,9 @@ export async function createServiceClassifier({ model, cacheDir, allowDownload =
   environment.ONNXRUNTIME_NODE_INSTALL_CUDA = "skip";
   const child = fork(new URL("./worker.mjs", import.meta.url), [], { silent: true, execArgv: [], env: environment });
   child.stdout?.resume();
-  child.stderr?.resume();
+  let initializing = true;
+  let startupDiagnostic = "";
+  child.stderr?.on("data", chunk => { if (initializing) startupDiagnostic = `${startupDiagnostic}${chunk.toString("utf8")}`.slice(-800); });
   let closed = false;
   let pending = null;
   let sequence = 0;
@@ -36,10 +38,12 @@ export async function createServiceClassifier({ model, cacheDir, allowDownload =
     else pending.accept(message.result);
   });
   child.on("error", () => { pending?.reject(new Error("Model worker could not start.")); shutdown(); });
-  child.on("exit", () => { closed = true; pending?.reject(new Error("Model worker exited before completing the request.")); });
+  child.on("exit", () => { closed = true; const detail = initializing ? startupDiagnostic.replace(/https?:\/\/\S+/g, "[remote resource]").replace(/\/(?:home|Users|tmp)\/\S+/g, "[local path]").slice(-500) : ""; pending?.reject(new Error(`Model worker exited before completing the request.${detail ? ` ${detail}` : ""}`)); });
   let metadata;
   try { metadata = await request("initialize", { model, cacheDir: resolve(cacheDir), allowDownload: allowDownload === true }, initializationTimeoutMs); }
   catch (error) { shutdown(); throw error; }
+  initializing = false;
+  startupDiagnostic = "";
   return {
     metadata,
     classify(text, { timeoutMs = inferencePolicy.generationTimeoutMs, signal } = {}) {
