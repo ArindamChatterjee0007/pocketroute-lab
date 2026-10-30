@@ -4,3 +4,5 @@ dist/
 test-results/
 playwright-report/
 .env*
+documents/INDIA_SHOWCASE.md
+artifacts/

@@ -7,6 +7,7 @@ import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { fetchEvidence } from "./evidence-fetch.mjs";
+import { assertPublicPath, assertPublicContent, retiredPublicPaths } from "./public-content.mjs";
 
 const base = "https://arindamchatterjee0007.github.io/pocketroute-lab/";
 const expectedSource = process.env.EXPECTED_SOURCE;
@@ -22,12 +23,15 @@ assert.equal(response.status, 200);
 const publication = await response.json();
 assert.equal(publication.sourceSha, expectedSource);
 assert.equal(publication.stage, "prepublication-checks-passed");
+for (const item of publication.inventory) assertPublicPath(item.path);
+for (const path of retiredPublicPaths) assert.equal((await retrieve(path)).status, 404, `Retired path remains public: ${path}`);
 const assets = publication.inventory.filter(item => !item.path.startsWith("evidence/"));
 let bundleBytes;
 let aiBundleBytes;
 let deviceKitBytes;
 const pdfAssets = new Map();
 let documentReceipt;
+let publicContentReceipt;
 for (const asset of assets) {
   assert.ok(!asset.path.includes("..") && !asset.path.startsWith("/"));
   const assetResponse = await retrieve(asset.path);
@@ -35,16 +39,25 @@ for (const asset of assets) {
   const bytes = Buffer.from(await assetResponse.arrayBuffer());
   assert.equal(bytes.length, asset.bytes, `${asset.path} length`);
   assert.equal(createHash("sha256").update(bytes).digest("hex"), asset.sha256, `${asset.path} digest`);
+  if (/\.(?:html|css|m?js|json|md|txt)$/i.test(asset.path)) assertPublicContent(bytes.toString("utf8"), asset.path);
   if (asset.path === "downloads/pocketroute-notes-0.2.0.zip") bundleBytes = bytes;
   if (asset.path === "downloads/pocketroute-service-ai-0.1.0-experimental.zip") aiBundleBytes = bytes;
   if (asset.path === "downloads/pocketroute-device-test-kit-0.1.0.zip") deviceKitBytes = bytes;
   if (asset.path.endsWith(".pdf")) pdfAssets.set(asset.path, bytes);
   if (asset.path === "data/document-verification.json") documentReceipt = JSON.parse(bytes.toString("utf8"));
+  if (asset.path === "data/public-content-verification.json") publicContentReceipt = JSON.parse(bytes.toString("utf8"));
 }
+assert.equal(publicContentReceipt?.status, "passed");
+assert.equal(publicContentReceipt.scope, "technical-work-only");
+assert.equal(publicContentReceipt.sourceSha, expectedSource);
+assert.equal(publicContentReceipt.retiredAssetsAbsent, true);
+assert.equal(publicContentReceipt.archives, 3);
+assert.ok(publicContentReceipt.pdfFiles >= 5);
 assert.equal(documentReceipt?.status, "passed");
 assert.equal(documentReceipt.sourceSha, expectedSource);
 assert.equal(documentReceipt.privatePaperPlanIncluded, false);
-assert.equal(documentReceipt.documents.length, 3);
+assert.equal(documentReceipt.documents.length, 2);
+assert.deepEqual(documentReceipt.documents.map(document => document.id), ["device-integration", "sdk-reference"]);
 for (const document of documentReceipt.documents) {
   const bytes = pdfAssets.get(document.path);
   assert.ok(bytes && bytes.subarray(0, 5).toString() === "%PDF-", document.path);
@@ -122,6 +135,7 @@ for (const configuration of configurations) {
       await expect(page.locator("#workspace h1")).toHaveText({ overview: "PocketRoute overview", execution: "Execution board", lab: "Model lab", service: "Service AI", sessions: "Research sessions", evidence: "Evidence library", roadmap: "Research roadmap" }[view]);
       assert.equal(await page.evaluate(() => innerWidth), configuration.width);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, `${view} overflow`);
+      assertPublicContent(await page.locator("body").innerText(), view);
     }
     await page.goto(`${base}#lab`, { waitUntil: "domcontentloaded" });
     await page.locator("#lab-input").fill("Extract the date from the synthetic inspection note.");
@@ -131,12 +145,12 @@ for (const configuration of configurations) {
     await expect(page.locator(".cloud-case")).toHaveCount(8);
     await expect(page.locator("#workspace")).toContainText("8 / 8 exact labels");
     await page.goto(`${base}#service`, { waitUntil: "domcontentloaded" });
-    await expect(page.locator("#service-ai-evidence")).toContainText("Commercial release blocked");
+    await expect(page.locator("#service-ai-evidence")).toContainText("Release qualification blocked");
     await expect(page.locator("#service-ai-evidence")).toContainText("73 / 96");
     await expect(page.locator("#service-ai-evidence")).toContainText("System accuracy, not pure-model accuracy");
     await expect(page.getByRole("link", { name: "Device manual (PDF)", exact: true })).toBeVisible();
     await expect(page.getByRole("link", { name: "SDK reference (PDF)", exact: true })).toBeVisible();
-    await expect(page.getByRole("link", { name: "India showcase (PDF)", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "India showcase (PDF)", exact: true })).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Device test kit", exact: true })).toBeVisible();
     await expect(page.locator("#service-ai-evidence .cloud-case")).toHaveCount(23);
     await page.goto(`${base}notes/`, { waitUntil: "domcontentloaded" });
@@ -182,5 +196,6 @@ const receipt = { schemaVersion: 1, status: "passed", checkedAt: new Date().toIS
 receipt.deviceRegressionKit = { integrity: "passed", entries: deviceKitEntries.length, inputCases: deviceRequests.cases.length, expectedAnswersSeparate: true, incompleteTemplateRejected: true, portableScorerSmoke: "passed using cloud fixture, no inference", physicalDeviceTest: false };
 receipt.hostedRetrieval = { policy: "At most three GET attempts for HTTP 502/503/504 only; final status, byte count and SHA-256 remain mandatory.", retries: retrievalRetries, availabilityGuarantee: false };
 receipt.pdfManuals = { status: "passed", documents: documentReceipt.documents.map(({ id, pages, sha256 }) => ({ id, pages, sha256 })), sourceMarkdownExcludedFromBundles: true, privatePaperPlanIncluded: false };
+receipt.publicContent = { ...publicContentReceipt, retiredPathsVerifiedAbsent: retiredPublicPaths, hostedTextChecked: true };
 await writeFile("data/live-verification.json", JSON.stringify(receipt, null, 2));
 console.log(JSON.stringify(receipt, null, 2));

@@ -1,6 +1,6 @@
 # PocketRoute Service AI: Experimental SDK
 
-**Not ready for sale as a production or mobile AI product.** This is an actual model-backed Node.js component, not the rule-only Notes app. The synthetic pilot gate failed; use only for development and supervised evaluation until the stated gaps are closed.
+**Not qualified for production or native mobile use.** This is an actual model-backed Node.js component, not the rule-only Notes app. The synthetic pilot gate failed; use only for development and supervised evaluation until the stated gaps are closed.
 
 ## What Was Built
 
@@ -35,7 +35,7 @@ Full receipt: https://github.com/ArindamChatterjee007/pocketroute-lab/blob/main/
 
 ## Use By An Integrator
 
-The following is SDK documentation, not permission to run it on the founder's Mac. Development, installation and testing for this workspace remain GitHub-only. End users of the SDK choose their own authorized environment; the standalone SDK does not contain the development workflow guard.
+Development, installation and testing for this project run on GitHub. End users of the SDK choose their own authorized environment; the standalone SDK does not contain the development workflow guard.
 
 Requirements: Node.js 24+ and the pinned Transformers.js dependency. Model files are not included. Installing dependencies and downloading model files requires network access and enough disk/RAM; no paid API or account token is required by this component. Review the model and conversion rights before deployment.
 
@@ -86,4 +86,4 @@ A compatible native harness/APK or firmware must still be implemented and built 
 
 Original SDK source is Apache-2.0. Transformers.js is Apache-2.0 and brings separately licensed dependencies. Qwen's base weights declare Apache-2.0, but the selected ONNX conversion repository does not declare separate license metadata. The SDK bundle therefore does not redistribute weights or assert blanket commercial clearance. Follow the links and provenance in the model card and review deployment rights before commercial use.
 
-The package excludes customer data, credentials and model weights. A repository download does not imply a customer, revenue, an SLA or production readiness. No checkout or pricing is enabled.
+The package excludes private records, credentials and model weights. A repository download does not establish production readiness; the documented quality, runtime and deployment-rights gates still apply.

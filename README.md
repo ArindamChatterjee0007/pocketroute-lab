@@ -1,19 +1,18 @@
 # PocketRoute Notes And Research Lab
 
-An open-source local-first field-note product, reusable JavaScript core and research dashboard. This is an early product release, not a paid SaaS service, secure vault, newly trained language model or native mobile SDK.
+An open-source local-first field-note product, reusable JavaScript core and research dashboard. This is an experimental software release, not a secure vault, newly trained language model or qualified native mobile SDK.
 
-## PDF Manuals And Team Access
+## Engineering Manuals
 
-The repository is now [ArindamChatterjee0007/pocketroute-lab](https://github.com/ArindamChatterjee0007/pocketroute-lab), owned by the new Free organization. **ArindamChatterjee007 remains the active organization owner and repository admin; Ayush-Khamrui has repository Admin access.** The personal account, repository history and Apache-2.0 license are preserved. Historical GitHub repository links redirect; the previous GitHub Pages address does not.
+Source: [ArindamChatterjee0007/pocketroute-lab](https://github.com/ArindamChatterjee0007/pocketroute-lab). The dashboard presents tools, implementation work, technical documentation and reproducible evaluation evidence.
 
 - [Device Integration & Test Handbook (PDF)](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-device-integration.pdf)
 - [SDK & Evidence Reference (PDF)](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-sdk-reference.pdf)
-- [India Showcase Field Guide (PDF)](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-india-showcase.pdf)
 - [Current dashboard](https://arindamchatterjee0007.github.io/pocketroute-lab/)
 
-Reader-facing manuals are PDF-first, with clickable contents, embedded fonts, code panels and actual-PDF validation. Duplicate Markdown manuals are excluded from the SDK and regression-kit bundles; editable source and historical failure receipts remain for reproducibility. The private paper strategy is not included. No model or native-device result was improved by this document release.
+Reader-facing engineering manuals are PDF-first, with clickable contents, embedded fonts, code panels and actual-PDF validation. Duplicate Markdown manuals are excluded from the SDK and regression-kit bundles; editable technical source and historical model-failure receipts remain for reproducibility. Only technical work belongs in this publication.
 
-Final PDF edition: 14-page integration handbook, 11-page SDK/evidence reference and 8-page India showcase brief. [Publication run 41092361041](https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41092361041) passed 43 unit checks, 162 browser results, 12 final snapshots and actual-PDF text/link/font/page/raster checks at source `c23caf7fb4f0e817fcdb1d84698592489f910707`. Static publication: `825caf0c0a90a7f3c87be3eccd4729ebc9bf32d4`. [Live acceptance 41092983981](https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41092983981) verified 67 hosted hashes, all three PDFs, the 18-entry SDK and 11-entry regression kit, plus four browser configurations with no page errors or outside requests. Final page previews were visually reviewed. All rendering/testing ran on GitHub; no model rerun or physical-device claim.
+The current [publication manifest](https://arindamchatterjee0007.github.io/pocketroute-lab/publication.json) and [live verification receipt](https://github.com/ArindamChatterjee0007/pocketroute-lab/blob/main/data/live-verification.json) identify the exact tested source and downloadable files. Builds inspect served text, PDF text and ZIP contents before publication. All rendering/testing runs on GitHub; a document release does not change model or native-device results. Earlier technical checkpoints below are historical.
 
 ## Device Integration Delivery
 
@@ -25,7 +24,7 @@ Two earlier live attempts stopped on HTTP 503 responses. A tested, bounded GET r
 
 ## Actual AI Component
 
-The original model-backed work is now implemented as an **experimental service-classification SDK and CLI**, separate from the rule-only Notes product. It uses pinned Qwen2.5 ONNX weights in an isolated CPU worker, with strict output labels, bounded input/context, explicit model-download consent, cached inference and cancellation that stops the worker. **It is not ready to sell as a production or low-power mobile AI engine.**
+The original model-backed work is implemented as an **experimental service-classification SDK and CLI**, separate from the rule-only Notes product. It uses pinned Qwen2.5 ONNX weights in an isolated CPU worker, with strict output labels, bounded input/context, explicit model-download consent, cached inference and cancellation that stops the worker. **It is not qualified as a production or low-power mobile AI engine.**
 
 - [Service AI evidence](https://arindamchatterjee007.github.io/pocketroute-lab/#service)
 - [Experimental SDK download](https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-service-ai-0.1.0-experimental.zip)
@@ -56,7 +55,7 @@ Earlier failed runs are preserved, not replaced by a success narrative. The sele
 
 [Distribution/UI run 41019186198](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41019186198) passed 30 unit checks, 162 browser test-configuration results and 12 final snapshot checks at source `05de46a706279220fd234f97de15fd02f291ebf0`. [Live acceptance 41019522606](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41019522606) verified 42 hosted-file hashes, the 14-entry weight-free AI SDK ZIP and eight views across four browser configurations, preserving Notes offline/backup/deletion behavior. Passing software tests does not clear the failed model-quality gate. The original model protocol and all raw predictions are in the [per-run receipt](https://github.com/ArindamChatterjee007/pocketroute-lab/blob/main/data/ai-runs/41017525215.json). No inference runs in the public dashboard.
 
-Next technical decision: use this failure analysis as development evidence for a lighter or task-adapted model, reserve a new independently labelled confirmation set, establish safe rejection behavior and validate actual target devices. No checkout, paid offer, customer promise or production SLA is enabled.
+Next technical decision: use this failure analysis as development evidence for a lighter or task-adapted model, reserve a new independently labelled confirmation set, establish safe rejection behavior and validate actual target devices.
 
 **Use Notes:** https://arindamchatterjee0007.github.io/pocketroute-lab/notes/
 
@@ -91,10 +90,6 @@ Records are unencrypted in the browser's IndexedDB. Browser cleanup can erase th
 
 The [publication manifest](https://arindamchatterjee007.github.io/pocketroute-lab/publication.json) and [saved live receipt](https://github.com/ArindamChatterjee007/pocketroute-lab/blob/main/data/live-verification.json) are authoritative. Test records and screenshots are synthetic, not customer work. No model was trained or rerun for this product release, and no phone energy measurement was made.
 
-## Selling Decision
-
-Build and validate first. No checkout, subscription, binding price, sales outreach, support SLA or customer contract has been created. The existing price examples in the research dashboard are hypothetical, not live offers. A possible future business is paid integration/customization/support around a useful open core; an external pilot and reliable support capacity are required before a production-ready sales claim.
-
 ## Initial Dashboard Evidence
 
 The following records describe the earlier dashboard release. The product evidence above supersedes its site revision and acceptance counts.
@@ -120,8 +115,8 @@ The dashboard performs ordinary interface interactions and a tiny deterministic 
 - The SmolLM2 probe uses existing pretrained `HuggingFaceTB/SmolLM2-135M-Instruct` weights under their separate Apache-2.0 license. No new foundation model or fine-tuning is claimed.
 - Synthetic route-label cases are a development smoke test, not the full held-out evaluation corpus or evidence of useful task-completion quality.
 - GitHub CPU latency is not phone latency. Energy, battery savings and mobile hardware compatibility remain unmeasured.
-- The public portfolio includes selected product summaries only. Customer data, credentials, private financial ledgers, resumes, palm images and correspondence are excluded.
-- Planning targets, scenario calculations and real execution receipts are distinct. All prices are hypotheses, not offers or revenue.
+- Public content is limited to technical project records, source, synthetic evaluation evidence and engineering manuals. Private operational records and planning documents are excluded from publication.
+- Research targets and measured execution receipts are distinct; an unfinished device qualification is never presented as a completed result.
 
 ## Views
 
@@ -131,4 +126,4 @@ The Notes product is linked from the dashboard. The research views remain overvi
 
 Original project source is licensed under Apache-2.0. The full license is generated from the Apache Software Foundation's canonical license text during the first successful cloud publication. Third-party fonts, icons, inference software and weights retain their own licenses and notices, included with the hosted build where distributed.
 
-PocketRoute is an experimental working name. No trademark registration, benchmark advantage, customer, funding or acquisition offer is implied.
+PocketRoute is an experimental working name. No trademark registration or unmeasured benchmark advantage is implied.

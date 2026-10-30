@@ -2,6 +2,7 @@ import "../scripts/cloud-only.mjs";
 import { test, expect } from "@playwright/test";
 import { mkdir, readFile } from "node:fs/promises";
 import sharp from "sharp";
+import { assertPublicContent } from "../scripts/public-content.mjs";
 
 const views = [
   ["overview", "PocketRoute overview"],
@@ -43,6 +44,7 @@ for (const [view, title] of views) test(`${view} is nonblank, responsive and sel
   await expect(page.getByRole("heading", { level: 1, name: title, exact: true })).toBeVisible();
   expect(await page.evaluate(() => innerWidth)).toBe(testInfo.project.use.viewport.width);
   await checkLayout(page);
+  assertPublicContent(await page.locator("body").innerText(), view);
   if (view === "overview" && testInfo.project.use.viewport.width < 561) expect(await page.locator(".recent-sessions").evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
   if (["desktop", "phone"].includes(testInfo.project.name)) {
     await mkdir("test-results/screenshots", { recursive: true });

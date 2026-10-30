@@ -95,7 +95,7 @@ Keep independent validated control logic in charge of safety-critical electronic
 
 The current workflow has `unit`, `publish`, `live` and `ai` modes. It has no native Android/MCU build job. Use `unit` for report-contract checks, `publish` with `experiment=false` for SDK/manual/test-kit generation, and `live` with the exact publication source SHA for hosted acceptance. `ai` runs inference and is unnecessary for manual/package/report work.
 
-All installation, builds, automated checks, rendering and report processing for this workspace stay on GitHub, not the founder's Mac. Physical inference must run on the target device. A legitimate fork must deliberately adapt its own repository-specific cloud guard; never spoof GitHub environment variables locally.
+All installation, builds, automated checks, rendering and report processing for this project run on GitHub. Physical inference must run on the target device. A legitimate fork must deliberately adapt its own repository-specific cloud guard; never spoof GitHub environment variables locally.
 
 ### Native Android Implementation
 
@@ -111,7 +111,7 @@ The following tasks become executable only after a native project is implemented
 ./gradlew --no-daemon :app:assembleDebugAndroidTest
 ```
 
-5. Run `connectedDebugAndroidTest` only with a configured, authorized emulator/device attached to the runner. A hosted job cannot directly access a phone connected to the founder's Mac. Emulators test plumbing, not physical energy/thermal/RAM behavior. A remote device lab requires separate access/cost approval.
+5. Run `connectedDebugAndroidTest` only with a configured, authorized emulator/device attached to the runner. A hosted job cannot directly access a phone connected to a separate workstation. Emulators test plumbing, not physical energy/thermal/RAM behavior. A remote device lab requires separately authorized access.
 6. After required gates pass, publish the exact APK, reports, dependency inventory, build manifest, SHA-256 and signer fingerprint. Verify the signed artifact on the runner:
 
 ```sh

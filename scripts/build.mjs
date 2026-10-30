@@ -8,6 +8,7 @@ import { createDeviceReference } from "../ai/device-report.mjs";
 import { modelCandidates, systemPrompt, inferencePolicy, evaluationRevision, evaluationCandidateKeys } from "../ai/config.mjs";
 import { examples as runtimeExamples } from "../ai/examples.mjs";
 import { choiceLabels } from "../ai/labels.mjs";
+import { auditPublicDirectory } from "./public-content.mjs";
 
 await rm("dist", { recursive: true, force: true });
 await mkdir("dist/assets", { recursive: true });
@@ -94,4 +95,6 @@ const scriptBytes = (await readFile("dist/assets/app.js")).byteLength;
 if (scriptBytes > 180000) throw new Error("Browser script budget exceeded.");
 const notesBytes = (await readFile("dist/notes/notes.js")).byteLength;
 if (notesBytes > 180000) throw new Error("Notes script budget exceeded.");
+const publicContent = await auditPublicDirectory("dist");
+await writeFile("dist/data/public-content-verification.json", JSON.stringify(publicContent, null, 2));
 console.log(JSON.stringify({ builtIn: "GitHub-hosted Linux", browserScriptBytes: scriptBytes, notesScriptBytes: notesBytes, browserModelRuntime: false, imageAssets: 4, localExecution: false, product: "PocketRoute Notes 0.2 alpha" }));

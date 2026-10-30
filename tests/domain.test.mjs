@@ -15,7 +15,7 @@ import { serviceEvidenceView } from "../ai/presentation.mjs";
 import { choiceLabels, decodeChoice, validateChoiceTokenIds } from "../ai/labels.mjs";
 import { ServiceChoiceLogitsProcessor } from "../ai/logits.mjs";
 import { Tensor } from "@huggingface/transformers";
-import { readFileSync, mkdtempSync, writeFileSync, rmSync } from "node:fs";
+import { readFileSync, mkdtempSync, writeFileSync, rmSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -26,6 +26,16 @@ import { reusableDevelopment } from "../ai/evaluation-replay.mjs";
 import { createDeviceReference, evaluateDeviceReport } from "../ai/device-report.mjs";
 import { fetchEvidence } from "../scripts/evidence-fetch.mjs";
 import { documentBlocks } from "../scripts/pdf-content.mjs";
+import { assertPublicPath, assertPublicContent, retiredPublicPaths } from "../scripts/public-content.mjs";
+
+test("publication boundary rejects financial planning and private paths", () => {
+  for (const text of ["Pilot price / INR", "Contribution margin", "Revenue", "Three business units", "Funded pilot"]) assert.throws(() => assertPublicContent(text));
+  assert.doesNotThrow(() => assertPublicContent("Synthetic accuracy, memory, latency and unresolved model rights."));
+  for (const path of [...retiredPublicPaths, ".local/state.json", "records/internal.json", "PUBLICATION_PLAN.md", "../private.json"]) assert.throws(() => assertPublicPath(path));
+  assert.doesNotThrow(() => assertPublicPath("downloads/pocketroute-device-integration.pdf"));
+  for (const path of ["README.md", "notes/README.md", "notes/guide.html", "ai/README.md", "ai/DEVICE_INTEGRATION.md"]) assertPublicContent(readFileSync(new URL(`../${path}`, import.meta.url), "utf8"), path);
+  assert.equal(existsSync(new URL("../documents/INDIA_SHOWCASE.md", import.meta.url)), false);
+});
 
 test("public project catalog contains technical work, not operational or financial records", () => {
   const catalog = JSON.stringify({ units, tasks, sessions, milestones });
