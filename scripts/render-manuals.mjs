@@ -1,4 +1,5 @@
 import "./cloud-only.mjs";
+import { repository } from "./cloud-only.mjs";
 import { chromium } from "@playwright/test";
 import { readFile, writeFile, mkdir, mkdtemp, rm } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
@@ -65,10 +66,15 @@ try {
         const entries = [{ ...content.blocks[index], index }];
         while (["heading", "subheading"].includes(entries.at(-1).kind) && index + 1 < content.blocks.length) { index += 1; entries.push({ ...content.blocks[index], index }); }
         unit.innerHTML = entries.map(entry => `<div class="doc-block" data-block="${entry.index}">${entry.html}</div>`).join("");
+        const tableGroup = entries.at(-1).tableGroup;
+        if (tableGroup) unit.dataset.tableGroup = tableGroup;
+        if (tableGroup && area.lastElementChild?.dataset.tableGroup === tableGroup) unit.querySelector("thead").hidden = true;
         area.append(unit);
-        if (area.scrollHeight > area.clientHeight + 1) {
+        const headingNearFooter = entries[0].kind === "heading" && area.children.length > 1 && area.getBoundingClientRect().bottom - unit.getBoundingClientRect().top < 160;
+        if (area.scrollHeight > area.clientHeight + 1 || headingNearFooter) {
           unit.remove();
           if (area.children.length) { sheet = addSheet(); area = sheet.querySelector(".page-content"); }
+          if (tableGroup) unit.querySelector("thead").hidden = false;
           area.append(unit);
           if (area.scrollHeight > area.clientHeight + 1) unit.classList.add("compact");
           if (area.scrollHeight > area.clientHeight + 1) throw new Error(`Print block exceeds page: ${entries[0].index}`);
@@ -115,6 +121,6 @@ try {
     results.push({ id: book.id, path: `downloads/${filename}`, pages, bytes: bytes.length, sha256: createHash("sha256").update(bytes).digest("hex"), sources: sources.map(source => ({ path: source.path, sha256: createHash("sha256").update(source.text).digest("hex") })), contentBlocks: layout.blocks, overflow: 0, clippedText: 0, fontsReady: true, textExtracted: true, hyperlinksVerified: true, allActualPdfPagesRasterChecked: true, pageErrors: 0, externalRequests: 0 });
     await context.close();
   }
-  await writeFile("dist/data/document-verification.json", JSON.stringify({ schemaVersion: 1, status: "passed", sourceSha: process.env.GITHUB_SHA, runUrl: `https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/${process.env.GITHUB_RUN_ID}`, generatedAt: new Date().toISOString(), rendering: "GitHub-hosted Chromium PDF plus Poppler raster/text inspection", documents: results, privatePaperPlanIncluded: false, localRendering: false }, null, 2));
+  await writeFile("dist/data/document-verification.json", JSON.stringify({ schemaVersion: 1, status: "passed", sourceSha: process.env.GITHUB_SHA, runUrl: `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`, generatedAt: new Date().toISOString(), rendering: "GitHub-hosted Chromium PDF plus Poppler raster/text inspection", documents: results, privatePaperPlanIncluded: false, localRendering: false }, null, 2));
 } finally { await browser.close(); await rm(scratch, { recursive: true, force: true }); }
 console.log(JSON.stringify({ pdfDocuments: results.map(({ id, pages }) => ({ id, pages })), localRendering: false }));

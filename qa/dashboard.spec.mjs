@@ -188,7 +188,7 @@ test("real service AI evidence preserves blocked quality and exact exported resu
   await expect(page.locator("#service-ai-evidence")).toContainText("5.42 GiB");
   await expect(page.locator("#service-ai-evidence")).toContainText("System accuracy, not pure-model accuracy");
   await expect(page.locator("#service-ai-evidence")).toContainText("94 / 2");
-  await expect(page.getByRole("link", { name: "Device integration manual", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Device manual (PDF)", exact: true })).toBeVisible();
   await expect(page.locator("#service-ai-evidence .cloud-case")).toHaveCount(23);
   await checkLayout(page);
   const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "Export AI receipt", exact: true }).click()]);
@@ -205,6 +205,11 @@ test("real service AI evidence preserves blocked quality and exact exported resu
   const [kit] = await Promise.all([page.waitForEvent("download"), page.getByRole("link", { name: "Device test kit", exact: true }).click()]);
   expect(kit.suggestedFilename()).toBe("pocketroute-device-test-kit-0.1.0.zip");
   expect((await readFile(await kit.path())).subarray(0, 4).toString("hex")).toBe("504b0304");
+  for (const [label, filename] of [["Device manual (PDF)", "pocketroute-device-integration.pdf"], ["SDK reference (PDF)", "pocketroute-sdk-reference.pdf"], ["India showcase (PDF)", "pocketroute-india-showcase.pdf"]]) {
+    const [pdf] = await Promise.all([page.waitForEvent("download"), page.getByRole("link", { name: label, exact: true }).click()]);
+    expect(pdf.suggestedFilename()).toBe(filename);
+    expect((await readFile(await pdf.path())).subarray(0, 5).toString()).toBe("%PDF-");
+  }
 });
 
 test("missing service AI receipt never implies model readiness", async ({ page }) => {

@@ -1,7 +1,7 @@
 export const project = {
   name: "PocketRoute",
-  repository: "https://github.com/ArindamChatterjee007/pocketroute-lab",
-  workflow: "https://github.com/ArindamChatterjee007/pocketroute-lab/actions/workflows/cloud.yml",
+  repository: "https://github.com/ArindamChatterjee0007/pocketroute-lab",
+  workflow: "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/workflows/cloud.yml",
   date: "2026-10-30",
   scope: "Public research snapshot",
 };

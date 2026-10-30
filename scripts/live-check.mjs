@@ -8,7 +8,7 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { fetchEvidence } from "./evidence-fetch.mjs";
 
-const base = "https://arindamchatterjee007.github.io/pocketroute-lab/";
+const base = "https://arindamchatterjee0007.github.io/pocketroute-lab/";
 const expectedSource = process.env.EXPECTED_SOURCE;
 if (!/^[a-f0-9]{40}$/.test(expectedSource || "")) throw new Error("An exact expected source SHA is required for live verification.");
 const retrievalRetries = [];
@@ -26,6 +26,8 @@ const assets = publication.inventory.filter(item => !item.path.startsWith("evide
 let bundleBytes;
 let aiBundleBytes;
 let deviceKitBytes;
+const pdfAssets = new Map();
+let documentReceipt;
 for (const asset of assets) {
   assert.ok(!asset.path.includes("..") && !asset.path.startsWith("/"));
   const assetResponse = await retrieve(asset.path);
@@ -36,6 +38,21 @@ for (const asset of assets) {
   if (asset.path === "downloads/pocketroute-notes-0.2.0.zip") bundleBytes = bytes;
   if (asset.path === "downloads/pocketroute-service-ai-0.1.0-experimental.zip") aiBundleBytes = bytes;
   if (asset.path === "downloads/pocketroute-device-test-kit-0.1.0.zip") deviceKitBytes = bytes;
+  if (asset.path.endsWith(".pdf")) pdfAssets.set(asset.path, bytes);
+  if (asset.path === "data/document-verification.json") documentReceipt = JSON.parse(bytes.toString("utf8"));
+}
+assert.equal(documentReceipt?.status, "passed");
+assert.equal(documentReceipt.sourceSha, expectedSource);
+assert.equal(documentReceipt.privatePaperPlanIncluded, false);
+assert.equal(documentReceipt.documents.length, 3);
+for (const document of documentReceipt.documents) {
+  const bytes = pdfAssets.get(document.path);
+  assert.ok(bytes && bytes.subarray(0, 5).toString() === "%PDF-", document.path);
+  assert.equal(createHash("sha256").update(bytes).digest("hex"), document.sha256);
+  assert.equal(document.overflow, 0);
+  assert.equal(document.clippedText, 0);
+  assert.equal(document.fontsReady, true);
+  assert.equal(document.allActualPdfPagesRasterChecked, true);
 }
 assert.ok(bundleBytes, "The product bundle is absent from the publication.");
 const bundleDirectory = await mkdtemp(join(process.env.RUNNER_TEMP, "pocketroute-release-"));
@@ -50,8 +67,8 @@ const aiBundlePath = join(bundleDirectory, "service-ai.zip");
 await writeFile(aiBundlePath, aiBundleBytes);
 execFileSync("unzip", ["-tq", aiBundlePath], { stdio: "inherit" });
 const aiEntries = execFileSync("unzip", ["-Z1", aiBundlePath], { encoding: "utf8" }).trim().split(/\r?\n/);
-for (const required of ["ai/client.mjs", "ai/worker.mjs", "ai/config.mjs", "ai/contract.mjs", "ai/cli.mjs", "ai/examples.mjs", "ai/labels.mjs", "ai/logits.mjs", "ai/entailment.mjs", "ai/review-policy.mjs", "package.json", "package-lock.json", "LICENSE", "MODEL_CARD.md", "PHONE_TESTING.md", "README.md"]) assert.ok(aiEntries.includes(`downloads/service-ai/${required}`), `Missing AI SDK file: ${required}`);
-assert.ok(aiEntries.includes("downloads/service-ai/DEVICE_INTEGRATION.md"));
+for (const required of ["ai/client.mjs", "ai/worker.mjs", "ai/config.mjs", "ai/contract.mjs", "ai/cli.mjs", "ai/examples.mjs", "ai/labels.mjs", "ai/logits.mjs", "ai/entailment.mjs", "ai/review-policy.mjs", "package.json", "package-lock.json", "LICENSE", "MANUAL.pdf", "SDK_REFERENCE.pdf"]) assert.ok(aiEntries.includes(`downloads/service-ai/${required}`), `Missing AI SDK file: ${required}`);
+assert.ok(aiEntries.every(name => !name.endsWith(".md")), "Superseded Markdown manual entered the SDK bundle.");
 execFileSync("unzip", ["-q", aiBundlePath, "-d", join(bundleDirectory, "sdk")]);
 execFileSync(process.execPath, ["--check", "ai/worker.mjs"], { cwd: join(bundleDirectory, "sdk/downloads/service-ai"), stdio: "inherit" });
 assert.ok(aiEntries.every(name => !name.startsWith("/") && !name.split("/").includes("..") && !/\.(onnx|onnx_data|safetensors)$/.test(name)), "Model weights or unsafe paths entered the SDK bundle.");
@@ -60,7 +77,7 @@ const deviceKitPath = join(bundleDirectory, "device-kit.zip");
 await writeFile(deviceKitPath, deviceKitBytes);
 execFileSync("unzip", ["-tq", deviceKitPath], { stdio: "inherit" });
 const deviceKitEntries = execFileSync("unzip", ["-Z1", deviceKitPath], { encoding: "utf8" }).trim().split(/\r?\n/);
-const requiredKitFiles = ["protocol.json", "requests.json", "reference.json", "report-template.json", "validate-device-report.mjs", "device-report.mjs", "contract.mjs", "review-policy.mjs", "MANUAL.md", "LICENSE"];
+const requiredKitFiles = ["protocol.json", "requests.json", "reference.json", "report-template.json", "validate-device-report.mjs", "device-report.mjs", "contract.mjs", "review-policy.mjs", "MANUAL.pdf", "LICENSE"];
 assert.ok(deviceKitEntries.every(name => name === "downloads/device-test-kit/" || requiredKitFiles.some(required => name === `downloads/device-test-kit/${required}`)));
 for (const name of requiredKitFiles) assert.ok(deviceKitEntries.includes(`downloads/device-test-kit/${name}`));
 execFileSync("unzip", ["-q", deviceKitPath, "-d", join(bundleDirectory, "device")]);
@@ -117,7 +134,9 @@ for (const configuration of configurations) {
     await expect(page.locator("#service-ai-evidence")).toContainText("Commercial release blocked");
     await expect(page.locator("#service-ai-evidence")).toContainText("73 / 96");
     await expect(page.locator("#service-ai-evidence")).toContainText("System accuracy, not pure-model accuracy");
-    await expect(page.getByRole("link", { name: "Device integration manual", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Device manual (PDF)", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "SDK reference (PDF)", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "India showcase (PDF)", exact: true })).toBeVisible();
     await expect(page.getByRole("link", { name: "Device test kit", exact: true })).toBeVisible();
     await expect(page.locator("#service-ai-evidence .cloud-case")).toHaveCount(23);
     await page.goto(`${base}notes/`, { waitUntil: "domcontentloaded" });
@@ -162,5 +181,6 @@ for (const configuration of configurations) {
 const receipt = { schemaVersion: 1, status: "passed", checkedAt: new Date().toISOString(), url: base, productUrl: `${base}notes/`, sourceSha: expectedSource, runUrl: `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`, artifactFilesVerified: assets.length, artifactHashAlgorithm: "SHA-256", bundleIntegrity: "passed", bundleEntries: bundleEntries.length, experimentalAiSdkBundle: { integrity: "passed", entries: aiEntries.length, weightsBundled: false, modelQualityAccepted: false }, configurations: results, modelRerun: false, phoneBenchmark: false, energyJoules: null, localBuildsOrTests: 0 };
 receipt.deviceRegressionKit = { integrity: "passed", entries: deviceKitEntries.length, inputCases: deviceRequests.cases.length, expectedAnswersSeparate: true, incompleteTemplateRejected: true, portableScorerSmoke: "passed using cloud fixture, no inference", physicalDeviceTest: false };
 receipt.hostedRetrieval = { policy: "At most three GET attempts for HTTP 502/503/504 only; final status, byte count and SHA-256 remain mandatory.", retries: retrievalRetries, availabilityGuarantee: false };
+receipt.pdfManuals = { status: "passed", documents: documentReceipt.documents.map(({ id, pages, sha256 }) => ({ id, pages, sha256 })), sourceMarkdownExcludedFromBundles: true, privatePaperPlanIncluded: false };
 await writeFile("data/live-verification.json", JSON.stringify(receipt, null, 2));
 console.log(JSON.stringify(receipt, null, 2));

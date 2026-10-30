@@ -48,6 +48,7 @@ export function scenarioEconomics({ price, hours, hourlyCost, testCost, reserve 
 export function safeGitHubUrl(value) {
   try {
     const url = new URL(value);
-    return url.protocol === "https:" && url.hostname === "github.com" && url.pathname.startsWith("/ArindamChatterjee007/pocketroute-lab/") ? url.href : null;
+    const roots = ["/ArindamChatterjee0007/pocketroute-lab/", "/ArindamChatterjee007/pocketroute-lab/"];
+    return url.protocol === "https:" && url.hostname === "github.com" && roots.some(root => url.pathname.startsWith(root)) ? url.href : null;
   } catch { return null; }
 }

@@ -33,6 +33,8 @@ test("print document blocks preserve steps, table rows, code and safe source tex
   assert.equal(document.chapters.length, 1);
   assert.equal(document.chapters[0].title, "Install");
   assert.equal(document.blocks.filter(block => block.kind === "table").length, 2);
+  const tables = document.blocks.filter(block => block.kind === "table");
+  assert.equal(tables[0].tableGroup, tables[1].tableGroup);
   const html = document.blocks.map(block => block.html).join("");
   for (const required of ["5.", "6.", "Other", "node validate-device-report.mjs", "&lt;script&gt;", "https://example.invalid/manual"]) assert.ok(html.includes(required), required);
   assert.ok(!html.includes("<script>"));
@@ -269,7 +271,9 @@ test("service evidence recomputes quality from cases and escapes model text", ()
   assert.ok(serviceEvidenceView(null).includes("evidence unavailable"));
   const hybrid = serviceEvidenceView({ ...record, protocol: { systemKind: "model-plus-deterministic-review-policy" }, developmentReuse: { sourceRun: "recorded" } });
   assert.ok(hybrid.includes("System accuracy, not pure-model accuracy"));
-  assert.ok(hybrid.includes("Device integration manual"));
+  assert.ok(hybrid.includes("Device manual (PDF)"));
+  assert.ok(hybrid.includes("pocketroute-sdk-reference.pdf"));
+  assert.ok(hybrid.includes("pocketroute-india-showcase.pdf"));
   assert.ok(hybrid.includes("pocketroute-device-test-kit-0.1.0.zip"));
   assert.ok(hybrid.includes("repeated unchanged"));
 });
@@ -458,7 +462,9 @@ test("public source data has stable unique IDs", () => {
 });
 
 test("run links only target this project's GitHub namespace", () => {
+  assert.ok(safeGitHubUrl("https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/123"));
   assert.ok(safeGitHubUrl("https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/123"));
+  assert.equal(safeGitHubUrl("https://github.com/ArindamChatterjee0007/pocketroute-lab-other/actions/runs/123"), null);
   assert.equal(safeGitHubUrl("javascript:alert(1)"), null);
   assert.equal(safeGitHubUrl("https://github.com/another-owner/repo/actions/runs/123"), null);
 });

@@ -21,7 +21,8 @@ export function documentBlocks(sources) {
         chapters.push({ id, title, number: chapterNumber });
         blocks.push({ kind: "heading", chapter: title, id, html: `<header class="chapter-heading" id="${id}"><span class="chapter-number">${String(chapterNumber).padStart(2, "0")}</span><h2>${escape(title)}</h2></header>` });
       } else if (token.type === "table") {
-        for (let offset = 0; offset < token.rows.length; offset += 4) blocks.push({ kind: "table", html: render([{ ...token, rows: token.rows.slice(offset, offset + 4) }]) });
+        const tableGroup = `table-${sourceIndex}-${blocks.length}`;
+        for (let offset = 0; offset < token.rows.length; offset += 4) blocks.push({ kind: "table", tableGroup, html: render([{ ...token, rows: token.rows.slice(offset, offset + 4) }]) });
       } else if (token.type === "list") {
         token.items.forEach((item, index) => {
           const ordinal = token.ordered ? `${Number(token.start || 1) + index}.` : "";

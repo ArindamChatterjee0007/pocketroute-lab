@@ -152,7 +152,7 @@ The cloud build generates `downloads/pocketroute-device-test-kit-0.1.0.zip`, wit
 | `report-template.json` | Deliberately incomplete output; `not-run`/null timings fail validation until attempts exist |
 | `validate-device-report.mjs`, `device-report.mjs`, `contract.mjs` | Dependency-free Node scorer; no runtime installation/download |
 | `review-policy.mjs` | Reference reject-only policy for native conformance |
-| `MANUAL.md`, `LICENSE` | Instructions and original-source license |
+| `MANUAL.pdf`, `LICENSE` | Designed integration/test handbook and original-source license |
 
 Do not substitute newer expected answers or drop difficult cases. Both existing corpora are exposed: regression/parity only, not a fresh accuracy claim. This text-service kit cannot validate an MCU sensor task; that requires a separately versioned suite and scorer.
 
