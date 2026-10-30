@@ -181,18 +181,25 @@ test("missing evidence remains visibly unavailable, never a fake pass", async ({
 
 test("real service AI evidence preserves blocked quality and exact exported results", async ({ page }) => {
   await openView(page, "service");
+  const receipt = await page.evaluate(async () => (await fetch("./data/ai-service-results.json")).json());
   await expect(page.locator("#service-ai-evidence")).toContainText("Commercial release blocked");
-  await expect(page.locator("#service-ai-evidence")).toContainText("41 / 48");
-  await expect(page.locator("#service-ai-evidence")).toContainText("87.2%");
-  await expect(page.locator("#service-ai-evidence")).toContainText("4.44 GiB");
-  await expect(page.locator("#service-ai-evidence .cloud-case")).toHaveCount(7);
+  await expect(page.locator("#service-ai-evidence")).toContainText("73 / 96");
+  await expect(page.locator("#service-ai-evidence")).toContainText("80.3%");
+  await expect(page.locator("#service-ai-evidence")).toContainText("5.42 GiB");
+  await expect(page.locator("#service-ai-evidence")).toContainText("System accuracy, not pure-model accuracy");
+  await expect(page.locator("#service-ai-evidence")).toContainText("94 / 2");
+  await expect(page.getByRole("link", { name: "Physical-phone test plan", exact: true })).toBeVisible();
+  await expect(page.locator("#service-ai-evidence .cloud-case")).toHaveCount(23);
   await checkLayout(page);
   const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "Export AI receipt", exact: true }).click()]);
   const report = JSON.parse(await readFile(await download.path(), "utf8"));
   expect(report.status).toBe("completed");
+  expect(report).toEqual(receipt);
   expect(report.pilotScreen.passed).toBe(false);
-  expect(report.metrics.correct).toBe(41);
-  expect(report.testCases).toHaveLength(48);
+  expect(report.metrics.correct).toBe(73);
+  expect(report.testCases).toHaveLength(96);
+  expect(report.userAccuracyTarget.met).toBe(false);
+  expect(report.protocol.confirmationUse).toBe("exact-protocol-reproduction-after-budget-interruption");
   expect(report.runtimeChecks.cancellationStopsProcess).toBe(true);
   expect(report.phoneEnergyJoules).toBeNull();
 });
@@ -201,7 +208,7 @@ test("missing service AI receipt never implies model readiness", async ({ page }
   await page.route("**/data/ai-service-results.json", route => route.abort());
   await page.goto("/#service", { waitUntil: "domcontentloaded" });
   await expect(page.locator("#workspace")).toContainText("AI service evidence unavailable");
-  await expect(page.locator("#workspace")).not.toContainText("41 / 48");
+  await expect(page.locator("#workspace")).not.toContainText("73 / 96");
 });
 
 test("successful receipt state is readable and links to the correct project", async ({ page }) => {

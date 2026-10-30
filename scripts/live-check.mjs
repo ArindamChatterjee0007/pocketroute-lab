@@ -41,7 +41,9 @@ const aiBundlePath = join(bundleDirectory, "service-ai.zip");
 await writeFile(aiBundlePath, aiBundleBytes);
 execFileSync("unzip", ["-tq", aiBundlePath], { stdio: "inherit" });
 const aiEntries = execFileSync("unzip", ["-Z1", aiBundlePath], { encoding: "utf8" }).trim().split(/\r?\n/);
-for (const required of ["ai/client.mjs", "ai/worker.mjs", "ai/config.mjs", "ai/contract.mjs", "ai/cli.mjs", "package.json", "package-lock.json", "LICENSE", "MODEL_CARD.md", "README.md"]) assert.ok(aiEntries.includes(`downloads/service-ai/${required}`), `Missing AI SDK file: ${required}`);
+for (const required of ["ai/client.mjs", "ai/worker.mjs", "ai/config.mjs", "ai/contract.mjs", "ai/cli.mjs", "ai/examples.mjs", "ai/labels.mjs", "ai/logits.mjs", "ai/entailment.mjs", "ai/review-policy.mjs", "package.json", "package-lock.json", "LICENSE", "MODEL_CARD.md", "PHONE_TESTING.md", "README.md"]) assert.ok(aiEntries.includes(`downloads/service-ai/${required}`), `Missing AI SDK file: ${required}`);
+execFileSync("unzip", ["-q", aiBundlePath, "-d", join(bundleDirectory, "sdk")]);
+execFileSync(process.execPath, ["--check", "ai/worker.mjs"], { cwd: join(bundleDirectory, "sdk/downloads/service-ai"), stdio: "inherit" });
 assert.ok(aiEntries.every(name => !name.startsWith("/") && !name.split("/").includes("..") && !/\.(onnx|onnx_data|safetensors)$/.test(name)), "Model weights or unsafe paths entered the SDK bundle.");
 const configurations = [
   { engine: "chromium", width: 1440, height: 1000 },
@@ -77,8 +79,10 @@ for (const configuration of configurations) {
     await expect(page.locator("#workspace")).toContainText("8 / 8 exact labels");
     await page.goto(`${base}#service`, { waitUntil: "domcontentloaded" });
     await expect(page.locator("#service-ai-evidence")).toContainText("Commercial release blocked");
-    await expect(page.locator("#service-ai-evidence")).toContainText("41 / 48");
-    await expect(page.locator("#service-ai-evidence .cloud-case")).toHaveCount(7);
+    await expect(page.locator("#service-ai-evidence")).toContainText("73 / 96");
+    await expect(page.locator("#service-ai-evidence")).toContainText("System accuracy, not pure-model accuracy");
+    await expect(page.getByRole("link", { name: "Physical-phone test plan", exact: true })).toBeVisible();
+    await expect(page.locator("#service-ai-evidence .cloud-case")).toHaveCount(23);
     await page.goto(`${base}notes/`, { waitUntil: "domcontentloaded" });
     await expect(page.getByRole("heading", { level: 1, name: "Field-note workbench" })).toBeVisible();
     await expect(page.locator("body")).toHaveAttribute("data-storage", "ready");

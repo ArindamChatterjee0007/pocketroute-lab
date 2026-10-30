@@ -55,9 +55,10 @@ await build({ entryPoints: ["notes/sw.mjs"], outfile: "dist/notes/sw.js", bundle
 execFileSync("zip", ["-q", "-r", "downloads/pocketroute-notes-0.2.0.zip", "notes", "styles.css", "assets/mark.png", "assets/manrope.woff2", "assets/space-grotesk.woff2", "LICENSE.txt", "THIRD_PARTY_NOTICES.txt", "downloads/pocketroute-core.mjs", "downloads/README.md"], { cwd: "dist", stdio: "inherit" });
 const aiPackage = "downloads/service-ai";
 await mkdir(`dist/${aiPackage}/ai`, { recursive: true });
-for (const name of ["client.mjs", "worker.mjs", "cli.mjs", "contract.mjs", "config.mjs", "examples.mjs"]) await copyFile(`ai/${name}`, `dist/${aiPackage}/ai/${name}`);
+for (const name of ["client.mjs", "worker.mjs", "cli.mjs", "contract.mjs", "config.mjs", "examples.mjs", "labels.mjs", "logits.mjs", "entailment.mjs", "review-policy.mjs"]) await copyFile(`ai/${name}`, `dist/${aiPackage}/ai/${name}`);
 await copyFile("ai/README.md", `dist/${aiPackage}/README.md`);
 await copyFile("ai/MODEL_CARD.md", `dist/${aiPackage}/MODEL_CARD.md`);
+await copyFile("ai/PHONE_TESTING.md", `dist/${aiPackage}/PHONE_TESTING.md`);
 await copyFile("LICENSE", `dist/${aiPackage}/LICENSE`);
 await writeFile(`dist/${aiPackage}/package.json`, JSON.stringify({ name: "pocketroute-service-ai-experimental", version: "0.1.0-experimental", private: true, type: "module", license: "Apache-2.0", engines: { node: ">=24" }, exports: "./ai/client.mjs", dependencies: { "@huggingface/transformers": "4.3.2" } }, null, 2));
 execFileSync("npm", ["install", "--package-lock-only", "--ignore-scripts", "--no-audit", "--no-fund"], { cwd: `dist/${aiPackage}`, stdio: "inherit" });

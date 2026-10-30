@@ -168,6 +168,10 @@ test("service evidence recomputes quality from cases and escapes model text", ()
   assert.ok(html.includes("&lt;img"));
   assert.ok(!html.includes("<img"));
   assert.ok(serviceEvidenceView(null).includes("evidence unavailable"));
+  const hybrid = serviceEvidenceView({ ...record, protocol: { systemKind: "model-plus-deterministic-review-policy" }, developmentReuse: { sourceRun: "recorded" } });
+  assert.ok(hybrid.includes("System accuracy, not pure-model accuracy"));
+  assert.ok(hybrid.includes("Physical-phone test plan"));
+  assert.ok(hybrid.includes("repeated unchanged"));
 });
 
 test("field-note worker performs grounded extraction and an extractive summary", () => {
