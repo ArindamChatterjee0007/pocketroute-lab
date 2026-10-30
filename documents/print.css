@@ -20,6 +20,7 @@ strong { font-weight: 750; }
 a { color: var(--green); text-decoration: underline; text-decoration-thickness: 0.6px; text-underline-offset: 2px; overflow-wrap: anywhere; }
 table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 8.6pt; line-height: 1.44; margin: 2mm 0 3mm; }
 thead { display: table-header-group; }
+thead[hidden] { display: none; }
 th { padding: 2.4mm 2mm; background: #e6f0ec; color: #155346; font-weight: 750; border-bottom: 1.5px solid #82ab9c; text-align: left; vertical-align: top; }
 td { padding: 2.4mm 2mm; vertical-align: top; border-bottom: 1px solid var(--rule); overflow-wrap: anywhere; }
 th, td { word-break: normal; }
