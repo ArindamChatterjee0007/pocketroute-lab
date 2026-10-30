@@ -7,6 +7,40 @@ import { tasks, sources, units } from "../data/office.mjs";
 import { analyzeNote, validateRecordDraft, validDate, createRecord, createBackup, createBackupFiles, parseBackup, planImport, sameRecord, backupByteLimit } from "../app/note-core.mjs";
 import { recordsToCsv } from "../notes/export.mjs";
 import Papa from "papaparse";
+import { validateServiceRequest, parseServiceLabel, summarizeClassification, pilotGate } from "../ai/contract.mjs";
+
+test("AI service interface bounds input and rejects unstructured model labels", () => {
+  assert.equal(validateServiceRequest("  A pump needs attention.  "), "A pump needs attention.");
+  assert.throws(() => validateServiceRequest(" "));
+  assert.throws(() => validateServiceRequest("a".repeat(2001)));
+  assert.equal(parseServiceLabel(" maintenance\n"), "maintenance");
+  assert.equal(parseServiceLabel("The answer is maintenance."), null);
+  assert.equal(parseServiceLabel("inspection and delivery"), null);
+});
+
+test("AI service metrics distinguish correct routing, abstention and unsafe acceptance", () => {
+  const metrics = summarizeClassification([
+    { id: "one", expected: "maintenance", output: "maintenance" },
+    { id: "two", expected: "delivery", output: "review" },
+    { id: "three", expected: "inspection", output: "unexpected" },
+    { id: "four", expected: "review", output: "delivery" },
+  ]);
+  assert.equal(metrics.correct, 1);
+  assert.equal(metrics.accepted, 2);
+  assert.equal(metrics.acceptedPrecision, 0.5);
+  assert.equal(metrics.supportedCoverage, 1 / 3);
+  assert.equal(metrics.unsafeAcceptances, 1);
+  assert.equal(metrics.invalidOutputs, 1);
+  assert.equal(metrics.phoneEnergyJoules, null);
+  assert.equal(pilotGate(metrics).passed, false);
+});
+
+test("AI pilot gate cannot mistake a tiny or all-review result for product readiness", () => {
+  const tiny = summarizeClassification([{ id: "one", expected: "review", output: "review" }]);
+  assert.equal(tiny.acceptedPrecision, null);
+  assert.equal(pilotGate(tiny).passed, false);
+  assert.throws(() => summarizeClassification([{ id: "one", expected: "review", output: "review" }, { id: "one", expected: "review", output: "review" }]));
+});
 
 test("field-note worker performs grounded extraction and an extractive summary", () => {
   const source = "Site: North-17\nDate: 2026-10-29\nTicket: JOB-0042\nTwo filters need replacement.\nThe team left the unit isolated.";
