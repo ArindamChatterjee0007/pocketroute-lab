@@ -91,7 +91,10 @@ try {
     await page.pdf({ path: pdfPath, format: "A4", printBackground: true, preferCSSPageSize: true, tagged: true, outline: true, margin: { top: "0", right: "0", bottom: "0", left: "0" } });
     const info = execFileSync("pdfinfo", [pdfPath], { encoding: "utf8" });
     const pages = Number(/^Pages:\s+(\d+)/m.exec(info)?.[1]);
-    if (pages !== layout.pages || !/Page size:\s+595(?:\.\d+)? x 841(?:\.\d+)? pts|Page size:\s+595(?:\.\d+)? x 842(?:\.\d+)? pts/.test(info)) throw new Error(`Unexpected PDF geometry: ${filename}`);
+    const dimensions = /^Page size:\s+([\d.]+)\s+x\s+([\d.]+)\s+pts/m.exec(info);
+    const widthPoints = Number(dimensions?.[1]);
+    const heightPoints = Number(dimensions?.[2]);
+    if (pages !== layout.pages || !Number.isFinite(widthPoints) || !Number.isFinite(heightPoints) || Math.abs(widthPoints - 210 / 25.4 * 72) > 1 || Math.abs(heightPoints - 297 / 25.4 * 72) > 1) throw new Error(`Unexpected PDF geometry: ${filename} ${JSON.stringify({ pages, expectedPages: layout.pages, widthPoints, heightPoints })}`);
     const extracted = execFileSync("pdftotext", ["-layout", pdfPath, "-"], { encoding: "utf8", maxBuffer: 8 * 1024 * 1024 });
     if (extracted.length < content.sourceCharacters * 0.55 || !extracted.includes("PocketRoute")) throw new Error(`PDF text extraction failed: ${filename}`);
     const urls = execFileSync("pdfinfo", ["-url", pdfPath], { encoding: "utf8" });

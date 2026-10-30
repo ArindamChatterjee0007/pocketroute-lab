@@ -2,7 +2,7 @@
 * { box-sizing: border-box; letter-spacing: 0; }
 html, body { margin: 0; padding: 0; background: #dce5e2; color: var(--ink); font-family: "Manrope", sans-serif; font-size: 10.2pt; line-height: 1.52; font-variant-ligatures: none; }
 @page { size: A4; margin: 0; }
-.sheet { position: relative; width: 210mm; height: 297mm; margin: 0; overflow: hidden; background: var(--paper); break-after: page; page-break-after: always; }
+.sheet { position: relative; width: 210mm; height: 296.5mm; margin: 0; overflow: hidden; background: var(--paper); break-after: page; page-break-after: always; }
 .sheet:last-child { break-after: auto; page-break-after: auto; }
 .page-mast { position: absolute; top: 13mm; left: 17mm; right: 17mm; display: flex; justify-content: space-between; align-items: baseline; gap: 12mm; border-bottom: 1px solid var(--rule); padding-bottom: 5mm; font-size: 8pt; color: var(--muted); }
 .brand { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 13pt; color: var(--green); }
