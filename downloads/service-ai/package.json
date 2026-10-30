@@ -1,0 +1,14 @@
+{
+  "name": "pocketroute-service-ai-experimental",
+  "version": "0.1.0-experimental",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "exports": "./ai/client.mjs",
+  "dependencies": {
+    "@huggingface/transformers": "4.3.2"
+  }
+}

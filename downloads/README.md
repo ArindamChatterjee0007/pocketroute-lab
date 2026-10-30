@@ -2,9 +2,17 @@
 
 A local-first, open-source field-note product. Capture text, prepare conservative source-grounded fields and an extractive summary, review/edit, save locally, search records, and export or import portable backups. No language model runs in this product.
 
+## Verified Release
+
+Live product: https://arindamchatterjee007.github.io/pocketroute-lab/notes/
+
+Source `86383dfb74e1c6ce09c805b3672a4770d13ac7a4` passed [GitHub run 40970044604](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40970044604): 23 unit checks, 144 browser test-configuration results and 12 final snapshots across the product and dashboard. [Live acceptance 40970654399](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40970654399) verified 25 hosted file hashes, ZIP integrity/content, standalone browser SDK use, review/save, offline reload, backup and confirmed deletion across four browser configurations. All execution and screenshot generation occurred on GitHub, not the founder's Mac. Desktop and phone captures were inspected.
+
+This establishes an early usable web product, not customer demand, native-device battery savings, production certification or independent human acceptance. No model was trained or rerun for this release. Source and runtime downloads are public under their stated licenses; user records are not included in the repository or published test data. The local-storage privacy limitations below still apply.
+
 ## Use The Product
 
-The hosted app lives at https://arindamchatterjee007.github.io/pocketroute-lab/notes/ after the verified release is published. It remains separate from the research dashboard. Records belong to the browser profile, not to the public repository.
+The hosted app lives at https://arindamchatterjee007.github.io/pocketroute-lab/notes/ and remains separate from the research dashboard. Records belong to the browser profile, not to the public repository.
 
 - Site/date/reference extraction requires explicit labelled lines. Unsupported, conflicting or invalid fields are not invented.
 - Category suggestions use keywords. Ambiguous categories fall back to General and need review.
