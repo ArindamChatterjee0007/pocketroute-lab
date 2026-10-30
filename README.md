@@ -2,6 +2,14 @@
 
 An open-source local-first field-note product, reusable JavaScript core and research dashboard. This is an early product release, not a paid SaaS service, secure vault, newly trained language model or native mobile SDK.
 
+## Device Integration Delivery
+
+The [multi-device manual](ai/DEVICE_INTEGRATION.md) and [portable regression kit](https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-device-test-kit-0.1.0.zip) are available for integrators/testers. Profiles and native adapter interfaces are specified, not implemented mobile/MCU runtimes. The kit separates 96 exposed inputs from expected/reference labels and scores complete recorded reports without inference; parity with the failing reference is not release acceptance.
+
+Publication source `96da4a02f99f647c2195ba47465efadaf5007994`, static revision `c998b1fed6737860418b17ba0af247eda85cfe75`: [run 41058560519](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41058560519) passed 41 unit checks, 162 browser results and 12 final snapshots. Cloud-rendered desktop/mobile captures were reviewed. [Live verification 41059650241](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41059650241) verified 65 hosted-file hashes, the 20-entry experimental SDK and 11-entry regression kit, including rejection of an unfinished template and scorer execution on an explicitly labelled cloud fixture. Four browser configurations preserved the app flows with no page errors or outside requests.
+
+Two earlier live attempts stopped on HTTP 503 responses. A tested, bounded GET retry policy now records transient 502/503/504 responses while still requiring final HTTP 200, byte count and SHA-256 for every file. The passing receipt records one retry; this is not an availability guarantee. No local builds/tests/rendering, model rerun or physical-device inference occurred. The model remains at its failed 73/96 confirmation result. Earlier delivery checkpoints below are historical.
+
 ## Actual AI Component
 
 The original model-backed work is now implemented as an **experimental service-classification SDK and CLI**, separate from the rule-only Notes product. It uses pinned Qwen2.5 ONNX weights in an isolated CPU worker, with strict output labels, bounded input/context, explicit model-download consent, cached inference and cancellation that stops the worker. **It is not ready to sell as a production or low-power mobile AI engine.**
