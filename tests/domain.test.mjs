@@ -16,7 +16,15 @@ import { choiceLabels, decodeChoice, validateChoiceTokenIds } from "../ai/labels
 import { ServiceChoiceLogitsProcessor } from "../ai/logits.mjs";
 import { Tensor } from "@huggingface/transformers";
 import { readFileSync } from "node:fs";
-import { selectEntailmentLabel } from "../ai/entailment.mjs";
+import { selectEntailmentLabel, entailmentProbability } from "../ai/entailment.mjs";
+
+test("NLI acceptance retains neutral evidence and validates the model label mapping", () => {
+  const mapping = { contradiction: 0, entailment: 1, neutral: 2 };
+  assert.ok(entailmentProbability([-10, 0, 10], mapping) < 0.001);
+  assert.ok(entailmentProbability([-10, 10, 0], mapping) > 0.999);
+  assert.throws(() => entailmentProbability([0, NaN, 1], mapping));
+  assert.throws(() => entailmentProbability([0, 1, 2], { contradiction: 0, entailment: 1, neutral: 1 }));
+});
 
 test("NLI suggestions require one strong supported category and reject weak, competing or manipulative requests", () => {
   assert.equal(selectEntailmentLabel({ maintenance: 0.95, delivery: 0.1, inspection: 0.1, review: 0.1 }), "maintenance");

@@ -1,4 +1,4 @@
-export const entailmentPolicy = Object.freeze({ minimumSupport: 0.8, competingSupport: 0.5, reviewSupport: 0.5, maxPairTokens: 512, outputMode: "independent-entailment-with-abstention" });
+export const entailmentPolicy = Object.freeze({ minimumSupport: 0.8, competingSupport: 0.5, reviewSupport: 0.5, maxPairTokens: 512, outputMode: "three-way-entailment-with-abstention" });
 
 export const serviceHypotheses = Object.freeze({
   maintenance: "This request describes faulty installed equipment or building fixtures that need repair, adjustment, replacement or servicing.",
@@ -16,17 +16,22 @@ export function selectEntailmentLabel(scores) {
   return ranked[0];
 }
 
-export async function classifyEntailment(classifier, input, requestTokens) {
-  const hypotheses = Object.values(serviceHypotheses);
-  const pairTokens = requestTokens + Math.max(...hypotheses.map(value => classifier.tokenizer.encode(value, { add_special_tokens: false }).length)) + 4;
-  if (pairTokens > entailmentPolicy.maxPairTokens) throw new Error("PROMPT_TOKEN_LIMIT");
-  const response = await classifier(input, hypotheses, { multi_label: true, hypothesis_template: "{}" });
-  if (!Array.isArray(response.labels) || !Array.isArray(response.scores) || response.labels.length !== hypotheses.length || response.scores.length !== hypotheses.length || new Set(response.labels).size !== hypotheses.length) throw new Error("MODEL_ENTAILMENT_RESPONSE_INVALID");
+export function entailmentProbability(logits, label2id) {
+  const indices = ["contradiction", "entailment", "neutral"].map(label => label2id?.[label]);
+  if (logits.length !== 3 || new Set(indices).size !== 3 || indices.some(index => !Number.isInteger(index) || index < 0 || index > 2) || [...logits].some(value => !Number.isFinite(value))) throw new Error("MODEL_ENTAILMENT_RESPONSE_INVALID");
+  const maximum = Math.max(...logits);
+  const weights = [...logits].map(value => Math.exp(value - maximum));
+  return weights[label2id.entailment] / weights.reduce((sum, value) => sum + value, 0);
+}
+
+export async function classifyEntailment(classifier, input) {
+  const pairs = Object.entries(serviceHypotheses).map(([label, hypothesis]) => ({ label, inputs: classifier.tokenizer(input, { text_pair: hypothesis, padding: true, truncation: false }) }));
+  const pairTokens = Math.max(...pairs.map(pair => pair.inputs.input_ids.dims.at(-1)));
+  if (!Number.isSafeInteger(pairTokens) || pairTokens > entailmentPolicy.maxPairTokens) throw new Error("PROMPT_TOKEN_LIMIT");
   const scores = {};
-  for (const [index, hypothesis] of response.labels.entries()) {
-    const label = Object.keys(serviceHypotheses).find(value => serviceHypotheses[value] === hypothesis);
-    if (!label) throw new Error("MODEL_ENTAILMENT_RESPONSE_INVALID");
-    scores[label] = response.scores[index];
+  for (const { label, inputs } of pairs) {
+    const response = await classifier.model(inputs);
+    scores[label] = entailmentProbability(response.logits.data, classifier.model.config.label2id);
   }
   return { output: selectEntailmentLabel(scores), entailmentScores: scores, generatedChoice: null, promptTokens: pairTokens, outputMode: entailmentPolicy.outputMode };
 }
