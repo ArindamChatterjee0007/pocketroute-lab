@@ -24,6 +24,24 @@ import { selectEntailmentLabel, entailmentProbability } from "../ai/entailment.m
 import { reviewPolicyReason } from "../ai/review-policy.mjs";
 import { reusableDevelopment } from "../ai/evaluation-replay.mjs";
 import { createDeviceReference, evaluateDeviceReport } from "../ai/device-report.mjs";
+import { fetchEvidence } from "../scripts/evidence-fetch.mjs";
+
+test("evidence retrieval retries only transient GET status codes and records them", async () => {
+  const requested = [];
+  const statuses = [503, 200];
+  const result = await fetchEvidence("https://example.invalid/evidence", async url => { requested.push(url); return new Response("synthetic", { status: statuses.shift() }); });
+  assert.equal(result.response.status, 200);
+  assert.deepEqual(result.retries, [{ attempt: 1, status: 503 }]);
+  assert.deepEqual(requested, ["https://example.invalid/evidence", "https://example.invalid/evidence"]);
+  let calls = 0;
+  const unavailable = await fetchEvidence("https://example.invalid/evidence", async () => { calls += 1; return new Response(null, { status: 503 }); });
+  assert.equal(calls, 3);
+  assert.equal(unavailable.response.status, 503);
+  assert.equal(unavailable.retries.length, 2);
+  const missing = await fetchEvidence("https://example.invalid/evidence", async () => new Response(null, { status: 404 }));
+  assert.equal(missing.response.status, 404);
+  assert.deepEqual(missing.retries, []);
+});
 
 const deviceReportFixture = () => {
   const cases = ["maintenance", "delivery", "inspection", "review"].map((expected, index) => ({ id: `device-${index}`, expected, output: expected === "review" ? "delivery" : expected }));

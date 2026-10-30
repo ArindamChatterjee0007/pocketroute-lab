@@ -6,11 +6,18 @@ import { writeFile, mkdtemp, readFile } from "node:fs/promises";
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
 import { join } from "node:path";
+import { fetchEvidence } from "./evidence-fetch.mjs";
 
 const base = "https://arindamchatterjee007.github.io/pocketroute-lab/";
 const expectedSource = process.env.EXPECTED_SOURCE;
 if (!/^[a-f0-9]{40}$/.test(expectedSource || "")) throw new Error("An exact expected source SHA is required for live verification.");
-const response = await fetch(`${base}publication.json?source=${expectedSource}`, { signal: AbortSignal.timeout(30000) });
+const retrievalRetries = [];
+async function retrieve(path) {
+  const result = await fetchEvidence(`${base}${path}?source=${expectedSource}`);
+  retrievalRetries.push(...result.retries.map(entry => ({ path, ...entry })));
+  return result.response;
+}
+const response = await retrieve("publication.json");
 assert.equal(response.status, 200);
 const publication = await response.json();
 assert.equal(publication.sourceSha, expectedSource);
@@ -21,7 +28,7 @@ let aiBundleBytes;
 let deviceKitBytes;
 for (const asset of assets) {
   assert.ok(!asset.path.includes("..") && !asset.path.startsWith("/"));
-  const assetResponse = await fetch(`${base}${asset.path}?source=${expectedSource}`, { signal: AbortSignal.timeout(30000) });
+  const assetResponse = await retrieve(asset.path);
   assert.equal(assetResponse.status, 200, asset.path);
   const bytes = Buffer.from(await assetResponse.arrayBuffer());
   assert.equal(bytes.length, asset.bytes, `${asset.path} length`);
@@ -154,5 +161,6 @@ for (const configuration of configurations) {
 }
 const receipt = { schemaVersion: 1, status: "passed", checkedAt: new Date().toISOString(), url: base, productUrl: `${base}notes/`, sourceSha: expectedSource, runUrl: `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`, artifactFilesVerified: assets.length, artifactHashAlgorithm: "SHA-256", bundleIntegrity: "passed", bundleEntries: bundleEntries.length, experimentalAiSdkBundle: { integrity: "passed", entries: aiEntries.length, weightsBundled: false, modelQualityAccepted: false }, configurations: results, modelRerun: false, phoneBenchmark: false, energyJoules: null, localBuildsOrTests: 0 };
 receipt.deviceRegressionKit = { integrity: "passed", entries: deviceKitEntries.length, inputCases: deviceRequests.cases.length, expectedAnswersSeparate: true, incompleteTemplateRejected: true, portableScorerSmoke: "passed using cloud fixture, no inference", physicalDeviceTest: false };
+receipt.hostedRetrieval = { policy: "At most three GET attempts for HTTP 502/503/504 only; final status, byte count and SHA-256 remain mandatory.", retries: retrievalRetries, availabilityGuarantee: false };
 await writeFile("data/live-verification.json", JSON.stringify(receipt, null, 2));
 console.log(JSON.stringify(receipt, null, 2));
