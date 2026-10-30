@@ -71,8 +71,9 @@ async function main() {
     command("git", ["push", "origin", "HEAD:main"], { authenticated: true });
   }
   const generatedInputsSha = command("git", ["rev-parse", "HEAD"]).stdout.trim();
-  command("npm", ["run", "build"]);
   command("npx", ["--no-install", "playwright", "install", "--with-deps", "chromium", "webkit"], { capture: false });
+  command("sudo", ["-n", "apt-get", "install", "-y", "poppler-utils"], { capture: false });
+  command("npm", ["run", "build"]);
   command("npm", ["run", "test:browser"], { capture: false });
   const browserReport = JSON.parse(readFileSync("test-results/results.json", "utf8"));
   if (browserReport.stats.unexpected || browserReport.stats.flaky || browserReport.stats.skipped) throw new Error("Browser report contains failed, flaky or skipped tests.");
