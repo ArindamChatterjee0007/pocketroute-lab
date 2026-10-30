@@ -3,6 +3,9 @@ export const modelCandidates = Object.freeze([
   { key: "qwen-1.5b", id: "onnx-community/Qwen2.5-1.5B-Instruct", revision: "d54957e3af1be04546436e874a60fe386041b244", baseId: "Qwen/Qwen2.5-1.5B-Instruct", baseRevision: "989aa7980e4cf806f80c7fef2b1adb7bc71aa306", parameters: 1543714304, dtype: "q4", baseLicense: "Apache-2.0", conversionLicenseMetadata: null },
 ]);
 
+export const evaluationRevision = 2;
+export const evaluationCandidateKeys = Object.freeze(["qwen-1.5b"]);
+
 export const systemPrompt = `Classify a service request into exactly one label: maintenance, delivery, inspection, or review.
 maintenance: fix, service or replace faulty equipment or a damaged facility component already in use. A reported fault in installed equipment belongs here.
 delivery: an existing order or shipment, including tracking, missing/wrong/damaged delivered goods, courier collection and changing the address or timing of an existing order.

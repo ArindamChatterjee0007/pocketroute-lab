@@ -39,7 +39,9 @@ process.on("message", async message => {
     } else if (message.kind === "classify") {
       if (!generator) throw new Error("MODEL_NOT_INITIALIZED");
       const input = validateServiceRequest(message.input);
-      const tokens = generator.tokenizer.encode(input, { add_special_tokens: false });
+      let tokens;
+      try { tokens = generator.tokenizer.encode(input, { add_special_tokens: false }); }
+      catch { throw new Error("REQUEST_TOKENIZATION_FAILED"); }
       if (tokens.length > requestTokenLimit) throw new Error("REQUEST_TOKEN_LIMIT");
       const messages = messagesFor(input);
       const prompt = generator.tokenizer.apply_chat_template(messages, { tokenize: false, add_generation_prompt: true });

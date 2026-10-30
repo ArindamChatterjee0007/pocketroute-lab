@@ -8,7 +8,7 @@ import { createRequire } from "node:module";
 import { cpus } from "node:os";
 import assert from "node:assert/strict";
 import { examples, development, confirmation, datasetVersion, datasetNotice } from "../ai/dataset.mjs";
-import { modelCandidates, systemPrompt, inferencePolicy } from "../ai/config.mjs";
+import { modelCandidates, systemPrompt, inferencePolicy, evaluationRevision, evaluationCandidateKeys } from "../ai/config.mjs";
 import { createServiceClassifier } from "../ai/client.mjs";
 import { summarizeClassification, pilotGate } from "../ai/contract.mjs";
 import { analyzeNote } from "../app/note-core.mjs";
@@ -28,7 +28,7 @@ async function installedVersion(name) {
 }
 const runtimeVersions = { node: process.version, transformers: await installedVersion("@huggingface/transformers"), onnxruntimeNode: await installedVersion("onnxruntime-node") };
 assert.equal(`@huggingface/transformers ${runtimeVersions.transformers}`, inferencePolicy.runtime);
-const protocolSha256 = hash(JSON.stringify({ modelCandidates, systemPrompt, inferencePolicy, examples, runtimeVersions: { transformers: runtimeVersions.transformers, onnxruntimeNode: runtimeVersions.onnxruntimeNode } }));
+const protocolSha256 = hash(JSON.stringify({ evaluationRevision, evaluationCandidateKeys, modelCandidates, systemPrompt, inferencePolicy, examples, runtimeVersions: { transformers: runtimeVersions.transformers, onnxruntimeNode: runtimeVersions.onnxruntimeNode } }));
 const result = {
   schemaVersion: 1,
   id: `service-v1-${process.env.GITHUB_RUN_ID}`,
@@ -38,7 +38,7 @@ const result = {
   runUrl: `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`,
   environment: { runner: "GitHub-hosted Linux", cpu: cpus()[0]?.model, runtimeVersions },
   dataset: { version: datasetVersion, notice: datasetNotice, examples: examples.length, development: development.length, confirmation: confirmation.length, sha256: hash(JSON.stringify({ examples, development, confirmation })), sourceSha256: hash(await readFile("ai/dataset.mjs")) },
-  protocol: { candidateOrder: modelCandidates.map(candidate => candidate.key), selection: "Use the smaller model if development accuracy >=90%, accepted precision >=95%, supported coverage >=80% and zero unsafe acceptances; otherwise compare the fixed larger candidate on development only. Prefer zero unsafe acceptances, then precision, accuracy, coverage, then smaller size. Confirmation runs only if the selected candidate passes development gates.", sha256: protocolSha256, systemPromptSha256: hash(systemPrompt), policy: inferencePolicy, testSetUsedForSelection: false, confirmationUse: "not-started" },
+  protocol: { revision: evaluationRevision, candidateOrder: evaluationCandidateKeys, selection: "Revision 2 evaluates the fixed 1.5B candidate after revision 1 development results. One explicit vague-request prompt example was added using development evidence only. Confirmation runs only if development accuracy >=90%, accepted precision >=95%, supported coverage >=80% and zero unsafe acceptances. The 48 confirmation requests and pilot thresholds are unchanged.", sha256: protocolSha256, systemPromptSha256: hash(systemPrompt), policy: inferencePolicy, testSetUsedForSelection: false, confirmationUse: "not-started" },
   candidates: [],
   selected: null,
   testCases: [],
@@ -97,7 +97,7 @@ try {
     }
   }
   let selected;
-  for (const candidate of modelCandidates) {
+  for (const candidate of modelCandidates.filter(value => evaluationCandidateKeys.includes(value.key))) {
     let engine;
     const report = { ...candidate, status: "loading", cases: [] };
     result.candidates.push(report);
@@ -139,14 +139,14 @@ try {
   preAborted.abort();
   await assert.rejects(engine.classify("Inspect the routine checklist.", { signal: preAborted.signal }), /aborted/);
   assert.throws(() => engine.classify("a".repeat(2001)), /2000/);
-  await assert.rejects(engine.classify("界".repeat(1500)), /TOKEN_LIMIT/);
+  await assert.rejects(engine.classify(Array(600).fill("x").join(" ")), /REQUEST_TOKEN_LIMIT/);
   const abort = new AbortController();
   const stopped = engine.classify("The conveyor belt is no longer moving.", { signal: abort.signal });
   abort.abort();
   await assert.rejects(stopped, /aborted/);
   await assert.rejects(engine.classify("Inspect the routine checklist."), /closed/);
   await close(engine);
-  result.runtimeChecks = { cachedModelReload: true, preAbortedRequest: true, oversizedInput: true, tokenLimit: true, cancellationStopsProcess: true, closedWorkerRejectsWork: true, runtimeFetchAttemptsDuringInference: 0, networkControlScope: "Model download disabled and JS fetch blocked after initialization; not an OS network sandbox." };
+  result.runtimeChecks = { cachedModelReload: true, preAbortedRequest: true, oversizedInput: true, tokenLimit: true, cancellationStopsProcess: true, workerCloseAwaited: true, closedWorkerRejectsWork: true, runtimeFetchAttemptsDuringInference: 0, networkControlScope: "Model download disabled and both library/global JS fetch blocked after initialization; not an OS network sandbox." };
   result.artifacts = [];
   async function inventory(directory) {
     for (const entry of await readdir(directory, { withFileTypes: true })) {

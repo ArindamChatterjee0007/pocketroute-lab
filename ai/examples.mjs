@@ -7,4 +7,5 @@ export const examples = Object.freeze([
   { input: "Complete the scheduled equipment checklist and record the readings.", expected: "inspection" },
   { input: "Please change the bank account used for my salary.", expected: "review" },
   { input: "Repair the pump and separately track our missing parcel.", expected: "review" },
+  { input: "Please handle this for us.", expected: "review" },
 ]);

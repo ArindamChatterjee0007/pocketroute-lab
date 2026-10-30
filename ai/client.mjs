@@ -11,6 +11,7 @@ export async function createServiceClassifier({ model, cacheDir, allowDownload =
   const environment = Object.fromEntries(allowedEnvironment.filter(key => process.env[key]).map(key => [key, process.env[key]]));
   environment.ONNXRUNTIME_NODE_INSTALL_CUDA = "skip";
   const child = fork(new URL("./worker.mjs", import.meta.url), [], { silent: true, execArgv: [], env: environment });
+  const processClosed = new Promise(resolveClosed => child.once("close", resolveClosed));
   child.stdout?.resume();
   let initializing = true;
   let startupDiagnostic = "";
@@ -41,7 +42,7 @@ export async function createServiceClassifier({ model, cacheDir, allowDownload =
   child.on("exit", () => { closed = true; const detail = initializing ? startupDiagnostic.replace(/https?:\/\/\S+/g, "[remote resource]").replace(/\/(?:home|Users|tmp)\/\S+/g, "[local path]").slice(-500) : ""; pending?.reject(new Error(`Model worker exited before completing the request.${detail ? ` ${detail}` : ""}`)); });
   let metadata;
   try { metadata = await request("initialize", { model, cacheDir: resolve(cacheDir), allowDownload: allowDownload === true }, initializationTimeoutMs); }
-  catch (error) { shutdown(); throw error; }
+  catch (error) { shutdown(); await processClosed; throw error; }
   initializing = false;
   startupDiagnostic = "";
   return {
@@ -52,11 +53,11 @@ export async function createServiceClassifier({ model, cacheDir, allowDownload =
       return request("classify", { input }, timeoutMs, signal);
     },
     async close() {
-      if (closed) return;
-      const exited = new Promise(resolveExit => child.once("exit", resolveExit));
-      pending?.reject(new Error("Classifier closed; pending work stopped."));
-      shutdown();
-      await exited;
+      if (!closed) {
+        pending?.reject(new Error("Classifier closed; pending work stopped."));
+        shutdown();
+      }
+      await processClosed;
     },
   };
 }

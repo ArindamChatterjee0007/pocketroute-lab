@@ -48,7 +48,7 @@ test("AI pilot gate cannot mistake a tiny or all-review result for product readi
 });
 
 test("AI request dataset is balanced and disjoint before model execution", () => {
-  assert.equal(examples.length, 8);
+  assert.equal(examples.length, 9);
   assert.equal(development.length, 24);
   assert.equal(confirmation.length, 48);
   const all = [...examples, ...development, ...confirmation];

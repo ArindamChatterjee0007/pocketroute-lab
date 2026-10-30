@@ -1,4 +1,4 @@
-export const datasetVersion = "service-requests-v1";
+export const datasetVersion = "service-requests-v1.1-development-revision";
 export const datasetNotice = "Original synthetic English service-request cases, authored for this project. Not customer data, independently collected field data, training data or evidence of population performance.";
 
 const cases = (split, entries) => entries.map(([family, expected, input], index) => ({ id: `${split}-${String(index + 1).padStart(3, "0")}`, family, expected, input }));
@@ -12,6 +12,7 @@ export const examples = cases("example", [
   ["sample-checklist", "inspection", "Complete the scheduled equipment checklist and record the readings."],
   ["sample-payroll", "review", "Please change the bank account used for my salary."],
   ["sample-multiple", "review", "Repair the pump and separately track our missing parcel."],
+  ["sample-unspecified", "review", "Please handle this for us."],
 ]);
 
 export const development = cases("development", [
