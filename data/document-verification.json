@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
   "status": "passed",
-  "sourceSha": "c23caf7fb4f0e817fcdb1d84698592489f910707",
-  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41092361041",
-  "generatedAt": "2026-10-30T16:43:54.886Z",
+  "sourceSha": "f45e0685d23915e1b7d0fdf769bcbde070211c7e",
+  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41121152348",
+  "generatedAt": "2026-10-30T20:11:31.350Z",
   "rendering": "GitHub-hosted Chromium PDF plus Poppler raster/text inspection",
   "documents": [
     {
       "id": "device-integration",
       "path": "downloads/pocketroute-device-integration.pdf",
       "pages": 14,
-      "bytes": 515013,
-      "sha256": "742db5bd74f7c01488bed0414dfcc0083bacc432c4367a75c013eba9c5b59e39",
+      "bytes": 517274,
+      "sha256": "21e7565661282b6e87c84e7d77ed79e5b628352c6912d602944e3d71224e13d0",
       "sources": [
         {
           "path": "ai/DEVICE_INTEGRATION.md",
-          "sha256": "a5135b54d7637e4d67137716fdf4574dbee5c48bb1ca2e1f34e15b44f1fffb93"
+          "sha256": "71c995bf87db75fae9f48dd4cd0f9d2cde36acf2b4e7e4759ba0f15201b656da"
         }
       ],
       "contentBlocks": 106,
@@ -32,12 +32,12 @@
       "id": "sdk-reference",
       "path": "downloads/pocketroute-sdk-reference.pdf",
       "pages": 11,
-      "bytes": 471146,
-      "sha256": "98f262f76ce49ee9bd9177d0fa0af31945e9d9306df10a040b839f1daad1c3dd",
+      "bytes": 473789,
+      "sha256": "b033be9754b33580d7ed8173b9e37463ddbdefb1b27b318490eef5bbdd03d1c9",
       "sources": [
         {
           "path": "ai/README.md",
-          "sha256": "646357d90b78c1b493818cdf88744469faec0571987066e41fae216b25e6f9b9"
+          "sha256": "1870707029c8b856a494e81c0754558a57f9330c1a934417a14317b98f835416"
         },
         {
           "path": "ai/MODEL_CARD.md",
@@ -45,28 +45,6 @@
         }
       ],
       "contentBlocks": 69,
-      "overflow": 0,
-      "clippedText": 0,
-      "fontsReady": true,
-      "textExtracted": true,
-      "hyperlinksVerified": true,
-      "allActualPdfPagesRasterChecked": true,
-      "pageErrors": 0,
-      "externalRequests": 0
-    },
-    {
-      "id": "india-showcase",
-      "path": "downloads/pocketroute-india-showcase.pdf",
-      "pages": 8,
-      "bytes": 394306,
-      "sha256": "54ba833e8f591c617f86f36541989b571f9e3165510f2ff2a249645ecf7c7c77",
-      "sources": [
-        {
-          "path": "documents/INDIA_SHOWCASE.md",
-          "sha256": "c6c40f929aa8f034662f964339cf7d36603bd186e5ed74ba5a321373dbea584e"
-        }
-      ],
-      "contentBlocks": 51,
       "overflow": 0,
       "clippedText": 0,
       "fontsReady": true,
