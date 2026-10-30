@@ -279,7 +279,7 @@ test("service evidence recomputes quality from cases and escapes model text", ()
   assert.ok(hybrid.includes("System accuracy, not pure-model accuracy"));
   assert.ok(hybrid.includes("Device manual (PDF)"));
   assert.ok(hybrid.includes("pocketroute-sdk-reference.pdf"));
-  assert.ok(hybrid.includes("pocketroute-india-showcase.pdf"));
+  assert.ok(!hybrid.includes("pocketroute-india-showcase.pdf"));
   assert.ok(hybrid.includes("pocketroute-device-test-kit-0.1.0.zip"));
   assert.ok(hybrid.includes("repeated unchanged"));
 });
