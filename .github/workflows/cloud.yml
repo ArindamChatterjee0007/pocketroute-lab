@@ -6,7 +6,7 @@ on:
       mode:
         description: Verification scope
         type: choice
-        options: [publish, unit, live]
+        options: [publish, unit, live, ai]
         default: publish
       expected_source:
         description: Exact published source SHA required for live verification
