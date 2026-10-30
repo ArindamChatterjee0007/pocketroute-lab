@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "status": "passed",
-  "checkedAt": "2026-10-30T16:48:13.152Z",
+  "checkedAt": "2026-10-30T20:21:11.787Z",
   "url": "https://arindamchatterjee0007.github.io/pocketroute-lab/",
   "productUrl": "https://arindamchatterjee0007.github.io/pocketroute-lab/notes/",
-  "sourceSha": "c23caf7fb4f0e817fcdb1d84698592489f910707",
-  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41092983981",
+  "sourceSha": "f45e0685d23915e1b7d0fdf769bcbde070211c7e",
+  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41122254545",
   "artifactFilesVerified": 67,
   "artifactHashAlgorithm": "SHA-256",
   "bundleIntegrity": "passed",
@@ -110,20 +110,31 @@
       {
         "id": "device-integration",
         "pages": 14,
-        "sha256": "742db5bd74f7c01488bed0414dfcc0083bacc432c4367a75c013eba9c5b59e39"
+        "sha256": "21e7565661282b6e87c84e7d77ed79e5b628352c6912d602944e3d71224e13d0"
       },
       {
         "id": "sdk-reference",
         "pages": 11,
-        "sha256": "98f262f76ce49ee9bd9177d0fa0af31945e9d9306df10a040b839f1daad1c3dd"
-      },
-      {
-        "id": "india-showcase",
-        "pages": 8,
-        "sha256": "54ba833e8f591c617f86f36541989b571f9e3165510f2ff2a249645ecf7c7c77"
+        "sha256": "b033be9754b33580d7ed8173b9e37463ddbdefb1b27b318490eef5bbdd03d1c9"
       }
     ],
     "sourceMarkdownExcludedFromBundles": true,
     "privatePaperPlanIncluded": false
+  },
+  "publicContent": {
+    "schemaVersion": 1,
+    "status": "passed",
+    "scope": "technical-work-only",
+    "sourceSha": "f45e0685d23915e1b7d0fdf769bcbde070211c7e",
+    "textFiles": 84,
+    "pdfFiles": 8,
+    "archives": 3,
+    "archiveEntries": 43,
+    "retiredAssetsAbsent": true,
+    "retiredPathsVerifiedAbsent": [
+      "downloads/pocketroute-india-showcase.pdf",
+      "documents/INDIA_SHOWCASE.md"
+    ],
+    "hostedTextChecked": true
   }
 }
