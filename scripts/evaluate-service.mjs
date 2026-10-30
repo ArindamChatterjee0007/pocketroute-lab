@@ -14,6 +14,7 @@ import { createServiceClassifier } from "../ai/client.mjs";
 import { summarizeClassification, pilotGate } from "../ai/contract.mjs";
 import { analyzeNote } from "../app/note-core.mjs";
 import { entailmentPolicy, serviceHypotheses } from "../ai/entailment.mjs";
+import { reusableDevelopment } from "../ai/evaluation-replay.mjs";
 
 const startedAt = new Date().toISOString();
 const deadline = Date.now() + 20 * 60 * 1000;
@@ -104,6 +105,7 @@ async function evaluate(engine, records, split, cases) {
 
 try {
   let priorConfirmation = false;
+  const interruptedRuns = [];
   const testInputs = new Set(confirmation.map(record => record.input.trim().toLowerCase()));
   const priorFiles = await readdir("data/ai-runs").catch(() => []);
   for (const filename of priorFiles.filter(name => name.endsWith(".json"))) {
@@ -111,6 +113,7 @@ try {
     if (prior.testCases?.some(record => testInputs.has(record.input.trim().toLowerCase()))) {
       if (prior.protocol?.sha256 !== protocolSha256 || prior.dataset?.sha256 !== result.dataset.sha256) throw new Error("Confirmation examples were previously exposed under a different protocol. Create a fresh confirmation set before further tuning.");
       priorConfirmation = true;
+      interruptedRuns.push(prior);
     }
   }
   let selected;
@@ -122,7 +125,9 @@ try {
       report.licenseEvidence = await modelMetadata(candidate);
       engine = await open(candidate, true);
       report.load = engine.metadata;
-      const evaluated = await evaluate(engine, development, "development", report.cases);
+      const replay = interruptedRuns.map(previous => reusableDevelopment(previous, { protocolSha256, datasetSha256: result.dataset.sha256, runtimeVersions, candidate, records: development, confirmationCount: confirmation.length })).find(Boolean);
+      if (replay) result.developmentReuse = { sourceRun: replay.sourceRun, sourceSha: replay.sourceSha, priorConfirmationCount: replay.priorConfirmationCount, reason: replay.reason };
+      const evaluated = replay || await evaluate(engine, development, "development", report.cases);
       report.status = "evaluated";
       report.cases = evaluated.cases;
       report.metrics = evaluated.metrics;
@@ -142,7 +147,7 @@ try {
   if (result.selected.developmentQualified) {
     result.confirmationBaseline = await evaluate(engine, [{ id: "regression-parity", input: development[0].input, expected: development[0].expected }], "cached-parity", []);
     assert.equal(result.confirmationBaseline.cases[0].rawLabel, selected.cases[0].rawLabel, "Cached model changed its regression prediction.");
-    result.protocol.confirmationUse = priorConfirmation ? "exact-protocol-reproduction" : "first-use";
+    result.protocol.confirmationUse = result.developmentReuse ? "exact-protocol-reproduction-after-budget-interruption" : priorConfirmation ? "exact-protocol-reproduction" : "first-use";
     const evaluated = await evaluate(engine, confirmation, "confirmation", result.testCases);
     result.metrics = evaluated.metrics;
     result.pilotScreen = pilotGate(result.metrics);
