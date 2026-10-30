@@ -188,7 +188,7 @@ test("real service AI evidence preserves blocked quality and exact exported resu
   await expect(page.locator("#service-ai-evidence")).toContainText("5.42 GiB");
   await expect(page.locator("#service-ai-evidence")).toContainText("System accuracy, not pure-model accuracy");
   await expect(page.locator("#service-ai-evidence")).toContainText("94 / 2");
-  await expect(page.getByRole("link", { name: "Physical-phone test plan", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Device integration manual", exact: true })).toBeVisible();
   await expect(page.locator("#service-ai-evidence .cloud-case")).toHaveCount(23);
   await checkLayout(page);
   const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "Export AI receipt", exact: true }).click()]);
@@ -202,6 +202,9 @@ test("real service AI evidence preserves blocked quality and exact exported resu
   expect(report.protocol.confirmationUse).toBe("exact-protocol-reproduction-after-budget-interruption");
   expect(report.runtimeChecks.cancellationStopsProcess).toBe(true);
   expect(report.phoneEnergyJoules).toBeNull();
+  const [kit] = await Promise.all([page.waitForEvent("download"), page.getByRole("link", { name: "Device test kit", exact: true }).click()]);
+  expect(kit.suggestedFilename()).toBe("pocketroute-device-test-kit-0.1.0.zip");
+  expect((await readFile(await kit.path())).subarray(0, 4).toString("hex")).toBe("504b0304");
 });
 
 test("missing service AI receipt never implies model readiness", async ({ page }) => {

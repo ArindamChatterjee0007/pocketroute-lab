@@ -2,9 +2,9 @@ import "./cloud-only.mjs";
 import { repository } from "./cloud-only.mjs";
 import { chromium, webkit, expect } from "@playwright/test";
 import { createHash } from "node:crypto";
-import { writeFile, mkdtemp } from "node:fs/promises";
+import { writeFile, mkdtemp, readFile } from "node:fs/promises";
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { join } from "node:path";
 
 const base = "https://arindamchatterjee007.github.io/pocketroute-lab/";
@@ -18,6 +18,7 @@ assert.equal(publication.stage, "prepublication-checks-passed");
 const assets = publication.inventory.filter(item => !item.path.startsWith("evidence/"));
 let bundleBytes;
 let aiBundleBytes;
+let deviceKitBytes;
 for (const asset of assets) {
   assert.ok(!asset.path.includes("..") && !asset.path.startsWith("/"));
   const assetResponse = await fetch(`${base}${asset.path}?source=${expectedSource}`, { signal: AbortSignal.timeout(30000) });
@@ -27,6 +28,7 @@ for (const asset of assets) {
   assert.equal(createHash("sha256").update(bytes).digest("hex"), asset.sha256, `${asset.path} digest`);
   if (asset.path === "downloads/pocketroute-notes-0.2.0.zip") bundleBytes = bytes;
   if (asset.path === "downloads/pocketroute-service-ai-0.1.0-experimental.zip") aiBundleBytes = bytes;
+  if (asset.path === "downloads/pocketroute-device-test-kit-0.1.0.zip") deviceKitBytes = bytes;
 }
 assert.ok(bundleBytes, "The product bundle is absent from the publication.");
 const bundleDirectory = await mkdtemp(join(process.env.RUNNER_TEMP, "pocketroute-release-"));
@@ -42,9 +44,36 @@ await writeFile(aiBundlePath, aiBundleBytes);
 execFileSync("unzip", ["-tq", aiBundlePath], { stdio: "inherit" });
 const aiEntries = execFileSync("unzip", ["-Z1", aiBundlePath], { encoding: "utf8" }).trim().split(/\r?\n/);
 for (const required of ["ai/client.mjs", "ai/worker.mjs", "ai/config.mjs", "ai/contract.mjs", "ai/cli.mjs", "ai/examples.mjs", "ai/labels.mjs", "ai/logits.mjs", "ai/entailment.mjs", "ai/review-policy.mjs", "package.json", "package-lock.json", "LICENSE", "MODEL_CARD.md", "PHONE_TESTING.md", "README.md"]) assert.ok(aiEntries.includes(`downloads/service-ai/${required}`), `Missing AI SDK file: ${required}`);
+assert.ok(aiEntries.includes("downloads/service-ai/DEVICE_INTEGRATION.md"));
 execFileSync("unzip", ["-q", aiBundlePath, "-d", join(bundleDirectory, "sdk")]);
 execFileSync(process.execPath, ["--check", "ai/worker.mjs"], { cwd: join(bundleDirectory, "sdk/downloads/service-ai"), stdio: "inherit" });
 assert.ok(aiEntries.every(name => !name.startsWith("/") && !name.split("/").includes("..") && !/\.(onnx|onnx_data|safetensors)$/.test(name)), "Model weights or unsafe paths entered the SDK bundle.");
+assert.ok(deviceKitBytes, "The portable device regression kit is missing.");
+const deviceKitPath = join(bundleDirectory, "device-kit.zip");
+await writeFile(deviceKitPath, deviceKitBytes);
+execFileSync("unzip", ["-tq", deviceKitPath], { stdio: "inherit" });
+const deviceKitEntries = execFileSync("unzip", ["-Z1", deviceKitPath], { encoding: "utf8" }).trim().split(/\r?\n/);
+const requiredKitFiles = ["protocol.json", "requests.json", "reference.json", "report-template.json", "validate-device-report.mjs", "device-report.mjs", "contract.mjs", "review-policy.mjs", "MANUAL.md", "LICENSE"];
+assert.ok(deviceKitEntries.every(name => name === "downloads/device-test-kit/" || requiredKitFiles.some(required => name === `downloads/device-test-kit/${required}`)));
+for (const name of requiredKitFiles) assert.ok(deviceKitEntries.includes(`downloads/device-test-kit/${name}`));
+execFileSync("unzip", ["-q", deviceKitPath, "-d", join(bundleDirectory, "device")]);
+const deviceDirectory = join(bundleDirectory, "device/downloads/device-test-kit");
+const deviceReference = JSON.parse(await readFile(join(deviceDirectory, "reference.json"), "utf8"));
+const deviceRequests = JSON.parse(await readFile(join(deviceDirectory, "requests.json"), "utf8"));
+const deviceTemplate = JSON.parse(await readFile(join(deviceDirectory, "report-template.json"), "utf8"));
+assert.equal(deviceRequests.cases.length, 96);
+assert.deepEqual(deviceRequests.cases.map(entry => entry.id), deviceReference.cases.map(entry => entry.id));
+assert.ok(deviceRequests.cases.every(entry => Object.keys(entry).sort().join(",") === "id,input"));
+const incomplete = spawnSync(process.execPath, ["validate-device-report.mjs", "reference.json", "report-template.json"], { cwd: deviceDirectory, encoding: "utf8", timeout: 5000 });
+assert.equal(incomplete.status, 2, "An incomplete template must not pass.");
+const scoringFixture = { ...deviceTemplate, appSourceSha: expectedSource, executionKind: "cloud-fixture", phase: "warm", device: { class: "phone", model: "Synthetic package check", os: "Fixture only", architecture: "test" }, runtime: { name: "No inference", version: "fixture", backend: "recorded outputs" }, cases: deviceReference.cases.map(entry => ({ id: entry.id, outcome: "completed", output: entry.output, elapsedMs: 100, peakMemoryBytes: null })) };
+await writeFile(join(deviceDirectory, "scoring-fixture.json"), JSON.stringify(scoringFixture));
+const scored = JSON.parse(execFileSync(process.execPath, ["validate-device-report.mjs", "reference.json", "scoring-fixture.json"], { cwd: deviceDirectory, encoding: "utf8", timeout: 5000 }));
+assert.equal(scored.parity.passed, true);
+assert.equal(scored.syntheticQualityScreen.passed, false);
+assert.equal(scored.metrics.correct, 73);
+assert.equal(scored.physicalEvidenceIndependentlyVerified, false);
+assert.equal(scored.productionReady, false);
 const configurations = [
   { engine: "chromium", width: 1440, height: 1000 },
   { engine: "chromium", width: 390, height: 844 },
@@ -81,7 +110,8 @@ for (const configuration of configurations) {
     await expect(page.locator("#service-ai-evidence")).toContainText("Commercial release blocked");
     await expect(page.locator("#service-ai-evidence")).toContainText("73 / 96");
     await expect(page.locator("#service-ai-evidence")).toContainText("System accuracy, not pure-model accuracy");
-    await expect(page.getByRole("link", { name: "Physical-phone test plan", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Device integration manual", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Device test kit", exact: true })).toBeVisible();
     await expect(page.locator("#service-ai-evidence .cloud-case")).toHaveCount(23);
     await page.goto(`${base}notes/`, { waitUntil: "domcontentloaded" });
     await expect(page.getByRole("heading", { level: 1, name: "Field-note workbench" })).toBeVisible();
@@ -123,5 +153,6 @@ for (const configuration of configurations) {
   } finally { await browser.close(); }
 }
 const receipt = { schemaVersion: 1, status: "passed", checkedAt: new Date().toISOString(), url: base, productUrl: `${base}notes/`, sourceSha: expectedSource, runUrl: `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`, artifactFilesVerified: assets.length, artifactHashAlgorithm: "SHA-256", bundleIntegrity: "passed", bundleEntries: bundleEntries.length, experimentalAiSdkBundle: { integrity: "passed", entries: aiEntries.length, weightsBundled: false, modelQualityAccepted: false }, configurations: results, modelRerun: false, phoneBenchmark: false, energyJoules: null, localBuildsOrTests: 0 };
+receipt.deviceRegressionKit = { integrity: "passed", entries: deviceKitEntries.length, inputCases: deviceRequests.cases.length, expectedAnswersSeparate: true, incompleteTemplateRejected: true, portableScorerSmoke: "passed using cloud fixture, no inference", physicalDeviceTest: false };
 await writeFile("data/live-verification.json", JSON.stringify(receipt, null, 2));
 console.log(JSON.stringify(receipt, null, 2));

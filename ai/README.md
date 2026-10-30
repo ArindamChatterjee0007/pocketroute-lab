@@ -76,9 +76,11 @@ The repository's manual `ai` workflow mode installs locked dependencies, runs un
 
 Confirmation cases are now exposed. Do not tune a prompt against them and call a rerun a fresh test. The evaluator blocks overlapping confirmation requests when the protocol changes; an exact-protocol repeat is labelled reproduction. Future improvements require a new, independently authored confirmation set and preferably external human-labelled data.
 
-## Later Phone Testing
+## Device Integration And Regression
 
-Follow the [physical-phone test plan](https://github.com/ArindamChatterjee007/pocketroute-lab/blob/main/ai/PHONE_TESTING.md), also included in the SDK bundle. A compatible native Android harness/APK must first be built and verified on GitHub. Then install on an authorized phone, verify pinned artifacts, test offline, run the frozen suite for parity, and measure cold/warm latency, aggregate memory, cancellation and thermal behavior. Validated whole-device measurement is separately required for energy claims. No APK, iOS app or actual phone benchmark exists yet; the Node worker is not a native phone app.
+Follow the [device integration manual](https://github.com/ArindamChatterjee007/pocketroute-lab/blob/main/ai/DEVICE_INTEGRATION.md), included in the SDK bundle. It covers profiles, runtime adapters, GitHub builds, signing, model installation/rollback, phone/watch/Linux/MCU differences and regression/release checklists. The [portable test kit](https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-device-test-kit-0.1.0.zip) separates 96 exposed inputs from expected/reference labels and validates recorded reports without model inference. It rejects missing/duplicate/unexecuted cases and keeps failed attempts in the denominator. A parity pass is not a quality or hardware pass.
+
+A compatible native harness/APK or firmware must still be implemented and built on GitHub, then tested on actual authorized devices. The current Node worker is not a native mobile app or MCU runtime. Different sensor tasks need separate corpora/scorers. No APK, iOS/watch app, MCU firmware, energy result or physical-device qualification is claimed.
 
 ## License And Readiness
 

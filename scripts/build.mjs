@@ -5,7 +5,7 @@ import sharp from "sharp";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { createDeviceReference } from "../ai/device-report.mjs";
-import { modelCandidates, systemPrompt, inferencePolicy } from "../ai/config.mjs";
+import { modelCandidates, systemPrompt, inferencePolicy, evaluationRevision, evaluationCandidateKeys } from "../ai/config.mjs";
 import { examples as runtimeExamples } from "../ai/examples.mjs";
 import { choiceLabels } from "../ai/labels.mjs";
 
@@ -77,6 +77,11 @@ const aiReceipt = JSON.parse(await readFile("data/ai-service-results.json", "utf
 const reference = createDeviceReference(aiReceipt);
 const selectedModel = modelCandidates.find(candidate => candidate.key === aiReceipt.selected.key);
 if (!selectedModel || selectedModel.revision !== reference.modelRevision) throw new Error("Device kit model differs from its evaluated reference.");
+const digest = value => createHash("sha256").update(value).digest("hex");
+const implementationSha256 = digest((await Promise.all(["ai/worker.mjs", "ai/client.mjs", "ai/contract.mjs", "ai/labels.mjs", "ai/logits.mjs", "ai/entailment.mjs", "ai/review-policy.mjs"].map(path => readFile(path, "utf8")))).join("\n"));
+const evaluatedRuntime = aiReceipt.environment.runtimeVersions;
+const protocolSha256 = digest(JSON.stringify({ evaluationRevision, evaluationCandidateKeys, modelCandidates, systemPrompt, inferencePolicy, examples: runtimeExamples, implementationSha256, runtimeVersions: { transformers: evaluatedRuntime.transformers, onnxruntimeNode: evaluatedRuntime.onnxruntimeNode } }));
+if (implementationSha256 !== aiReceipt.protocol.implementationSha256 || protocolSha256 !== reference.protocolSha256) throw new Error("Device kit source changed since its evaluated protocol; do not attach stale evidence.");
 const policyBytes = await readFile("ai/review-policy.mjs");
 const protocol = { schemaVersion: 1, sourceSha: process.env.GITHUB_SHA, evaluatedSourceSha: aiReceipt.sourceSha, protocolSha256: reference.protocolSha256, datasetSha256: reference.datasetSha256, model: selectedModel, systemPrompt, examples: runtimeExamples, inferencePolicy, choiceLabels, reviewPolicy: { path: "review-policy.mjs", sha256: createHash("sha256").update(policyBytes).digest("hex") }, artifacts: aiReceipt.artifacts, nativeRuntimeQualified: false, weightsIncluded: false };
 const requests = { schemaVersion: 1, suiteId: reference.suiteId, datasetSha256: reference.datasetSha256, scope: "Exposed synthetic regression inputs; expected answers are separate.", cases: aiReceipt.testCases.map(entry => ({ id: entry.id, input: entry.input })) };

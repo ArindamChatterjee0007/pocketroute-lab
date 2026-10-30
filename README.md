@@ -10,7 +10,10 @@ The original model-backed work is now implemented as an **experimental service-c
 - [Experimental SDK download](https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-service-ai-0.1.0-experimental.zip)
 - [SDK/API instructions](ai/README.md)
 - [Model card and failure analysis](ai/MODEL_CARD.md)
-- [Later physical-phone testing steps](ai/PHONE_TESTING.md)
+- [Device integration, build and regression manual](ai/DEVICE_INTEGRATION.md)
+- [Portable device regression kit](https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-device-test-kit-0.1.0.zip)
+
+The integration manual now covers phones, watches, Linux boards and MCU/RTOS targets through device-specific adapters and explicit budgets. The downloadable kit contains frozen synthetic inputs, separate expected/reference outputs, protocol/artifact fingerprints and a dependency-free report validator. It tests parity/regression without executing a model. Native adapters, APK/firmware, physical qualification and production accuracy remain unimplemented/unverified; the current Qwen model is not an MCU candidate. Matching its failing reference is not release acceptance.
 
 ### Latest 96-Case Result
 

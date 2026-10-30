@@ -238,7 +238,8 @@ test("service evidence recomputes quality from cases and escapes model text", ()
   assert.ok(serviceEvidenceView(null).includes("evidence unavailable"));
   const hybrid = serviceEvidenceView({ ...record, protocol: { systemKind: "model-plus-deterministic-review-policy" }, developmentReuse: { sourceRun: "recorded" } });
   assert.ok(hybrid.includes("System accuracy, not pure-model accuracy"));
-  assert.ok(hybrid.includes("Physical-phone test plan"));
+  assert.ok(hybrid.includes("Device integration manual"));
+  assert.ok(hybrid.includes("pocketroute-device-test-kit-0.1.0.zip"));
   assert.ok(hybrid.includes("repeated unchanged"));
 });
 
