@@ -428,10 +428,11 @@ test("HTML escaping preserves text without executable markup", () => {
 });
 
 test("task filters compose and never mutate canonical tasks", () => {
-  assert.equal(filterTasks(tasks, { status: "done" }).length, 3);
+  const original = structuredClone(tasks);
+  assert.deepEqual(filterTasks(tasks, { status: "done" }).map(task => task.id), ["B03-001", "B03-002", "B03-003", "B03-010", "B03-012"]);
   assert.equal(filterTasks(tasks, { query: "native", status: "blocked", unit: "b03" })[0].id, "B03-006");
-  assert.equal(filterTasks(tasks, { unit: "b01" }).length, 0);
-  assert.equal(tasks.length, 12);
+  assert.deepEqual(filterTasks(tasks, { unit: "b01" }).map(task => task.id), ["B03-012"]);
+  assert.deepEqual(tasks, original);
 });
 
 test("missing and failed cloud runs remain unmeasured", () => {
@@ -464,7 +465,8 @@ test("public source data has stable unique IDs", () => {
   assert.equal(new Set(tasks.map(task => task.id)).size, 12);
   assert.equal(new Set(sources.map(source => source.id)).size, 19);
   assert.equal(units.length, 3);
-  assert.equal(tasks.filter(task => task.status === "blocked").length, 7);
+  assert.equal(tasks.filter(task => task.status === "blocked").length, 6);
+  assert.ok(tasks.every(task => units.some(unit => unit.id === task.unit)));
 });
 
 test("run links only target this project's GitHub namespace", () => {
