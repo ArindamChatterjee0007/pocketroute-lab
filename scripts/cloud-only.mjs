@@ -1,4 +1,4 @@
-export const repository = "ArindamChatterjee007/pocketroute-lab";
+export const repository = "ArindamChatterjee0007/pocketroute-lab";
 
 export function assertGitHubRunner(environment = process.env) {
   if (

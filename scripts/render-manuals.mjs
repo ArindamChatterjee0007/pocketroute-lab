@@ -34,7 +34,10 @@ try {
     page.on("request", request => { if (!request.url().startsWith("data:")) externalRequests.push(request.url()); });
     await page.route(/^https?:\/\//, route => route.abort());
     await page.setContent(`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>PocketRoute - ${escape(book.shortTitle)}</title><style>${fonts.join("\n")}${css}</style></head><body><main id="book"></main></body></html>`);
-    await page.evaluate(() => document.fonts.ready);
+    await page.evaluate(async () => {
+      await Promise.all([document.fonts.load('400 14px "Manrope"'), document.fonts.load('600 28px "Space Grotesk"')]);
+      await document.fonts.ready;
+    });
     const layout = await page.evaluate(({ book, content, texture, sourceSha }) => {
       const root = document.querySelector("#book");
       const text = value => String(value).replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
