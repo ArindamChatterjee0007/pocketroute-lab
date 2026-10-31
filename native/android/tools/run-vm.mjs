@@ -32,7 +32,7 @@ for (const name of ["model_q4.onnx", "tokenizer.json"]) {
   adb(["shell", "rm", `${staging}/${name}`]);
 }
 adb(["shell", "rmdir", staging]);
-const test = spawnSync("./gradlew", ["--no-daemon", ":app:connectedDebugAndroidTest"], {
+const test = spawnSync("./gradlew", ["--no-daemon", "--dependency-verification", "strict", "-Pandroid.injected.androidTest.leaveApksInstalledAfterRun=true", ":app:connectedDebugAndroidTest"], {
   cwd: root, env: { ...process.env, ANDROID_SERIAL: serial }, stdio: "inherit", timeout: 2100000,
 });
 const required = ["vm-contract.json", "vm-report.json", "vm-lifecycle.json", "vm-ui.json", "vm-setup.png", "vm-result.png"];

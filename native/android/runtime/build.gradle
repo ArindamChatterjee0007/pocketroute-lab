@@ -58,6 +58,7 @@ android {
     lint {
         abortOnError true
         warningsAsErrors true
+        informational "AndroidGradlePluginVersion", "GradleDependency", "NewerVersionAvailable"
     }
 }
 

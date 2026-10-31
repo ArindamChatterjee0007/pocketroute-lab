@@ -34,7 +34,11 @@ Use the existing **PocketRoute cloud build and experiment** workflow:
 
 The native job is read-only with respect to repository contents. It does not publish the website, overwrite the frozen Node model receipt or submit an external post. GitHub artifact retention is seven days; copy the approved handover into the maintained delivery folder before those temporary downloads expire.
 
+Instrumentation keeps the APKs installed on the dedicated emulator until app-private reports and screenshots have been collected. The workflow then stops its ephemeral emulator. It never uses an attached physical device or automatically uninstalls an existing user's application.
+
 JDK 17, Gradle 9.6.0, AGP 9.4.1, SDK 36, build tools 36.0.0, NDK 28.2.13676358, CMake 3.22.1 and ONNX Runtime Android 1.31.1 are pinned. API 36 is the verified available platform/emulator baseline; AGP's documented maximum API 37 was not an available SDK package in the attempted runner setup. The failed attempt remains archived. The ONNX AAR supplies its native headers and libraries. Both x86_64 and arm64-v8a binaries are built; only the emulator ABI is exercised by this workflow.
+
+Lint keeps code, accessibility, privacy and resource diagnostics blocking. Rolling SDK/tool/dependency upgrade suggestions remain visible as informational findings so the preregistered, available VM baseline is not silently changed to chase a newer registry entry. This exception is not Play Store approval or a claim that newer Android behavior has been tested.
 
 ## Install And Import Model Files
 

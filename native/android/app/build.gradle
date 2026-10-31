@@ -29,6 +29,7 @@ android {
     lint {
         abortOnError true
         warningsAsErrors true
+        informational "OldTargetApi", "AndroidGradlePluginVersion", "GradleDependency", "NewerVersionAvailable"
     }
 }
 

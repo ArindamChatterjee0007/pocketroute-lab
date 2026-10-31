@@ -70,6 +70,7 @@ const receipt = {
   jvmTests: number("tests"), goldenVectors: preparation.goldenVectors, modelFiles: preparation.files,
   artifacts, apkCertificateSha256: certificateSha256, signing: "Ephemeral debug certificate; not production signing or a stable upgrade key.",
   dependencyVerification: mode === "android" ? "strict, committed SHA-256 metadata and dependency locks" : "bootstrap metadata generated; strict replay still required",
+  lintPolicy: { codeAndResourceWarningsAreErrors: true, informationalUpgradeChecks: ["OldTargetApi", "AndroidGradlePluginVersion", "GradleDependency", "NewerVersionAvailable"], rationale: "Fixed available API 36 experiment and pinned compatible tools; upgrade advisories remain visible, not disabled." },
   execution: { x86_64: mode === "android" ? "Android API 36 emulator" : "not executed", arm64_v8a: "built only; not executed" },
   modelWeightsBundled: false, privateKeysBundled: false, productionReady: false, physicalDeviceValidated: false,
 };
