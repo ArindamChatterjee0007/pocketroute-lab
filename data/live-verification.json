@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "status": "passed",
-  "checkedAt": "2026-10-31T08:07:56.138Z",
+  "checkedAt": "2026-10-31T15:47:07.572Z",
   "url": "https://arindamchatterjee0007.github.io/pocketroute-lab/",
   "productUrl": "https://arindamchatterjee0007.github.io/pocketroute-lab/notes/",
-  "sourceSha": "760f14ba1df79c8ef1e32252b98f71c1a419680b",
-  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41183231817",
-  "artifactFilesVerified": 67,
+  "sourceSha": "16caedab5048f12b17cfdbc7df9cef0621087873",
+  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41216407598",
+  "artifactFilesVerified": 69,
   "artifactHashAlgorithm": "SHA-256",
   "bundleIntegrity": "passed",
   "bundleEntries": 18,
@@ -25,6 +25,7 @@
       "policyPreview": "passed",
       "recordedModelCases": 8,
       "aiServiceEvidence": "passed; failed quality gate visible",
+      "androidVmEvidence": "passed; parity, failed quality and emulator-only limits visible",
       "notesLifecycle": "passed",
       "productBundleDownload": "passed; SHA-256 matches verified release bundle",
       "offlineReload": "passed",
@@ -43,6 +44,7 @@
       "policyPreview": "passed",
       "recordedModelCases": 8,
       "aiServiceEvidence": "passed; failed quality gate visible",
+      "androidVmEvidence": "passed; parity, failed quality and emulator-only limits visible",
       "notesLifecycle": "passed",
       "productBundleDownload": "passed; SHA-256 matches verified release bundle",
       "offlineReload": "passed",
@@ -61,6 +63,7 @@
       "policyPreview": "passed",
       "recordedModelCases": 8,
       "aiServiceEvidence": "passed; failed quality gate visible",
+      "androidVmEvidence": "passed; parity, failed quality and emulator-only limits visible",
       "notesLifecycle": "passed",
       "productBundleDownload": "passed; SHA-256 matches verified release bundle",
       "offlineReload": "passed",
@@ -79,6 +82,7 @@
       "policyPreview": "passed",
       "recordedModelCases": 8,
       "aiServiceEvidence": "passed; failed quality gate visible",
+      "androidVmEvidence": "passed; parity, failed quality and emulator-only limits visible",
       "notesLifecycle": "passed",
       "productBundleDownload": "passed; SHA-256 matches verified release bundle",
       "offlineReload": "passed",
@@ -114,12 +118,12 @@
       {
         "id": "device-integration",
         "pages": 14,
-        "sha256": "bbcd0c6eb9f5fe7e2e9e6cf0502297e743960c4b845425b3bdb1fbdb0ccf5c88"
+        "sha256": "e0a209ddb9eedb417762b0e5ed96a7bb7d13984a00a1680f9140304ce6bc5f11"
       },
       {
         "id": "sdk-reference",
         "pages": 11,
-        "sha256": "f1eb81376e4f825147523e4909dd0086bb971fcced8fa3e17ab4b4b0b39c5fbb"
+        "sha256": "bcc3361319d947ccd660254733235e13d6b0f1dfa9bb5a8a72576a7622a294f5"
       }
     ],
     "sourceMarkdownExcludedFromBundles": true,
@@ -129,8 +133,8 @@
     "schemaVersion": 1,
     "status": "passed",
     "scope": "technical-work-only",
-    "sourceSha": "760f14ba1df79c8ef1e32252b98f71c1a419680b",
-    "textFiles": 84,
+    "sourceSha": "16caedab5048f12b17cfdbc7df9cef0621087873",
+    "textFiles": 85,
     "pdfFiles": 8,
     "archives": 3,
     "archiveEntries": 43,
@@ -140,5 +144,35 @@
       "documents/INDIA_SHOWCASE.md"
     ],
     "hostedTextChecked": true
+  },
+  "androidVm": {
+    "sourceSha": "ea48bb38df3197d5012f24f7a6a8394e6ee8a11f",
+    "referenceParity": true,
+    "correct": 73,
+    "total": 96,
+    "qualityGatePassed": false,
+    "physicalDeviceValidated": false,
+    "downloads": [
+      {
+        "name": "pocketroute-android-lab-0.1.0-debug.apk",
+        "bytes": 78900308,
+        "sha256": "8b75134bafc277fa2c54837ef95b2eae5b6539aa3f039936033129325834f5b5",
+        "browser": "chromium",
+        "width": 1440,
+        "status": "passed"
+      },
+      {
+        "name": "pocketroute-runtime-0.1.0-debug.aar",
+        "bytes": 28880355,
+        "sha256": "5f3876766a525bf01fe37beb9f3515406f2d18105d7768fa6200b235084e068d",
+        "browser": "chromium",
+        "width": 1440,
+        "status": "passed"
+      }
+    ],
+    "explicitlyRequestedDownloadOrigins": [
+      "https://github.com",
+      "https://release-assets.githubusercontent.com"
+    ]
   }
 }
