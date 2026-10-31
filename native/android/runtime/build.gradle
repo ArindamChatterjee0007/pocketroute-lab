@@ -52,8 +52,8 @@ android {
         }
     }
     sourceSets {
-        main.assets.srcDir layout.buildDirectory.dir("generated/assets")
-        test.resources.srcDir layout.buildDirectory.dir("generated/test-fixtures")
+        main.assets.srcDir layout.buildDirectory.dir("generated/assets").get().asFile
+        test.resources.srcDir layout.buildDirectory.dir("generated/test-fixtures").get().asFile
     }
     lint {
         abortOnError true

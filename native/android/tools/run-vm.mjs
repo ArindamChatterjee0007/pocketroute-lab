@@ -13,10 +13,11 @@ function execute(program, args, options = {}) {
   if (result.error || result.status !== 0) throw new Error(`${program} failed (${result.status ?? result.error?.code}): ${(result.stderr || "").slice(-1000)}`);
   return result.stdout;
 }
-const devices = execute("adb", ["devices"]).split(/\r?\n/).filter(line => /^emulator-\d+\s+device$/.test(line)).map(line => line.split(/\s/)[0]);
-if (devices.length !== 1) throw new Error("Exactly one GitHub-created Android emulator is required; physical/ambiguous targets are rejected.");
-const serial = devices[0];
+const devices = execute("adb", ["devices"]).trim().split(/\r?\n/).slice(1).map(line => line.trim()).filter(Boolean);
+if (devices.length !== 1 || !/^emulator-\d+\s+device$/.test(devices[0])) throw new Error("Exactly one GitHub-created Android emulator is required; physical/ambiguous targets are rejected.");
+const serial = devices[0].split(/\s/)[0];
 const adb = args => execute("adb", ["-s", serial, ...args]);
+if (adb(["shell", "getprop", "ro.kernel.qemu"]).trim() !== "1") throw new Error("The selected target did not identify itself as an emulator.");
 const apiLevel = Number(adb(["shell", "getprop", "ro.build.version.sdk"]).trim());
 if (apiLevel !== 36) throw new Error("The pinned Android API 36 emulator is required.");
 adb(["install", join(root, "app/build/outputs/apk/debug/app-debug.apk")]);

@@ -85,7 +85,7 @@ public final class NativeEngine implements Closeable {
     private JSONObject base() throws JSONException {
         long rss = nativePeakRss();
         return new JSONObject().put("schemaVersion", 1).put("model", protocol.manifest.getString("model"))
-                .put("modelRevision", protocol.manifest.getString("modelRevision")).put("appSourceSha", BuildConfig.SOURCE_SHA)
+                .put("modelRevision", protocol.manifest.getString("modelRevision")).put("runtimeSourceSha", BuildConfig.SOURCE_SHA)
                 .put("runtime", "onnxruntime-android").put("runtimeVersion", nativeVersion()).put("backend", "native-cpu")
                 .put("workerPid", Process.myPid()).put("workerPeakRssBytes", rss >= 0 ? rss : JSONObject.NULL)
                 .put("aggregatePeakMemoryBytes", JSONObject.NULL).put("requiresHumanReview", true)

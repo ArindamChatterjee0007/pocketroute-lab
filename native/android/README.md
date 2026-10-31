@@ -72,6 +72,8 @@ client.close();
 
 `load`, `classify`, `cancel` and `close` run on the main thread; actual import, tokenization and ONNX work run off it. Busy/unloaded clients reject calls rather than queue work. Listen for terminal events and confirmed worker termination; never treat a timeout or a `stopping` event as a completed model response.
 
+The AAR reports its own `runtimeSourceSha`; it cannot infer an integrating application's source revision. The supplied lab app records its separate `appSourceSha`. Integrators must provide their own verified app revision when producing device reports.
+
 The C++ bridge reads four final-position logits directly rather than copying the entire vocabulary tensor into the Java heap. The Java tokenizer, exact JSON/chat formatting and policy must match every generated Transformers.js golden vector on both the JVM and Android. This is a checked port, not a generic tokenizer/model adapter. Unsupported graph inputs, shapes, dtypes or tokenizer settings fail closed.
 
 ## Read The Evidence

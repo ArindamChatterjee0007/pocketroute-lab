@@ -91,6 +91,7 @@ public final class MainActivity extends Activity {
     private void event(JSONObject event) {
         if (isDestroyed()) return;
         try {
+            event.put("appSourceSha", BuildConfig.SOURCE_SHA);
             switch (event.getString("status")) {
                 case "loading" -> status.setText(R.string.loading);
                 case "running" -> status.setText(R.string.running);

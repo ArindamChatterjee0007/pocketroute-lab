@@ -169,7 +169,8 @@ public final class NativeVmTest {
         report.put("cases", cases);
         try (Client client = new Client()) {
             JSONObject ready = client.load();
-            report.put("appSourceSha", ready.getString("appSourceSha")).put("load", ready);
+            assertEquals(BuildConfig.SOURCE_SHA, ready.getString("runtimeSourceSha"));
+            report.put("appSourceSha", BuildConfig.SOURCE_SHA).put("load", ready);
             JSONObject warmup = client.classify("warmup", "The workshop pump stopped running. Please send someone to fix it.", 20000);
             assertTrue(warmup.toString(), warmup.getBoolean("modelExecuted"));
             report.put("warmup", warmup);

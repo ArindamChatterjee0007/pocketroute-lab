@@ -94,7 +94,7 @@ public final class InferenceService extends Service {
     private static JSONObject event(String status, String error) {
         try {
             JSONObject result = new JSONObject().put("status", status).put("workerPid", Process.myPid())
-                    .put("appSourceSha", BuildConfig.SOURCE_SHA).put("productionReady", false);
+                    .put("runtimeSourceSha", BuildConfig.SOURCE_SHA).put("productionReady", false);
             if (error != null) result.put("error", error);
             return result;
         } catch (JSONException failure) {
