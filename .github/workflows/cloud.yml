@@ -6,7 +6,7 @@ on:
       mode:
         description: Verification scope
         type: choice
-        options: [publish, unit, live, ai]
+        options: [publish, unit, live, ai, android-prepare, android]
         default: publish
       expected_source:
         description: Exact published source SHA required for live verification
@@ -27,6 +27,7 @@ concurrency:
 
 jobs:
   verify-and-publish:
+    if: ${{ inputs.mode != 'android' && inputs.mode != 'android-prepare' }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
@@ -44,3 +45,91 @@ jobs:
           node-version: '24'
       - name: Build, test, experiment and publish on GitHub only
         run: node scripts/pipeline.mjs
+
+  android-vm:
+    if: ${{ inputs.mode == 'android' || inputs.mode == 'android-prepare' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    env:
+      ONNXRUNTIME_NODE_INSTALL_CUDA: skip
+      GRADLE_OPTS: -Dorg.gradle.daemon=false
+      NATIVE_MODE: ${{ inputs.mode }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: '24'
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a
+        with:
+          gradle-version: '8.11.1'
+          cache-disabled: true
+      - name: Install locked JavaScript tooling
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify pinned model artifacts and generate cross-runtime fixtures
+        run: node native/android/tools/prepare.mjs
+      - name: Install pinned Android build components
+        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0' 'ndk;27.0.12077973' 'cmake;3.22.1'
+      - name: Bootstrap dependency verification and wrapper
+        if: ${{ inputs.mode == 'android-prepare' }}
+        working-directory: native/android
+        run: |
+          gradle --no-daemon wrapper --gradle-version 8.11.1 --distribution-type bin --gradle-distribution-sha256-sum f397b287023acdba1e9f6fc5ea72d22dd63669d59ed4a289a29b1a76eee151c6 --write-verification-metadata sha256 --write-locks
+          ./gradlew --no-daemon :runtime:testDebugUnitTest :runtime:lintDebug :app:lintDebug :runtime:assembleDebug :app:assembleDebug :app:assembleDebugAndroidTest --write-verification-metadata sha256 --write-locks
+      - name: Verify locked build, tokenizer contract and APK/AAR
+        if: ${{ inputs.mode == 'android' }}
+        working-directory: native/android
+        run: |
+          test -f gradle/verification-metadata.xml
+          test -f runtime/gradle.lockfile
+          ./gradlew --no-daemon --dependency-verification strict :runtime:testDebugUnitTest :runtime:lintDebug :app:lintDebug :runtime:assembleDebug :app:assembleDebug :app:assembleDebugAndroidTest
+      - name: Enable KVM for the bounded emulator
+        if: ${{ inputs.mode == 'android' }}
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Run native Android inference and lifecycle tests on a VM
+        if: ${{ inputs.mode == 'android' }}
+        uses: ReactiveCircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          cores: 2
+          ram-size: 8192M
+          heap-size: 512M
+          disk-size: 10G
+          disable-animations: true
+          emulator-boot-timeout: 300
+          script: node native/android/tools/run-vm.mjs
+      - name: Verify artifact signing and inventory
+        run: node native/android/tools/package.mjs
+      - name: Preserve native diagnostics and weight-free artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: android-${{ inputs.mode }}-${{ github.run_id }}
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            native/android/out/
+            native/android/gradle/wrapper/
+            native/android/gradle/verification-metadata.xml
+            native/android/gradlew
+            native/android/gradlew.bat
+            native/android/runtime/gradle.lockfile
+            native/android/app/gradle.lockfile
+            native/android/runtime/build/test-results/
+            native/android/runtime/build/reports/
+            native/android/app/build/reports/
+            native/android/app/build/outputs/androidTest-results/
+            native/android/runtime/build/outputs/aar/runtime-debug.aar
+            native/android/app/build/outputs/apk/debug/app-debug.apk
