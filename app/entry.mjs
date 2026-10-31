@@ -1,7 +1,7 @@
 import { createIcons, LayoutDashboard, ListTodo, FlaskConical, History, BookOpen, Map, Search, Menu, X, ArrowUpRight, ArrowRight, ArrowDownToLine, RefreshCw, Check, ChevronRight, ChevronDown, Network, Sparkles, BriefcaseBusiness, Cpu, Smartphone, ShieldCheck, Layers, Battery, MemoryStick, GitBranch, ExternalLink, Play, Copy, SlidersHorizontal, CircleCheck, Clock, Lock, Info, RotateCcw, FileText, Tags, AlignLeft, PanelsTopLeft, List, Send, FolderOpen } from "lucide";
 import { escapeHtml, routeRequest, filterTasks, summarizeRun, formatDuration, safeGitHubUrl } from "./domain.mjs";
 import { project, units, tasks, sessions, sources, modelCandidates, milestones, samples } from "../data/office.mjs";
-import { serviceEvidenceView } from "../ai/presentation.mjs";
+import { serviceEvidenceView, androidEvidenceView, validateAndroidEvidence } from "../ai/presentation.mjs";
 
 const icons = { LayoutDashboard, ListTodo, FlaskConical, History, BookOpen, Map, Search, Menu, X, ArrowUpRight, ArrowRight, ArrowDownToLine, RefreshCw, Check, ChevronRight, ChevronDown, Network, Sparkles, BriefcaseBusiness, Cpu, Smartphone, ShieldCheck, Layers, Battery, MemoryStick, GitBranch, ExternalLink, Play, Copy, SlidersHorizontal, CircleCheck, Clock, Lock, Info, RotateCcw, FileText, Tags, AlignLeft, PanelsTopLeft, List, Send, FolderOpen };
 const views = [
@@ -15,7 +15,7 @@ const views = [
 ];
 const preferencesKey = "pocketroute.preferences.v1";
 const notesKey = "pocketroute.personal-notes.v1";
-const state = { view: "overview", query: "", unit: "all", taskStatus: "all", boardMode: "board", sessionKind: "All", evidenceCategory: "all", labTab: "policy", labTask: "auto", labInput: samples[0].input, labMemory: 1536, labBattery: 65, labResult: null, compare: new Set(["smollm", "qwen-small"]), run: null, service: null, verification: null, loading: true, error: false, noteTask: null };
+const state = { view: "overview", query: "", unit: "all", taskStatus: "all", boardMode: "board", sessionKind: "All", evidenceCategory: "all", labTab: "policy", labTask: "auto", labInput: samples[0].input, labMemory: 1536, labBattery: 65, labResult: null, compare: new Set(["smollm", "qwen-small"]), run: null, service: null, android: null, verification: null, loading: true, error: false, noteTask: null };
 const workspace = document.getElementById("workspace");
 const dialog = document.getElementById("detail-dialog");
 const search = document.getElementById("workspace-search");
@@ -44,6 +44,7 @@ function allSessions() {
   const rows = [...sessions];
   if (state.run?.status === "completed" || state.run?.status === "failed") rows.unshift({ id: "CLOUD-SLM-01", title: "SmolLM2 cloud smoke experiment", kind: "Cloud", status: state.run.status === "completed" ? "Completed" : "Failed", date: state.run.completedAt, detail: "Pretrained 135M model. Synthetic route-label development cases on a GitHub CPU runner.", model: `${state.run.model} / ${state.run.runtime || "runtime unavailable"}`, outcome: state.run.note, runUrl: state.run.runUrl, elapsedMs: state.run.totalElapsedMs });
   if (state.service?.status === "completed") rows.unshift({ id: "SERVICE-AI-01", title: "Service-classifier confirmation", kind: "Cloud", status: state.service.pilotScreen?.passed ? "Synthetic screen passed" : "Quality blocked", date: state.service.completedAt, detail: "Pinned model plus reject-only policy; independently authored synthetic cases and isolated runtime checks.", model: `${state.service.selected?.id || "Unrecorded model"} / ${state.service.environment?.runtimeVersions?.transformers || "runtime unavailable"}`, outcome: `Execution completed; synthetic quality gate ${state.service.pilotScreen?.passed ? "passed" : "failed"}. Production and mobile readiness remain unverified.`, runUrl: state.service.runUrl, elapsedMs: state.service.totalElapsedMs });
+  if (state.android?.verification?.status === "software-checks-passed") rows.unshift({ id: "ANDROID-VM-01", title: "Android native VM verification", kind: "Cloud", status: "VM verified", date: state.android.verification.checkedAt, detail: "Native Android app and AAR; exposed regression, protocol, lifecycle and UI checks on an emulator.", model: "Qwen2.5 1.5B q4 / ONNX Runtime Android", outcome: "Software verification is separate from the failed quality gate. Physical devices and energy remain unqualified.", runUrl: state.android.verification.runUrl, elapsedMs: null });
   return rows;
 }
 function overview() {
@@ -106,7 +107,7 @@ function searchResults() {
   return `${heading("Search results", "RESEARCH / SEARCH", `${results.length} matches for &quot;${escapeHtml(state.query)}&quot;`, '<button class="button quiet" data-action="clear-search">'+icon("x")+'Clear search</button>')}<div class="search-results">${results.length ? results.map(item => `<button class="search-result" ${item.action}>${icon(item.icon)}<span>${escapeHtml(item.title)}<small>${item.type} / ${item.id}</small></span>${icon("arrow-up-right")}</button>`).join("") : empty("No matching records", "No public task, session or source matches this search.")}</div>`;
 }
 
-function service() { return `${heading("Service AI", "ACTUAL MODEL / EXPERIMENTAL SDK", "Recorded model-backed classification, with runtime checks and quality limits.")}${serviceEvidenceView(state.service)}`; }
+function service() { return `${heading("Service AI", "ACTUAL MODEL / EXPERIMENTAL SDK", "Node and native Android evidence, with model-quality and device limits.")}${androidEvidenceView(state.android)}${serviceEvidenceView(state.service)}`; }
 
 function render() {
   document.getElementById("primary-navigation").innerHTML = views.map(view => `<a class="nav-link" href="#${view.id}" ${state.view === view.id ? 'aria-current="page"' : ""}>${icon(view.icon)}${view.label}${view.count ? `<small>${view.count}</small>` : ""}</a>`).join("");
@@ -141,7 +142,7 @@ async function loadEvidence() {
   const request = ++evidenceRequest;
   const status = document.getElementById("evidence-status");
   status.textContent = "Refreshing published evidence";
-  const loaded = await Promise.allSettled(["slm-results.json", "verification.json", "ai-service-results.json"].map(async name => {
+  const loaded = await Promise.allSettled(["slm-results.json", "verification.json", "ai-service-results.json", "android-vm-results.json"].map(async name => {
     const response = await fetch(`./data/${name}`, { cache: "no-store", signal: AbortSignal.timeout(10000) });
     if (!response.ok) throw new Error("Unavailable evidence");
     return response.json();
@@ -151,6 +152,11 @@ async function loadEvidence() {
   const verification = loaded[1].status === "fulfilled" ? loaded[1].value : null;
   const serviceReport = loaded[2].status === "fulfilled" ? loaded[2].value : null;
   state.service = serviceReport?.schemaVersion === 1 && Array.isArray(serviceReport.testCases) && serviceReport.testCases.length <= 200 ? serviceReport : null;
+  state.android = null;
+  if (loaded[3].status === "fulfilled") {
+    try { validateAndroidEvidence(loaded[3].value); state.android = loaded[3].value; }
+    catch (error) { if (!(error instanceof TypeError)) throw error; state.android = { status: "invalid" }; }
+  }
   state.run = model?.schemaVersion === 1 && ["not-run", "completed", "failed"].includes(model.status) && Array.isArray(model.cases) && model.cases.length <= 24 ? model : null;
   state.verification = verification?.schemaVersion === 1 ? verification : null;
   state.error = !state.run || !state.verification;
@@ -181,9 +187,10 @@ document.addEventListener("click", event => {
   if (action === "run-policy") { state.labResult = routeRequest(state.labInput, { task: state.labTask, memoryMiB: state.labMemory, batteryPercent: state.labBattery }); document.getElementById("route-output").innerHTML = routeOutput(); refreshIcons(); }
   if (action === "save-note" || action === "clear-note") { const notes = readStorage(notesKey, {}); if (action === "clear-note") { delete notes[state.noteTask]; document.getElementById("personal-note").value = ""; } else notes[state.noteTask] = document.getElementById("personal-note").value.slice(0, 2000); document.getElementById("note-status").textContent = saveStorage(notesKey, notes) ? action === "clear-note" ? "Personal note cleared" : "Personal note saved in this browser" : "Browser storage unavailable"; }
   if (action === "compare-models") { const selected = modelCandidates.filter(model => state.compare.has(model.id)); openDialog("Model comparison", "METADATA / NOT A PERFORMANCE BENCHMARK", `<div class="table-wrapper"><table class="compare-table"><thead><tr><th>Property</th>${selected.map(model => `<th>${model.name}<br>${model.size}</th>`).join("")}</tr></thead><tbody>${[["Role", "role"], ["License", "license"], ["State", "status"]].map(([label, key]) => `<tr><th>${label}</th>${selected.map(model => `<td>${model[key]}</td>`).join("")}</tr>`).join("")}<tr><th>Phone joules</th>${selected.map(() => "<td>Unmeasured</td>").join("")}</tr></tbody></table></div><p class="receipt-footer">Only the SmolLM2 cloud smoke probe can have a recorded inference result here. No cross-model phone comparison has been executed.</p>`); }
-  if (action === "export-snapshot") downloadJson({ schemaVersion: 2, scope: "technical-work-only", project, projects: units, tasks, researchSessions: sessions, cloudRun: state.run, verification: state.verification, privateCustomerDataIncluded: false }, "pocketroute-public-snapshot.json");
+  if (action === "export-snapshot") downloadJson({ schemaVersion: 2, scope: "technical-work-only", project, projects: units, tasks, researchSessions: sessions, cloudRun: state.run, androidVm: state.android, verification: state.verification, privateCustomerDataIncluded: false }, "pocketroute-public-snapshot.json");
   if (action === "export-run") { if (state.run) downloadJson(state.run, "pocketroute-cloud-experiment.json"); else toast("No cloud receipt available"); }
   if (action === "export-service") { if (state.service) downloadJson(state.service, "pocketroute-ai-service-evaluation.json"); else toast("No AI service receipt available"); }
+  if (action === "export-android") { if (state.android?.verification?.status === "software-checks-passed") downloadJson(state.android, "pocketroute-android-vm-evidence.json"); else toast("No verified Android receipt available"); }
   if (action === "export-verification") { if (state.verification?.stage === "prepublication-checks-passed") downloadJson(state.verification, "pocketroute-verification.json"); else toast("No verification receipt available"); }
 });
 

@@ -1,0 +1,69 @@
+plugins {
+    id "com.android.library"
+}
+
+configurations {
+    onnxNative
+}
+
+dependencies {
+    onnxNative "com.microsoft.onnxruntime:onnxruntime-android:1.31.1@aar"
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.json:json:20250107"
+}
+
+def ortDirectory = rootProject.layout.buildDirectory.dir("ort")
+def extractOnnx = tasks.register("extractOnnx", Copy) {
+    from({ zipTree(configurations.onnxNative.singleFile) })
+    include "headers/**", "jni/arm64-v8a/libonnxruntime.so", "jni/x86_64/libonnxruntime.so"
+    into ortDirectory
+}
+
+android {
+    namespace "dev.pocketroute.runtime"
+    compileSdk 36
+    buildToolsVersion "36.0.0"
+    ndkVersion "28.2.13676358"
+
+    defaultConfig {
+        minSdk 26
+        ndk {
+            abiFilters "arm64-v8a", "x86_64"
+        }
+        buildConfigField "String", "SOURCE_SHA", "\"${System.getenv('GITHUB_SHA')}\""
+        externalNativeBuild {
+            cmake {
+                arguments "-DORT_DIRECTORY=${ortDirectory.get().asFile.absolutePath}", "-DANDROID_STL=c++_shared"
+                cppFlags "-std=c++17", "-fexceptions", "-frtti"
+            }
+        }
+    }
+    buildFeatures {
+        buildConfig true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.22.1"
+        }
+    }
+    sourceSets {
+        main.assets.srcDir layout.buildDirectory.dir("generated/assets").get().asFile
+        test.resources.srcDir layout.buildDirectory.dir("generated/test-fixtures").get().asFile
+    }
+    lint {
+        abortOnError true
+        warningsAsErrors true
+        informational "AndroidGradlePluginVersion", "GradleDependency", "NewerVersionAvailable"
+    }
+}
+
+tasks.configureEach {
+    if (name.startsWith("configureCMake") || name.startsWith("buildCMake") || name == "preBuild") {
+        dependsOn extractOnnx
+    }
+}

@@ -13,6 +13,14 @@
 
 No foundation model was trained or fine-tuned. No browser downloads or executes this model. No real-phone energy, latency or memory claim is established.
 
+## Android Native Reference Port
+
+The [Android VM release](https://github.com/ArindamChatterjee0007/pocketroute-lab/releases/tag/android-vm-0.1.0) adds an actual native APK and reusable AAR, separate from the Node package below. A C++ ONNX bridge extracts four final-position scores without copying the complete logits tensor into the Java heap. The Java tokenizer, exact JSON/chat formatting and reject-only policy matched 160 generated vectors on both JVM and Android.
+
+[Run 41203062823](https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41203062823) verified source `ea48bb38df3197d5012f24f7a6a8394e6ee8a11f` on an API 36 x86_64 emulator with 8 GiB RAM. Every one of the 96 exposed outputs matched the Node reference; correctness remains 73/96 with four unsafe acceptances. Warm round-trip p50/p95 was 13,081/13,704 ms, not phone latency. Cancellation and deadlines terminated actual worker processes, concurrent requests were rejected, corrupted model bytes were refused and the installed app requested no permissions.
+
+The [native integration guide](../native/android/README.md) documents explicit model import, API use, source hashes and debug-certificate limitations. Its `InferenceClient` runs one foreground request in a separate process and exposes `load`, `classify`, `cancel` and `close`. The AAR reports `runtimeSourceSha`; integrators must record their own `appSourceSha` separately. ARM64 binaries were compiled, not executed. Model quality, physical-device resources, deployment rights and human validation remain separate gates.
+
 ## Actual Results
 
 The requested **greater-than-90% target remains unmet**. The fixed hybrid system scored **73/96 (76.0%)**, accepted-label precision **53/66 (80.3%)**, supported coverage **62/72 (86.1%)**, **four unsafe acceptances** and zero invalid outputs on the separately authored synthetic confirmation set. There were 94 model calls and two policy rejections. The same-case keyword baseline scored 25/96. The unchanged quality/safety gate failed.
@@ -80,7 +88,7 @@ Confirmation cases are now exposed. Do not tune a prompt against them and call a
 
 Read the [designed device integration handbook](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-device-integration.pdf), included as MANUAL.pdf in the SDK bundle. It covers profiles, runtime adapters, GitHub builds, signing, model installation/rollback, phone/watch/Linux/MCU differences and regression/release checklists. The [portable test kit](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-device-test-kit-0.1.0.zip) separates 96 exposed inputs from expected/reference labels and validates recorded reports without model inference. It rejects missing/duplicate/unexecuted cases and keeps failed attempts in the denominator. A parity pass is not a quality or hardware pass.
 
-A compatible native harness/APK or firmware must still be implemented and built on GitHub, then tested on actual authorized devices. The current Node worker is not a native mobile app or MCU runtime. Different sensor tasks need separate corpora/scorers. No APK, iOS/watch app, MCU firmware, energy result or physical-device qualification is claimed.
+The Android APK/AAR now implements a VM-verified reference port; it is not a physical-device qualification. The Node worker remains a separate runtime. iOS/watch apps, MCU firmware and different sensor tasks still need their own implementations, corpora and scorers. No physical-device or energy result is claimed.
 
 ## License And Readiness
 

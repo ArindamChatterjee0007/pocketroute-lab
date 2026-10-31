@@ -1,22 +1,34 @@
 # Device Integration, Build And Test Manual
 
-Updated October 30, 2026. For integrators, build engineers, testers and release reviewers.
+Updated October 31, 2026. For integrators, build engineers, testers and release reviewers.
 
 ## Status And Scope
 
-The implemented reference is a Node.js/Linux classifier, not a universal device runtime. It uses pinned Qwen2.5 1.5B q4 plus a reject-only policy. The complete system scored 73/96 (76.0%) with four unsafe acceptances on a separate synthetic set. The >90% target remains unmet. No native APK, iOS/watch app, MCU firmware or validated physical-device result exists yet.
+The implemented references are a Node.js/Linux classifier and an experimental native Android APK/AAR, not a universal device runtime. They use pinned Qwen2.5 1.5B q4 plus a reject-only policy. The complete system scored 73/96 (76.0%) with four unsafe acceptances on the synthetic reference. Android matched all 96 exposed reference outputs on an emulator. The >90% target remains unmet. No iOS/watch app, MCU firmware or validated physical-device result exists.
 
-This manual specifies the implementation and qualification path for device-specific adapters. The portable regression kit is an executable scorer, not an inference runtime. API/profile examples below are proposed native contracts, not functions already exported by the Node SDK.
+This manual specifies the implementation and qualification path for device-specific adapters. The portable regression kit is an executable scorer, not an inference runtime. The general API/profile examples below remain proposed cross-device contracts; the shipped Node and Android APIs are identified separately.
 
 | Device class | Candidate path | Required qualification |
 | --- | --- | --- |
-| Android phone/tablet | Native app, compatible ONNX runtime, tokenizer and bounded decoder | ABI/operator compatibility, hashes, aggregate memory, cancellation and physical tests |
+| Android phone/tablet | Native APK/AAR; x86_64 API 36 emulator verified, ARM64 built only | Actual device/OS compatibility, aggregate memory, quality and physical tests remain open |
 | iPhone/iPad | Native iOS adapter with an approved compatible runtime | Separate signing/distribution, runtime parity and real-device tests |
 | Application-class watch | Platform-specific app and a smaller task model where feasible | Actual OS/SDK support, RAM/storage/thermal budget and foreground lifecycle |
 | Linux embedded board | Headless native/Node adapter on a supported architecture | Runtime binary/kernel support, available memory, storage, power supply and board tests |
 | MCU/RTOS | Deterministic task logic or a purpose-built tiny model | Static arena/flash/stack/operator budget and real-board validation; not the present Qwen model |
 
 Do not silently forward work to a phone/server and call it device-local inference. Companion-device processing needs explicit consent and separate connectivity, privacy, latency and energy accounting. No hardware, lab or paid service is assumed available. A device family name is not compatibility evidence.
+
+## Verified Android VM Delivery
+
+Use the [experimental Android release](https://github.com/ArindamChatterjee0007/pocketroute-lab/releases/tag/android-vm-0.1.0) and its `build-manifest.json`, `SHA256SUMS` and VM receipts. [Verification 41203062823](https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41203062823) tested exact source `ea48bb38df3197d5012f24f7a6a8394e6ee8a11f` with strict dependency checks, three JVM tests, 160 cross-runtime vectors and the full 96-case exposed suite. Integrity, installed permissions, real cancellation/deadline termination, concurrency and foreground UI checks passed.
+
+This is **96/96 reference parity, not 96/96 correctness**. Correctness remains 73/96; accepted precision is 80.3%, with four unsafe acceptances. The API 36 x86_64 emulator used 8 GiB configured RAM. Warm client-round-trip p50/p95 was 13,081/13,704 ms. Aggregate peak memory and whole-device energy were not measured; no phone budget is waived by the VM configuration.
+
+The package contains an APK and reusable AAR without model weights or signing keys. The installed app has no Internet permission. Obtain the exact model files separately, verify their published hashes and import them explicitly into private app storage. Android can reclaim clearable cached storage while allocating an import. Unknown names, incomplete files and mismatched hashes fail rather than select another model.
+
+The Java `InferenceClient` exposes `load`, `classify`, `cancel` and `close` on the main thread. Model work executes in a separate native process; foreground exit, cancellation or deadline stops it and waits for Binder-death confirmation. The C++ bridge avoids a full vocabulary-logit copy into the Java heap. [The detailed native API guide](https://github.com/ArindamChatterjee0007/pocketroute-lab/blob/ea48bb38df3197d5012f24f7a6a8394e6ee8a11f/native/android/README.md) covers installation and lifecycle use.
+
+The reusable AAR's `runtimeSourceSha` is not an integrating application's source revision. Record the host `appSourceSha` independently in device reports. ARM64 was compiled only; iOS, watches, MCU/RTOS and physical Linux boards have not been qualified.
 
 ## Reading Order
 
@@ -60,7 +72,7 @@ Add a device by recording its profile, pinning the runtime/toolchain, choosing p
 
 ## Common Adapter Contract
 
-The native interface below is a design requirement. The working Node API remains `createServiceClassifier`, `classify` and `close`.
+The generic native interface below is a design requirement. The working Node API remains `createServiceClassifier`, `classify` and `close`; the Android client exposes `load`, `classify`, `cancel` and `close`. Do not assume either exports the generic profile API verbatim.
 
 | Operation | Required behavior |
 | --- | --- |
@@ -85,7 +97,7 @@ Use a bounded C/C++ ABI for MCU/native libraries and thin Kotlin/Swift/Linux wra
 7. Preserve request ID, raw choice, canonical output, policy/model path, model revision, timings, errors and human-review requirement. Confidence remains `null`; logits are not calibrated confidence.
 8. Compare all exposed parity cases with the cloud reference. Changed quantization/tokenizer/backend behavior is a separately fingerprinted experimental arm, not an automatically equivalent port.
 
-With ONNX Runtime's Java API, create `OrtEnvironment`/`OrtSession`, inspect session metadata, construct matching tensors off the main UI thread, run inference and close results/tensors deterministically. Use the Android artifact, not a desktop binary. Pin the version and dependency checksums; generic ORT Mobile support does not prove this q4 graph works. Start with CPU compatibility. GPU/NNAPI/NPU requires separate operator/fallback and memory evidence.
+A Java-only adapter can use `OrtEnvironment`/`OrtSession`, but copying the complete logits tensor into the Java heap is expensive. The supplied port instead uses the Android ONNX C++ API behind a small JNI bridge, inspects graph names/shapes/dtypes and returns only four choice scores. It uses pinned Android libraries, not a desktop binary. Start with CPU compatibility; GPU/NNAPI/NPU requires separate operator/fallback and memory evidence.
 
 Keep independent validated control logic in charge of safety-critical electronics. This classifier must not directly actuate machinery, change medical treatment or authorize financial/security actions.
 
@@ -93,25 +105,28 @@ Keep independent validated control logic in charge of safety-critical electronic
 
 ### Existing Workflow
 
-The current workflow has `unit`, `publish`, `live` and `ai` modes. It has no native Android/MCU build job. Use `unit` for report-contract checks, `publish` with `experiment=false` for SDK/manual/test-kit generation, and `live` with the exact publication source SHA for hosted acceptance. `ai` runs inference and is unnecessary for manual/package/report work.
+The workflow retains `unit`, `publish`, `live` and `ai` modes and adds `android-prepare`, `android` and `android-media`. `android-prepare` generates dependency verification/locks and builds the APK/AAR without device inference. `android` replays pins strictly and executes the native emulator suite. `android-media` captures the exact already-verified APK without rebuilding it or repeating the 96-case corpus. Native jobs have read-only repository permissions and do not publish the website.
+
+Use `unit` for report-contract checks, `publish` with `experiment=false` for SDK/manual/test-kit generation, and `live` with the exact publication source SHA for hosted acceptance. `ai` remains the frozen Node evaluator and is unnecessary for manual/package work.
 
 All installation, builds, automated checks, rendering and report processing for this project run on GitHub. Physical inference must run on the target device. A legitimate fork must deliberately adapt its own repository-specific cloud guard; never spoof GitHub environment variables locally.
 
 ### Native Android Implementation
 
-The following tasks become executable only after a native project is implemented. No APK is claimed today.
+The native project is implemented under `native/android`, with an application and reusable runtime module. These are its reproduction and qualification steps, not physical-device acceptance.
 
 1. Separate application UI, task contract and runtime adapter into owned packages/modules. Include unit and instrumentation tests. Commit the Gradle wrapper with its distribution SHA-256 and dependency verification/locks.
-2. Pin compatible JDK, Gradle, Android Gradle Plugin, Kotlin, SDK/NDK and `com.microsoft.onnxruntime:onnxruntime-android` versions from the supported-device matrix. Do not use floating `latest`. Record actual versions in the build receipt; none is declared qualified for this port yet.
+2. The current baseline uses JDK 17, Gradle 9.6.0, AGP 9.4.1, SDK 36, build tools 36.0.0, NDK 28.2.13676358, CMake 3.22.1 and ONNX Runtime Android 1.31.1. Java and C++ are used; no Kotlin implementation is required. API 37 was unavailable in the SDK registry used by the attempted setup. Rolling upgrade suggestions remain visible as informational lint findings; code, privacy and resource diagnostics remain blocking.
 3. Add a manual-dispatch native workflow on an authorized standard GitHub-hosted Linux runner. Build/test with read-only permissions. Separate publication/signing jobs; do not expose credentials to inference or untrusted PR code. Do not enable a paid runner or schedule.
 4. Execute the real module tasks on that runner, for example:
 
 ```sh
-./gradlew --no-daemon :app:testDebugUnitTest :app:lintDebug :app:assembleDebug
+./gradlew --no-daemon :runtime:testDebugUnitTest :runtime:lintDebug :app:lintDebug
+./gradlew --no-daemon :runtime:assembleDebug :app:assembleDebug
 ./gradlew --no-daemon :app:assembleDebugAndroidTest
 ```
 
-5. Run `connectedDebugAndroidTest` only with a configured, authorized emulator/device attached to the runner. A hosted job cannot directly access a phone connected to a separate workstation. Emulators test plumbing, not physical energy/thermal/RAM behavior. A remote device lab requires separately authorized access.
+5. Run `connectedDebugAndroidTest` only with a configured, authorized emulator/device attached to the runner. The supplied VM script rejects physical, offline or ambiguous ADB targets and retains the test APKs until private reports/screenshots are collected. A hosted job cannot directly access a phone connected to a separate workstation. Emulators test plumbing, not physical energy/thermal/RAM behavior. A remote device lab requires separately authorized access.
 6. After required gates pass, publish the exact APK, reports, dependency inventory, build manifest, SHA-256 and signer fingerprint. Verify the signed artifact on the runner:
 
 ```sh

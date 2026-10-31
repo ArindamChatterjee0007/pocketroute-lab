@@ -21,6 +21,7 @@ async function openView(page, view) {
 }
 
 async function checkLayout(page) {
+  await page.locator("#android-vm-evidence img").evaluateAll(images => Promise.all(images.map(image => image.decode())));
   const result = await page.evaluate(() => {
     const visible = element => element.getClientRects().length && getComputedStyle(element).visibility !== "hidden" && !element.closest("[hidden]");
     return {
@@ -81,7 +82,7 @@ test("navigation works with keyboard and a closed mobile drawer", async ({ page 
 test("task filters, detail dialog and personal notes persist safely", async ({ page }) => {
   await openView(page, "execution");
   await page.getByLabel("Filter tasks by status").selectOption("done");
-  await expect(page.locator(".task-card")).toHaveCount(5);
+  await expect(page.locator(".task-card")).toHaveCount(6);
   await page.locator('[data-task="B03-001"]').click();
   await expect(page.getByRole("dialog")).toBeVisible();
   const note = 'Synthetic personal note <img src=x onerror="window.noteExecuted=true">';
@@ -146,7 +147,9 @@ test("export is a real public JSON download without personal notes", async ({ pa
   const file = await download.path();
   const data = JSON.parse(await readFile(file, "utf8"));
   expect(data.privateCustomerDataIncluded).toBe(false);
-  expect(data.tasks).toHaveLength(12);
+  expect(data.tasks).toHaveLength(13);
+  expect(data.androidVm.verification.executionKind).toBe("simulator");
+  expect(data.androidVm.verification.productionReady).toBe(false);
   expect(data.projects).toHaveLength(3);
   expect(data.units).toBeUndefined();
   expect(data.scope).toBe("technical-work-only");
@@ -224,7 +227,35 @@ test("missing service AI receipt never implies model readiness", async ({ page }
   await page.route("**/data/ai-service-results.json", route => route.abort());
   await page.goto("/#service", { waitUntil: "domcontentloaded" });
   await expect(page.locator("#workspace")).toContainText("AI service evidence unavailable");
-  await expect(page.locator("#workspace")).not.toContainText("73 / 96");
+  await expect(page.locator("#service-ai-evidence")).toHaveCount(0);
+  await expect(page.locator("#android-vm-evidence")).toContainText("73 / 96");
+});
+
+test("native VM evidence offers real artifacts without promoting parity to quality", async ({ page }) => {
+  await openView(page, "service");
+  const native = page.locator("#android-vm-evidence");
+  for (const text of ["Android VM prototype", "Emulator", "96 / 96", "73 / 96", "quality gate still fails", "Not measured", "Built only / not executed"]) {
+    await expect(native).toContainText(new RegExp(text, "i"));
+  }
+  await expect(native.getByRole("link", { name: "Experimental Android APK", exact: true })).toHaveAttribute("href", "https://github.com/ArindamChatterjee0007/pocketroute-lab/releases/download/android-vm-0.1.0/pocketroute-android-lab-0.1.0-debug.apk");
+  await expect(native.getByRole("link", { name: "Android runtime AAR", exact: true })).toHaveAttribute("href", "https://github.com/ArindamChatterjee0007/pocketroute-lab/releases/download/android-vm-0.1.0/pocketroute-runtime-0.1.0-debug.aar");
+  await checkLayout(page);
+  const [download] = await Promise.all([page.waitForEvent("download"), native.getByRole("button", { name: "Export Android receipt", exact: true }).click()]);
+  const receipt = JSON.parse(await readFile(await download.path(), "utf8"));
+  expect(receipt.scope).toBe("technical-work-only");
+  expect(receipt.verification.productionReady).toBe(false);
+  expect(receipt.verification.physicalDeviceValidated).toBe(false);
+  expect(receipt.report.cases).toHaveLength(96);
+  expect(receipt.contract.goldenVectors).toBe(160);
+  expect(receipt.build.sourceSha).toBe(receipt.report.appSourceSha);
+});
+
+test("missing native evidence does not offer unverified APK downloads", async ({ page }) => {
+  await page.route("**/data/android-vm-results.json", route => route.abort());
+  await openView(page, "service");
+  await expect(page.locator("#android-vm-evidence")).toContainText("Android VM evidence unavailable");
+  await expect(page.getByRole("link", { name: "Experimental Android APK", exact: true })).toHaveCount(0);
+  await expect(page.locator("#service-ai-evidence")).toContainText("73 / 96");
 });
 
 test("successful receipt state is readable and links to the correct project", async ({ page }) => {

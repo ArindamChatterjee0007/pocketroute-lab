@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+if (System.getenv("GITHUB_ACTIONS") != "true" ||
+        System.getenv("RUNNER_OS") != "Linux" ||
+        System.getenv("RUNNER_ENVIRONMENT") != "github-hosted" ||
+        System.getenv("GITHUB_REPOSITORY") != "ArindamChatterjee0007/pocketroute-lab") {
+    throw new GradleException("Android builds and tests are restricted to this project's GitHub-hosted Linux workflow.")
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "PocketRouteAndroidLab"
+include(":runtime", ":app")

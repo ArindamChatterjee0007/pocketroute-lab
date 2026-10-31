@@ -11,7 +11,7 @@ import { validateServiceRequest, parseServiceLabel, summarizeClassification, pil
 import { examples, development, confirmation } from "../ai/dataset.mjs";
 import { examples as runtimeExamples } from "../ai/examples.mjs";
 import { createServiceClassifier } from "../ai/client.mjs";
-import { serviceEvidenceView } from "../ai/presentation.mjs";
+import { serviceEvidenceView, androidEvidenceView, validateAndroidEvidence } from "../ai/presentation.mjs";
 import { choiceLabels, decodeChoice, validateChoiceTokenIds } from "../ai/labels.mjs";
 import { ServiceChoiceLogitsProcessor } from "../ai/logits.mjs";
 import { Tensor } from "@huggingface/transformers";
@@ -27,6 +27,14 @@ import { createDeviceReference, evaluateDeviceReport } from "../ai/device-report
 import { fetchEvidence } from "../scripts/evidence-fetch.mjs";
 import { documentBlocks } from "../scripts/pdf-content.mjs";
 import { assertPublicPath, assertPublicContent, retiredPublicPaths } from "../scripts/public-content.mjs";
+import { selectEmulator } from "../native/android/tools/emulator.mjs";
+
+test("native VM tools reject physical, offline and ambiguous ADB targets", () => {
+  assert.equal(selectEmulator("List of devices attached\nemulator-5554\tdevice\n"), "emulator-5554");
+  for (const inventory of ["", "unexpected\nemulator-5554\tdevice", "List of devices attached\n", "List of devices attached\nphone-serial\tdevice", "List of devices attached\nemulator-5554\toffline", "List of devices attached\nemulator-5554\tdevice\nphone-serial\tdevice", "List of devices attached\nemulator-5554\tdevice\nemulator-5556\tdevice"]) {
+    assert.throws(() => selectEmulator(inventory));
+  }
+});
 
 test("publication boundary rejects financial planning and private paths", () => {
   for (const text of ["Pilot price / INR", "Contribution margin", "Revenue", "Three business units", "Funded pilot"]) assert.throws(() => assertPublicContent(text));
@@ -89,6 +97,55 @@ const deviceReportFixture = () => {
   const report = { schemaVersion: 1, suiteId: reference.suiteId, protocolSha256: reference.protocolSha256, datasetSha256: reference.datasetSha256, modelRevision: reference.modelRevision, executionKind: "cloud-fixture", phase: "warm", appSourceSha: "d".repeat(40), device: { class: "phone", model: "Synthetic fixture", os: "Test only", architecture: "test" }, runtime: { name: "Fixture", version: "1", backend: "No inference" }, cases: cases.map(entry => ({ id: entry.id, output: entry.output, outcome: "completed", elapsedMs: 100, peakMemoryBytes: null })) };
   return { reference, report };
 };
+
+const androidEvidenceFixture = () => {
+  const { reference, report } = deviceReportFixture();
+  reference.cases = Array.from({ length: 96 }, (_, index) => ({ ...reference.cases[index % 4], id: `vm-${index}` }));
+  report.cases = reference.cases.map(entry => ({ id: entry.id, output: entry.output, outcome: "completed", elapsedMs: 100, peakMemoryBytes: null }));
+  report.executionKind = "simulator";
+  report.device.architecture = "x86_64";
+  return {
+    schemaVersion: 1, scope: "technical-work-only", releaseTag: "android-vm-0.1.0", reference, report,
+    build: { status: "vm-tested-experimental-artifacts", sourceSha: report.appSourceSha, jvmTests: 3, goldenVectors: 160, productionReady: false, modelWeightsBundled: false, privateKeysBundled: false, artifacts: ["pocketroute-android-lab-0.1.0-debug.apk", "pocketroute-runtime-0.1.0-debug.aar"].map(name => ({ name, bytes: 1000, sha256: "f".repeat(64) })) },
+    verification: { status: "software-checks-passed", sourceSha: report.appSourceSha, executionKind: "simulator", apiLevel: 36, architecture: "x86_64", configuredRamMiB: 8192, physicalDeviceValidated: false, humanLabelledQualityValidated: false, productionReady: false, parity: { passed: true }, nonRegression: { passed: true }, runUrl: "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/123" },
+    contract: { status: "passed", goldenVectors: 160, requestedPermissions: 0, modelFilesHashVerified: true, tamperedModelRejected: true },
+    lifecycle: { status: "passed", workerTerminationConfirmed: true, concurrentRequestRejected: true },
+    ui: { status: "passed", actualModelRequest: true, explicitUnload: true },
+  };
+};
+
+test("native evidence distinguishes reference parity from correctness and physical qualification", () => {
+  const fixture = androidEvidenceFixture();
+  const evidence = validateAndroidEvidence(fixture);
+  assert.equal(evidence.assessment.parity.passed, true);
+  assert.equal(evidence.assessment.metrics.correct, 72);
+  assert.equal(evidence.assessment.syntheticQualityScreen.passed, false);
+  const html = androidEvidenceView(fixture);
+  for (const text of ["96 / 96", "72 / 96", "quality gate still fails", "emulator only", "Not measured", "Built only / not executed", "Experimental Android APK", "Verified native images are unavailable"]) assert.ok(html.includes(text), text);
+  assert.ok(html.includes("/releases/download/android-vm-0.1.0/pocketroute-android-lab-0.1.0-debug.apk"));
+});
+
+test("native evidence blocks downloads for missing gates, stale provenance and changed artifact hashes", () => {
+  const original = androidEvidenceFixture();
+  for (const modify of [
+    value => { value.report.appSourceSha = "e".repeat(40); },
+    value => { value.report.executionKind = "physical-device"; },
+    value => { value.contract.tamperedModelRejected = false; },
+    value => { value.lifecycle.workerTerminationConfirmed = false; },
+    value => { value.build.modelWeightsBundled = true; },
+    value => { value.build.artifacts[0].sha256 = "not-a-hash"; },
+    value => { value.verification.parity.passed = false; },
+    value => { value.releaseTag = "../other"; },
+  ]) {
+    const changed = structuredClone(original);
+    modify(changed);
+    assert.throws(() => validateAndroidEvidence(changed), TypeError);
+    const html = androidEvidenceView(changed);
+    assert.ok(html.includes("Android VM evidence invalid"));
+    assert.ok(!html.includes("href="));
+  }
+  assert.ok(androidEvidenceView(null).includes("Android VM evidence unavailable"));
+});
 
 test("device parity never promotes a bad reference to quality or hardware acceptance", () => {
   const { reference, report } = deviceReportFixture();
@@ -448,7 +505,7 @@ test("HTML escaping preserves text without executable markup", () => {
 
 test("task filters compose and never mutate canonical tasks", () => {
   const original = structuredClone(tasks);
-  assert.deepEqual(filterTasks(tasks, { status: "done" }).map(task => task.id), ["B03-001", "B03-002", "B03-003", "B03-010", "B03-012"]);
+  assert.deepEqual(filterTasks(tasks, { status: "done" }).map(task => task.id), ["B03-001", "B03-002", "B03-003", "B03-010", "B03-012", "B03-013"]);
   assert.equal(filterTasks(tasks, { query: "native", status: "blocked", unit: "b03" })[0].id, "B03-006");
   assert.deepEqual(filterTasks(tasks, { unit: "b01" }).map(task => task.id), ["B03-012"]);
   assert.deepEqual(tasks, original);
@@ -484,7 +541,7 @@ test("dashboard source omits financial widgets and preserves valid JavaScript", 
 });
 
 test("public source data has stable unique IDs", () => {
-  assert.equal(new Set(tasks.map(task => task.id)).size, 12);
+  assert.equal(new Set(tasks.map(task => task.id)).size, 13);
   assert.equal(new Set(sources.map(source => source.id)).size, 19);
   assert.equal(units.length, 3);
   assert.equal(tasks.filter(task => task.status === "blocked").length, 6);
