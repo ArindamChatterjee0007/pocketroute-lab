@@ -3,7 +3,7 @@
     <string name="app_name">PocketRoute Android Lab</string>
     <string name="title">Native inference lab</string>
     <string name="limits">Experimental Qwen reference port. The existing synthetic quality gate failed (73/96). VM results are not phone performance or energy evidence. Every suggestion requires human review.</string>
-    <string name="model_help">No model is bundled or downloaded by this app. Import the pinned model_q4.onnx and tokenizer.json files (about 1.8 GB total). Both hashes are checked before loading. Model rights remain a separate review.</string>
+    <string name="model_help">No model is bundled or downloaded by this app. Import model_q4.onnx and tokenizer.json (about 1.8 GB). Both hashes are checked before loading. Android may reclaim cached storage for an import. Model rights remain a separate review.</string>
     <string name="import_model">Import model files</string>
     <string name="load_model">Load verified model</string>
     <string name="request_label">Service-ticket data</string>

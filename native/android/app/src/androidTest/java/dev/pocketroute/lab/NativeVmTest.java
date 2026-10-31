@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.SystemClock;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,6 +31,8 @@ import org.junit.runners.MethodSorters;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -115,6 +119,20 @@ public final class NativeVmTest {
         assertTrue("The installed app must have no requested permissions.", info.requestedPermissions == null || info.requestedPermissions.length == 0);
         Protocol protocol = ModelStore.protocol(target);
         ModelStore.verify(target, protocol);
+        try (RandomAccessFile model = new RandomAccessFile(new File(ModelStore.directory(target), "model_q4.onnx"), "rw")) {
+            int original = model.readUnsignedByte();
+            try {
+                model.seek(0);
+                model.writeByte(original ^ 0xFF);
+                model.getFD().sync();
+                assertThrows(IOException.class, () -> ModelStore.verify(target, protocol));
+            } finally {
+                model.seek(0);
+                model.writeByte(original);
+                model.getFD().sync();
+            }
+        }
+        ModelStore.verify(target, protocol);
         QwenTokenizer tokenizer = new QwenTokenizer(ModelStore.json(new FileInputStream(new File(ModelStore.directory(target), "tokenizer.json")), 8 * 1024 * 1024));
         JSONArray vectors = fixture("vectors.json").getJSONArray("vectors");
         for (int index = 0; index < vectors.length(); index++) {
@@ -132,7 +150,7 @@ public final class NativeVmTest {
             assertArrayEquals("Android prompt tokens " + index, tokens(vector.getJSONArray("promptTokens")), tokenizer.encode(protocol.prompt(text)));
         }
         save("vm-contract.json", new JSONObject().put("status", "passed").put("goldenVectors", vectors.length())
-                .put("requestedPermissions", 0).put("modelFilesHashVerified", true).put("executionKind", "simulator"));
+                .put("requestedPermissions", 0).put("modelFilesHashVerified", true).put("tamperedModelRejected", true).put("executionKind", "simulator"));
     }
 
     @Test
@@ -221,23 +239,34 @@ public final class NativeVmTest {
         try (ActivityScenario<MainActivity> activity = ActivityScenario.launch(MainActivity.class)) {
             activity.onActivity(value -> value.findViewById(R.id.load_model).performClick());
             awaitText(activity, R.id.status, "Ready.", 185000);
+            capture(activity, "vm-setup.png", R.id.status);
             activity.onActivity(value -> {
                 ((EditText) value.findViewById(R.id.request)).setText("The workshop pump stopped running. Please send someone to fix it.");
                 value.findViewById(R.id.classify).performClick();
             });
             awaitText(activity, R.id.result, "Suggestion:", 25000);
-            InstrumentationRegistry.getInstrumentation().waitForIdleSync();
-            Bitmap screenshot = InstrumentationRegistry.getInstrumentation().getUiAutomation().takeScreenshot();
-            assertNotNull(screenshot);
-            try (FileOutputStream output = new FileOutputStream(new File(target.getFilesDir(), "vm-result.png"))) {
-                assertTrue(screenshot.compress(Bitmap.CompressFormat.PNG, 100, output));
-            } finally {
-                screenshot.recycle();
-            }
+            capture(activity, "vm-result.png", R.id.result);
             activity.onActivity(value -> value.findViewById(R.id.stop).performClick());
             awaitText(activity, R.id.status, "Worker stopped", 5000);
             save("vm-ui.json", new JSONObject().put("status", "passed").put("actualModelRequest", true)
                     .put("explicitUnload", true).put("executionKind", "simulator"));
+        }
+    }
+
+    private void capture(ActivityScenario<MainActivity> activity, String name, int focus) throws Exception {
+        activity.onActivity(value -> {
+            View view = value.findViewById(focus);
+            Rect rectangle = new Rect();
+            view.getDrawingRect(rectangle);
+            view.requestRectangleOnScreen(rectangle, true);
+        });
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        Bitmap screenshot = InstrumentationRegistry.getInstrumentation().getUiAutomation().takeScreenshot();
+        assertNotNull(screenshot);
+        try (FileOutputStream output = new FileOutputStream(new File(target.getFilesDir(), name))) {
+            assertTrue(screenshot.compress(Bitmap.CompressFormat.PNG, 100, output));
+        } finally {
+            screenshot.recycle();
         }
     }
 
@@ -255,9 +284,14 @@ public final class NativeVmTest {
     private void assertWorkerGone(int pid) {
         ActivityManager manager = target.getSystemService(ActivityManager.class);
         assertNotNull(manager);
-        List<ActivityManager.RunningAppProcessInfo> processes = manager.getRunningAppProcesses();
-        assertNotNull(processes);
-        assertFalse("Cancelled worker is still present.", processes.stream().anyMatch(process -> process.pid == pid));
+        long deadline = SystemClock.elapsedRealtime() + 3000;
+        while (SystemClock.elapsedRealtime() < deadline) {
+            List<ActivityManager.RunningAppProcessInfo> processes = manager.getRunningAppProcesses();
+            assertNotNull(processes);
+            if (processes.stream().noneMatch(process -> process.pid == pid)) return;
+            SystemClock.sleep(50);
+        }
+        fail("Cancelled worker is still present.");
     }
 
     private void save(String name, JSONObject value) throws Exception {

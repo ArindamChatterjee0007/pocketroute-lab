@@ -3,6 +3,7 @@ package dev.pocketroute.runtime;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.storage.StorageManager;
 import android.provider.OpenableColumns;
 
 import org.json.JSONArray;
@@ -22,6 +23,7 @@ import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
+import java.util.UUID;
 
 public final class ModelStore {
     private ModelStore() {}
@@ -81,12 +83,16 @@ public final class ModelStore {
         if (name == null) throw new IOException("The selected document has no name.");
         JSONObject expected = specification(protocol(context), name);
         File directory = directory(context);
-        if (directory.getUsableSpace() < expected.getLong("bytes") + 16 * 1024 * 1024) throw new IOException("Insufficient private storage for an atomic model import.");
+        StorageManager storage = context.getSystemService(StorageManager.class);
+        if (storage == null) throw new IOException("Android storage allocation is unavailable.");
+        UUID volume = storage.getUuidForPath(directory);
+        if (storage.getAllocatableBytes(volume) < expected.getLong("bytes") + 16 * 1024 * 1024) throw new IOException("Insufficient allocatable storage for an atomic model import.");
         File temporary = new File(directory, name + ".partial");
         try {
             InputStream selected = context.getContentResolver().openInputStream(uri);
             if (selected == null) throw new IOException("The selected document could not be opened.");
             try (InputStream input = selected; FileOutputStream output = new FileOutputStream(temporary)) {
+                storage.allocateBytes(output.getFD(), expected.getLong("bytes"));
                 if (!digest(input, output, expected.getLong("bytes")).equals(expected.getString("sha256"))) throw new IOException("Selected file does not match the pinned model hash: " + name);
                 output.getFD().sync();
             }

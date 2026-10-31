@@ -32,7 +32,7 @@ adb(["shell", "rmdir", staging]);
 const test = spawnSync("./gradlew", ["--no-daemon", ":app:connectedDebugAndroidTest"], {
   cwd: root, env: { ...process.env, ANDROID_SERIAL: serial }, stdio: "inherit", timeout: 2100000,
 });
-const required = ["vm-contract.json", "vm-report.json", "vm-lifecycle.json", "vm-ui.json", "vm-result.png"];
+const required = ["vm-contract.json", "vm-report.json", "vm-lifecycle.json", "vm-ui.json", "vm-setup.png", "vm-result.png"];
 const missing = [];
 for (const name of required) {
   const result = spawnSync("adb", ["-s", serial, "exec-out", "run-as", "dev.pocketroute.lab", "cat", `files/${name}`], { timeout: 30000, maxBuffer: 8 * 1024 * 1024 });

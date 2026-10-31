@@ -45,7 +45,7 @@ The app has **no Internet permission** and never downloads a model. Select **Imp
 - [model_q4.onnx](https://huggingface.co/onnx-community/Qwen2.5-1.5B-Instruct/resolve/d54957e3af1be04546436e874a60fe386041b244/onnx/model_q4.onnx), approximately 1.79 GB.
 - [tokenizer.json](https://huggingface.co/onnx-community/Qwen2.5-1.5B-Instruct/resolve/d54957e3af1be04546436e874a60fe386041b244/tokenizer.json), approximately 7 MB.
 
-The manifest records exact byte counts and SHA-256 hashes. Imports use private application storage, a temporary file, digest verification and atomic replacement. Loading re-verifies both files; unknown names, incomplete files and mismatched hashes fail explicitly. Space for the temporary import is required. Base-model licensing and conversion-artifact rights remain separate; no weights are redistributed with the APK/AAR.
+The manifest records exact byte counts and SHA-256 hashes. Imports use private application storage, a temporary file, digest verification and atomic replacement. Android's storage manager reserves space and may reclaim clearable cached data during an explicit import. Loading re-verifies both files; unknown names, incomplete files and mismatched hashes fail explicitly. Space for the temporary import is required. Base-model licensing and conversion-artifact rights remain separate; no weights are redistributed with the APK/AAR.
 
 Tap **Load verified model**, enter one service request, then **Suggest category**. A suggestion never authorizes an action. **Stop and unload**, leaving the foreground, timeout or client closure terminates the separate inference process; termination is confirmed through Binder death. There is no background inference service or wake lock.
 

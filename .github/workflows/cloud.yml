@@ -86,7 +86,7 @@ jobs:
         working-directory: native/android
         run: |
           gradle --no-daemon wrapper --gradle-version 8.11.1 --distribution-type bin --gradle-distribution-sha256-sum f397b287023acdba1e9f6fc5ea72d22dd63669d59ed4a289a29b1a76eee151c6 --write-verification-metadata sha256 --write-locks
-          ./gradlew --no-daemon :runtime:testDebugUnitTest :runtime:lintDebug :app:lintDebug :runtime:assembleDebug :app:assembleDebug :app:assembleDebugAndroidTest --write-verification-metadata sha256 --write-locks
+          ./gradlew --no-daemon --continue :runtime:testDebugUnitTest :runtime:lintDebug :app:lintDebug :runtime:assembleDebug :app:assembleDebug :app:assembleDebugAndroidTest --write-verification-metadata sha256 --write-locks
       - name: Verify locked build, tokenizer contract and APK/AAR
         if: ${{ inputs.mode == 'android' }}
         working-directory: native/android
