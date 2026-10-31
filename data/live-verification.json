@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "status": "passed",
-  "checkedAt": "2026-10-30T20:21:11.787Z",
+  "checkedAt": "2026-10-31T08:07:56.138Z",
   "url": "https://arindamchatterjee0007.github.io/pocketroute-lab/",
   "productUrl": "https://arindamchatterjee0007.github.io/pocketroute-lab/notes/",
-  "sourceSha": "f45e0685d23915e1b7d0fdf769bcbde070211c7e",
-  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41122254545",
+  "sourceSha": "760f14ba1df79c8ef1e32252b98f71c1a419680b",
+  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41183231817",
   "artifactFilesVerified": 67,
   "artifactHashAlgorithm": "SHA-256",
   "bundleIntegrity": "passed",
@@ -26,6 +26,7 @@
       "recordedModelCases": 8,
       "aiServiceEvidence": "passed; failed quality gate visible",
       "notesLifecycle": "passed",
+      "productBundleDownload": "passed; SHA-256 matches verified release bundle",
       "offlineReload": "passed",
       "standaloneSdk": "passed",
       "privateBackup": "passed",
@@ -43,6 +44,7 @@
       "recordedModelCases": 8,
       "aiServiceEvidence": "passed; failed quality gate visible",
       "notesLifecycle": "passed",
+      "productBundleDownload": "passed; SHA-256 matches verified release bundle",
       "offlineReload": "passed",
       "standaloneSdk": "passed",
       "privateBackup": "passed",
@@ -60,6 +62,7 @@
       "recordedModelCases": 8,
       "aiServiceEvidence": "passed; failed quality gate visible",
       "notesLifecycle": "passed",
+      "productBundleDownload": "passed; SHA-256 matches verified release bundle",
       "offlineReload": "passed",
       "standaloneSdk": "passed",
       "privateBackup": "passed",
@@ -77,6 +80,7 @@
       "recordedModelCases": 8,
       "aiServiceEvidence": "passed; failed quality gate visible",
       "notesLifecycle": "passed",
+      "productBundleDownload": "passed; SHA-256 matches verified release bundle",
       "offlineReload": "passed",
       "standaloneSdk": "passed",
       "privateBackup": "passed",
@@ -110,12 +114,12 @@
       {
         "id": "device-integration",
         "pages": 14,
-        "sha256": "21e7565661282b6e87c84e7d77ed79e5b628352c6912d602944e3d71224e13d0"
+        "sha256": "bbcd0c6eb9f5fe7e2e9e6cf0502297e743960c4b845425b3bdb1fbdb0ccf5c88"
       },
       {
         "id": "sdk-reference",
         "pages": 11,
-        "sha256": "b033be9754b33580d7ed8173b9e37463ddbdefb1b27b318490eef5bbdd03d1c9"
+        "sha256": "f1eb81376e4f825147523e4909dd0086bb971fcced8fa3e17ab4b4b0b39c5fbb"
       }
     ],
     "sourceMarkdownExcludedFromBundles": true,
@@ -125,7 +129,7 @@
     "schemaVersion": 1,
     "status": "passed",
     "scope": "technical-work-only",
-    "sourceSha": "f45e0685d23915e1b7d0fdf769bcbde070211c7e",
+    "sourceSha": "760f14ba1df79c8ef1e32252b98f71c1a419680b",
     "textFiles": 84,
     "pdfFiles": 8,
     "archives": 3,
