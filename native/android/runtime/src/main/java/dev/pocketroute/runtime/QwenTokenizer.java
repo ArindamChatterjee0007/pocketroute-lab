@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,7 +29,7 @@ public final class QwenTokenizer {
     private final Pattern split;
 
     public QwenTokenizer(JSONObject tokenizer) throws JSONException {
-        if (!tokenizer.isNull("normalizer")) throw new IllegalArgumentException("Unsupported tokenizer normalization.");
+        if (!tokenizer.getJSONObject("normalizer").getString("type").equals("NFC")) throw new IllegalArgumentException("Unsupported tokenizer normalization.");
         JSONObject model = tokenizer.getJSONObject("model");
         if (!model.getString("type").equals("BPE") || model.optBoolean("byte_fallback", false)
                 || model.optBoolean("ignore_merges", false) || !model.isNull("dropout")) {
@@ -45,7 +46,9 @@ public final class QwenTokenizer {
                 || byteLevel.getBoolean("add_prefix_space") || byteLevel.getBoolean("use_regex")) {
             throw new IllegalArgumentException("Unsupported byte-level tokenization.");
         }
-        split = Pattern.compile(separator.getJSONObject("pattern").getString("Regex"));
+        String pattern = separator.getJSONObject("pattern").getString("Regex");
+        pattern = pattern.replace("[^\\s", "[^" + Protocol.SPACE_BODY).replace("\\s", "[" + Protocol.SPACE_BODY + "]");
+        split = Pattern.compile(pattern);
         JSONObject vocab = model.getJSONObject("vocab");
         for (Iterator<String> keys = vocab.keys(); keys.hasNext();) {
             String key = keys.next();
@@ -110,6 +113,7 @@ public final class QwenTokenizer {
     }
 
     private void ordinary(String text, List<Integer> output) {
+        text = Normalizer.normalize(text, Normalizer.Form.NFC);
         Matcher matcher = split.matcher(text);
         int cursor = 0;
         while (matcher.find()) {

@@ -14,7 +14,8 @@ import java.util.regex.Pattern;
 public final class Protocol {
     private static final String START = "(?<![A-Za-z0-9_])";
     private static final String END = "(?![A-Za-z0-9_])";
-    private static final String SPACE = "[\\x{09}-\\x{0D}\\x{20}\\x{A0}\\x{1680}\\x{2000}-\\x{200A}\\x{2028}\\x{2029}\\x{202F}\\x{205F}\\x{3000}\\x{FEFF}]";
+    static final String SPACE_BODY = "\\x{09}-\\x{0D}\\x{20}\\x{A0}\\x{1680}\\x{2000}-\\x{200A}\\x{2028}\\x{2029}\\x{202F}\\x{205F}\\x{3000}\\x{FEFF}";
+    private static final String SPACE = "[" + SPACE_BODY + "]";
     private static final Pattern OVERRIDE = words("ignore|disregard|override|forget|bypass");
     private static final Pattern RULES = words("instructions?|rules?|polic(?:y|ies)|system|prompt|categor(?:y|ies)|request");
     private static final Pattern ROLE = words("you are now|act as|pretend to be");
