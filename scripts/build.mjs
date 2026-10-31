@@ -9,6 +9,14 @@ import { modelCandidates, systemPrompt, inferencePolicy, evaluationRevision, eva
 import { examples as runtimeExamples } from "../ai/examples.mjs";
 import { choiceLabels } from "../ai/labels.mjs";
 import { auditPublicDirectory } from "./public-content.mjs";
+import { validateAndroidEvidence } from "../ai/presentation.mjs";
+
+const androidEvidence = JSON.parse(await readFile("data/android-vm-results.json", "utf8"));
+const { build: androidBuild, apk: androidApk } = validateAndroidEvidence(androidEvidence);
+const nativePoster = await readFile("documents/android-vm-summary.png");
+const posterReceipt = androidEvidence.media?.images?.find(image => image.path === "android-vm-summary.png");
+if (androidEvidence.media?.status !== "passed" || androidEvidence.media.appSourceSha !== androidBuild.sourceSha || androidEvidence.media.apkSha256 !== androidApk.sha256
+    || createHash("sha256").update(nativePoster).digest("hex") !== posterReceipt?.sha256) throw new Error("Native public media does not match the verified unchanged APK capture.");
 
 await rm("dist", { recursive: true, force: true });
 await mkdir("dist/assets", { recursive: true });
@@ -21,6 +29,8 @@ await copyFile("index.html", "dist/index.html");
 await copyFile("styles.css", "dist/styles.css");
 await copyFile("data/slm-results.json", "dist/data/slm-results.json");
 await copyFile("data/ai-service-results.json", "dist/data/ai-service-results.json");
+await copyFile("data/android-vm-results.json", "dist/data/android-vm-results.json");
+await copyFile("documents/android-vm-summary.png", "dist/assets/android-vm-summary.png");
 await cp("data/ai-runs", "dist/data/ai-runs", { recursive: true });
 await copyFile("node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2", "dist/assets/manrope.woff2");
 await copyFile("node_modules/@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2", "dist/assets/space-grotesk.woff2");

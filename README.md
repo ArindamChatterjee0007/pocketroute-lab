@@ -2,6 +2,14 @@
 
 An open-source local-first field-note product, reusable JavaScript core and research dashboard. This is an experimental software release, not a secure vault, newly trained language model or qualified native mobile SDK.
 
+## Native Android VM Release
+
+The [experimental Android app and runtime AAR](https://github.com/ArindamChatterjee0007/pocketroute-lab/releases/tag/android-vm-0.1.0) now run the frozen Qwen reference natively, not inside a Notes WebView. [Verification 41203062823](https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41203062823) passed at source `ea48bb38df3197d5012f24f7a6a8394e6ee8a11f`: three JVM tests, 160 cross-runtime protocol/tokenizer vectors, all 96 exposed cases, integrity/permission checks, real worker termination and foreground UI checks. APK signing, artifact hashes and strict dependency verification passed.
+
+All 96 outputs matched the reference, which is **73/96 correctness, not 96/96 correctness**. The quality gate still fails: 80.3% accepted precision and four unsafe acceptances. The API 36 x86_64 emulator had 8 GiB configured RAM; warm p50/p95 round trips were 13,081/13,704 ms. ARM64 was built only. No physical phone, aggregate peak memory, energy or fresh human-data quality acceptance is claimed.
+
+See the [native source and integration guide](native/android/README.md), the [engineering handbook](ai/DEVICE_INTEGRATION.md) and release checksums before authorized installation. Model weights and private keys are not bundled. The app has no Internet permission and requires explicit hash-checked model-file import. Historical model receipts remain unchanged.
+
 ## Engineering Manuals
 
 Source: [ArindamChatterjee0007/pocketroute-lab](https://github.com/ArindamChatterjee0007/pocketroute-lab). The dashboard presents tools, implementation work, technical documentation and reproducible evaluation evidence.
@@ -16,7 +24,7 @@ The current [publication manifest](https://arindamchatterjee0007.github.io/pocke
 
 ## Device Integration Delivery
 
-The [multi-device manual](ai/DEVICE_INTEGRATION.md) and [portable regression kit](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-device-test-kit-0.1.0.zip) are available for integrators/testers. Profiles and native adapter interfaces are specified, not implemented mobile/MCU runtimes. The kit separates 96 exposed inputs from expected/reference labels and scores complete recorded reports without inference; parity with the failing reference is not release acceptance.
+The [multi-device manual](ai/DEVICE_INTEGRATION.md) and [portable regression kit](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-device-test-kit-0.1.0.zip) are available for integrators/testers. The Android port above is VM-verified; other native adapters and physical qualification remain open. The kit separates 96 exposed inputs from expected/reference labels and scores complete recorded reports without inference; parity with the failing reference is not release acceptance.
 
 Publication source `96da4a02f99f647c2195ba47465efadaf5007994`, static revision `c998b1fed6737860418b17ba0af247eda85cfe75`: [run 41058560519](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41058560519) passed 41 unit checks, 162 browser results and 12 final snapshots. Cloud-rendered desktop/mobile captures were reviewed. [Live verification 41059650241](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41059650241) verified 65 hosted-file hashes, the 20-entry experimental SDK and 11-entry regression kit, including rejection of an unfinished template and scorer execution on an explicitly labelled cloud fixture. Four browser configurations preserved the app flows with no page errors or outside requests.
 
@@ -33,7 +41,7 @@ The original model-backed work is implemented as an **experimental service-class
 - [Device integration, build and regression manual](ai/DEVICE_INTEGRATION.md)
 - [Portable device regression kit](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-device-test-kit-0.1.0.zip)
 
-The integration manual now covers phones, watches, Linux boards and MCU/RTOS targets through device-specific adapters and explicit budgets. The downloadable kit contains frozen synthetic inputs, separate expected/reference outputs, protocol/artifact fingerprints and a dependency-free report validator. It tests parity/regression without executing a model. Native adapters, APK/firmware, physical qualification and production accuracy remain unimplemented/unverified; the current Qwen model is not an MCU candidate. Matching its failing reference is not release acceptance.
+The integration manual covers phones, watches, Linux boards and MCU/RTOS targets through device-specific adapters and explicit budgets. The downloadable kit contains frozen synthetic inputs, separate expected/reference outputs, protocol/artifact fingerprints and a dependency-free report validator. It tests parity/regression without executing a model. An experimental Android APK/AAR is now available; other native adapters/firmware, physical qualification and production accuracy remain open. The current Qwen model is not an MCU candidate. Matching its failing reference is not release acceptance.
 
 ### Latest 96-Case Result
 

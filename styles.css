@@ -14,6 +14,12 @@ body.navigation-open{overflow:hidden}
 .product-link .badge{margin-left:auto;font-size:8px}
 .service-blockers{padding-left:18px;margin:0;color:var(--muted);font-size:11px;line-height:1.9}
 .service-blockers li{padding-bottom:8px;overflow-wrap:anywhere}
+.native-evidence{margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.native-downloads{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.native-downloads>a{min-width:0;max-width:100%;overflow-wrap:anywhere}
+.native-preview{margin:0;padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+.native-preview img{display:block;width:100%;height:auto;border-radius:var(--radius)}
+.native-preview figcaption{margin-top:12px;color:var(--muted);font-size:11px;line-height:1.6}
 .sidebar{overflow-y:auto}
 html{min-width:280px;background:var(--bg);scroll-behavior:smooth;scroll-padding-top:90px}
 body{margin:0;font:13px/1.6 var(--font);color:var(--text);background:linear-gradient(90deg,transparent 99.7%,#26303312 99.7%) 0 0/80px 80px,var(--bg);min-height:100vh}

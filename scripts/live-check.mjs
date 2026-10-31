@@ -8,6 +8,7 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { fetchEvidence } from "./evidence-fetch.mjs";
 import { assertPublicPath, assertPublicContent, retiredPublicPaths } from "./public-content.mjs";
+import { validateAndroidEvidence } from "../ai/presentation.mjs";
 
 const base = "https://arindamchatterjee0007.github.io/pocketroute-lab/";
 const expectedSource = process.env.EXPECTED_SOURCE;
@@ -32,6 +33,7 @@ let deviceKitBytes;
 const pdfAssets = new Map();
 let documentReceipt;
 let publicContentReceipt;
+let nativeReceipt;
 for (const asset of assets) {
   assert.ok(!asset.path.includes("..") && !asset.path.startsWith("/"));
   const assetResponse = await retrieve(asset.path);
@@ -46,7 +48,9 @@ for (const asset of assets) {
   if (asset.path.endsWith(".pdf")) pdfAssets.set(asset.path, bytes);
   if (asset.path === "data/document-verification.json") documentReceipt = JSON.parse(bytes.toString("utf8"));
   if (asset.path === "data/public-content-verification.json") publicContentReceipt = JSON.parse(bytes.toString("utf8"));
+  if (asset.path === "data/android-vm-results.json") nativeReceipt = JSON.parse(bytes.toString("utf8"));
 }
+const nativeEvidence = validateAndroidEvidence(nativeReceipt);
 assert.equal(publicContentReceipt?.status, "passed");
 assert.equal(publicContentReceipt.scope, "technical-work-only");
 assert.equal(publicContentReceipt.sourceSha, expectedSource);
@@ -118,6 +122,8 @@ const configurations = [
   { engine: "webkit", width: 390, height: 844 },
 ];
 const results = [];
+const nativeDownloads = [];
+const explicitNativeDownloadOrigins = new Set();
 for (const configuration of configurations) {
   const browser = await ({ chromium, webkit })[configuration.engine].launch();
   try {
@@ -125,8 +131,15 @@ for (const configuration of configurations) {
     const page = await context.newPage();
     const errors = [];
     const outsideRequests = [];
+    let expectedNativeDownload = null;
     page.on("pageerror", error => errors.push(error.message));
-    page.on("request", request => { if (!request.url().startsWith(base) && !request.url().startsWith("blob:") && !request.url().startsWith("data:")) outsideRequests.push(request.url()); });
+    page.on("request", request => {
+      const url = request.url();
+      if (url.startsWith(base) || url.startsWith("blob:") || url.startsWith("data:")) return;
+      const origin = new URL(url).origin;
+      if (expectedNativeDownload && (url === expectedNativeDownload || origin === "https://release-assets.githubusercontent.com")) explicitNativeDownloadOrigins.add(origin);
+      else outsideRequests.push(url);
+    });
     await page.goto(`${base}#overview`, { waitUntil: "domcontentloaded", timeout: 30000 });
     await expect(page.getByRole("heading", { level: 1, name: "PocketRoute overview", exact: true })).toBeVisible();
     await expect(page.locator("#evidence-status")).toContainText("Cloud checks recorded");
@@ -145,6 +158,25 @@ for (const configuration of configurations) {
     await expect(page.locator(".cloud-case")).toHaveCount(8);
     await expect(page.locator("#workspace")).toContainText("8 / 8 exact labels");
     await page.goto(`${base}#service`, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("#android-vm-evidence")).toContainText("Android VM prototype");
+    await expect(page.locator("#android-vm-evidence")).toContainText("96 / 96");
+    await expect(page.locator("#android-vm-evidence")).toContainText("73 / 96");
+    await expect(page.locator("#android-vm-evidence")).toContainText("quality gate still fails");
+    if (!nativeDownloads.length) {
+      for (const [label, artifact] of [["Experimental Android APK", nativeEvidence.apk], ["Android runtime AAR", nativeEvidence.aar]]) {
+        const link = page.getByRole("link", { name: label, exact: true });
+        expectedNativeDownload = nativeEvidence.downloadRoot + artifact.name;
+        await expect(link).toHaveAttribute("href", expectedNativeDownload);
+        const [download] = await Promise.all([page.waitForEvent("download"), link.click()]);
+        assert.equal(await download.failure(), null);
+        assert.equal(download.suggestedFilename(), artifact.name);
+        const bytes = await readFile(await download.path());
+        assert.equal(bytes.length, artifact.bytes);
+        assert.equal(createHash("sha256").update(bytes).digest("hex"), artifact.sha256);
+        nativeDownloads.push({ name: artifact.name, bytes: artifact.bytes, sha256: artifact.sha256, browser: configuration.engine, width: configuration.width, status: "passed" });
+        expectedNativeDownload = null;
+      }
+    }
     await expect(page.locator("#service-ai-evidence")).toContainText("Release qualification blocked");
     await expect(page.locator("#service-ai-evidence")).toContainText("73 / 96");
     await expect(page.locator("#service-ai-evidence")).toContainText("System accuracy, not pure-model accuracy");
@@ -197,7 +229,7 @@ for (const configuration of configurations) {
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, "Notes overflow");
     assert.deepEqual(errors, []);
     assert.deepEqual(outsideRequests, []);
-    results.push({ ...configuration, views: 8, policyPreview: "passed", recordedModelCases: 8, aiServiceEvidence: "passed; failed quality gate visible", notesLifecycle: "passed", productBundleDownload: "passed; SHA-256 matches verified release bundle", offlineReload: "passed", standaloneSdk: "passed", privateBackup: "passed", confirmedLocalDeletion: "passed", outsideRequests: 0, pageErrors: 0, status: "passed" });
+    results.push({ ...configuration, views: 8, policyPreview: "passed", recordedModelCases: 8, aiServiceEvidence: "passed; failed quality gate visible", androidVmEvidence: "passed; parity, failed quality and emulator-only limits visible", notesLifecycle: "passed", productBundleDownload: "passed; SHA-256 matches verified release bundle", offlineReload: "passed", standaloneSdk: "passed", privateBackup: "passed", confirmedLocalDeletion: "passed", outsideRequests: 0, pageErrors: 0, status: "passed" });
   } finally { await browser.close(); }
 }
 const receipt = { schemaVersion: 1, status: "passed", checkedAt: new Date().toISOString(), url: base, productUrl: `${base}notes/`, sourceSha: expectedSource, runUrl: `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`, artifactFilesVerified: assets.length, artifactHashAlgorithm: "SHA-256", bundleIntegrity: "passed", bundleEntries: bundleEntries.length, experimentalAiSdkBundle: { integrity: "passed", entries: aiEntries.length, weightsBundled: false, modelQualityAccepted: false }, configurations: results, modelRerun: false, phoneBenchmark: false, energyJoules: null, localBuildsOrTests: 0 };
@@ -205,5 +237,6 @@ receipt.deviceRegressionKit = { integrity: "passed", entries: deviceKitEntries.l
 receipt.hostedRetrieval = { policy: "At most three GET attempts for HTTP 502/503/504 only; final status, byte count and SHA-256 remain mandatory.", retries: retrievalRetries, availabilityGuarantee: false };
 receipt.pdfManuals = { status: "passed", documents: documentReceipt.documents.map(({ id, pages, sha256 }) => ({ id, pages, sha256 })), sourceMarkdownExcludedFromBundles: true, privatePaperPlanIncluded: false };
 receipt.publicContent = { ...publicContentReceipt, retiredPathsVerifiedAbsent: retiredPublicPaths, hostedTextChecked: true };
+receipt.androidVm = { sourceSha: nativeEvidence.build.sourceSha, referenceParity: nativeEvidence.assessment.parity.passed, correct: nativeEvidence.assessment.metrics.correct, total: nativeEvidence.assessment.metrics.total, qualityGatePassed: nativeEvidence.assessment.syntheticQualityScreen.passed, physicalDeviceValidated: false, downloads: nativeDownloads, explicitlyRequestedDownloadOrigins: [...explicitNativeDownloadOrigins] };
 await writeFile("data/live-verification.json", JSON.stringify(receipt, null, 2));
 console.log(JSON.stringify(receipt, null, 2));
