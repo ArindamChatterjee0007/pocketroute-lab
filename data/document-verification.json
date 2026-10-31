@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
   "status": "passed",
-  "sourceSha": "760f14ba1df79c8ef1e32252b98f71c1a419680b",
-  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41182925953",
-  "generatedAt": "2026-10-31T08:03:13.074Z",
+  "sourceSha": "16caedab5048f12b17cfdbc7df9cef0621087873",
+  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/41215680932",
+  "generatedAt": "2026-10-31T15:37:52.316Z",
   "rendering": "GitHub-hosted Chromium PDF plus Poppler raster/text inspection",
   "documents": [
     {
       "id": "device-integration",
       "path": "downloads/pocketroute-device-integration.pdf",
       "pages": 14,
-      "bytes": 516221,
-      "sha256": "bbcd0c6eb9f5fe7e2e9e6cf0502297e743960c4b845425b3bdb1fbdb0ccf5c88",
+      "bytes": 540896,
+      "sha256": "e0a209ddb9eedb417762b0e5ed96a7bb7d13984a00a1680f9140304ce6bc5f11",
       "sources": [
         {
           "path": "ai/DEVICE_INTEGRATION.md",
-          "sha256": "71c995bf87db75fae9f48dd4cd0f9d2cde36acf2b4e7e4759ba0f15201b656da"
+          "sha256": "f5f3018607caec31cc41921cc77a3e0e30ce153a168f9dec89d2edb825ec07ca"
         }
       ],
-      "contentBlocks": 106,
+      "contentBlocks": 113,
       "overflow": 0,
       "clippedText": 0,
       "fontsReady": true,
@@ -32,19 +32,19 @@
       "id": "sdk-reference",
       "path": "downloads/pocketroute-sdk-reference.pdf",
       "pages": 11,
-      "bytes": 472724,
-      "sha256": "f1eb81376e4f825147523e4909dd0086bb971fcced8fa3e17ab4b4b0b39c5fbb",
+      "bytes": 481472,
+      "sha256": "bcc3361319d947ccd660254733235e13d6b0f1dfa9bb5a8a72576a7622a294f5",
       "sources": [
         {
           "path": "ai/README.md",
-          "sha256": "1870707029c8b856a494e81c0754558a57f9330c1a934417a14317b98f835416"
+          "sha256": "6c1667c009a5e48071f0c50466bddaae5621a22a785af5b893105d2a0ef0b470"
         },
         {
           "path": "ai/MODEL_CARD.md",
           "sha256": "bd8c4244e0926a2dd8933fd4a518c84bdb8683111c70ad03cca5732b16af3f31"
         }
       ],
-      "contentBlocks": 69,
+      "contentBlocks": 73,
       "overflow": 0,
       "clippedText": 0,
       "fontsReady": true,
