@@ -1,6 +1,7 @@
 import "../scripts/cloud-only.mjs";
 import { test, expect } from "@playwright/test";
 import { readFile, mkdir } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
 import { createRecord, createBackup } from "../app/note-core.mjs";
 import Papa from "papaparse";
 import sharp from "sharp";
@@ -67,6 +68,24 @@ test("Notes is a responsive usable workspace with no automatic external requests
   await checkLayout(page);
   expect(errors).toEqual([]);
   expect(outside).toEqual([]);
+});
+
+test("Notes publication links survive self-hosted packaging", async ({ page }) => {
+  await openNotes(page);
+  const bundlePath = "downloads/pocketroute-notes-0.2.0.zip";
+  const bundleUrl = `https://arindamchatterjee0007.github.io/pocketroute-lab/${bundlePath}`;
+  const link = page.getByRole("link", { name: "Product bundle", exact: true });
+  await expect(link).toHaveAttribute("href", bundleUrl);
+  await expect(link).toHaveAttribute("download", "");
+  await expect(page.getByRole("link", { name: "Source", exact: true })).toHaveAttribute("href", "https://github.com/ArindamChatterjee0007/pocketroute-lab");
+  const response = await page.request.get(`/${bundlePath}`);
+  expect(response.status()).toBe(200);
+  const bytes = await response.body();
+  expect(bytes.subarray(0, 4).toString("hex")).toBe("504b0304");
+  expect(bytes).toEqual(await readFile(`dist/${bundlePath}`));
+  const bundledIndex = execFileSync("unzip", ["-p", `dist/${bundlePath}`, "notes/index.html"], { encoding: "utf8" });
+  expect(bundledIndex).toBe(await readFile("dist/notes/index.html", "utf8"));
+  expect(bundledIndex).toContain(`href="${bundleUrl}"`);
 });
 
 test("review-gated create reload edit search and delete complete a real lifecycle", async ({ page }) => {

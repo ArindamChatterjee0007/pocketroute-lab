@@ -16,7 +16,7 @@ The current [publication manifest](https://arindamchatterjee0007.github.io/pocke
 
 ## Device Integration Delivery
 
-The [multi-device manual](ai/DEVICE_INTEGRATION.md) and [portable regression kit](https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-device-test-kit-0.1.0.zip) are available for integrators/testers. Profiles and native adapter interfaces are specified, not implemented mobile/MCU runtimes. The kit separates 96 exposed inputs from expected/reference labels and scores complete recorded reports without inference; parity with the failing reference is not release acceptance.
+The [multi-device manual](ai/DEVICE_INTEGRATION.md) and [portable regression kit](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-device-test-kit-0.1.0.zip) are available for integrators/testers. Profiles and native adapter interfaces are specified, not implemented mobile/MCU runtimes. The kit separates 96 exposed inputs from expected/reference labels and scores complete recorded reports without inference; parity with the failing reference is not release acceptance.
 
 Publication source `96da4a02f99f647c2195ba47465efadaf5007994`, static revision `c998b1fed6737860418b17ba0af247eda85cfe75`: [run 41058560519](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41058560519) passed 41 unit checks, 162 browser results and 12 final snapshots. Cloud-rendered desktop/mobile captures were reviewed. [Live verification 41059650241](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/41059650241) verified 65 hosted-file hashes, the 20-entry experimental SDK and 11-entry regression kit, including rejection of an unfinished template and scorer execution on an explicitly labelled cloud fixture. Four browser configurations preserved the app flows with no page errors or outside requests.
 
@@ -26,12 +26,12 @@ Two earlier live attempts stopped on HTTP 503 responses. A tested, bounded GET r
 
 The original model-backed work is implemented as an **experimental service-classification SDK and CLI**, separate from the rule-only Notes product. It uses pinned Qwen2.5 ONNX weights in an isolated CPU worker, with strict output labels, bounded input/context, explicit model-download consent, cached inference and cancellation that stops the worker. **It is not qualified as a production or low-power mobile AI engine.**
 
-- [Service AI evidence](https://arindamchatterjee007.github.io/pocketroute-lab/#service)
-- [Experimental SDK download](https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-service-ai-0.1.0-experimental.zip)
+- [Service AI evidence](https://arindamchatterjee0007.github.io/pocketroute-lab/#service)
+- [Experimental SDK download](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-service-ai-0.1.0-experimental.zip)
 - [SDK/API instructions](ai/README.md)
 - [Model card and failure analysis](ai/MODEL_CARD.md)
 - [Device integration, build and regression manual](ai/DEVICE_INTEGRATION.md)
-- [Portable device regression kit](https://arindamchatterjee007.github.io/pocketroute-lab/downloads/pocketroute-device-test-kit-0.1.0.zip)
+- [Portable device regression kit](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-device-test-kit-0.1.0.zip)
 
 The integration manual now covers phones, watches, Linux boards and MCU/RTOS targets through device-specific adapters and explicit budgets. The downloadable kit contains frozen synthetic inputs, separate expected/reference outputs, protocol/artifact fingerprints and a dependency-free report validator. It tests parity/regression without executing a model. Native adapters, APK/firmware, physical qualification and production accuracy remain unimplemented/unverified; the current Qwen model is not an MCU candidate. Matching its failing reference is not release acceptance.
 
@@ -88,15 +88,15 @@ Records are unencrypted in the browser's IndexedDB. Browser cleanup can erase th
 | Visual review | Cloud-generated desktop and phone captures inspected; unfocused skip-link painting corrected and retested |
 | Local installs/builds/tests/rendering/model runs | None; all execution occurred on standard GitHub-hosted Linux runners |
 
-The [publication manifest](https://arindamchatterjee007.github.io/pocketroute-lab/publication.json) and [saved live receipt](https://github.com/ArindamChatterjee007/pocketroute-lab/blob/main/data/live-verification.json) are authoritative. Test records and screenshots are synthetic, not customer work. No model was trained or rerun for this product release, and no phone energy measurement was made.
+The [publication manifest](https://arindamchatterjee0007.github.io/pocketroute-lab/publication.json) and [saved live receipt](https://github.com/ArindamChatterjee0007/pocketroute-lab/blob/main/data/live-verification.json) are authoritative. Test records and screenshots are synthetic, not customer work. No model was trained or rerun for this product release, and no phone energy measurement was made.
 
 ## Initial Dashboard Evidence
 
 The following records describe the earlier dashboard release. The product evidence above supersedes its site revision and acceptance counts.
 
-Application source `8c4bcd5d66b00ac24e57c6bb9064ccb48591d61f` passed [GitHub run 40959960119](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40959960119): 15 unit checks, 90 browser test-configuration results and 6 final screenshot checks. The browser matrix covers Chromium at 1440/1920/390/320 and WebKit at 1440/390 CSS pixels. Screenshots, fonts, bitmap assets and the build were generated on GitHub, not the founder's Mac. The hosted [publication manifest](https://arindamchatterjee007.github.io/pocketroute-lab/publication.json) records hashes and provenance.
+Application source `8c4bcd5d66b00ac24e57c6bb9064ccb48591d61f` passed [GitHub run 40959960119](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40959960119): 15 unit checks, 90 browser test-configuration results and 6 final screenshot checks. The browser matrix covers Chromium at 1440/1920/390/320 and WebKit at 1440/390 CSS pixels. Screenshots, fonts, bitmap assets and the build were generated on GitHub, not the founder's Mac. The hosted [publication manifest](https://arindamchatterjee0007.github.io/pocketroute-lab/publication.json) records hashes and provenance.
 
-The existing pretrained SmolLM2 135M probe produced **1/8 exact route labels**, versus **8/8 for a simple rule baseline on the same eight synthetic development cases**. All mismatches are retained. The model step completed in run 40958691635, which later failed on an unrelated icon import; subsequent passing UI runs preserved the model data rather than rerunning inference. This is a negative coordinator result, not a trained new SLM, held-out quality certification or a phone benchmark. [Raw model receipt](https://arindamchatterjee007.github.io/pocketroute-lab/data/slm-results.json).
+The existing pretrained SmolLM2 135M probe produced **1/8 exact route labels**, versus **8/8 for a simple rule baseline on the same eight synthetic development cases**. All mismatches are retained. The model step completed in run 40958691635, which later failed on an unrelated icon import; subsequent passing UI builds preserved the model data rather than rerunning inference. This is a negative coordinator result, not a trained new SLM, held-out quality certification or a phone benchmark. [Raw model receipt](https://arindamchatterjee0007.github.io/pocketroute-lab/data/slm-results.json).
 
 The separate `live` workflow mode verifies a supplied exact source SHA against the hosted manifest, hashes the application assets, and exercises the public URL on GitHub-hosted Chromium and WebKit. [Live run 40960824135](https://github.com/ArindamChatterjee007/pocketroute-lab/actions/runs/40960824135) passed: 13 hosted files matched SHA-256, with all six views and policy/cloud-evidence interactions verified in Chromium at 1440/390/320 and WebKit at 390, with no page errors or outside requests. The [saved live receipt](https://github.com/ArindamChatterjee007/pocketroute-lab/blob/main/data/live-verification.json) records the exact source and execution time. No local build, dependency install, model execution, browser test, renderer or dev server was used.
 

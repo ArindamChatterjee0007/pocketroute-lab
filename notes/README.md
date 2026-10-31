@@ -66,7 +66,9 @@ This project executes installs, builds, tests and packaging through its standard
 
 The cloud build produces the static app, offline shell, standalone core and `pocketroute-notes-0.2.0.zip`, including Apache and third-party notices. Static self-hosting requires HTTPS or localhost for service workers and Web Crypto. Open `/notes/`; no database server, API key, npm installation or model download is needed by the end user. Core SDK use does not depend on the CI guard.
 
-All release evidence must state the actual source revision. Unit and browser tests include storage conflicts, review gating, malicious text/CSV handling, backup/recovery, offline reload and responsive layouts. A web-browser test is not a real-phone energy benchmark.
+The footer's [Product bundle](https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-notes-0.2.0.zip) link intentionally targets the maintained public download, including in self-hosted copies: the ZIP does not contain another copy of itself. The old personal-account Pages URL does not redirect. Opening this link is an explicit external download on a self-hosted installation; ordinary note processing remains local.
+
+All release evidence must state the actual source revision. Unit and browser tests include maintained publication links, self-hosted bundle contents, storage conflicts, review gating, malicious text/CSV handling, backup/recovery, offline reload and responsive layouts. Live verification clicks the Notes product download and compares its SHA-256 with the verified release bundle. A web-browser test is not a real-phone energy benchmark.
 
 ## Release Limits
 

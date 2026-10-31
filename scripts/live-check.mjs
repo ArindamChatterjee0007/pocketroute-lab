@@ -157,6 +157,14 @@ for (const configuration of configurations) {
     await expect(page.getByRole("heading", { level: 1, name: "Field-note workbench" })).toBeVisible();
     await expect(page.locator("body")).toHaveAttribute("data-storage", "ready");
     await expect(page.locator("body")).toHaveAttribute("data-offline-ready", "true");
+    const productLink = page.getByRole("link", { name: "Product bundle", exact: true });
+    await expect(productLink).toHaveAttribute("href", `${base}downloads/pocketroute-notes-0.2.0.zip`);
+    await expect(page.getByRole("link", { name: "Source", exact: true })).toHaveAttribute("href", `https://github.com/${repository}`);
+    const [productDownload] = await Promise.all([page.waitForEvent("download"), productLink.click()]);
+    assert.equal(await productDownload.failure(), null);
+    assert.equal(productDownload.suggestedFilename(), "pocketroute-notes-0.2.0.zip");
+    const productBytes = await readFile(await productDownload.path());
+    assert.equal(createHash("sha256").update(productBytes).digest("hex"), createHash("sha256").update(bundleBytes).digest("hex"), "Notes footer download does not match the verified release bundle.");
     const sdk = await page.evaluate(async () => {
       const core = await import("../downloads/pocketroute-core.mjs");
       const result = core.analyzeNote("Site: Cloud-check\nDate: 2026-10-29\nTwo filters need replacement.");
@@ -189,7 +197,7 @@ for (const configuration of configurations) {
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, "Notes overflow");
     assert.deepEqual(errors, []);
     assert.deepEqual(outsideRequests, []);
-    results.push({ ...configuration, views: 8, policyPreview: "passed", recordedModelCases: 8, aiServiceEvidence: "passed; failed quality gate visible", notesLifecycle: "passed", offlineReload: "passed", standaloneSdk: "passed", privateBackup: "passed", confirmedLocalDeletion: "passed", outsideRequests: 0, pageErrors: 0, status: "passed" });
+    results.push({ ...configuration, views: 8, policyPreview: "passed", recordedModelCases: 8, aiServiceEvidence: "passed; failed quality gate visible", notesLifecycle: "passed", productBundleDownload: "passed; SHA-256 matches verified release bundle", offlineReload: "passed", standaloneSdk: "passed", privateBackup: "passed", confirmedLocalDeletion: "passed", outsideRequests: 0, pageErrors: 0, status: "passed" });
   } finally { await browser.close(); }
 }
 const receipt = { schemaVersion: 1, status: "passed", checkedAt: new Date().toISOString(), url: base, productUrl: `${base}notes/`, sourceSha: expectedSource, runUrl: `https://github.com/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`, artifactFilesVerified: assets.length, artifactHashAlgorithm: "SHA-256", bundleIntegrity: "passed", bundleEntries: bundleEntries.length, experimentalAiSdkBundle: { integrity: "passed", entries: aiEntries.length, weightsBundled: false, modelQualityAccepted: false }, configurations: results, modelRerun: false, phoneBenchmark: false, energyJoules: null, localBuildsOrTests: 0 };

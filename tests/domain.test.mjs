@@ -43,6 +43,15 @@ test("public project catalog contains technical work, not operational or financi
   assert.deepEqual(units.map(unit => unit.href), ["./notes/", "#service", "#lab"]);
 });
 
+test("current Notes links and manuals use the maintained publication", () => {
+  for (const path of ["README.md", "notes/README.md", "notes/index.html", "notes/guide.html", "ai/README.md", "ai/DEVICE_INTEGRATION.md"]) {
+    assert.doesNotMatch(readFileSync(new URL(`../${path}`, import.meta.url), "utf8"), /https?:\/\/arindamchatterjee007\.github\.io\/pocketroute-lab\b/i, path);
+  }
+  const notes = readFileSync(new URL("../notes/index.html", import.meta.url), "utf8");
+  assert.ok(notes.includes('href="https://arindamchatterjee0007.github.io/pocketroute-lab/downloads/pocketroute-notes-0.2.0.zip"'));
+  assert.ok(notes.includes('href="https://github.com/ArindamChatterjee0007/pocketroute-lab"'));
+});
+
 test("print document blocks preserve steps, table rows, code and safe source text", () => {
   const source = "# Cover\n\n## Install\n\n5. Keep the pinned file.\n6. Verify its digest.\n\n| Device | State |\n| --- | --- |\n| Phone | unqualified |\n| Board | unqualified |\n| Watch | unqualified |\n| MCU | unqualified |\n| Other | unavailable |\n\n```sh\nnode validate-device-report.mjs reference.json report.json parity\n```\n\n<script>alert(1)</script>\n\n[Reference](https://example.invalid/manual)";
   const document = documentBlocks([{ text: source }]);
