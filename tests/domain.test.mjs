@@ -505,7 +505,7 @@ test("HTML escaping preserves text without executable markup", () => {
 
 test("task filters compose and never mutate canonical tasks", () => {
   const original = structuredClone(tasks);
-  assert.deepEqual(filterTasks(tasks, { status: "done" }).map(task => task.id), ["B03-001", "B03-002", "B03-003", "B03-010", "B03-012"]);
+  assert.deepEqual(filterTasks(tasks, { status: "done" }).map(task => task.id), ["B03-001", "B03-002", "B03-003", "B03-010", "B03-012", "B03-013"]);
   assert.equal(filterTasks(tasks, { query: "native", status: "blocked", unit: "b03" })[0].id, "B03-006");
   assert.deepEqual(filterTasks(tasks, { unit: "b01" }).map(task => task.id), ["B03-012"]);
   assert.deepEqual(tasks, original);
@@ -541,7 +541,7 @@ test("dashboard source omits financial widgets and preserves valid JavaScript", 
 });
 
 test("public source data has stable unique IDs", () => {
-  assert.equal(new Set(tasks.map(task => task.id)).size, 12);
+  assert.equal(new Set(tasks.map(task => task.id)).size, 13);
   assert.equal(new Set(sources.map(source => source.id)).size, 19);
   assert.equal(units.length, 3);
   assert.equal(tasks.filter(task => task.status === "blocked").length, 6);

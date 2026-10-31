@@ -82,7 +82,7 @@ test("navigation works with keyboard and a closed mobile drawer", async ({ page 
 test("task filters, detail dialog and personal notes persist safely", async ({ page }) => {
   await openView(page, "execution");
   await page.getByLabel("Filter tasks by status").selectOption("done");
-  await expect(page.locator(".task-card")).toHaveCount(5);
+  await expect(page.locator(".task-card")).toHaveCount(6);
   await page.locator('[data-task="B03-001"]').click();
   await expect(page.getByRole("dialog")).toBeVisible();
   const note = 'Synthetic personal note <img src=x onerror="window.noteExecuted=true">';
@@ -147,7 +147,9 @@ test("export is a real public JSON download without personal notes", async ({ pa
   const file = await download.path();
   const data = JSON.parse(await readFile(file, "utf8"));
   expect(data.privateCustomerDataIncluded).toBe(false);
-  expect(data.tasks).toHaveLength(12);
+  expect(data.tasks).toHaveLength(13);
+  expect(data.androidVm.verification.executionKind).toBe("simulator");
+  expect(data.androidVm.verification.productionReady).toBe(false);
   expect(data.projects).toHaveLength(3);
   expect(data.units).toBeUndefined();
   expect(data.scope).toBe("technical-work-only");
