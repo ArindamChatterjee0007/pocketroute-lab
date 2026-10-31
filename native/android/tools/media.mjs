@@ -102,6 +102,8 @@ await tap("request");
 adb(["shell", "input", "text", "The%sworkshop%spump%sstopped%srunning.%sPlease%ssend%ssomeone%sto%sfix%sit."]);
 if (/mInputShown=true/.test(adb(["shell", "dumpsys", "input_method"]))) adb(["shell", "input", "keyevent", "KEYCODE_BACK"]);
 await tap("classify");
+// Do not compete with the model's deadline by repeatedly starting UIAutomator.
+await pause(21000);
 await visible("result");
 const resultText = await waitText("result", "Suggestion:", 25000);
 images.push(await capture("android-vm-result.png", "result", "Suggestion:"));
