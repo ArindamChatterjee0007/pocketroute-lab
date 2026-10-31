@@ -18,6 +18,8 @@ native/android/
     prepare.mjs              Pinned artifact verification and golden fixtures
     run-vm.mjs               Explicit emulator selection, execution and receipts
     package.mjs              APK signing, weight exclusion and artifact hashes
+    media.mjs                High-resolution captures of the unchanged release APK
+    emulator.mjs             Shared physical-target rejection and model provisioning
   out/                       Cloud-generated handover; never model weights
 ```
 
@@ -31,6 +33,8 @@ Use the existing **PocketRoute cloud build and experiment** workflow:
 2. Review and commit the generated wrapper/verification/lock files without adding model files or a debug keystore.
 3. `android` replays dependency verification strictly, then runs the Android API 36 x86_64 emulator with 8 GiB configured RAM and two cores. No cache, paid runner, device lab or local build is required or authorized.
 4. Inspect the actual run conclusion and all native receipts. A green bootstrap is not a green VM run. A completed VM run is not physical-device qualification.
+
+`android-media` captures the exact SHA-256-pinned, already verified release APK on a high-resolution emulator. It performs one additional synthetic UI request, not another 96-case quality run, and records the app source separately from the capture-tool source. Its summary graphic labels the failed quality gate and emulator-only evidence.
 
 The native job is read-only with respect to repository contents. It does not publish the website, overwrite the frozen Node model receipt or submit an external post. GitHub artifact retention is seven days; copy the approved handover into the maintained delivery folder before those temporary downloads expire.
 

@@ -2,8 +2,9 @@ import "../../../scripts/cloud-only.mjs";
 import { mkdir, writeFile } from "node:fs/promises";
 
 if (!["success", "failure", "cancelled"].includes(process.env.NATIVE_JOB_STATUS)) throw new Error("An explicit GitHub job outcome is required.");
-await mkdir("native/android/out", { recursive: true });
-await writeFile("native/android/out/job-outcome.json", JSON.stringify({
+const directory = process.env.NATIVE_MODE === "android-media" ? "native/android/out/media" : "native/android/out";
+await mkdir(directory, { recursive: true });
+await writeFile(`${directory}/job-outcome.json`, JSON.stringify({
   schemaVersion: 1,
   jobStatus: process.env.NATIVE_JOB_STATUS,
   mode: process.env.NATIVE_MODE,

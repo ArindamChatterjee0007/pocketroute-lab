@@ -27,6 +27,14 @@ import { createDeviceReference, evaluateDeviceReport } from "../ai/device-report
 import { fetchEvidence } from "../scripts/evidence-fetch.mjs";
 import { documentBlocks } from "../scripts/pdf-content.mjs";
 import { assertPublicPath, assertPublicContent, retiredPublicPaths } from "../scripts/public-content.mjs";
+import { selectEmulator } from "../native/android/tools/emulator.mjs";
+
+test("native VM tools reject physical, offline and ambiguous ADB targets", () => {
+  assert.equal(selectEmulator("List of devices attached\nemulator-5554\tdevice\n"), "emulator-5554");
+  for (const inventory of ["", "unexpected\nemulator-5554\tdevice", "List of devices attached\n", "List of devices attached\nphone-serial\tdevice", "List of devices attached\nemulator-5554\toffline", "List of devices attached\nemulator-5554\tdevice\nphone-serial\tdevice", "List of devices attached\nemulator-5554\tdevice\nemulator-5556\tdevice"]) {
+    assert.throws(() => selectEmulator(inventory));
+  }
+});
 
 test("publication boundary rejects financial planning and private paths", () => {
   for (const text of ["Pilot price / INR", "Contribution margin", "Revenue", "Three business units", "Funded pilot"]) assert.throws(() => assertPublicContent(text));
