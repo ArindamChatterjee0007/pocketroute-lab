@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public final class MainActivity extends Activity {
         status = findViewById(R.id.status);
         result = findViewById(R.id.result);
         request = findViewById(R.id.request);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) findViewById(R.id.screen_title).setAccessibilityHeading(true);
         try {
             client = new InferenceClient(this, this::event);
         } catch (IOException | JSONException | IllegalArgumentException error) {

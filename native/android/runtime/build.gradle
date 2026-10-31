@@ -21,9 +21,9 @@ def extractOnnx = tasks.register("extractOnnx", Copy) {
 
 android {
     namespace "dev.pocketroute.runtime"
-    compileSdk 35
-    buildToolsVersion "35.0.0"
-    ndkVersion "27.0.12077973"
+    compileSdk 37
+    buildToolsVersion "36.0.0"
+    ndkVersion "28.2.13676358"
 
     defaultConfig {
         minSdk 26

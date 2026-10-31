@@ -16,10 +16,10 @@
             android:textColor="#A0F1C8"
             android:textSize="16sp" />
         <TextView
+            android:id="@+id/screen_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:accessibilityHeading="true"
             android:text="@string/title"
             android:textSize="28sp" />
         <TextView
@@ -63,7 +63,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="top|start"
-            android:hint="@string/request_hint"
             android:importantForAutofill="no"
             android:inputType="textMultiLine|textNoSuggestions"
             android:minLines="4" />

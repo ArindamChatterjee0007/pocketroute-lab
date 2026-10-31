@@ -29,12 +29,12 @@ Use the existing **PocketRoute cloud build and experiment** workflow:
 
 1. `android-prepare` bootstraps the Gradle wrapper, SHA-256 verification metadata and dependency locks, and runs JVM contract checks, lint and APK/AAR builds. This mode does not execute Android inference.
 2. Review and commit the generated wrapper/verification/lock files without adding model files or a debug keystore.
-3. `android` replays dependency verification strictly, then runs the Android API 35 x86_64 emulator with 8 GiB configured RAM and two cores. No cache, paid runner, device lab or local build is required or authorized.
+3. `android` replays dependency verification strictly, then runs the Android API 37 x86_64 emulator with 8 GiB configured RAM and two cores. No cache, paid runner, device lab or local build is required or authorized.
 4. Inspect the actual run conclusion and all native receipts. A green bootstrap is not a green VM run. A completed VM run is not physical-device qualification.
 
 The native job is read-only with respect to repository contents. It does not publish the website, overwrite the frozen Node model receipt or submit an external post. GitHub artifact retention is seven days; copy the approved handover into the maintained delivery folder before those temporary downloads expire.
 
-JDK 17, Gradle 8.11.1, AGP 8.9.2, SDK/build tools 35, NDK 27.0.12077973, CMake 3.22.1 and ONNX Runtime Android 1.31.1 are pinned. The ONNX AAR supplies its native headers and libraries. Both x86_64 and arm64-v8a binaries are built; only the emulator ABI is exercised by this workflow.
+JDK 17, Gradle 9.6.0, AGP 9.4.1, SDK 37, build tools 36.0.0, NDK 28.2.13676358, CMake 3.22.1 and ONNX Runtime Android 1.31.1 are pinned. The ONNX AAR supplies its native headers and libraries. Both x86_64 and arm64-v8a binaries are built; only the emulator ABI is exercised by this workflow.
 
 ## Install And Import Model Files
 

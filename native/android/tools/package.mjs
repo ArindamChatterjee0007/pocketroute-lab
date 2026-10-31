@@ -17,7 +17,7 @@ function execute(program, args) {
   if (result.error || result.status !== 0) throw new Error(`Artifact check failed: ${program}; ${(result.stderr || "").slice(-1200)}`);
   return result.stdout;
 }
-const signer = execute(join(process.env.ANDROID_HOME, "build-tools/35.0.0/apksigner"), ["verify", "--verbose", "--print-certs", apk]);
+const signer = execute(join(process.env.ANDROID_HOME, "build-tools/36.0.0/apksigner"), ["verify", "--verbose", "--print-certs", apk]);
 const certificateSha256 = /Signer #1 certificate SHA-256 digest: ([a-f0-9]{64})/i.exec(signer)?.[1]?.toLowerCase();
 if (!certificateSha256) throw new Error("A verified APK signer fingerprint is required.");
 await writeFile(join(out, "apk-signature.txt"), signer);
@@ -66,11 +66,11 @@ const receipt = {
   schemaVersion: 1, status: mode === "android" ? "vm-tested-experimental-artifacts" : "build-only-bootstrap",
   sourceSha: process.env.GITHUB_SHA, checkedAt: new Date().toISOString(),
   runUrl: `https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`,
-  toolchain: { jdk: 17, gradle: "8.11.1", agp: "8.9.2", compileSdk: 35, buildTools: "35.0.0", ndk: "27.0.12077973", cmake: "3.22.1", onnxRuntimeAndroid: "1.31.1" },
+  toolchain: { jdk: 17, gradle: "9.6.0", agp: "9.4.1", compileSdk: 37, buildTools: "36.0.0", ndk: "28.2.13676358", cmake: "3.22.1", onnxRuntimeAndroid: "1.31.1" },
   jvmTests: number("tests"), goldenVectors: preparation.goldenVectors, modelFiles: preparation.files,
   artifacts, apkCertificateSha256: certificateSha256, signing: "Ephemeral debug certificate; not production signing or a stable upgrade key.",
   dependencyVerification: mode === "android" ? "strict, committed SHA-256 metadata and dependency locks" : "bootstrap metadata generated; strict replay still required",
-  execution: { x86_64: mode === "android" ? "Android API 35 emulator" : "not executed", arm64_v8a: "built only; not executed" },
+  execution: { x86_64: mode === "android" ? "Android API 37 emulator" : "not executed", arm64_v8a: "built only; not executed" },
   modelWeightsBundled: false, privateKeysBundled: false, productionReady: false, physicalDeviceValidated: false,
 };
 await writeFile(join(out, "build-manifest.json"), JSON.stringify(receipt, null, 2));

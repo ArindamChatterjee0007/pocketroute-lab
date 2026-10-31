@@ -17,6 +17,8 @@ const devices = execute("adb", ["devices"]).split(/\r?\n/).filter(line => /^emul
 if (devices.length !== 1) throw new Error("Exactly one GitHub-created Android emulator is required; physical/ambiguous targets are rejected.");
 const serial = devices[0];
 const adb = args => execute("adb", ["-s", serial, ...args]);
+const apiLevel = Number(adb(["shell", "getprop", "ro.build.version.sdk"]).trim());
+if (apiLevel !== 37) throw new Error("The pinned Android API 37 emulator is required.");
 adb(["install", join(root, "app/build/outputs/apk/debug/app-debug.apk")]);
 adb(["shell", "svc", "wifi", "disable"]);
 adb(["shell", "svc", "data", "disable"]);
@@ -57,7 +59,7 @@ const receipt = {
   schemaVersion: 1, status: "software-checks-passed", sourceSha: process.env.GITHUB_SHA,
   runUrl: `https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`,
   checkedAt: new Date().toISOString(), executionKind: "simulator", emulatorSerial: serial,
-  apiLevel: 35, architecture: "x86_64", configuredRamMiB: 8192, exposedRegressionCases: report.cases.length,
+  apiLevel, architecture: "x86_64", configuredRamMiB: 8192, exposedRegressionCases: report.cases.length,
   actualNativeModelCalls: report.cases.filter(entry => entry.result?.modelExecuted === true).length,
   parity: assessment.parity, nonRegression: assessment.nonRegression,
   syntheticQualityScreen: assessment.syntheticQualityScreen,
