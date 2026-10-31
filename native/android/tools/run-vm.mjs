@@ -18,7 +18,7 @@ if (devices.length !== 1) throw new Error("Exactly one GitHub-created Android em
 const serial = devices[0];
 const adb = args => execute("adb", ["-s", serial, ...args]);
 const apiLevel = Number(adb(["shell", "getprop", "ro.build.version.sdk"]).trim());
-if (apiLevel !== 37) throw new Error("The pinned Android API 37 emulator is required.");
+if (apiLevel !== 36) throw new Error("The pinned Android API 36 emulator is required.");
 adb(["install", join(root, "app/build/outputs/apk/debug/app-debug.apk")]);
 adb(["shell", "svc", "wifi", "disable"]);
 adb(["shell", "svc", "data", "disable"]);

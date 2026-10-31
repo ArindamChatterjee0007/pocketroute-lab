@@ -66,11 +66,11 @@ const receipt = {
   schemaVersion: 1, status: mode === "android" ? "vm-tested-experimental-artifacts" : "build-only-bootstrap",
   sourceSha: process.env.GITHUB_SHA, checkedAt: new Date().toISOString(),
   runUrl: `https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`,
-  toolchain: { jdk: 17, gradle: "9.6.0", agp: "9.4.1", compileSdk: 37, buildTools: "36.0.0", ndk: "28.2.13676358", cmake: "3.22.1", onnxRuntimeAndroid: "1.31.1" },
+  toolchain: { jdk: 17, gradle: "9.6.0", agp: "9.4.1", compileSdk: 36, buildTools: "36.0.0", ndk: "28.2.13676358", cmake: "3.22.1", onnxRuntimeAndroid: "1.31.1" },
   jvmTests: number("tests"), goldenVectors: preparation.goldenVectors, modelFiles: preparation.files,
   artifacts, apkCertificateSha256: certificateSha256, signing: "Ephemeral debug certificate; not production signing or a stable upgrade key.",
   dependencyVerification: mode === "android" ? "strict, committed SHA-256 metadata and dependency locks" : "bootstrap metadata generated; strict replay still required",
-  execution: { x86_64: mode === "android" ? "Android API 37 emulator" : "not executed", arm64_v8a: "built only; not executed" },
+  execution: { x86_64: mode === "android" ? "Android API 36 emulator" : "not executed", arm64_v8a: "built only; not executed" },
   modelWeightsBundled: false, privateKeysBundled: false, productionReady: false, physicalDeviceValidated: false,
 };
 await writeFile(join(out, "build-manifest.json"), JSON.stringify(receipt, null, 2));

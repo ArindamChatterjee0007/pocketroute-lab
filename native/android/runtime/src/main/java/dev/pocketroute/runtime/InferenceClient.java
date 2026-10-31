@@ -140,6 +140,7 @@ public final class InferenceClient implements Closeable {
         Bundle data = new Bundle();
         data.putString("action", action);
         data.putString("id", pendingId);
+        data.putInt("generation", generation);
         if (text != null) data.putString("text", text);
         message.setData(data);
         message.replyTo = replies;
@@ -149,6 +150,7 @@ public final class InferenceClient implements Closeable {
     private boolean receive(Message message) {
         if (state == State.STOPPING || state == State.FAILED || pendingId == null) return true;
         Bundle data = message.getData();
+        if (data.getInt("generation", -1) != generation) return true;
         if (!pendingId.equals(data.getString("id"))) return true;
         String raw = data.getString("result");
         try {

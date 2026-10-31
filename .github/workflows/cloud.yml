@@ -76,7 +76,7 @@ jobs:
           cmdline-tools-version: '12266719'
           packages: platform-tools
       - name: Install pinned Android build components
-        run: sdkmanager 'platforms;android-37' 'build-tools;36.0.0' 'ndk;28.2.13676358' 'cmake;3.22.1'
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0' 'ndk;28.2.13676358' 'cmake;3.22.1'
       - name: Install locked JavaScript tooling
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify pinned model artifacts and generate cross-runtime fixtures
@@ -104,7 +104,7 @@ jobs:
         if: ${{ inputs.mode == 'android' }}
         uses: ReactiveCircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d
         with:
-          api-level: 37
+          api-level: 36
           target: google_apis
           arch: x86_64
           cores: 2
@@ -116,6 +116,11 @@ jobs:
           script: node native/android/tools/run-vm.mjs
       - name: Verify artifact signing and inventory
         run: node native/android/tools/package.mjs
+      - name: Record native job outcome, including early failures
+        if: ${{ always() }}
+        env:
+          NATIVE_JOB_STATUS: ${{ job.status }}
+        run: node native/android/tools/outcome.mjs
       - name: Preserve native diagnostics and weight-free artifacts
         if: ${{ always() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

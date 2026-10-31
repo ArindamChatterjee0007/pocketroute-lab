@@ -37,26 +37,27 @@ public final class InferenceService extends Service {
         Bundle request = message.getData();
         String action = request.getString("action", "");
         String id = request.getString("id", "");
+        int generation = request.getInt("generation", -1);
         Messenger reply = message.replyTo;
         if (action.equals("hello")) {
             if (owner != null && !owner.equals(reply.getBinder())) {
-                send(reply, id, event("error", "Another client owns the inference worker."));
+                send(reply, id, generation, event("error", "Another client owns the inference worker."));
                 return true;
             }
             owner = reply.getBinder();
-            send(reply, id, event("connected", null));
+            send(reply, id, generation, event("connected", null));
             return true;
         }
         if (owner == null || !owner.equals(reply.getBinder())) {
-            send(reply, id, event("error", "The client does not own this worker."));
+            send(reply, id, generation, event("error", "The client does not own this worker."));
             return true;
         }
         if (!action.equals("load") && !action.equals("classify")) {
-            send(reply, id, event("error", "Unsupported worker operation."));
+            send(reply, id, generation, event("error", "Unsupported worker operation."));
             return true;
         }
         if (!busy.compareAndSet(false, true)) {
-            send(reply, id, event("error", "The classifier is busy; requests are not queued."));
+            send(reply, id, generation, event("error", "The classifier is busy; requests are not queued."));
             return true;
         }
         String text = request.getString("text");
@@ -72,13 +73,13 @@ public final class InferenceService extends Service {
                     result = engine.classify(id, text);
                 }
                 busy.set(false);
-                send(reply, id, result);
+                send(reply, id, generation, result);
             } catch (IOException | JSONException | IllegalArgumentException | IllegalStateException error) {
                 busy.set(false);
-                send(reply, id, event("error", error.getClass().getSimpleName() + ": " + safeMessage(error.getMessage())));
+                send(reply, id, generation, event("error", error.getClass().getSimpleName() + ": " + safeMessage(error.getMessage())));
             } catch (LinkageError error) {
                 busy.set(false);
-                send(reply, id, event("error", "The native runtime is unavailable for this ABI: " + error.getClass().getSimpleName()));
+                send(reply, id, generation, event("error", "The native runtime is unavailable for this ABI: " + error.getClass().getSimpleName()));
             }
         });
         return true;
@@ -101,10 +102,11 @@ public final class InferenceService extends Service {
         }
     }
 
-    private static void send(Messenger recipient, String id, JSONObject result) {
+    private static void send(Messenger recipient, String id, int generation, JSONObject result) {
         Message response = Message.obtain();
         Bundle data = new Bundle();
         data.putString("id", id);
+        data.putInt("generation", generation);
         data.putString("result", result.toString());
         response.setData(data);
         try {
