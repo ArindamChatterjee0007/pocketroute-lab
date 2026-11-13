@@ -109,6 +109,33 @@ def job_outcome(receipt: dict[str, Any], status: str, receipt_existed: bool) -> 
     return receipt
 
 
+def adapter_card(source_sha: str) -> str:
+        return f"""---
+base_model: {BASE_MODEL}
+library_name: peft
+license: apache-2.0
+tags:
+    - lora
+    - experimental
+---
+
+# PocketRoute Experimental Routing Adapter
+
+This is a bounded CPU adaptation smoke, not a qualified orchestrator, coding specialist or phone-ready model.
+
+- Base: `{BASE_MODEL}` at revision `{BASE_REVISION}`.
+- Training implementation source: `{source_sha}`.
+- Protocol: rank-four q/v LoRA, eight updates and eight original synthetic training examples.
+- Evaluation: eight exposed development examples; no independent quality or generalization claim.
+- The base weights are frozen and are not included. Load this adapter only with the pinned compatible base.
+- Every suggested route requires human review. No specialist worker or generated code is executed.
+- Read the accompanying `receipt.json` for actual update, reload, prediction and failure evidence. This card does not assert that a run passed.
+- No distillation, merging, mobile quantization, physical-phone test or energy measurement is established.
+
+Retain `LICENSE-QWEN`, the base revision, adapter hashes and the receipt when transferring this research artifact.
+"""
+
+
 def score(examples: list[dict[str, Any]], predictions: list[dict[str, Any]]) -> dict[str, Any]:
     expected = {example["id"]: example for example in examples}
     if len(predictions) != len(expected) or {prediction["id"] for prediction in predictions} != set(expected):
@@ -270,7 +297,9 @@ def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: 
     adapter_directory = destination / "adapter"
     model.peft_config["default"].base_model_name_or_path = BASE_MODEL
     model.peft_config["default"].revision = BASE_REVISION
+    model.config._name_or_path = BASE_MODEL
     model.save_pretrained(str(adapter_directory), safe_serialization=True, save_embedding_layers=False)
+    (adapter_directory / "README.md").write_text(adapter_card(receipt["sourceSha"]), encoding="utf-8")
     del optimizer, trainable, model
     gc.collect()
     model = PeftModel.from_pretrained(load_base(), str(adapter_directory), is_trainable=False, local_files_only=True)

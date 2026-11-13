@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 import unittest
 
-from train import chat_tokens, completion_labels, job_outcome, require_cloud, score, validate_fixture
+from train import BASE_MODEL, BASE_REVISION, adapter_card, chat_tokens, completion_labels, job_outcome, require_cloud, score, validate_fixture
 
 
 class TrainingContractTests(unittest.TestCase):
@@ -38,6 +38,15 @@ class TrainingContractTests(unittest.TestCase):
         self.assertEqual(len(receipt["steps"]), 1)
         early = job_outcome({"status": "started", "phase": "preflight"}, "failure", False)
         self.assertEqual(early["status"], "failed-before-training")
+
+    def test_adapter_card_has_portable_identity_and_limits(self) -> None:
+        card = adapter_card("a" * 40)
+        self.assertIn(f"base_model: {BASE_MODEL}", card)
+        self.assertIn(BASE_REVISION, card)
+        self.assertIn("not a qualified orchestrator", card)
+        self.assertIn("does not assert that a run passed", card)
+        self.assertNotIn("/home/runner", card)
+        self.assertNotIn("[More Information Needed]", card)
 
     def test_template_mismatch_and_truncation_rejected(self) -> None:
         for prompt, complete, maximum in [([1], [2, 3], 8), ([1], [1], 8), ([1], [1, 2, 3], 2), ([], [1, 2], 8)]:

@@ -1,0 +1,508 @@
+{
+  "schemaVersion": 1,
+  "status": "adaptation-smoke-passed",
+  "phase": "completed",
+  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/43505603555",
+  "sourceSha": "84d1cfbe795bb12b9948e3e3cbd2e1f998bd6e79",
+  "baseModel": "Qwen/Qwen2.5-0.5B-Instruct",
+  "baseRevision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "fixtureSha256": "63680dd805bc8ad65a1d310edac2b470344668e6926d7e920ee60a0b23c4ed24",
+  "implementationSha256": "92d4e352d9b3409bd4503a8e38bc505d8f2d0b5f17ea0ba466cc3858c98a6aae",
+  "scope": "CPU adapter plumbing and exposed development comparison; not distillation or a qualified specialist",
+  "steps": [
+    {
+      "step": 1,
+      "exampleId": "train-001",
+      "loss": 0.29930704832077026,
+      "gradientNorm": 10.229194641113281,
+      "elapsedMs": 1000
+    },
+    {
+      "step": 2,
+      "exampleId": "train-002",
+      "loss": 0.35174110531806946,
+      "gradientNorm": 8.793181419372559,
+      "elapsedMs": 939
+    },
+    {
+      "step": 3,
+      "exampleId": "train-003",
+      "loss": 0.6269504427909851,
+      "gradientNorm": 12.160858154296875,
+      "elapsedMs": 972
+    },
+    {
+      "step": 4,
+      "exampleId": "train-004",
+      "loss": 0.41770800948143005,
+      "gradientNorm": 9.530384063720703,
+      "elapsedMs": 947
+    },
+    {
+      "step": 5,
+      "exampleId": "train-005",
+      "loss": 0.023669304326176643,
+      "gradientNorm": 0.9319833517074585,
+      "elapsedMs": 969
+    },
+    {
+      "step": 6,
+      "exampleId": "train-006",
+      "loss": 0.7023795247077942,
+      "gradientNorm": 17.270286560058594,
+      "elapsedMs": 955
+    },
+    {
+      "step": 7,
+      "exampleId": "train-007",
+      "loss": 1.2631796598434448,
+      "gradientNorm": 20.792055130004883,
+      "elapsedMs": 922
+    },
+    {
+      "step": 8,
+      "exampleId": "train-008",
+      "loss": 3.0937201976776123,
+      "gradientNorm": 17.175527572631836,
+      "elapsedMs": 941
+    }
+  ],
+  "productionReady": false,
+  "phoneValidated": false,
+  "specialistsQualified": 0,
+  "distillationPerformed": false,
+  "localBuildsOrTests": 0,
+  "updatedAt": "2026-11-13T20:54:34Z",
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+    "versions": {
+      "torch": "2.15.0+cpu",
+      "transformers": "5.23.0",
+      "peft": "0.21.3",
+      "accelerate": "1.15.0",
+      "safetensors": "0.8.0",
+      "huggingface-hub": "2.4.0"
+    },
+    "cudaBuild": null
+  },
+  "modelFiles": {
+    "model.safetensors": {
+      "sha256": "fdf756fa7fcbe7404d5c60e26bff1a0c8b8aa1f72ced49e7dd0210fe288fb7fe",
+      "bytes": 988097824
+    },
+    "config.json": {
+      "sha256": "18e18afcaccafade98daf13a54092927904649e1dd4eba8299ab717d5d94ff45",
+      "bytes": 659
+    },
+    "tokenizer_config.json": {
+      "sha256": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583",
+      "bytes": 7305
+    },
+    "tokenizer.json": {
+      "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "bytes": 7031645
+    },
+    "LICENSE": {
+      "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+      "bytes": 11343
+    }
+  },
+  "baseline": [
+    {
+      "id": "dev-001",
+      "expected": "A",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        27.86475944519043,
+        28.08553695678711,
+        27.139877319335938,
+        22.72243881225586
+      ],
+      "elapsedMs": 470
+    },
+    {
+      "id": "dev-002",
+      "expected": "A",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        24.78256607055664,
+        26.269912719726562,
+        26.385143280029297,
+        23.510818481445312
+      ],
+      "elapsedMs": 475
+    },
+    {
+      "id": "dev-003",
+      "expected": "B",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        25.234392166137695,
+        26.197675704956055,
+        26.340564727783203,
+        23.390480041503906
+      ],
+      "elapsedMs": 477
+    },
+    {
+      "id": "dev-004",
+      "expected": "B",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        26.32308578491211,
+        27.53733253479004,
+        27.681528091430664,
+        22.12799644470215
+      ],
+      "elapsedMs": 452
+    },
+    {
+      "id": "dev-005",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        24.674163818359375,
+        25.24630355834961,
+        25.725914001464844,
+        21.62319564819336
+      ],
+      "elapsedMs": 453
+    },
+    {
+      "id": "dev-006",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        24.053157806396484,
+        25.49203109741211,
+        26.888090133666992,
+        23.027931213378906
+      ],
+      "elapsedMs": 466
+    },
+    {
+      "id": "dev-007",
+      "expected": "D",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        26.736391067504883,
+        26.9403076171875,
+        25.6299991607666,
+        23.840900421142578
+      ],
+      "elapsedMs": 453
+    },
+    {
+      "id": "dev-008",
+      "expected": "D",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        25.82500457763672,
+        26.352867126464844,
+        24.747262954711914,
+        21.80294418334961
+      ],
+      "elapsedMs": 484
+    }
+  ],
+  "zeroAdapterParity": true,
+  "trainableParameters": 270336,
+  "weights": {
+    "adapterBefore": "e673346c121dbfb403b6e1a8157d35c8ee672b4f4da34abf4434f18cff3e1522",
+    "adapterAfter": "ec04efbcb0e980133d84343da59efdaddaa9d9ed7db9b13442130da41f8e323a",
+    "frozenBaseBefore": "61d18c9f3f74c524d94dbdc9bd0d124ee22979f0fea5ce5e591b4424dfe027e4",
+    "frozenBaseAfter": "61d18c9f3f74c524d94dbdc9bd0d124ee22979f0fea5ce5e591b4424dfe027e4",
+    "adapterChanged": true,
+    "baseUnchanged": true
+  },
+  "adapted": [
+    {
+      "id": "dev-001",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        29.479978561401367,
+        28.49295425415039,
+        27.019908905029297,
+        23.156593322753906
+      ],
+      "elapsedMs": 454
+    },
+    {
+      "id": "dev-002",
+      "expected": "A",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        26.479963302612305,
+        26.935665130615234,
+        26.707754135131836,
+        24.328327178955078
+      ],
+      "elapsedMs": 462
+    },
+    {
+      "id": "dev-003",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        26.67303466796875,
+        26.654685974121094,
+        26.442901611328125,
+        23.900279998779297
+      ],
+      "elapsedMs": 467
+    },
+    {
+      "id": "dev-004",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        27.862579345703125,
+        28.024377822875977,
+        27.689477920532227,
+        22.66311264038086
+      ],
+      "elapsedMs": 448
+    },
+    {
+      "id": "dev-005",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        26.152551651000977,
+        25.424468994140625,
+        25.71828842163086,
+        22.312002182006836
+      ],
+      "elapsedMs": 453
+    },
+    {
+      "id": "dev-006",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        25.350173950195312,
+        25.688005447387695,
+        27.07404899597168,
+        23.772274017333984
+      ],
+      "elapsedMs": 482
+    },
+    {
+      "id": "dev-007",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        28.223745346069336,
+        27.216602325439453,
+        25.400062561035156,
+        23.92026138305664
+      ],
+      "elapsedMs": 450
+    },
+    {
+      "id": "dev-008",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        26.76474380493164,
+        26.57950210571289,
+        24.965675354003906,
+        22.13288116455078
+      ],
+      "elapsedMs": 470
+    }
+  ],
+  "reloaded": [
+    {
+      "id": "dev-001",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        29.479978561401367,
+        28.49295425415039,
+        27.019908905029297,
+        23.156593322753906
+      ],
+      "elapsedMs": 474
+    },
+    {
+      "id": "dev-002",
+      "expected": "A",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        26.479963302612305,
+        26.935665130615234,
+        26.707754135131836,
+        24.328327178955078
+      ],
+      "elapsedMs": 456
+    },
+    {
+      "id": "dev-003",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        26.67303466796875,
+        26.654685974121094,
+        26.442901611328125,
+        23.900279998779297
+      ],
+      "elapsedMs": 467
+    },
+    {
+      "id": "dev-004",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        27.862579345703125,
+        28.024377822875977,
+        27.689477920532227,
+        22.66311264038086
+      ],
+      "elapsedMs": 449
+    },
+    {
+      "id": "dev-005",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        26.152551651000977,
+        25.424468994140625,
+        25.71828842163086,
+        22.312002182006836
+      ],
+      "elapsedMs": 457
+    },
+    {
+      "id": "dev-006",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        25.350173950195312,
+        25.688005447387695,
+        27.07404899597168,
+        23.772274017333984
+      ],
+      "elapsedMs": 459
+    },
+    {
+      "id": "dev-007",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        28.223745346069336,
+        27.216602325439453,
+        25.400062561035156,
+        23.92026138305664
+      ],
+      "elapsedMs": 451
+    },
+    {
+      "id": "dev-008",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        26.76474380493164,
+        26.57950210571289,
+        24.965675354003906,
+        22.13288116455078
+      ],
+      "elapsedMs": 469
+    }
+  ],
+  "reloadParity": true,
+  "metrics": {
+    "baseline": {
+      "total": 8,
+      "correct": 2,
+      "accuracy": 0.25,
+      "acceptedPrecision": 0.25,
+      "supportedCoverage": 1.0,
+      "unsafeAcceptances": 2,
+      "errors": 0,
+      "qualified": false,
+      "scope": "exposed synthetic development smoke only"
+    },
+    "adapted": {
+      "total": 8,
+      "correct": 3,
+      "accuracy": 0.375,
+      "acceptedPrecision": 0.375,
+      "supportedCoverage": 1.0,
+      "unsafeAcceptances": 2,
+      "errors": 0,
+      "qualified": false,
+      "scope": "exposed synthetic development smoke only"
+    }
+  },
+  "performance": {
+    "wallMs": 37771,
+    "processPeakRssBytes": 4576899072,
+    "scope": "GitHub CPU training process only; not phone inference or energy"
+  },
+  "adapterFiles": {
+    "adapter_model.safetensors": {
+      "sha256": "054fcbf4d40a12fd8bab1c7efe3c8a79d678193219b8f7d5643e514f492cf6da",
+      "bytes": 1093728
+    },
+    "adapter_config.json": {
+      "sha256": "3413c80088ebbd550e72dc691ad7fb7d9e61856af9e25aea36aec4f8449831e0",
+      "bytes": 1140
+    },
+    "README.md": {
+      "sha256": "df853462c7cc17206ba79fbf7c45731ff1c63ab224938e1871c89348712db9b2",
+      "bytes": 5428
+    }
+  },
+  "jobStatus": "success"
+}
