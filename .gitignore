@@ -6,3 +6,5 @@ playwright-report/
 .env*
 documents/INDIA_SHOWCASE.md
 artifacts/
+training-output/
+__pycache__/
