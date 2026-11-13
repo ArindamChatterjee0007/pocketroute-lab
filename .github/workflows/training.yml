@@ -1,0 +1,77 @@
+name: PocketRoute adapter smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: Explicitly select validation only or the bounded weight-update smoke
+        type: choice
+        options: [check, train]
+        default: check
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pocketroute-adapter-smoke
+  cancel-in-progress: false
+
+jobs:
+  adapter-smoke:
+    if: ${{ github.repository == 'ArindamChatterjee0007/pocketroute-lab' && github.event.repository.private == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+      TOKENIZERS_PARALLELISM: 'false'
+      OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - name: Validate fixture, guards and scoring without model execution
+        run: |
+          python3 ai/training/train.py --check
+          python3 -m unittest discover -s ai/training -p 'test_*.py' -v
+          git ls-files ai/config.mjs ai/worker.mjs ai/confirmation-v2.json data/ai-runs | xargs sha256sum > "$RUNNER_TEMP/reference-before.sha256"
+      - name: Prepare isolated CPU dependencies
+        if: ${{ inputs.scope == 'train' }}
+        timeout-minutes: 8
+        run: |
+          python3 -m venv "$RUNNER_TEMP/pocketroute-training-venv"
+          "$RUNNER_TEMP/pocketroute-training-venv/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: torch==2.15.0+cpu --index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/pocketroute-training-venv/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: -r ai/training/requirements.txt
+          "$RUNNER_TEMP/pocketroute-training-venv/bin/python" -m pip check
+      - name: Run bounded adaptation and reload checks
+        if: ${{ inputs.scope == 'train' }}
+        timeout-minutes: 16
+        run: |
+          "$RUNNER_TEMP/pocketroute-training-venv/bin/python" ai/training/train.py --run
+      - name: Verify that the released reference stayed unchanged
+        if: ${{ always() }}
+        run: sha256sum --check "$RUNNER_TEMP/reference-before.sha256"
+      - name: Record early failures and exact resolved dependencies
+        if: ${{ always() && inputs.scope == 'train' }}
+        env:
+          TRAINING_JOB_STATUS: ${{ job.status }}
+        run: |
+          python3 ai/training/train.py --outcome "$TRAINING_JOB_STATUS"
+          if [[ -x "$RUNNER_TEMP/pocketroute-training-venv/bin/python" ]]; then
+            "$RUNNER_TEMP/pocketroute-training-venv/bin/python" -m pip freeze > "training-output/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/requirements-resolved.txt"
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() && inputs.scope == 'train' }}
+        with:
+          name: adapter-smoke-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 1
+          if-no-files-found: error
+          path: |
+            training-output/*/receipt.json
+            training-output/*/fixture.json
+            training-output/*/requirements-resolved.txt
+            training-output/*/LICENSE-QWEN
+            training-output/*/adapter/adapter_config.json
+            training-output/*/adapter/adapter_model.safetensors
+            training-output/*/adapter/README.md
