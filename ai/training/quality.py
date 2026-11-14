@@ -39,6 +39,20 @@ def training_order(size: int, steps: int, seed: int) -> list[int]:
     return order
 
 
+def parity_examples(examples: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    selected = []
+    counts = Counter()
+    families = set()
+    for example in examples:
+        if counts[example["expected"]] < 2 and example["family"] not in families:
+            selected.append(example)
+            counts[example["expected"]] += 1
+            families.add(example["family"])
+    if any(counts[label] != 2 for label in LABELS):
+        raise ValueError("Reload probes need two distinct families per category.")
+    return selected
+
+
 def load_quality_fixture() -> dict[str, Any]:
     fixture = json.loads(QUALITY_PATH.read_text(encoding="utf-8"))
     if fixture.get("schemaVersion") != 2 or fixture.get("version") != "routing-quality-candidate-v1-2026-11-14":
@@ -98,6 +112,7 @@ def quality_gate(examples: list[dict[str, Any]], predictions: list[dict[str, Any
     if not examples or len({example["id"] for example in examples}) != len(examples) or any(example["expected"] not in LABELS for example in examples):
         raise ValueError("Quality cases need unique IDs and canonical expected labels.")
     metrics = score(examples, predictions)
+    metrics["scope"] = "frozen synthetic routing sample; not deployment evidence"
     counts = Counter(example["expected"] for example in examples)
     reasons = []
     if len(examples) < 64 or any(counts[label] < 16 for label in LABELS):
@@ -142,7 +157,7 @@ def rule_prediction(text: str) -> str:
         return "D"
 
     def requested_artifact(fragment: str) -> str:
-        if re.search(r"\b(design|propose|outline|define|specify|compare|explain)\b.*\b(architectur\w*|interface\w*|component\w*|boundar\w*|trade.?offs?|design)\b", fragment):
+        if re.search(r"\b(design|propose|outline|define|specify|compare|explain|describe)\b.*\b(architectur\w*|interface\w*|component\w*|boundar\w*|trade.?offs?|design)\b", fragment):
             return "C"
         if re.search(r"\b(dockerfile|dockerignore|docker|compose|kubernetes|k8s|helm|containerfile)\b", fragment):
             return "B"

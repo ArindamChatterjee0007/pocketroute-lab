@@ -177,7 +177,7 @@ def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: 
 
     settings = fixture["training"]
     if quality_mode:
-        from quality import CONFIRMATION_PATH, load_confirmation, paired_accuracy, protocol_fingerprint, quality_gate, rule_predictions, training_order
+        from quality import CONFIRMATION_PATH, load_confirmation, paired_accuracy, parity_examples, protocol_fingerprint, quality_gate, rule_predictions, training_order
         receipt.update(profile="routing-quality-v1", protocolSha256=protocol_fingerprint(), scope=fixture["scope"], confirmation={"status": "withheld", "reason": "Validation has not passed."})
     started = time.monotonic()
     torch.manual_seed(settings["seed"])
@@ -225,7 +225,7 @@ def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: 
                 if len(tokens) >= settings["maximumTokens"]:
                     raise ValueError("Development prompt exceeds the token cap.")
                 with torch.inference_mode():
-                    logits = model(input_ids=torch.tensor([tokens]), use_cache=False).logits[0, -1, choice_ids].float()
+                    logits = model(input_ids=torch.tensor([tokens]), use_cache=False, logits_to_keep=1 if quality_mode else 0).logits[0, -1, choice_ids].float()
                 if not torch.isfinite(logits).all():
                     raise ValueError("Non-finite choice logits.")
                 prediction.update(status="completed", output=choices[int(logits.argmax())], choiceLogits=logits.tolist())
@@ -255,7 +255,11 @@ def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: 
     model.config.use_cache = False
     with model.disable_adapter():
         receipt["baseline"] = evaluate(model)
-    assert_parity(receipt["baseline"], evaluate(model))
+    probes = parity_examples(fixture["development"]) if quality_mode else fixture["development"]
+    probe_ids = {example["id"] for example in probes}
+    receipt["zeroAdapterProbes"] = evaluate(model, probes)
+    assert_parity([entry for entry in receipt["baseline"] if entry["id"] in probe_ids], receipt["zeroAdapterProbes"])
+    receipt["parityProbeIds"] = [entry["id"] for entry in probes]
     receipt["zeroAdapterParity"] = True
     base_before = tensor_digest(model, False)
     adapter_before = tensor_digest(model, True)
@@ -288,7 +292,7 @@ def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: 
         input_ids, labels = encoded[example_index]
         optimizer.zero_grad(set_to_none=True)
         if quality_mode:
-            result = model(input_ids=input_ids, use_cache=False)
+            result = model(input_ids=input_ids, use_cache=False, logits_to_keep=1)
             selected_logits = result.logits[:, -1, choice_ids].float()
             loss = torch.nn.functional.cross_entropy(selected_logits, labels)
             independent_loss = -torch.log_softmax(selected_logits, dim=-1).gather(1, labels.unsqueeze(1)).mean()
@@ -324,8 +328,8 @@ def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: 
     del optimizer, trainable, model
     gc.collect()
     model = PeftModel.from_pretrained(load_base(), str(adapter_directory), is_trainable=False, local_files_only=True)
-    receipt["reloaded"] = evaluate(model)
-    assert_parity(receipt["adapted"], receipt["reloaded"])
+    receipt["reloaded"] = evaluate(model, probes)
+    assert_parity([entry for entry in receipt["adapted"] if entry["id"] in probe_ids], receipt["reloaded"])
     receipt["reloadParity"] = True
     receipt["metrics"] = {"baseline": score(fixture["development"], receipt["baseline"]), "adapted": score(fixture["development"], receipt["adapted"])}
     if quality_mode:
@@ -333,6 +337,8 @@ def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: 
         receipt["validation"] = {"baseline": quality_gate(fixture["development"], receipt["baseline"]), "adapted": quality_gate(fixture["development"], receipt["adapted"]), "rules": quality_gate(fixture["development"], receipt["ruleBaseline"]), "pairedBaseToAdapter": paired_accuracy(receipt["baseline"], receipt["adapted"], fixture["development"])}
         if receipt["validation"]["adapted"]["passed"]:
             receipt["phase"] = "frozen-confirmation"
+            receipt["confirmation"] = {"status": "pending", "reason": "Validation passed; frozen confirmation has not completed."}
+            write_receipt(destination, receipt)
             cases = load_confirmation(fixture)
             receipt["confirmationSha256"] = digest_file(CONFIRMATION_PATH)
             shutil.copyfile(CONFIRMATION_PATH, destination / "confirmation.json")
@@ -366,10 +372,11 @@ def main() -> int:
     fixture = json.loads(FIXTURE_PATH.read_text(encoding="utf-8"))
     validate_fixture(fixture)
     fixture_path = FIXTURE_PATH
-    if arguments.quality or arguments.check:
+    quality_profile = arguments.quality or (arguments.outcome and os.environ.get("TRAINING_SCOPE") == "quality")
+    if quality_profile or arguments.check:
         from quality import QUALITY_PATH, load_quality_fixture
         quality_fixture = load_quality_fixture()
-        if arguments.quality:
+        if quality_profile:
             fixture, fixture_path = quality_fixture, QUALITY_PATH
     if arguments.check:
         print(json.dumps({"fixtureValidated": True, "trainingCases": 8, "developmentCases": 8, "qualityTrainingCases": len(quality_fixture["train"]), "qualityValidationCases": len(quality_fixture["development"]), "modelExecuted": False}))
@@ -377,7 +384,9 @@ def main() -> int:
     destination = output_directory()
     if arguments.outcome:
         receipt_path = destination / "receipt.json"
-        receipt = json.loads(receipt_path.read_text(encoding="utf-8")) if receipt_path.is_file() else initial_receipt()
+        receipt = json.loads(receipt_path.read_text(encoding="utf-8")) if receipt_path.is_file() else initial_receipt(fixture_path)
+        if quality_profile:
+            receipt.update(profile="routing-quality-v1", scope=fixture["scope"])
         write_receipt(destination, job_outcome(receipt, arguments.outcome, receipt_path.is_file()))
         return 0
     if destination.exists():

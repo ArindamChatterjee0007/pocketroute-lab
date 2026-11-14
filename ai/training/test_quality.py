@@ -1,6 +1,6 @@
 import unittest
 
-from quality import load_quality_fixture, paired_accuracy, quality_gate, rule_prediction, training_order
+from quality import load_quality_fixture, paired_accuracy, parity_examples, quality_gate, rule_prediction, training_order
 
 
 class RoutingQualityTests(unittest.TestCase):
@@ -63,6 +63,12 @@ class RoutingQualityTests(unittest.TestCase):
         self.assertEqual(sorted(order[:128]), list(range(128)))
         self.assertEqual(sorted(order[128:]), list(range(128)))
         self.assertNotEqual(order[:128], list(range(128)))
+
+    def test_reload_probes_cover_distinct_families_and_all_labels(self) -> None:
+        examples = parity_examples(load_quality_fixture()["development"])
+        self.assertEqual(len(examples), 8)
+        self.assertEqual(len({entry["family"] for entry in examples}), 8)
+        self.assertTrue(all(sum(entry["expected"] == label for entry in examples) == 2 for label in ("A", "B", "C", "D")))
 
     def test_rule_baseline_is_conservative_and_separate(self) -> None:
         self.assertEqual(rule_prediction("Write a Python parser."), "A")
