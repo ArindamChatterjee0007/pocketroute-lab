@@ -1,5 +1,7 @@
 # Bounded Qwen Adapter Experiment
 
+For the consolidated work status, test results, artifact checksums and collaborator handoff, read the [November 14 R&D and test report](REPORT.md). Completed software checks do not clear the remaining model-quality or physical-phone gates.
+
 ## Two-Router Comparison: Completed
 
 [Run 43618145866](https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/43618145866), source `71733da56bfe6c67b1c82fc216ccf099450ab864`, completed the exploratory TF-IDF versus frozen MiniLM comparison. [Preflight 43618045254](https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/43618045254) passed 35 contract tests. The [immutable comparison receipt](../../data/adapter-runs/comparison-43618145866.json) records both arms, four family-grouped training folds, all C candidates, predictions, exports and limitations.
