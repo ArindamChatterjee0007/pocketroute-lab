@@ -27,6 +27,10 @@ class RouterComparisonContractTests(unittest.TestCase):
     def test_missing_class_is_rejected_before_fitting(self) -> None:
         with self.assertRaises(ValueError):
             validate_folds(self.groups, ["A"] * 32, self.folds)
+        labels = list(self.labels)
+        labels[:8] = ["A"] * 8
+        with self.assertRaises(ValueError):
+            validate_folds(self.groups, labels, self.folds)
 
     def test_classifier_class_order_is_explicit(self) -> None:
         self.assertEqual(ordered_probabilities(["D", "C", "B", "A"], [[0.1, 0.2, 0.3, 0.4]]), [[0.4, 0.3, 0.2, 0.1]])
