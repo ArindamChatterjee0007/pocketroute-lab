@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       scope:
-        description: Explicitly select validation only or the bounded weight-update smoke
+        description: Select checks, the original smoke, or the frozen routing-quality candidate
         type: choice
-        options: [check, train]
+        options: [check, train, quality]
         default: check
 
 permissions:
@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     env:
+      TRAINING_SCOPE: ${{ inputs.scope }}
       HF_HUB_DISABLE_TELEMETRY: '1'
       HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
       TOKENIZERS_PARALLELISM: 'false'
@@ -37,7 +38,7 @@ jobs:
           python3 -m unittest discover -s ai/training -p 'test_*.py' -v
           git ls-files ai/config.mjs ai/worker.mjs ai/confirmation-v2.json data/ai-runs | xargs sha256sum > "$RUNNER_TEMP/reference-before.sha256"
       - name: Prepare isolated CPU dependencies
-        if: ${{ inputs.scope == 'train' }}
+        if: ${{ inputs.scope != 'check' }}
         timeout-minutes: 8
         run: |
           python3 -m venv "$RUNNER_TEMP/pocketroute-training-venv"
@@ -45,15 +46,19 @@ jobs:
           "$RUNNER_TEMP/pocketroute-training-venv/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: -r ai/training/requirements.txt
           "$RUNNER_TEMP/pocketroute-training-venv/bin/python" -m pip check
       - name: Run bounded adaptation and reload checks
-        if: ${{ inputs.scope == 'train' }}
+        if: ${{ inputs.scope != 'check' }}
         timeout-minutes: 16
         run: |
-          "$RUNNER_TEMP/pocketroute-training-venv/bin/python" ai/training/train.py --run
+          if [[ "$TRAINING_SCOPE" == "quality" ]]; then
+            "$RUNNER_TEMP/pocketroute-training-venv/bin/python" ai/training/train.py --quality
+          else
+            "$RUNNER_TEMP/pocketroute-training-venv/bin/python" ai/training/train.py --run
+          fi
       - name: Verify that the released reference stayed unchanged
         if: ${{ always() }}
         run: sha256sum --check "$RUNNER_TEMP/reference-before.sha256"
       - name: Record early failures and exact resolved dependencies
-        if: ${{ always() && inputs.scope == 'train' }}
+        if: ${{ always() && inputs.scope != 'check' }}
         env:
           TRAINING_JOB_STATUS: ${{ job.status }}
         run: |
@@ -62,7 +67,7 @@ jobs:
             "$RUNNER_TEMP/pocketroute-training-venv/bin/python" -m pip freeze > "training-output/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/requirements-resolved.txt"
           fi
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: ${{ always() && inputs.scope == 'train' }}
+        if: ${{ always() && inputs.scope != 'check' }}
         with:
           name: adapter-smoke-${{ github.run_id }}-${{ github.run_attempt }}
           retention-days: 1
@@ -70,6 +75,7 @@ jobs:
           path: |
             training-output/*/receipt.json
             training-output/*/fixture.json
+            training-output/*/confirmation.json
             training-output/*/requirements-resolved.txt
             training-output/*/LICENSE-QWEN
             training-output/*/adapter/adapter_config.json
