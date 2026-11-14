@@ -1,0 +1,6137 @@
+{
+  "schemaVersion": 1,
+  "status": "synthetic-quality-screen-failed",
+  "phase": "completed",
+  "runUrl": "https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/43586761036",
+  "sourceSha": "ae92339036b6c2815d13c1997b79e511a3390950",
+  "baseModel": "Qwen/Qwen2.5-0.5B-Instruct",
+  "baseRevision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "fixtureSha256": "7643c7cdfc2710d62fcc4de2338257a825bb9156cb2bf09398328ade6b209c21",
+  "implementationSha256": "aeafc2279f6a2750687d67af5c26aa43022369aed47ceff9ace0fbc0202810d7",
+  "scope": "synthetic development and separately authored confirmation; not production or phone qualification",
+  "steps": [
+    {
+      "step": 1,
+      "exampleId": "train-kubernetes-rbac-2",
+      "loss": 4.163799285888672,
+      "gradientNorm": 73.19155883789062,
+      "elapsedMs": 1365
+    },
+    {
+      "step": 2,
+      "exampleId": "train-docker-multistage-3",
+      "loss": 0.8553953766822815,
+      "gradientNorm": 19.407550811767578,
+      "elapsedMs": 1345
+    },
+    {
+      "step": 3,
+      "exampleId": "train-design-and-implementation-4",
+      "loss": 4.04233980178833,
+      "gradientNorm": 56.29396438598633,
+      "elapsedMs": 1358
+    },
+    {
+      "step": 4,
+      "exampleId": "train-forced-answer-1",
+      "loss": 7.132540225982666,
+      "gradientNorm": 165.58221435546875,
+      "elapsedMs": 1347
+    },
+    {
+      "step": 5,
+      "exampleId": "train-configuration-and-design-3",
+      "loss": 3.17374324798584,
+      "gradientNorm": 38.1359977722168,
+      "elapsedMs": 1356
+    },
+    {
+      "step": 6,
+      "exampleId": "train-date-parsing-3",
+      "loss": 1.2859253883361816,
+      "gradientNorm": 27.84724235534668,
+      "elapsedMs": 1344
+    },
+    {
+      "step": 7,
+      "exampleId": "train-error-contract-2",
+      "loss": 1.0243631601333618,
+      "gradientNorm": 46.73223876953125,
+      "elapsedMs": 1297
+    },
+    {
+      "step": 8,
+      "exampleId": "train-secret-request-2",
+      "loss": 1.6618754863739014,
+      "gradientNorm": 37.094886779785156,
+      "elapsedMs": 1296
+    },
+    {
+      "step": 9,
+      "exampleId": "train-modularization-4",
+      "loss": 2.0821802616119385,
+      "gradientNorm": 75.76889038085938,
+      "elapsedMs": 1348
+    },
+    {
+      "step": 10,
+      "exampleId": "train-helm-values-4",
+      "loss": 1.816727876663208,
+      "gradientNorm": 27.336925506591797,
+      "elapsedMs": 1369
+    },
+    {
+      "step": 11,
+      "exampleId": "train-api-contract-3",
+      "loss": 0.3806912899017334,
+      "gradientNorm": 18.581249237060547,
+      "elapsedMs": 1386
+    },
+    {
+      "step": 12,
+      "exampleId": "train-csv-aggregation-3",
+      "loss": 1.3984909057617188,
+      "gradientNorm": 23.480039596557617,
+      "elapsedMs": 1455
+    },
+    {
+      "step": 13,
+      "exampleId": "train-cron-job-4",
+      "loss": 1.6764795780181885,
+      "gradientNorm": 27.777591705322266,
+      "elapsedMs": 1372
+    },
+    {
+      "step": 14,
+      "exampleId": "train-sports-prediction-4",
+      "loss": 0.805245041847229,
+      "gradientNorm": 37.13947296142578,
+      "elapsedMs": 1425
+    },
+    {
+      "step": 15,
+      "exampleId": "train-docker-multistage-4",
+      "loss": 0.8910951018333435,
+      "gradientNorm": 20.370431900024414,
+      "elapsedMs": 1357
+    },
+    {
+      "step": 16,
+      "exampleId": "train-configuration-and-design-1",
+      "loss": 1.7548331022262573,
+      "gradientNorm": 29.2861328125,
+      "elapsedMs": 1367
+    },
+    {
+      "step": 17,
+      "exampleId": "train-cli-arguments-2",
+      "loss": 1.5900218486785889,
+      "gradientNorm": 29.160144805908203,
+      "elapsedMs": 1309
+    },
+    {
+      "step": 18,
+      "exampleId": "train-kubernetes-rbac-4",
+      "loss": 1.2972990274429321,
+      "gradientNorm": 24.068941116333008,
+      "elapsedMs": 1371
+    },
+    {
+      "step": 19,
+      "exampleId": "train-error-contract-4",
+      "loss": 0.8353224992752075,
+      "gradientNorm": 32.97237777709961,
+      "elapsedMs": 1382
+    },
+    {
+      "step": 20,
+      "exampleId": "train-offline-boundaries-2",
+      "loss": 1.1031370162963867,
+      "gradientNorm": 35.95192337036133,
+      "elapsedMs": 1357
+    },
+    {
+      "step": 21,
+      "exampleId": "train-api-contract-4",
+      "loss": 0.7699747085571289,
+      "gradientNorm": 30.611492156982422,
+      "elapsedMs": 1353
+    },
+    {
+      "step": 22,
+      "exampleId": "train-csv-aggregation-4",
+      "loss": 1.0712769031524658,
+      "gradientNorm": 19.600732803344727,
+      "elapsedMs": 1378
+    },
+    {
+      "step": 23,
+      "exampleId": "train-csv-aggregation-1",
+      "loss": 1.2951364517211914,
+      "gradientNorm": 21.07883644104004,
+      "elapsedMs": 1334
+    },
+    {
+      "step": 24,
+      "exampleId": "train-json-validation-2",
+      "loss": 1.1779682636260986,
+      "gradientNorm": 24.241371154785156,
+      "elapsedMs": 1290
+    },
+    {
+      "step": 25,
+      "exampleId": "train-unicode-normalization-2",
+      "loss": 0.8260918259620667,
+      "gradientNorm": 15.868368148803711,
+      "elapsedMs": 1334
+    },
+    {
+      "step": 26,
+      "exampleId": "train-date-parsing-4",
+      "loss": 0.5937379002571106,
+      "gradientNorm": 16.551416397094727,
+      "elapsedMs": 1342
+    },
+    {
+      "step": 27,
+      "exampleId": "train-plugin-contract-2",
+      "loss": 0.9853864312171936,
+      "gradientNorm": 38.833309173583984,
+      "elapsedMs": 1333
+    },
+    {
+      "step": 28,
+      "exampleId": "train-date-parsing-1",
+      "loss": 0.7132379412651062,
+      "gradientNorm": 16.941219329833984,
+      "elapsedMs": 1280
+    },
+    {
+      "step": 29,
+      "exampleId": "train-unsupported-language-2",
+      "loss": 2.5761983394622803,
+      "gradientNorm": 43.5179557800293,
+      "elapsedMs": 1269
+    },
+    {
+      "step": 30,
+      "exampleId": "train-api-contract-1",
+      "loss": 0.49788376688957214,
+      "gradientNorm": 26.491548538208008,
+      "elapsedMs": 1316
+    },
+    {
+      "step": 31,
+      "exampleId": "train-json-validation-1",
+      "loss": 0.46482378244400024,
+      "gradientNorm": 14.084370613098145,
+      "elapsedMs": 1326
+    },
+    {
+      "step": 32,
+      "exampleId": "train-cron-job-1",
+      "loss": 1.9224207401275635,
+      "gradientNorm": 27.724273681640625,
+      "elapsedMs": 1375
+    },
+    {
+      "step": 33,
+      "exampleId": "train-operational-deploy-3",
+      "loss": 2.4308903217315674,
+      "gradientNorm": 44.640625,
+      "elapsedMs": 1340
+    },
+    {
+      "step": 34,
+      "exampleId": "train-configuration-and-design-2",
+      "loss": 1.641042709350586,
+      "gradientNorm": 33.98740005493164,
+      "elapsedMs": 1350
+    },
+    {
+      "step": 35,
+      "exampleId": "train-design-and-implementation-1",
+      "loss": 1.1010911464691162,
+      "gradientNorm": 22.96148109436035,
+      "elapsedMs": 1280
+    },
+    {
+      "step": 36,
+      "exampleId": "train-operational-deploy-2",
+      "loss": 2.3375256061553955,
+      "gradientNorm": 57.72826385498047,
+      "elapsedMs": 1335
+    },
+    {
+      "step": 37,
+      "exampleId": "train-csv-aggregation-2",
+      "loss": 0.35651925206184387,
+      "gradientNorm": 8.13338851928711,
+      "elapsedMs": 1334
+    },
+    {
+      "step": 38,
+      "exampleId": "train-sqlite-pagination-1",
+      "loss": 0.551586925983429,
+      "gradientNorm": 16.080455780029297,
+      "elapsedMs": 1322
+    },
+    {
+      "step": 39,
+      "exampleId": "train-mixed-deliverables-2",
+      "loss": 2.8662023544311523,
+      "gradientNorm": 85.0093994140625,
+      "elapsedMs": 1323
+    },
+    {
+      "step": 40,
+      "exampleId": "train-config-map-2",
+      "loss": 2.6003928184509277,
+      "gradientNorm": 28.320505142211914,
+      "elapsedMs": 1321
+    },
+    {
+      "step": 41,
+      "exampleId": "train-volume-claim-2",
+      "loss": 2.069220542907715,
+      "gradientNorm": 29.89558219909668,
+      "elapsedMs": 1316
+    },
+    {
+      "step": 42,
+      "exampleId": "train-mixed-deliverables-3",
+      "loss": 1.7779614925384521,
+      "gradientNorm": 46.60940933227539,
+      "elapsedMs": 1342
+    },
+    {
+      "step": 43,
+      "exampleId": "train-compose-health-3",
+      "loss": 2.266092538833618,
+      "gradientNorm": 28.3961181640625,
+      "elapsedMs": 1283
+    },
+    {
+      "step": 44,
+      "exampleId": "train-sqlite-pagination-2",
+      "loss": 0.6136317253112793,
+      "gradientNorm": 17.441118240356445,
+      "elapsedMs": 1277
+    },
+    {
+      "step": 45,
+      "exampleId": "train-invitation-translation-4",
+      "loss": 1.4878511428833008,
+      "gradientNorm": 58.13471603393555,
+      "elapsedMs": 1323
+    },
+    {
+      "step": 46,
+      "exampleId": "train-queue-topology-1",
+      "loss": 2.5990047454833984,
+      "gradientNorm": 44.709808349609375,
+      "elapsedMs": 1289
+    },
+    {
+      "step": 47,
+      "exampleId": "train-queue-topology-4",
+      "loss": 2.5310230255126953,
+      "gradientNorm": 40.348480224609375,
+      "elapsedMs": 1353
+    },
+    {
+      "step": 48,
+      "exampleId": "train-queue-topology-2",
+      "loss": 2.4438419342041016,
+      "gradientNorm": 39.42298126220703,
+      "elapsedMs": 1302
+    },
+    {
+      "step": 49,
+      "exampleId": "train-design-and-implementation-3",
+      "loss": 1.0326805114746094,
+      "gradientNorm": 15.488228797912598,
+      "elapsedMs": 1333
+    },
+    {
+      "step": 50,
+      "exampleId": "train-http-retries-2",
+      "loss": 0.4908182621002197,
+      "gradientNorm": 17.458330154418945,
+      "elapsedMs": 1284
+    },
+    {
+      "step": 51,
+      "exampleId": "train-operational-deploy-1",
+      "loss": 1.3402056694030762,
+      "gradientNorm": 33.80508804321289,
+      "elapsedMs": 1376
+    },
+    {
+      "step": 52,
+      "exampleId": "train-kubernetes-rbac-1",
+      "loss": 2.3646256923675537,
+      "gradientNorm": 25.12611198425293,
+      "elapsedMs": 1370
+    },
+    {
+      "step": 53,
+      "exampleId": "train-docker-multistage-1",
+      "loss": 1.8834922313690186,
+      "gradientNorm": 21.482343673706055,
+      "elapsedMs": 1294
+    },
+    {
+      "step": 54,
+      "exampleId": "train-network-policy-1",
+      "loss": 2.3425307273864746,
+      "gradientNorm": 21.434175491333008,
+      "elapsedMs": 1336
+    },
+    {
+      "step": 55,
+      "exampleId": "train-plugin-contract-1",
+      "loss": 1.468503713607788,
+      "gradientNorm": 45.572601318359375,
+      "elapsedMs": 1396
+    },
+    {
+      "step": 56,
+      "exampleId": "train-storage-choice-4",
+      "loss": 1.2621169090270996,
+      "gradientNorm": 42.00715255737305,
+      "elapsedMs": 1398
+    },
+    {
+      "step": 57,
+      "exampleId": "train-config-map-4",
+      "loss": 2.0189390182495117,
+      "gradientNorm": 18.48707389831543,
+      "elapsedMs": 1351
+    },
+    {
+      "step": 58,
+      "exampleId": "train-personal-advice-1",
+      "loss": 0.7463030815124512,
+      "gradientNorm": 19.085956573486328,
+      "elapsedMs": 1297
+    },
+    {
+      "step": 59,
+      "exampleId": "train-cli-arguments-1",
+      "loss": 0.6565870642662048,
+      "gradientNorm": 21.37257194519043,
+      "elapsedMs": 1346
+    },
+    {
+      "step": 60,
+      "exampleId": "train-modularization-3",
+      "loss": 1.0334745645523071,
+      "gradientNorm": 26.621122360229492,
+      "elapsedMs": 1351
+    },
+    {
+      "step": 61,
+      "exampleId": "train-volume-claim-4",
+      "loss": 1.5660779476165771,
+      "gradientNorm": 20.12899398803711,
+      "elapsedMs": 1342
+    },
+    {
+      "step": 62,
+      "exampleId": "train-helm-values-3",
+      "loss": 1.781506896018982,
+      "gradientNorm": 20.56881332397461,
+      "elapsedMs": 1367
+    },
+    {
+      "step": 63,
+      "exampleId": "train-http-retries-4",
+      "loss": 0.8768213987350464,
+      "gradientNorm": 26.221223831176758,
+      "elapsedMs": 1356
+    },
+    {
+      "step": 64,
+      "exampleId": "train-unicode-normalization-3",
+      "loss": 0.819689929485321,
+      "gradientNorm": 23.454736709594727,
+      "elapsedMs": 1368
+    },
+    {
+      "step": 65,
+      "exampleId": "train-error-contract-3",
+      "loss": 0.3484433889389038,
+      "gradientNorm": 13.983757972717285,
+      "elapsedMs": 1335
+    },
+    {
+      "step": 66,
+      "exampleId": "train-sports-prediction-2",
+      "loss": 0.36052876710891724,
+      "gradientNorm": 25.51073455810547,
+      "elapsedMs": 1313
+    },
+    {
+      "step": 67,
+      "exampleId": "train-plugin-contract-3",
+      "loss": 0.6229442954063416,
+      "gradientNorm": 27.102691650390625,
+      "elapsedMs": 1380
+    },
+    {
+      "step": 68,
+      "exampleId": "train-storage-choice-3",
+      "loss": 0.2656000256538391,
+      "gradientNorm": 12.025351524353027,
+      "elapsedMs": 1434
+    },
+    {
+      "step": 69,
+      "exampleId": "train-insufficient-context-3",
+      "loss": 0.5011796951293945,
+      "gradientNorm": 17.917598724365234,
+      "elapsedMs": 1355
+    },
+    {
+      "step": 70,
+      "exampleId": "train-forced-answer-4",
+      "loss": 4.2638163566589355,
+      "gradientNorm": 123.1110610961914,
+      "elapsedMs": 1370
+    },
+    {
+      "step": 71,
+      "exampleId": "train-storage-choice-2",
+      "loss": 0.1553105264902115,
+      "gradientNorm": 8.711775779724121,
+      "elapsedMs": 1300
+    },
+    {
+      "step": 72,
+      "exampleId": "train-offline-boundaries-1",
+      "loss": 0.16518773138523102,
+      "gradientNorm": 12.399085998535156,
+      "elapsedMs": 1349
+    },
+    {
+      "step": 73,
+      "exampleId": "train-unsupported-language-4",
+      "loss": 3.8673925399780273,
+      "gradientNorm": 64.87647247314453,
+      "elapsedMs": 1342
+    },
+    {
+      "step": 74,
+      "exampleId": "train-cron-job-3",
+      "loss": 1.798003911972046,
+      "gradientNorm": 30.643238067626953,
+      "elapsedMs": 1351
+    },
+    {
+      "step": 75,
+      "exampleId": "train-plugin-contract-4",
+      "loss": 0.12929601967334747,
+      "gradientNorm": 9.74390697479248,
+      "elapsedMs": 1349
+    },
+    {
+      "step": 76,
+      "exampleId": "train-json-validation-4",
+      "loss": 0.5007072687149048,
+      "gradientNorm": 19.257991790771484,
+      "elapsedMs": 1362
+    },
+    {
+      "step": 77,
+      "exampleId": "train-modularization-1",
+      "loss": 0.1899586170911789,
+      "gradientNorm": 12.06550121307373,
+      "elapsedMs": 1314
+    },
+    {
+      "step": 78,
+      "exampleId": "train-insufficient-context-4",
+      "loss": 0.40793731808662415,
+      "gradientNorm": 30.78070640563965,
+      "elapsedMs": 1352
+    },
+    {
+      "step": 79,
+      "exampleId": "train-override-1",
+      "loss": 1.87333083152771,
+      "gradientNorm": 47.36599349975586,
+      "elapsedMs": 1343
+    },
+    {
+      "step": 80,
+      "exampleId": "train-sports-prediction-3",
+      "loss": 1.2268037796020508,
+      "gradientNorm": 46.03435134887695,
+      "elapsedMs": 1344
+    },
+    {
+      "step": 81,
+      "exampleId": "train-config-map-1",
+      "loss": 0.9622936248779297,
+      "gradientNorm": 28.046472549438477,
+      "elapsedMs": 1303
+    },
+    {
+      "step": 82,
+      "exampleId": "train-invitation-translation-1",
+      "loss": 2.1464860439300537,
+      "gradientNorm": 81.19235229492188,
+      "elapsedMs": 1304
+    },
+    {
+      "step": 83,
+      "exampleId": "train-error-contract-1",
+      "loss": 0.01014658436179161,
+      "gradientNorm": 0.6679182648658752,
+      "elapsedMs": 1349
+    },
+    {
+      "step": 84,
+      "exampleId": "train-compose-health-1",
+      "loss": 0.9496008157730103,
+      "gradientNorm": 62.357444763183594,
+      "elapsedMs": 1311
+    },
+    {
+      "step": 85,
+      "exampleId": "train-volume-claim-1",
+      "loss": 1.1502633094787598,
+      "gradientNorm": 31.573713302612305,
+      "elapsedMs": 1296
+    },
+    {
+      "step": 86,
+      "exampleId": "train-async-cancellation-2",
+      "loss": 2.2684857845306396,
+      "gradientNorm": 94.13814544677734,
+      "elapsedMs": 1304
+    },
+    {
+      "step": 87,
+      "exampleId": "train-kubernetes-rbac-3",
+      "loss": 1.9417815208435059,
+      "gradientNorm": 62.54220199584961,
+      "elapsedMs": 1341
+    },
+    {
+      "step": 88,
+      "exampleId": "train-override-3",
+      "loss": 0.11745862662792206,
+      "gradientNorm": 14.717432022094727,
+      "elapsedMs": 1345
+    },
+    {
+      "step": 89,
+      "exampleId": "train-forced-answer-3",
+      "loss": 0.3472050726413727,
+      "gradientNorm": 54.68742370605469,
+      "elapsedMs": 1351
+    },
+    {
+      "step": 90,
+      "exampleId": "train-offline-boundaries-4",
+      "loss": 0.007801183965057135,
+      "gradientNorm": 0.5378795862197876,
+      "elapsedMs": 1409
+    },
+    {
+      "step": 91,
+      "exampleId": "train-network-policy-3",
+      "loss": 0.9569205641746521,
+      "gradientNorm": 36.58208465576172,
+      "elapsedMs": 1341
+    },
+    {
+      "step": 92,
+      "exampleId": "train-sqlite-pagination-3",
+      "loss": 1.6725702285766602,
+      "gradientNorm": 64.15045166015625,
+      "elapsedMs": 1345
+    },
+    {
+      "step": 93,
+      "exampleId": "train-personal-advice-2",
+      "loss": 0.1359681338071823,
+      "gradientNorm": 11.25694465637207,
+      "elapsedMs": 1288
+    },
+    {
+      "step": 94,
+      "exampleId": "train-secret-request-3",
+      "loss": 0.9132351279258728,
+      "gradientNorm": 43.14549255371094,
+      "elapsedMs": 1344
+    },
+    {
+      "step": 95,
+      "exampleId": "train-date-parsing-2",
+      "loss": 0.4544898271560669,
+      "gradientNorm": 18.840486526489258,
+      "elapsedMs": 1339
+    },
+    {
+      "step": 96,
+      "exampleId": "train-queue-topology-3",
+      "loss": 0.028454147279262543,
+      "gradientNorm": 3.3551671504974365,
+      "elapsedMs": 1370
+    },
+    {
+      "step": 97,
+      "exampleId": "train-async-cancellation-3",
+      "loss": 0.8930256962776184,
+      "gradientNorm": 33.743370056152344,
+      "elapsedMs": 1332
+    },
+    {
+      "step": 98,
+      "exampleId": "train-cache-design-1",
+      "loss": 0.07012851536273956,
+      "gradientNorm": 9.525640487670898,
+      "elapsedMs": 1350
+    },
+    {
+      "step": 99,
+      "exampleId": "train-personal-advice-3",
+      "loss": 0.2729228734970093,
+      "gradientNorm": 18.54314613342285,
+      "elapsedMs": 1337
+    },
+    {
+      "step": 100,
+      "exampleId": "train-cron-job-2",
+      "loss": 0.6759245991706848,
+      "gradientNorm": 22.6878719329834,
+      "elapsedMs": 1297
+    },
+    {
+      "step": 101,
+      "exampleId": "train-cache-design-3",
+      "loss": 0.004375764634460211,
+      "gradientNorm": 0.4584228992462158,
+      "elapsedMs": 1389
+    },
+    {
+      "step": 102,
+      "exampleId": "train-secret-request-1",
+      "loss": 0.08056969195604324,
+      "gradientNorm": 6.915005683898926,
+      "elapsedMs": 1312
+    },
+    {
+      "step": 103,
+      "exampleId": "train-cli-arguments-3",
+      "loss": 0.07165879011154175,
+      "gradientNorm": 6.574164867401123,
+      "elapsedMs": 1355
+    },
+    {
+      "step": 104,
+      "exampleId": "train-network-policy-2",
+      "loss": 0.6082687377929688,
+      "gradientNorm": 29.43875503540039,
+      "elapsedMs": 1316
+    },
+    {
+      "step": 105,
+      "exampleId": "train-operational-deploy-4",
+      "loss": 0.9088277220726013,
+      "gradientNorm": 156.0851287841797,
+      "elapsedMs": 1411
+    },
+    {
+      "step": 106,
+      "exampleId": "train-cli-arguments-4",
+      "loss": 0.01915527880191803,
+      "gradientNorm": 2.3507113456726074,
+      "elapsedMs": 1376
+    },
+    {
+      "step": 107,
+      "exampleId": "train-cache-design-2",
+      "loss": 0.005282136145979166,
+      "gradientNorm": 0.7577530145645142,
+      "elapsedMs": 1342
+    },
+    {
+      "step": 108,
+      "exampleId": "train-sqlite-pagination-4",
+      "loss": 0.03985217213630676,
+      "gradientNorm": 5.171786308288574,
+      "elapsedMs": 1381
+    },
+    {
+      "step": 109,
+      "exampleId": "train-modularization-2",
+      "loss": 0.17776019871234894,
+      "gradientNorm": 33.25766372680664,
+      "elapsedMs": 1363
+    },
+    {
+      "step": 110,
+      "exampleId": "train-override-4",
+      "loss": 0.00011455356434453279,
+      "gradientNorm": 0.01592116244137287,
+      "elapsedMs": 1363
+    },
+    {
+      "step": 111,
+      "exampleId": "train-compose-health-2",
+      "loss": 3.2095556259155273,
+      "gradientNorm": 151.59829711914062,
+      "elapsedMs": 1333
+    },
+    {
+      "step": 112,
+      "exampleId": "train-invitation-translation-3",
+      "loss": 0.017809243872761726,
+      "gradientNorm": 5.137637138366699,
+      "elapsedMs": 1286
+    },
+    {
+      "step": 113,
+      "exampleId": "train-config-map-3",
+      "loss": 3.0583205223083496,
+      "gradientNorm": 115.19034576416016,
+      "elapsedMs": 1301
+    },
+    {
+      "step": 114,
+      "exampleId": "train-unicode-normalization-1",
+      "loss": 0.0003364712174516171,
+      "gradientNorm": 0.046337228268384933,
+      "elapsedMs": 1370
+    },
+    {
+      "step": 115,
+      "exampleId": "train-configuration-and-design-4",
+      "loss": 6.328267574310303,
+      "gradientNorm": 259.75433349609375,
+      "elapsedMs": 1376
+    },
+    {
+      "step": 116,
+      "exampleId": "train-unsupported-language-1",
+      "loss": 0.04813016206026077,
+      "gradientNorm": 22.326583862304688,
+      "elapsedMs": 1327
+    },
+    {
+      "step": 117,
+      "exampleId": "train-network-policy-4",
+      "loss": 0.31196942925453186,
+      "gradientNorm": 37.9619255065918,
+      "elapsedMs": 1351
+    },
+    {
+      "step": 118,
+      "exampleId": "train-insufficient-context-2",
+      "loss": 8.201262971851975e-05,
+      "gradientNorm": 0.009841264225542545,
+      "elapsedMs": 1342
+    },
+    {
+      "step": 119,
+      "exampleId": "train-unicode-normalization-4",
+      "loss": 0.00034683887497521937,
+      "gradientNorm": 0.06553647667169571,
+      "elapsedMs": 1364
+    },
+    {
+      "step": 120,
+      "exampleId": "train-storage-choice-1",
+      "loss": 0.02701302245259285,
+      "gradientNorm": 14.494709968566895,
+      "elapsedMs": 1335
+    },
+    {
+      "step": 121,
+      "exampleId": "train-offline-boundaries-3",
+      "loss": 0.004544762894511223,
+      "gradientNorm": 2.585073232650757,
+      "elapsedMs": 1351
+    },
+    {
+      "step": 122,
+      "exampleId": "train-mixed-deliverables-1",
+      "loss": 9.463814735412598,
+      "gradientNorm": 333.6781311035156,
+      "elapsedMs": 1340
+    },
+    {
+      "step": 123,
+      "exampleId": "train-cache-design-4",
+      "loss": 3.194758028257638e-05,
+      "gradientNorm": 0.006321338005363941,
+      "elapsedMs": 1343
+    },
+    {
+      "step": 124,
+      "exampleId": "train-async-cancellation-4",
+      "loss": 0.0002965487365145236,
+      "gradientNorm": 0.06166308745741844,
+      "elapsedMs": 1439
+    },
+    {
+      "step": 125,
+      "exampleId": "train-volume-claim-3",
+      "loss": 4.4737396240234375,
+      "gradientNorm": 439.93682861328125,
+      "elapsedMs": 1292
+    },
+    {
+      "step": 126,
+      "exampleId": "train-http-retries-3",
+      "loss": 0.0023491187021136284,
+      "gradientNorm": 0.6530715823173523,
+      "elapsedMs": 1352
+    },
+    {
+      "step": 127,
+      "exampleId": "train-http-retries-1",
+      "loss": 0.00026222606538794935,
+      "gradientNorm": 0.052108198404312134,
+      "elapsedMs": 1343
+    },
+    {
+      "step": 128,
+      "exampleId": "train-api-contract-2",
+      "loss": 0.0004866131057497114,
+      "gradientNorm": 0.2140255868434906,
+      "elapsedMs": 1308
+    },
+    {
+      "step": 129,
+      "exampleId": "train-forced-answer-2",
+      "loss": 0.07575512677431107,
+      "gradientNorm": 25.07151985168457,
+      "elapsedMs": 1379
+    },
+    {
+      "step": 130,
+      "exampleId": "train-override-2",
+      "loss": 3.4570634852570947e-06,
+      "gradientNorm": 0.0006190813146531582,
+      "elapsedMs": 1359
+    },
+    {
+      "step": 131,
+      "exampleId": "train-personal-advice-4",
+      "loss": 8.463501580990851e-05,
+      "gradientNorm": 0.015763042494654655,
+      "elapsedMs": 1364
+    },
+    {
+      "step": 132,
+      "exampleId": "train-sports-prediction-1",
+      "loss": 3.325883881188929e-05,
+      "gradientNorm": 0.0057828789576888084,
+      "elapsedMs": 1358
+    },
+    {
+      "step": 133,
+      "exampleId": "train-compose-health-4",
+      "loss": 0.04546068608760834,
+      "gradientNorm": 14.019050598144531,
+      "elapsedMs": 1413
+    },
+    {
+      "step": 134,
+      "exampleId": "train-unsupported-language-3",
+      "loss": 0.0073912497609853745,
+      "gradientNorm": 2.266608476638794,
+      "elapsedMs": 1362
+    },
+    {
+      "step": 135,
+      "exampleId": "train-helm-values-1",
+      "loss": 1.880040168762207,
+      "gradientNorm": 333.5353698730469,
+      "elapsedMs": 1417
+    },
+    {
+      "step": 136,
+      "exampleId": "train-insufficient-context-1",
+      "loss": 2.312633478140924e-05,
+      "gradientNorm": 0.00368821294978261,
+      "elapsedMs": 1332
+    },
+    {
+      "step": 137,
+      "exampleId": "train-json-validation-3",
+      "loss": 0.0014868644066154957,
+      "gradientNorm": 0.48907679319381714,
+      "elapsedMs": 1370
+    },
+    {
+      "step": 138,
+      "exampleId": "train-secret-request-4",
+      "loss": 8.618460560683161e-05,
+      "gradientNorm": 0.013377903960645199,
+      "elapsedMs": 1392
+    },
+    {
+      "step": 139,
+      "exampleId": "train-docker-multistage-2",
+      "loss": 0.002354827243834734,
+      "gradientNorm": 0.5228692293167114,
+      "elapsedMs": 1348
+    },
+    {
+      "step": 140,
+      "exampleId": "train-design-and-implementation-2",
+      "loss": 10.198073387145996,
+      "gradientNorm": 190.14125061035156,
+      "elapsedMs": 1379
+    },
+    {
+      "step": 141,
+      "exampleId": "train-mixed-deliverables-4",
+      "loss": 12.250862121582031,
+      "gradientNorm": 198.97525024414062,
+      "elapsedMs": 1350
+    },
+    {
+      "step": 142,
+      "exampleId": "train-invitation-translation-2",
+      "loss": 2.992108420585282e-05,
+      "gradientNorm": 0.004393128678202629,
+      "elapsedMs": 1296
+    },
+    {
+      "step": 143,
+      "exampleId": "train-helm-values-2",
+      "loss": 0.014753054827451706,
+      "gradientNorm": 4.331120014190674,
+      "elapsedMs": 1413
+    },
+    {
+      "step": 144,
+      "exampleId": "train-async-cancellation-1",
+      "loss": 0.017444629222154617,
+      "gradientNorm": 6.7242960929870605,
+      "elapsedMs": 1292
+    },
+    {
+      "step": 145,
+      "exampleId": "train-override-1",
+      "loss": 3.2186455882765586e-06,
+      "gradientNorm": 0.0009408080950379372,
+      "elapsedMs": 1316
+    },
+    {
+      "step": 146,
+      "exampleId": "train-cron-job-2",
+      "loss": 0.022269532084465027,
+      "gradientNorm": 5.448031902313232,
+      "elapsedMs": 1323
+    },
+    {
+      "step": 147,
+      "exampleId": "train-async-cancellation-3",
+      "loss": 0.11438919603824615,
+      "gradientNorm": 39.41646194458008,
+      "elapsedMs": 1356
+    },
+    {
+      "step": 148,
+      "exampleId": "train-helm-values-4",
+      "loss": 0.0018312842585146427,
+      "gradientNorm": 0.33544498682022095,
+      "elapsedMs": 1380
+    },
+    {
+      "step": 149,
+      "exampleId": "train-forced-answer-2",
+      "loss": 0.011331133544445038,
+      "gradientNorm": 3.61647629737854,
+      "elapsedMs": 1426
+    },
+    {
+      "step": 150,
+      "exampleId": "train-forced-answer-1",
+      "loss": 0.016999367624521255,
+      "gradientNorm": 4.349977970123291,
+      "elapsedMs": 1352
+    },
+    {
+      "step": 151,
+      "exampleId": "train-async-cancellation-1",
+      "loss": 0.0002369599969824776,
+      "gradientNorm": 0.03975437209010124,
+      "elapsedMs": 1280
+    },
+    {
+      "step": 152,
+      "exampleId": "train-network-policy-2",
+      "loss": 0.0005914607318118215,
+      "gradientNorm": 0.08839293569326401,
+      "elapsedMs": 1299
+    },
+    {
+      "step": 153,
+      "exampleId": "train-error-contract-2",
+      "loss": 0.0008609164506196976,
+      "gradientNorm": 0.4966840147972107,
+      "elapsedMs": 1357
+    },
+    {
+      "step": 154,
+      "exampleId": "train-helm-values-3",
+      "loss": 0.00041929035796783864,
+      "gradientNorm": 0.12077078968286514,
+      "elapsedMs": 1339
+    },
+    {
+      "step": 155,
+      "exampleId": "train-volume-claim-1",
+      "loss": 0.006662535946816206,
+      "gradientNorm": 1.1962724924087524,
+      "elapsedMs": 1286
+    },
+    {
+      "step": 156,
+      "exampleId": "train-personal-advice-2",
+      "loss": 6.437280717364047e-06,
+      "gradientNorm": 0.001025382080115378,
+      "elapsedMs": 1287
+    },
+    {
+      "step": 157,
+      "exampleId": "train-design-and-implementation-2",
+      "loss": 5.351015567779541,
+      "gradientNorm": 379.3498229980469,
+      "elapsedMs": 1402
+    },
+    {
+      "step": 158,
+      "exampleId": "train-api-contract-2",
+      "loss": 4.768360213347478e-06,
+      "gradientNorm": 0.0007577905780635774,
+      "elapsedMs": 1336
+    },
+    {
+      "step": 159,
+      "exampleId": "train-http-retries-4",
+      "loss": 5.900685573578812e-05,
+      "gradientNorm": 0.00900840014219284,
+      "elapsedMs": 1366
+    },
+    {
+      "step": 160,
+      "exampleId": "train-kubernetes-rbac-2",
+      "loss": 6.890059739816934e-05,
+      "gradientNorm": 0.010234769433736801,
+      "elapsedMs": 1300
+    },
+    {
+      "step": 161,
+      "exampleId": "train-docker-multistage-2",
+      "loss": 0.0012663925299420953,
+      "gradientNorm": 0.42476433515548706,
+      "elapsedMs": 1343
+    },
+    {
+      "step": 162,
+      "exampleId": "train-operational-deploy-2",
+      "loss": 0.002298334613442421,
+      "gradientNorm": 1.3612117767333984,
+      "elapsedMs": 1349
+    },
+    {
+      "step": 163,
+      "exampleId": "train-async-cancellation-4",
+      "loss": 4.303362584323622e-05,
+      "gradientNorm": 0.007740435190498829,
+      "elapsedMs": 1341
+    },
+    {
+      "step": 164,
+      "exampleId": "train-insufficient-context-1",
+      "loss": 2.3841830625315197e-06,
+      "gradientNorm": 0.00041351449908688664,
+      "elapsedMs": 1297
+    },
+    {
+      "step": 165,
+      "exampleId": "train-error-contract-4",
+      "loss": 2.3841830625315197e-06,
+      "gradientNorm": 0.0008650462841615081,
+      "elapsedMs": 1361
+    },
+    {
+      "step": 166,
+      "exampleId": "train-date-parsing-1",
+      "loss": 4.184158387943171e-05,
+      "gradientNorm": 0.011856650933623314,
+      "elapsedMs": 1293
+    },
+    {
+      "step": 167,
+      "exampleId": "train-sports-prediction-3",
+      "loss": 2.0265558760002023e-06,
+      "gradientNorm": 0.0002962996659334749,
+      "elapsedMs": 1346
+    },
+    {
+      "step": 168,
+      "exampleId": "train-date-parsing-2",
+      "loss": 5.07818695041351e-05,
+      "gradientNorm": 0.014452958479523659,
+      "elapsedMs": 1354
+    },
+    {
+      "step": 169,
+      "exampleId": "train-async-cancellation-2",
+      "loss": 0.00013660451804753393,
+      "gradientNorm": 0.035423923283815384,
+      "elapsedMs": 1295
+    },
+    {
+      "step": 170,
+      "exampleId": "train-cron-job-3",
+      "loss": 0.0006344689172692597,
+      "gradientNorm": 0.24817362427711487,
+      "elapsedMs": 1339
+    },
+    {
+      "step": 171,
+      "exampleId": "train-offline-boundaries-3",
+      "loss": 0.0002882065309677273,
+      "gradientNorm": 0.27184298634529114,
+      "elapsedMs": 1355
+    },
+    {
+      "step": 172,
+      "exampleId": "train-sqlite-pagination-4",
+      "loss": 0.09947330504655838,
+      "gradientNorm": 54.996315002441406,
+      "elapsedMs": 1363
+    },
+    {
+      "step": 173,
+      "exampleId": "train-modularization-4",
+      "loss": 0.45864957571029663,
+      "gradientNorm": 269.5796203613281,
+      "elapsedMs": 1345
+    },
+    {
+      "step": 174,
+      "exampleId": "train-invitation-translation-4",
+      "loss": 1.0728830375228426e-06,
+      "gradientNorm": 0.00016905360098462552,
+      "elapsedMs": 1331
+    },
+    {
+      "step": 175,
+      "exampleId": "train-sports-prediction-4",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 2.9958915547467768e-05,
+      "elapsedMs": 1401
+    },
+    {
+      "step": 176,
+      "exampleId": "train-csv-aggregation-2",
+      "loss": 7.617183291586116e-05,
+      "gradientNorm": 0.014806734398007393,
+      "elapsedMs": 1340
+    },
+    {
+      "step": 177,
+      "exampleId": "train-override-4",
+      "loss": 3.576278118089249e-07,
+      "gradientNorm": 6.694329931633547e-05,
+      "elapsedMs": 1346
+    },
+    {
+      "step": 178,
+      "exampleId": "train-sqlite-pagination-1",
+      "loss": 0.0003426679759286344,
+      "gradientNorm": 0.13508287072181702,
+      "elapsedMs": 1355
+    },
+    {
+      "step": 179,
+      "exampleId": "train-queue-topology-4",
+      "loss": 1.311301275563892e-06,
+      "gradientNorm": 0.00027701116050593555,
+      "elapsedMs": 1367
+    },
+    {
+      "step": 180,
+      "exampleId": "train-kubernetes-rbac-3",
+      "loss": 0.0023426965344697237,
+      "gradientNorm": 0.8652690052986145,
+      "elapsedMs": 1386
+    },
+    {
+      "step": 181,
+      "exampleId": "train-volume-claim-3",
+      "loss": 2.0861407392658293e-05,
+      "gradientNorm": 0.006160165648907423,
+      "elapsedMs": 1306
+    },
+    {
+      "step": 182,
+      "exampleId": "train-modularization-3",
+      "loss": 1.6689286894688848e-06,
+      "gradientNorm": 0.0002540384011808783,
+      "elapsedMs": 1349
+    },
+    {
+      "step": 183,
+      "exampleId": "train-mixed-deliverables-2",
+      "loss": 7.232102870941162,
+      "gradientNorm": 488.883544921875,
+      "elapsedMs": 1352
+    },
+    {
+      "step": 184,
+      "exampleId": "train-cache-design-1",
+      "loss": 2.7418097943154862e-06,
+      "gradientNorm": 0.00047083967365324497,
+      "elapsedMs": 1338
+    },
+    {
+      "step": 185,
+      "exampleId": "train-config-map-2",
+      "loss": 3.2186455882765586e-06,
+      "gradientNorm": 0.0008082399144768715,
+      "elapsedMs": 1339
+    },
+    {
+      "step": 186,
+      "exampleId": "train-unsupported-language-2",
+      "loss": 0.014508466236293316,
+      "gradientNorm": 18.58072280883789,
+      "elapsedMs": 1283
+    },
+    {
+      "step": 187,
+      "exampleId": "train-compose-health-4",
+      "loss": 1.725209355354309,
+      "gradientNorm": 519.5712280273438,
+      "elapsedMs": 1354
+    },
+    {
+      "step": 188,
+      "exampleId": "train-unsupported-language-3",
+      "loss": 3.3378044463461265e-05,
+      "gradientNorm": 0.02205101028084755,
+      "elapsedMs": 1330
+    },
+    {
+      "step": 189,
+      "exampleId": "train-network-policy-1",
+      "loss": 5.722029527532868e-06,
+      "gradientNorm": 0.0010848490055650473,
+      "elapsedMs": 1351
+    },
+    {
+      "step": 190,
+      "exampleId": "train-unicode-normalization-1",
+      "loss": 0.002491467399522662,
+      "gradientNorm": 1.696415901184082,
+      "elapsedMs": 1351
+    },
+    {
+      "step": 191,
+      "exampleId": "train-http-retries-1",
+      "loss": 4.6491513785440475e-06,
+      "gradientNorm": 0.0006700579542666674,
+      "elapsedMs": 1410
+    },
+    {
+      "step": 192,
+      "exampleId": "train-helm-values-1",
+      "loss": 7.581423415103927e-05,
+      "gradientNorm": 0.03103768453001976,
+      "elapsedMs": 1335
+    },
+    {
+      "step": 193,
+      "exampleId": "train-configuration-and-design-3",
+      "loss": 8.96654224395752,
+      "gradientNorm": 670.2422485351562,
+      "elapsedMs": 1374
+    },
+    {
+      "step": 194,
+      "exampleId": "train-personal-advice-4",
+      "loss": 1.9073468138230965e-06,
+      "gradientNorm": 0.0005150685901753604,
+      "elapsedMs": 1372
+    },
+    {
+      "step": 195,
+      "exampleId": "train-kubernetes-rbac-1",
+      "loss": 1.7762025890988298e-05,
+      "gradientNorm": 0.0058316816575825214,
+      "elapsedMs": 1346
+    },
+    {
+      "step": 196,
+      "exampleId": "train-kubernetes-rbac-4",
+      "loss": 2.4676019165781327e-05,
+      "gradientNorm": 0.011459415778517723,
+      "elapsedMs": 1395
+    },
+    {
+      "step": 197,
+      "exampleId": "train-sqlite-pagination-2",
+      "loss": 6.138012409210205,
+      "gradientNorm": 1288.690673828125,
+      "elapsedMs": 1312
+    },
+    {
+      "step": 198,
+      "exampleId": "train-design-and-implementation-4",
+      "loss": 3.2710344791412354,
+      "gradientNorm": 768.1017456054688,
+      "elapsedMs": 1365
+    },
+    {
+      "step": 199,
+      "exampleId": "train-queue-topology-2",
+      "loss": 5.722029527532868e-06,
+      "gradientNorm": 0.002028945367783308,
+      "elapsedMs": 1302
+    },
+    {
+      "step": 200,
+      "exampleId": "train-plugin-contract-4",
+      "loss": 4.768360213347478e-06,
+      "gradientNorm": 0.0026363327633589506,
+      "elapsedMs": 1374
+    },
+    {
+      "step": 201,
+      "exampleId": "train-api-contract-3",
+      "loss": 2.455681169521995e-05,
+      "gradientNorm": 0.015690304338932037,
+      "elapsedMs": 1365
+    },
+    {
+      "step": 202,
+      "exampleId": "train-invitation-translation-1",
+      "loss": 4.768370445162873e-07,
+      "gradientNorm": 6.710409797960892e-05,
+      "elapsedMs": 1318
+    },
+    {
+      "step": 203,
+      "exampleId": "train-http-retries-2",
+      "loss": 3.325883881188929e-05,
+      "gradientNorm": 0.00868047121912241,
+      "elapsedMs": 1358
+    },
+    {
+      "step": 204,
+      "exampleId": "train-volume-claim-2",
+      "loss": 1.0967194612021558e-05,
+      "gradientNorm": 0.002468153601512313,
+      "elapsedMs": 1344
+    },
+    {
+      "step": 205,
+      "exampleId": "train-configuration-and-design-2",
+      "loss": 0.000539634027518332,
+      "gradientNorm": 0.25346794724464417,
+      "elapsedMs": 1384
+    },
+    {
+      "step": 206,
+      "exampleId": "train-configuration-and-design-4",
+      "loss": 0.00021741411183029413,
+      "gradientNorm": 0.09695969521999359,
+      "elapsedMs": 1443
+    },
+    {
+      "step": 207,
+      "exampleId": "train-mixed-deliverables-3",
+      "loss": 2.861018856492592e-06,
+      "gradientNorm": 0.0005069691105745733,
+      "elapsedMs": 1375
+    },
+    {
+      "step": 208,
+      "exampleId": "train-volume-claim-4",
+      "loss": 0.000120751719805412,
+      "gradientNorm": 0.08428074419498444,
+      "elapsedMs": 1360
+    },
+    {
+      "step": 209,
+      "exampleId": "train-offline-boundaries-1",
+      "loss": 0.00011657988943625242,
+      "gradientNorm": 0.10106736421585083,
+      "elapsedMs": 1374
+    },
+    {
+      "step": 210,
+      "exampleId": "train-helm-values-2",
+      "loss": 0.10719212144613266,
+      "gradientNorm": 69.2037582397461,
+      "elapsedMs": 1328
+    },
+    {
+      "step": 211,
+      "exampleId": "train-unsupported-language-1",
+      "loss": 2.145764938177308e-06,
+      "gradientNorm": 0.00038603536086156964,
+      "elapsedMs": 1330
+    },
+    {
+      "step": 212,
+      "exampleId": "train-personal-advice-1",
+      "loss": 8.702239938429557e-06,
+      "gradientNorm": 0.002499947790056467,
+      "elapsedMs": 1338
+    },
+    {
+      "step": 213,
+      "exampleId": "train-invitation-translation-3",
+      "loss": 1.0728830375228426e-06,
+      "gradientNorm": 0.00016706890892237425,
+      "elapsedMs": 1302
+    },
+    {
+      "step": 214,
+      "exampleId": "train-config-map-3",
+      "loss": 0.04075317457318306,
+      "gradientNorm": 21.804296493530273,
+      "elapsedMs": 1309
+    },
+    {
+      "step": 215,
+      "exampleId": "train-invitation-translation-2",
+      "loss": 5.960462772236497e-07,
+      "gradientNorm": 7.942728552734479e-05,
+      "elapsedMs": 1271
+    },
+    {
+      "step": 216,
+      "exampleId": "train-unsupported-language-4",
+      "loss": 1.6689286894688848e-06,
+      "gradientNorm": 0.0007306488696485758,
+      "elapsedMs": 1364
+    },
+    {
+      "step": 217,
+      "exampleId": "train-plugin-contract-3",
+      "loss": 1.823885577323381e-05,
+      "gradientNorm": 0.014765563420951366,
+      "elapsedMs": 1351
+    },
+    {
+      "step": 218,
+      "exampleId": "train-docker-multistage-4",
+      "loss": 6.9141146923357155e-06,
+      "gradientNorm": 0.0017645062180235982,
+      "elapsedMs": 1356
+    },
+    {
+      "step": 219,
+      "exampleId": "train-cron-job-1",
+      "loss": 5.364403477869928e-06,
+      "gradientNorm": 0.0012091596145182848,
+      "elapsedMs": 1355
+    },
+    {
+      "step": 220,
+      "exampleId": "train-override-3",
+      "loss": 0.0,
+      "gradientNorm": 3.7176982914388645e-06,
+      "elapsedMs": 1346
+    },
+    {
+      "step": 221,
+      "exampleId": "train-operational-deploy-4",
+      "loss": 7.152555099310121e-07,
+      "gradientNorm": 0.0001586906291777268,
+      "elapsedMs": 1352
+    },
+    {
+      "step": 222,
+      "exampleId": "train-json-validation-3",
+      "loss": 3.814689989667386e-06,
+      "gradientNorm": 0.0005250771064311266,
+      "elapsedMs": 1327
+    },
+    {
+      "step": 223,
+      "exampleId": "train-secret-request-4",
+      "loss": 7.152555099310121e-07,
+      "gradientNorm": 9.708788275020197e-05,
+      "elapsedMs": 1345
+    },
+    {
+      "step": 224,
+      "exampleId": "train-cli-arguments-2",
+      "loss": 2.1576648578047752e-05,
+      "gradientNorm": 0.003242537612095475,
+      "elapsedMs": 1294
+    },
+    {
+      "step": 225,
+      "exampleId": "train-insufficient-context-3",
+      "loss": 1.1920928244535389e-07,
+      "gradientNorm": 1.425827849743655e-05,
+      "elapsedMs": 1345
+    },
+    {
+      "step": 226,
+      "exampleId": "train-offline-boundaries-4",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 4.18844647356309e-05,
+      "elapsedMs": 1349
+    },
+    {
+      "step": 227,
+      "exampleId": "train-design-and-implementation-1",
+      "loss": 0.2834641933441162,
+      "gradientNorm": 94.0796890258789,
+      "elapsedMs": 1294
+    },
+    {
+      "step": 228,
+      "exampleId": "train-personal-advice-3",
+      "loss": 5.960462772236497e-07,
+      "gradientNorm": 0.00010686807945603505,
+      "elapsedMs": 1317
+    },
+    {
+      "step": 229,
+      "exampleId": "train-error-contract-1",
+      "loss": 2.7418097943154862e-06,
+      "gradientNorm": 0.0011481180554255843,
+      "elapsedMs": 1329
+    },
+    {
+      "step": 230,
+      "exampleId": "train-json-validation-1",
+      "loss": 2.50339189733495e-06,
+      "gradientNorm": 0.00034720796975307167,
+      "elapsedMs": 1335
+    },
+    {
+      "step": 231,
+      "exampleId": "train-design-and-implementation-3",
+      "loss": 2.565995216369629,
+      "gradientNorm": 496.4151611328125,
+      "elapsedMs": 1346
+    },
+    {
+      "step": 232,
+      "exampleId": "train-configuration-and-design-1",
+      "loss": 0.4407358467578888,
+      "gradientNorm": 384.9429626464844,
+      "elapsedMs": 1444
+    },
+    {
+      "step": 233,
+      "exampleId": "train-forced-answer-4",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 6.137361197033897e-05,
+      "elapsedMs": 1356
+    },
+    {
+      "step": 234,
+      "exampleId": "train-secret-request-2",
+      "loss": 1.6689286894688848e-06,
+      "gradientNorm": 0.00024666477111168206,
+      "elapsedMs": 1316
+    },
+    {
+      "step": 235,
+      "exampleId": "train-csv-aggregation-3",
+      "loss": 3.790783375734463e-05,
+      "gradientNorm": 0.007122772745788097,
+      "elapsedMs": 1371
+    },
+    {
+      "step": 236,
+      "exampleId": "train-cache-design-2",
+      "loss": 4.529942543740617e-06,
+      "gradientNorm": 0.0008478989475406706,
+      "elapsedMs": 1347
+    },
+    {
+      "step": 237,
+      "exampleId": "train-csv-aggregation-4",
+      "loss": 2.3245540432981215e-05,
+      "gradientNorm": 0.004662260878831148,
+      "elapsedMs": 1354
+    },
+    {
+      "step": 238,
+      "exampleId": "train-config-map-4",
+      "loss": 8.4638240878121e-06,
+      "gradientNorm": 0.0029166950844228268,
+      "elapsedMs": 1352
+    },
+    {
+      "step": 239,
+      "exampleId": "train-sports-prediction-1",
+      "loss": 3.576278118089249e-07,
+      "gradientNorm": 4.967413406120613e-05,
+      "elapsedMs": 1348
+    },
+    {
+      "step": 240,
+      "exampleId": "train-operational-deploy-1",
+      "loss": 2.264974000354414e-06,
+      "gradientNorm": 0.000445780111476779,
+      "elapsedMs": 1332
+    },
+    {
+      "step": 241,
+      "exampleId": "train-http-retries-3",
+      "loss": 1.6331539882230572e-05,
+      "gradientNorm": 0.002612205222249031,
+      "elapsedMs": 1389
+    },
+    {
+      "step": 242,
+      "exampleId": "train-docker-multistage-1",
+      "loss": 0.0007090438157320023,
+      "gradientNorm": 0.21992795169353485,
+      "elapsedMs": 1308
+    },
+    {
+      "step": 243,
+      "exampleId": "train-queue-topology-1",
+      "loss": 0.0009789442410692573,
+      "gradientNorm": 0.533311128616333,
+      "elapsedMs": 1312
+    },
+    {
+      "step": 244,
+      "exampleId": "train-cli-arguments-4",
+      "loss": 8.630380034446716e-05,
+      "gradientNorm": 0.018509788438677788,
+      "elapsedMs": 1367
+    },
+    {
+      "step": 245,
+      "exampleId": "train-config-map-1",
+      "loss": 1.168244216387393e-05,
+      "gradientNorm": 0.005322360899299383,
+      "elapsedMs": 1312
+    },
+    {
+      "step": 246,
+      "exampleId": "train-forced-answer-3",
+      "loss": 3.576278118089249e-07,
+      "gradientNorm": 5.089603291708045e-05,
+      "elapsedMs": 1350
+    },
+    {
+      "step": 247,
+      "exampleId": "train-cli-arguments-3",
+      "loss": 3.93382906622719e-05,
+      "gradientNorm": 0.007196147460490465,
+      "elapsedMs": 1443
+    },
+    {
+      "step": 248,
+      "exampleId": "train-override-2",
+      "loss": 1.1920928244535389e-07,
+      "gradientNorm": 2.1821366317453794e-05,
+      "elapsedMs": 1356
+    },
+    {
+      "step": 249,
+      "exampleId": "train-cli-arguments-1",
+      "loss": 2.455681169521995e-05,
+      "gradientNorm": 0.0037873920518904924,
+      "elapsedMs": 1341
+    },
+    {
+      "step": 250,
+      "exampleId": "train-mixed-deliverables-1",
+      "loss": 1.311301275563892e-06,
+      "gradientNorm": 0.00015707709826529026,
+      "elapsedMs": 1350
+    },
+    {
+      "step": 251,
+      "exampleId": "train-docker-multistage-3",
+      "loss": 0.01636323891580105,
+      "gradientNorm": 8.562692642211914,
+      "elapsedMs": 1345
+    },
+    {
+      "step": 252,
+      "exampleId": "train-offline-boundaries-2",
+      "loss": 1.1920922133867862e-06,
+      "gradientNorm": 0.000168477970873937,
+      "elapsedMs": 1344
+    },
+    {
+      "step": 253,
+      "exampleId": "train-storage-choice-1",
+      "loss": 1.4066597032069694e-05,
+      "gradientNorm": 0.006021487060934305,
+      "elapsedMs": 1338
+    },
+    {
+      "step": 254,
+      "exampleId": "train-operational-deploy-3",
+      "loss": 1.0728830375228426e-06,
+      "gradientNorm": 0.0001555451744934544,
+      "elapsedMs": 1406
+    },
+    {
+      "step": 255,
+      "exampleId": "train-csv-aggregation-1",
+      "loss": 0.0013272295473143458,
+      "gradientNorm": 0.6771301627159119,
+      "elapsedMs": 1416
+    },
+    {
+      "step": 256,
+      "exampleId": "train-plugin-contract-1",
+      "loss": 1.585470999998506e-05,
+      "gradientNorm": 0.004151742905378342,
+      "elapsedMs": 1348
+    },
+    {
+      "step": 257,
+      "exampleId": "train-cache-design-4",
+      "loss": 1.6689286894688848e-06,
+      "gradientNorm": 0.0002686634543351829,
+      "elapsedMs": 1380
+    },
+    {
+      "step": 258,
+      "exampleId": "train-secret-request-3",
+      "loss": 5.006777428206988e-06,
+      "gradientNorm": 0.0009390800842083991,
+      "elapsedMs": 1399
+    },
+    {
+      "step": 259,
+      "exampleId": "train-plugin-contract-2",
+      "loss": 5.602820692729438e-06,
+      "gradientNorm": 0.001298405695706606,
+      "elapsedMs": 1392
+    },
+    {
+      "step": 260,
+      "exampleId": "train-compose-health-3",
+      "loss": 0.00022933237778488547,
+      "gradientNorm": 0.13202700018882751,
+      "elapsedMs": 1344
+    },
+    {
+      "step": 261,
+      "exampleId": "train-modularization-1",
+      "loss": 8.22540732769994e-06,
+      "gradientNorm": 0.0012513082474470139,
+      "elapsedMs": 1308
+    },
+    {
+      "step": 262,
+      "exampleId": "train-json-validation-2",
+      "loss": 5.483612312673358e-06,
+      "gradientNorm": 0.000809055520221591,
+      "elapsedMs": 1296
+    },
+    {
+      "step": 263,
+      "exampleId": "train-error-contract-3",
+      "loss": 7.152555099310121e-07,
+      "gradientNorm": 0.00011106762394774705,
+      "elapsedMs": 1334
+    },
+    {
+      "step": 264,
+      "exampleId": "train-network-policy-4",
+      "loss": 2.0265558760002023e-06,
+      "gradientNorm": 0.00035376634332351387,
+      "elapsedMs": 1339
+    },
+    {
+      "step": 265,
+      "exampleId": "train-sports-prediction-2",
+      "loss": 1.311301275563892e-06,
+      "gradientNorm": 0.00026848510606214404,
+      "elapsedMs": 1295
+    },
+    {
+      "step": 266,
+      "exampleId": "train-network-policy-3",
+      "loss": 2.861018856492592e-06,
+      "gradientNorm": 0.0004964938852936029,
+      "elapsedMs": 1341
+    },
+    {
+      "step": 267,
+      "exampleId": "train-unicode-normalization-2",
+      "loss": 1.2755313036905136e-05,
+      "gradientNorm": 0.0034474257845431566,
+      "elapsedMs": 1332
+    },
+    {
+      "step": 268,
+      "exampleId": "train-cron-job-4",
+      "loss": 1.4305104514278355e-06,
+      "gradientNorm": 0.00030901763238944113,
+      "elapsedMs": 1347
+    },
+    {
+      "step": 269,
+      "exampleId": "train-date-parsing-4",
+      "loss": 1.0728830375228426e-06,
+      "gradientNorm": 0.00015443751181010157,
+      "elapsedMs": 1331
+    },
+    {
+      "step": 270,
+      "exampleId": "train-storage-choice-2",
+      "loss": 3.2186455882765586e-06,
+      "gradientNorm": 0.0009437656844966114,
+      "elapsedMs": 1287
+    },
+    {
+      "step": 271,
+      "exampleId": "train-api-contract-4",
+      "loss": 1.1920922133867862e-06,
+      "gradientNorm": 0.00029453352908603847,
+      "elapsedMs": 1341
+    },
+    {
+      "step": 272,
+      "exampleId": "train-storage-choice-3",
+      "loss": 1.7881377516459906e-06,
+      "gradientNorm": 0.0005393898463808,
+      "elapsedMs": 1323
+    },
+    {
+      "step": 273,
+      "exampleId": "train-mixed-deliverables-4",
+      "loss": 1.4305104514278355e-06,
+      "gradientNorm": 0.00032373025896959007,
+      "elapsedMs": 1343
+    },
+    {
+      "step": 274,
+      "exampleId": "train-queue-topology-3",
+      "loss": 1.4305104514278355e-06,
+      "gradientNorm": 0.0002785199321806431,
+      "elapsedMs": 1333
+    },
+    {
+      "step": 275,
+      "exampleId": "train-insufficient-context-4",
+      "loss": 0.0,
+      "gradientNorm": 5.503983629751019e-06,
+      "elapsedMs": 1328
+    },
+    {
+      "step": 276,
+      "exampleId": "train-secret-request-1",
+      "loss": 9.536738616588991e-07,
+      "gradientNorm": 0.00013774317631032318,
+      "elapsedMs": 1312
+    },
+    {
+      "step": 277,
+      "exampleId": "train-unicode-normalization-3",
+      "loss": 4.0531076592742465e-06,
+      "gradientNorm": 0.000958931224886328,
+      "elapsedMs": 1335
+    },
+    {
+      "step": 278,
+      "exampleId": "train-date-parsing-3",
+      "loss": 2.50339189733495e-06,
+      "gradientNorm": 0.00042298767948523164,
+      "elapsedMs": 1292
+    },
+    {
+      "step": 279,
+      "exampleId": "train-api-contract-1",
+      "loss": 3.194758028257638e-05,
+      "gradientNorm": 0.017172718420624733,
+      "elapsedMs": 1308
+    },
+    {
+      "step": 280,
+      "exampleId": "train-compose-health-1",
+      "loss": 5.245195097813848e-06,
+      "gradientNorm": 0.0015776008367538452,
+      "elapsedMs": 1268
+    },
+    {
+      "step": 281,
+      "exampleId": "train-sqlite-pagination-3",
+      "loss": 7.033323527139146e-06,
+      "gradientNorm": 0.001198165467940271,
+      "elapsedMs": 1342
+    },
+    {
+      "step": 282,
+      "exampleId": "train-compose-health-2",
+      "loss": 2.861018856492592e-06,
+      "gradientNorm": 0.0007882138015702367,
+      "elapsedMs": 1311
+    },
+    {
+      "step": 283,
+      "exampleId": "train-cache-design-3",
+      "loss": 9.536738616588991e-07,
+      "gradientNorm": 0.00016807830252218992,
+      "elapsedMs": 1333
+    },
+    {
+      "step": 284,
+      "exampleId": "train-insufficient-context-2",
+      "loss": 1.1920928244535389e-07,
+      "gradientNorm": 1.6577829228481278e-05,
+      "elapsedMs": 1327
+    },
+    {
+      "step": 285,
+      "exampleId": "train-unicode-normalization-4",
+      "loss": 2.50339189733495e-06,
+      "gradientNorm": 0.0005996812833473086,
+      "elapsedMs": 1336
+    },
+    {
+      "step": 286,
+      "exampleId": "train-modularization-2",
+      "loss": 2.622600959512056e-06,
+      "gradientNorm": 0.00038433869485743344,
+      "elapsedMs": 1324
+    },
+    {
+      "step": 287,
+      "exampleId": "train-storage-choice-4",
+      "loss": 6.079655122448457e-06,
+      "gradientNorm": 0.0045312391594052315,
+      "elapsedMs": 1332
+    },
+    {
+      "step": 288,
+      "exampleId": "train-json-validation-4",
+      "loss": 9.536738616588991e-07,
+      "gradientNorm": 0.00011460662790341303,
+      "elapsedMs": 1338
+    },
+    {
+      "step": 289,
+      "exampleId": "train-personal-advice-4",
+      "loss": 2.622600959512056e-06,
+      "gradientNorm": 0.0006806437741033733,
+      "elapsedMs": 1325
+    },
+    {
+      "step": 290,
+      "exampleId": "train-cli-arguments-3",
+      "loss": 7.867782187531702e-06,
+      "gradientNorm": 0.0011138234985992312,
+      "elapsedMs": 1318
+    },
+    {
+      "step": 291,
+      "exampleId": "train-configuration-and-design-2",
+      "loss": 0.00021872512297704816,
+      "gradientNorm": 0.22875726222991943,
+      "elapsedMs": 1341
+    },
+    {
+      "step": 292,
+      "exampleId": "train-config-map-3",
+      "loss": 5.960462772236497e-07,
+      "gradientNorm": 0.00011125919263577089,
+      "elapsedMs": 1282
+    },
+    {
+      "step": 293,
+      "exampleId": "train-error-contract-4",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 3.625033423304558e-05,
+      "elapsedMs": 1342
+    },
+    {
+      "step": 294,
+      "exampleId": "train-volume-claim-4",
+      "loss": 8.344646857949556e-07,
+      "gradientNorm": 0.0001607079611858353,
+      "elapsedMs": 1316
+    },
+    {
+      "step": 295,
+      "exampleId": "train-plugin-contract-2",
+      "loss": 1.311301275563892e-06,
+      "gradientNorm": 0.00021571008255705237,
+      "elapsedMs": 1417
+    },
+    {
+      "step": 296,
+      "exampleId": "train-unsupported-language-3",
+      "loss": 4.172316494077677e-06,
+      "gradientNorm": 0.0013104984536767006,
+      "elapsedMs": 1271
+    },
+    {
+      "step": 297,
+      "exampleId": "train-plugin-contract-3",
+      "loss": 8.344646857949556e-07,
+      "gradientNorm": 0.00013761810259893537,
+      "elapsedMs": 1323
+    },
+    {
+      "step": 298,
+      "exampleId": "train-operational-deploy-2",
+      "loss": 1.0728830375228426e-06,
+      "gradientNorm": 0.0001715392281766981,
+      "elapsedMs": 1309
+    },
+    {
+      "step": 299,
+      "exampleId": "train-modularization-3",
+      "loss": 1.4305104514278355e-06,
+      "gradientNorm": 0.00022655165230389684,
+      "elapsedMs": 1318
+    },
+    {
+      "step": 300,
+      "exampleId": "train-http-retries-2",
+      "loss": 3.2186455882765586e-06,
+      "gradientNorm": 0.00043469207594171166,
+      "elapsedMs": 1274
+    },
+    {
+      "step": 301,
+      "exampleId": "train-unsupported-language-1",
+      "loss": 3.3378546504536644e-06,
+      "gradientNorm": 0.0005182781023904681,
+      "elapsedMs": 1288
+    },
+    {
+      "step": 302,
+      "exampleId": "train-invitation-translation-2",
+      "loss": 9.536738616588991e-07,
+      "gradientNorm": 0.00015001045539975166,
+      "elapsedMs": 1289
+    },
+    {
+      "step": 303,
+      "exampleId": "train-error-contract-3",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 3.0299708669190295e-05,
+      "elapsedMs": 1319
+    },
+    {
+      "step": 304,
+      "exampleId": "train-config-map-1",
+      "loss": 3.576278118089249e-07,
+      "gradientNorm": 5.27677548234351e-05,
+      "elapsedMs": 1260
+    },
+    {
+      "step": 305,
+      "exampleId": "train-docker-multistage-4",
+      "loss": 1.5497195136049413e-06,
+      "gradientNorm": 0.0003147195966448635,
+      "elapsedMs": 1330
+    },
+    {
+      "step": 306,
+      "exampleId": "train-sqlite-pagination-2",
+      "loss": 4.887569048150908e-06,
+      "gradientNorm": 0.0009510865202173591,
+      "elapsedMs": 1301
+    },
+    {
+      "step": 307,
+      "exampleId": "train-design-and-implementation-3",
+      "loss": 0.0003978414461016655,
+      "gradientNorm": 0.2538408637046814,
+      "elapsedMs": 1321
+    },
+    {
+      "step": 308,
+      "exampleId": "train-csv-aggregation-1",
+      "loss": 7.510157047363464e-06,
+      "gradientNorm": 0.0016688213218003511,
+      "elapsedMs": 1369
+    },
+    {
+      "step": 309,
+      "exampleId": "train-helm-values-4",
+      "loss": 3.576272320060525e-06,
+      "gradientNorm": 0.0008727360400371253,
+      "elapsedMs": 1330
+    },
+    {
+      "step": 310,
+      "exampleId": "train-operational-deploy-1",
+      "loss": 1.0728830375228426e-06,
+      "gradientNorm": 0.0002176713023800403,
+      "elapsedMs": 1325
+    },
+    {
+      "step": 311,
+      "exampleId": "train-cron-job-3",
+      "loss": 1.5497195136049413e-06,
+      "gradientNorm": 0.00027526082703843713,
+      "elapsedMs": 1324
+    },
+    {
+      "step": 312,
+      "exampleId": "train-csv-aggregation-4",
+      "loss": 2.622600959512056e-06,
+      "gradientNorm": 0.00044519826769828796,
+      "elapsedMs": 1341
+    },
+    {
+      "step": 313,
+      "exampleId": "train-sports-prediction-1",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 3.237679629819468e-05,
+      "elapsedMs": 1312
+    },
+    {
+      "step": 314,
+      "exampleId": "train-api-contract-3",
+      "loss": 1.0728830375228426e-06,
+      "gradientNorm": 0.00022426994109991938,
+      "elapsedMs": 1320
+    },
+    {
+      "step": 315,
+      "exampleId": "train-design-and-implementation-1",
+      "loss": 0.0001472126314183697,
+      "gradientNorm": 0.0503687709569931,
+      "elapsedMs": 1287
+    },
+    {
+      "step": 316,
+      "exampleId": "train-invitation-translation-1",
+      "loss": 3.576278118089249e-07,
+      "gradientNorm": 4.874111618846655e-05,
+      "elapsedMs": 1273
+    },
+    {
+      "step": 317,
+      "exampleId": "train-mixed-deliverables-1",
+      "loss": 4.768370445162873e-07,
+      "gradientNorm": 5.141045039636083e-05,
+      "elapsedMs": 1315
+    },
+    {
+      "step": 318,
+      "exampleId": "train-docker-multistage-1",
+      "loss": 3.099436753473128e-06,
+      "gradientNorm": 0.0005980264395475388,
+      "elapsedMs": 1271
+    },
+    {
+      "step": 319,
+      "exampleId": "train-async-cancellation-2",
+      "loss": 2.622600959512056e-06,
+      "gradientNorm": 0.0004338583385106176,
+      "elapsedMs": 1258
+    },
+    {
+      "step": 320,
+      "exampleId": "train-helm-values-2",
+      "loss": 1.9073468138230965e-06,
+      "gradientNorm": 0.0004573961196001619,
+      "elapsedMs": 1276
+    },
+    {
+      "step": 321,
+      "exampleId": "train-network-policy-4",
+      "loss": 7.152555099310121e-07,
+      "gradientNorm": 0.00012150615657446906,
+      "elapsedMs": 1332
+    },
+    {
+      "step": 322,
+      "exampleId": "train-unicode-normalization-4",
+      "loss": 1.4305104514278355e-06,
+      "gradientNorm": 0.000315978832077235,
+      "elapsedMs": 1320
+    },
+    {
+      "step": 323,
+      "exampleId": "train-kubernetes-rbac-2",
+      "loss": 1.311301275563892e-06,
+      "gradientNorm": 0.00019437147420831025,
+      "elapsedMs": 1274
+    },
+    {
+      "step": 324,
+      "exampleId": "train-unicode-normalization-1",
+      "loss": 1.311301275563892e-06,
+      "gradientNorm": 0.00027267573750577867,
+      "elapsedMs": 1316
+    },
+    {
+      "step": 325,
+      "exampleId": "train-date-parsing-2",
+      "loss": 4.768370445162873e-07,
+      "gradientNorm": 6.926935020601377e-05,
+      "elapsedMs": 1309
+    },
+    {
+      "step": 326,
+      "exampleId": "train-csv-aggregation-2",
+      "loss": 3.814689989667386e-06,
+      "gradientNorm": 0.0006042976747266948,
+      "elapsedMs": 1313
+    },
+    {
+      "step": 327,
+      "exampleId": "train-override-4",
+      "loss": 1.1920928244535389e-07,
+      "gradientNorm": 2.6967891244567e-05,
+      "elapsedMs": 1329
+    },
+    {
+      "step": 328,
+      "exampleId": "train-secret-request-2",
+      "loss": 1.311301275563892e-06,
+      "gradientNorm": 0.00022754525707568973,
+      "elapsedMs": 1271
+    },
+    {
+      "step": 329,
+      "exampleId": "train-unicode-normalization-3",
+      "loss": 1.6689286894688848e-06,
+      "gradientNorm": 0.00031920659239403903,
+      "elapsedMs": 1328
+    },
+    {
+      "step": 330,
+      "exampleId": "train-offline-boundaries-4",
+      "loss": 1.1920928244535389e-07,
+      "gradientNorm": 1.3349381333682686e-05,
+      "elapsedMs": 1326
+    },
+    {
+      "step": 331,
+      "exampleId": "train-docker-multistage-2",
+      "loss": 7.510157047363464e-06,
+      "gradientNorm": 0.0015604054788127542,
+      "elapsedMs": 1337
+    },
+    {
+      "step": 332,
+      "exampleId": "train-operational-deploy-4",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 3.346539233461954e-05,
+      "elapsedMs": 1372
+    },
+    {
+      "step": 333,
+      "exampleId": "train-storage-choice-2",
+      "loss": 0.00017045476124621928,
+      "gradientNorm": 0.1907917857170105,
+      "elapsedMs": 1275
+    },
+    {
+      "step": 334,
+      "exampleId": "train-forced-answer-4",
+      "loss": 1.1920928244535389e-07,
+      "gradientNorm": 3.3325330150546506e-05,
+      "elapsedMs": 1344
+    },
+    {
+      "step": 335,
+      "exampleId": "train-json-validation-3",
+      "loss": 1.311301275563892e-06,
+      "gradientNorm": 0.00016261819109786302,
+      "elapsedMs": 1321
+    },
+    {
+      "step": 336,
+      "exampleId": "train-error-contract-2",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 2.9579812689917162e-05,
+      "elapsedMs": 1333
+    },
+    {
+      "step": 337,
+      "exampleId": "train-modularization-1",
+      "loss": 2.9802276912960224e-06,
+      "gradientNorm": 0.00042058745748363435,
+      "elapsedMs": 1280
+    },
+    {
+      "step": 338,
+      "exampleId": "train-configuration-and-design-1",
+      "loss": 3.576278118089249e-07,
+      "gradientNorm": 4.907312904833816e-05,
+      "elapsedMs": 1336
+    },
+    {
+      "step": 339,
+      "exampleId": "train-storage-choice-1",
+      "loss": 1.4305104514278355e-06,
+      "gradientNorm": 0.0004712590598501265,
+      "elapsedMs": 1323
+    },
+    {
+      "step": 340,
+      "exampleId": "train-sports-prediction-3",
+      "loss": 1.1920922133867862e-06,
+      "gradientNorm": 0.00022917723981663585,
+      "elapsedMs": 1338
+    },
+    {
+      "step": 341,
+      "exampleId": "train-csv-aggregation-3",
+      "loss": 4.291525328881107e-06,
+      "gradientNorm": 0.0007110965088941157,
+      "elapsedMs": 1333
+    },
+    {
+      "step": 342,
+      "exampleId": "train-api-contract-4",
+      "loss": 9.536738616588991e-07,
+      "gradientNorm": 0.0003317590453661978,
+      "elapsedMs": 1343
+    },
+    {
+      "step": 343,
+      "exampleId": "train-forced-answer-1",
+      "loss": 4.9470632802695036e-05,
+      "gradientNorm": 0.04516928270459175,
+      "elapsedMs": 1325
+    },
+    {
+      "step": 344,
+      "exampleId": "train-queue-topology-2",
+      "loss": 8.344646857949556e-07,
+      "gradientNorm": 0.00019393381080590189,
+      "elapsedMs": 1278
+    },
+    {
+      "step": 345,
+      "exampleId": "train-modularization-4",
+      "loss": 1.1920922133867862e-06,
+      "gradientNorm": 0.00021807622397318482,
+      "elapsedMs": 1340
+    },
+    {
+      "step": 346,
+      "exampleId": "train-personal-advice-1",
+      "loss": 1.0490362910786644e-05,
+      "gradientNorm": 0.0026155728846788406,
+      "elapsedMs": 1291
+    },
+    {
+      "step": 347,
+      "exampleId": "train-json-validation-2",
+      "loss": 2.145764938177308e-06,
+      "gradientNorm": 0.0002919177641160786,
+      "elapsedMs": 1279
+    },
+    {
+      "step": 348,
+      "exampleId": "train-personal-advice-2",
+      "loss": 1.0728830375228426e-06,
+      "gradientNorm": 0.0002592650125734508,
+      "elapsedMs": 1270
+    },
+    {
+      "step": 349,
+      "exampleId": "train-secret-request-3",
+      "loss": 1.6689286894688848e-06,
+      "gradientNorm": 0.00033726959372870624,
+      "elapsedMs": 1323
+    },
+    {
+      "step": 350,
+      "exampleId": "train-kubernetes-rbac-3",
+      "loss": 2.002696055569686e-05,
+      "gradientNorm": 0.009629198350012302,
+      "elapsedMs": 1369
+    },
+    {
+      "step": 351,
+      "exampleId": "train-network-policy-2",
+      "loss": 1.0728830375228426e-06,
+      "gradientNorm": 0.00017531395133119076,
+      "elapsedMs": 1294
+    },
+    {
+      "step": 352,
+      "exampleId": "train-helm-values-1",
+      "loss": 3.099436753473128e-06,
+      "gradientNorm": 0.0007436886080540717,
+      "elapsedMs": 1372
+    },
+    {
+      "step": 353,
+      "exampleId": "train-modularization-2",
+      "loss": 2.264974000354414e-06,
+      "gradientNorm": 0.00037397342384792864,
+      "elapsedMs": 1332
+    },
+    {
+      "step": 354,
+      "exampleId": "train-date-parsing-1",
+      "loss": 5.960462772236497e-07,
+      "gradientNorm": 8.395426266361028e-05,
+      "elapsedMs": 1277
+    },
+    {
+      "step": 355,
+      "exampleId": "train-secret-request-4",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 2.997401861648541e-05,
+      "elapsedMs": 1334
+    },
+    {
+      "step": 356,
+      "exampleId": "train-cache-design-2",
+      "loss": 8.344646857949556e-07,
+      "gradientNorm": 0.00013538083294406533,
+      "elapsedMs": 1317
+    },
+    {
+      "step": 357,
+      "exampleId": "train-cache-design-4",
+      "loss": 3.576278118089249e-07,
+      "gradientNorm": 5.555542520596646e-05,
+      "elapsedMs": 1320
+    },
+    {
+      "step": 358,
+      "exampleId": "train-sqlite-pagination-3",
+      "loss": 5.245195097813848e-06,
+      "gradientNorm": 0.0009633527370169759,
+      "elapsedMs": 1336
+    },
+    {
+      "step": 359,
+      "exampleId": "train-storage-choice-3",
+      "loss": 7.152555099310121e-07,
+      "gradientNorm": 0.00021247149561531842,
+      "elapsedMs": 1329
+    },
+    {
+      "step": 360,
+      "exampleId": "train-cron-job-2",
+      "loss": 1.1920922133867862e-06,
+      "gradientNorm": 0.00021396750526037067,
+      "elapsedMs": 1289
+    },
+    {
+      "step": 361,
+      "exampleId": "train-insufficient-context-4",
+      "loss": 0.0,
+      "gradientNorm": 3.19977857543563e-06,
+      "elapsedMs": 1337
+    },
+    {
+      "step": 362,
+      "exampleId": "train-error-contract-1",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 3.260451558162458e-05,
+      "elapsedMs": 1309
+    },
+    {
+      "step": 363,
+      "exampleId": "train-http-retries-1",
+      "loss": 1.4305104514278355e-06,
+      "gradientNorm": 0.00018884973542299122,
+      "elapsedMs": 1328
+    },
+    {
+      "step": 364,
+      "exampleId": "train-compose-health-3",
+      "loss": 5.8412379075889476e-06,
+      "gradientNorm": 0.001931722741574049,
+      "elapsedMs": 1284
+    },
+    {
+      "step": 365,
+      "exampleId": "train-insufficient-context-2",
+      "loss": 0.0,
+      "gradientNorm": 7.176938197517302e-06,
+      "elapsedMs": 1317
+    },
+    {
+      "step": 366,
+      "exampleId": "train-override-2",
+      "loss": 1.1920928244535389e-07,
+      "gradientNorm": 3.112367994617671e-05,
+      "elapsedMs": 1326
+    },
+    {
+      "step": 367,
+      "exampleId": "train-cache-design-1",
+      "loss": 1.5497195136049413e-06,
+      "gradientNorm": 0.00026984731084667146,
+      "elapsedMs": 1327
+    },
+    {
+      "step": 368,
+      "exampleId": "train-personal-advice-3",
+      "loss": 1.0728830375228426e-06,
+      "gradientNorm": 0.00023874336329754442,
+      "elapsedMs": 1363
+    },
+    {
+      "step": 369,
+      "exampleId": "train-kubernetes-rbac-4",
+      "loss": 5.960462772236497e-07,
+      "gradientNorm": 0.00010076333273900673,
+      "elapsedMs": 1351
+    },
+    {
+      "step": 370,
+      "exampleId": "train-design-and-implementation-4",
+      "loss": 1.2755313036905136e-05,
+      "gradientNorm": 0.0026254772674292326,
+      "elapsedMs": 1339
+    },
+    {
+      "step": 371,
+      "exampleId": "train-unsupported-language-2",
+      "loss": 1.1920922133867862e-06,
+      "gradientNorm": 0.00017765282245818526,
+      "elapsedMs": 1256
+    },
+    {
+      "step": 372,
+      "exampleId": "train-api-contract-2",
+      "loss": 0.000436925794929266,
+      "gradientNorm": 0.44413018226623535,
+      "elapsedMs": 1280
+    },
+    {
+      "step": 373,
+      "exampleId": "train-cli-arguments-4",
+      "loss": 1.585470999998506e-05,
+      "gradientNorm": 0.003208303125575185,
+      "elapsedMs": 1349
+    },
+    {
+      "step": 374,
+      "exampleId": "train-cache-design-3",
+      "loss": 4.768370445162873e-07,
+      "gradientNorm": 8.768370753386989e-05,
+      "elapsedMs": 1334
+    },
+    {
+      "step": 375,
+      "exampleId": "train-invitation-translation-4",
+      "loss": 1.6689286894688848e-06,
+      "gradientNorm": 0.0003943622868973762,
+      "elapsedMs": 1315
+    },
+    {
+      "step": 376,
+      "exampleId": "train-forced-answer-2",
+      "loss": 2.622600959512056e-06,
+      "gradientNorm": 0.0013227927265688777,
+      "elapsedMs": 1346
+    },
+    {
+      "step": 377,
+      "exampleId": "train-queue-topology-3",
+      "loss": 5.960462772236497e-07,
+      "gradientNorm": 0.00011517939128680155,
+      "elapsedMs": 1341
+    },
+    {
+      "step": 378,
+      "exampleId": "train-async-cancellation-4",
+      "loss": 5.960462772236497e-07,
+      "gradientNorm": 9.050634980667382e-05,
+      "elapsedMs": 1341
+    },
+    {
+      "step": 379,
+      "exampleId": "train-helm-values-3",
+      "loss": 2.861018856492592e-06,
+      "gradientNorm": 0.0006908833747729659,
+      "elapsedMs": 1325
+    },
+    {
+      "step": 380,
+      "exampleId": "train-configuration-and-design-3",
+      "loss": 5.960462772236497e-07,
+      "gradientNorm": 0.00012611271813511848,
+      "elapsedMs": 1338
+    },
+    {
+      "step": 381,
+      "exampleId": "train-plugin-contract-1",
+      "loss": 1.0728830375228426e-06,
+      "gradientNorm": 0.00017345795640721917,
+      "elapsedMs": 1299
+    },
+    {
+      "step": 382,
+      "exampleId": "train-plugin-contract-4",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 3.124479917460121e-05,
+      "elapsedMs": 1332
+    },
+    {
+      "step": 383,
+      "exampleId": "train-mixed-deliverables-4",
+      "loss": 4.768370445162873e-07,
+      "gradientNorm": 8.455579518340528e-05,
+      "elapsedMs": 1330
+    },
+    {
+      "step": 384,
+      "exampleId": "train-storage-choice-4",
+      "loss": 1.1920928244535389e-07,
+      "gradientNorm": 2.4025721359066665e-05,
+      "elapsedMs": 1332
+    },
+    {
+      "step": 385,
+      "exampleId": "train-network-policy-1",
+      "loss": 8.344646857949556e-07,
+      "gradientNorm": 0.00015095944399945438,
+      "elapsedMs": 1316
+    },
+    {
+      "step": 386,
+      "exampleId": "train-invitation-translation-3",
+      "loss": 2.145764938177308e-06,
+      "gradientNorm": 0.0004599216626957059,
+      "elapsedMs": 1269
+    },
+    {
+      "step": 387,
+      "exampleId": "train-configuration-and-design-4",
+      "loss": 7.152555099310121e-07,
+      "gradientNorm": 0.00018060854927171022,
+      "elapsedMs": 1362
+    },
+    {
+      "step": 388,
+      "exampleId": "train-date-parsing-3",
+      "loss": 1.311301275563892e-06,
+      "gradientNorm": 0.00021503781317733228,
+      "elapsedMs": 1273
+    },
+    {
+      "step": 389,
+      "exampleId": "train-config-map-4",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 3.6714434827445075e-05,
+      "elapsedMs": 1322
+    },
+    {
+      "step": 390,
+      "exampleId": "train-override-1",
+      "loss": 3.576278118089249e-07,
+      "gradientNorm": 0.00012200692435726523,
+      "elapsedMs": 1281
+    },
+    {
+      "step": 391,
+      "exampleId": "train-forced-answer-3",
+      "loss": 1.1920928244535389e-07,
+      "gradientNorm": 1.6830870663397945e-05,
+      "elapsedMs": 1318
+    },
+    {
+      "step": 392,
+      "exampleId": "train-sqlite-pagination-1",
+      "loss": 1.9073468138230965e-06,
+      "gradientNorm": 0.0003286082064732909,
+      "elapsedMs": 1299
+    },
+    {
+      "step": 393,
+      "exampleId": "train-volume-claim-2",
+      "loss": 1.0609570381348021e-05,
+      "gradientNorm": 0.002055144403129816,
+      "elapsedMs": 1303
+    },
+    {
+      "step": 394,
+      "exampleId": "train-secret-request-1",
+      "loss": 7.152555099310121e-07,
+      "gradientNorm": 0.00011285499931545928,
+      "elapsedMs": 1272
+    },
+    {
+      "step": 395,
+      "exampleId": "train-volume-claim-1",
+      "loss": 1.3351351299206726e-05,
+      "gradientNorm": 0.0026850022841244936,
+      "elapsedMs": 1262
+    },
+    {
+      "step": 396,
+      "exampleId": "train-mixed-deliverables-3",
+      "loss": 4.768370445162873e-07,
+      "gradientNorm": 8.836841880111024e-05,
+      "elapsedMs": 1378
+    },
+    {
+      "step": 397,
+      "exampleId": "train-compose-health-4",
+      "loss": 5.245195097813848e-06,
+      "gradientNorm": 0.0026750366669148207,
+      "elapsedMs": 1319
+    },
+    {
+      "step": 398,
+      "exampleId": "train-http-retries-4",
+      "loss": 1.4305104514278355e-06,
+      "gradientNorm": 0.00018576811999082565,
+      "elapsedMs": 1338
+    },
+    {
+      "step": 399,
+      "exampleId": "train-json-validation-4",
+      "loss": 5.960462772236497e-07,
+      "gradientNorm": 7.445965457009152e-05,
+      "elapsedMs": 1330
+    },
+    {
+      "step": 400,
+      "exampleId": "train-sqlite-pagination-4",
+      "loss": 6.556489552167477e-06,
+      "gradientNorm": 0.0015758279478177428,
+      "elapsedMs": 1371
+    },
+    {
+      "step": 401,
+      "exampleId": "train-design-and-implementation-2",
+      "loss": 0.003283706260845065,
+      "gradientNorm": 2.035308361053467,
+      "elapsedMs": 1313
+    },
+    {
+      "step": 402,
+      "exampleId": "train-compose-health-1",
+      "loss": 7.390948667307384e-06,
+      "gradientNorm": 0.003347525605931878,
+      "elapsedMs": 1258
+    },
+    {
+      "step": 403,
+      "exampleId": "train-unsupported-language-4",
+      "loss": 0.04596734791994095,
+      "gradientNorm": 82.96672821044922,
+      "elapsedMs": 1300
+    },
+    {
+      "step": 404,
+      "exampleId": "train-config-map-2",
+      "loss": 1.1920928244535389e-07,
+      "gradientNorm": 2.5026149160112254e-05,
+      "elapsedMs": 1303
+    },
+    {
+      "step": 405,
+      "exampleId": "train-offline-boundaries-1",
+      "loss": 0.0,
+      "gradientNorm": 1.1526861271704547e-05,
+      "elapsedMs": 1312
+    },
+    {
+      "step": 406,
+      "exampleId": "train-sports-prediction-2",
+      "loss": 3.576278118089249e-07,
+      "gradientNorm": 6.765895523130894e-05,
+      "elapsedMs": 1352
+    },
+    {
+      "step": 407,
+      "exampleId": "train-cron-job-4",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 4.94036175950896e-05,
+      "elapsedMs": 1330
+    },
+    {
+      "step": 408,
+      "exampleId": "train-queue-topology-4",
+      "loss": 5.722029527532868e-06,
+      "gradientNorm": 0.004058002028614283,
+      "elapsedMs": 1366
+    },
+    {
+      "step": 409,
+      "exampleId": "train-api-contract-1",
+      "loss": 0.00036113892565481365,
+      "gradientNorm": 0.507708728313446,
+      "elapsedMs": 1304
+    },
+    {
+      "step": 410,
+      "exampleId": "train-insufficient-context-1",
+      "loss": 0.0,
+      "gradientNorm": 1.7147129938166472e-06,
+      "elapsedMs": 1266
+    },
+    {
+      "step": 411,
+      "exampleId": "train-date-parsing-4",
+      "loss": 5.960462772236497e-07,
+      "gradientNorm": 9.074135596165434e-05,
+      "elapsedMs": 1309
+    },
+    {
+      "step": 412,
+      "exampleId": "train-kubernetes-rbac-1",
+      "loss": 5.245195097813848e-06,
+      "gradientNorm": 0.002530232537537813,
+      "elapsedMs": 1304
+    },
+    {
+      "step": 413,
+      "exampleId": "train-insufficient-context-3",
+      "loss": 0.0,
+      "gradientNorm": 2.8526983442134224e-06,
+      "elapsedMs": 1322
+    },
+    {
+      "step": 414,
+      "exampleId": "train-cron-job-1",
+      "loss": 2.0265373677830212e-05,
+      "gradientNorm": 0.0172442477196455,
+      "elapsedMs": 1308
+    },
+    {
+      "step": 415,
+      "exampleId": "train-unicode-normalization-2",
+      "loss": 0.00019035911827813834,
+      "gradientNorm": 0.0998200923204422,
+      "elapsedMs": 1352
+    },
+    {
+      "step": 416,
+      "exampleId": "train-cli-arguments-2",
+      "loss": 2.682172998902388e-05,
+      "gradientNorm": 0.008856342174112797,
+      "elapsedMs": 1263
+    },
+    {
+      "step": 417,
+      "exampleId": "train-compose-health-2",
+      "loss": 0.004940682090818882,
+      "gradientNorm": 6.275115966796875,
+      "elapsedMs": 1310
+    },
+    {
+      "step": 418,
+      "exampleId": "train-override-3",
+      "loss": 0.0,
+      "gradientNorm": 7.0597957346763e-07,
+      "elapsedMs": 1304
+    },
+    {
+      "step": 419,
+      "exampleId": "train-async-cancellation-3",
+      "loss": 9.536738616588991e-07,
+      "gradientNorm": 0.00015723842079751194,
+      "elapsedMs": 1317
+    },
+    {
+      "step": 420,
+      "exampleId": "train-offline-boundaries-3",
+      "loss": 3.576278118089249e-07,
+      "gradientNorm": 9.227386908605695e-05,
+      "elapsedMs": 1322
+    },
+    {
+      "step": 421,
+      "exampleId": "train-async-cancellation-1",
+      "loss": 8.344646857949556e-07,
+      "gradientNorm": 0.00016497712931595743,
+      "elapsedMs": 1269
+    },
+    {
+      "step": 422,
+      "exampleId": "train-cli-arguments-1",
+      "loss": 4.529942543740617e-06,
+      "gradientNorm": 0.0007816240540705621,
+      "elapsedMs": 1327
+    },
+    {
+      "step": 423,
+      "exampleId": "train-http-retries-3",
+      "loss": 1.4305104514278355e-06,
+      "gradientNorm": 0.00022622518008574843,
+      "elapsedMs": 1321
+    },
+    {
+      "step": 424,
+      "exampleId": "train-volume-claim-3",
+      "loss": 1.1920928244535389e-07,
+      "gradientNorm": 2.5869314413284883e-05,
+      "elapsedMs": 1271
+    },
+    {
+      "step": 425,
+      "exampleId": "train-json-validation-1",
+      "loss": 9.536738616588991e-07,
+      "gradientNorm": 0.00015322424587793648,
+      "elapsedMs": 1302
+    },
+    {
+      "step": 426,
+      "exampleId": "train-offline-boundaries-2",
+      "loss": 0.0,
+      "gradientNorm": 6.824330284871394e-06,
+      "elapsedMs": 1311
+    },
+    {
+      "step": 427,
+      "exampleId": "train-network-policy-3",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 4.801284012501128e-05,
+      "elapsedMs": 1321
+    },
+    {
+      "step": 428,
+      "exampleId": "train-docker-multistage-3",
+      "loss": 7.152555099310121e-07,
+      "gradientNorm": 0.00016655134095344692,
+      "elapsedMs": 1341
+    },
+    {
+      "step": 429,
+      "exampleId": "train-operational-deploy-3",
+      "loss": 0.0,
+      "gradientNorm": 1.0978454156429507e-05,
+      "elapsedMs": 1343
+    },
+    {
+      "step": 430,
+      "exampleId": "train-sports-prediction-4",
+      "loss": 1.1920928244535389e-07,
+      "gradientNorm": 1.8947663193102926e-05,
+      "elapsedMs": 1329
+    },
+    {
+      "step": 431,
+      "exampleId": "train-mixed-deliverables-2",
+      "loss": 1.1920928244535389e-07,
+      "gradientNorm": 1.4655724044132512e-05,
+      "elapsedMs": 1323
+    },
+    {
+      "step": 432,
+      "exampleId": "train-queue-topology-1",
+      "loss": 2.3841855067985307e-07,
+      "gradientNorm": 4.484208329813555e-05,
+      "elapsedMs": 1282
+    }
+  ],
+  "productionReady": false,
+  "phoneValidated": false,
+  "specialistsQualified": 0,
+  "distillationPerformed": false,
+  "localBuildsOrTests": 0,
+  "profile": "routing-quality-candidate-v2-2026-11-14",
+  "updatedAt": "2026-11-14T10:57:31Z",
+  "protocolSha256": "7a8011dfb4866ae907717ee6a1a2fc8c6848d7157097f392b02bd724d74de09f",
+  "confirmation": {
+    "status": "withheld",
+    "reason": "The frozen validation gate failed; no confirmation inference or label inspection was performed."
+  },
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+    "versions": {
+      "torch": "2.15.0+cpu",
+      "transformers": "5.23.0",
+      "peft": "0.21.3",
+      "accelerate": "1.15.0",
+      "safetensors": "0.8.0",
+      "huggingface-hub": "2.4.0"
+    },
+    "cudaBuild": null
+  },
+  "modelFiles": {
+    "model.safetensors": {
+      "sha256": "fdf756fa7fcbe7404d5c60e26bff1a0c8b8aa1f72ced49e7dd0210fe288fb7fe",
+      "bytes": 988097824
+    },
+    "config.json": {
+      "sha256": "18e18afcaccafade98daf13a54092927904649e1dd4eba8299ab717d5d94ff45",
+      "bytes": 659
+    },
+    "tokenizer_config.json": {
+      "sha256": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583",
+      "bytes": 7305
+    },
+    "tokenizer.json": {
+      "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "bytes": 7031645
+    },
+    "LICENSE": {
+      "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+      "bytes": 11343
+    }
+  },
+  "baseline": [
+    {
+      "id": "validation-generator-cleanup-1",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.530275344848633,
+        19.278120040893555,
+        16.650043487548828,
+        17.686073303222656
+      ],
+      "elapsedMs": 627
+    },
+    {
+      "id": "validation-generator-cleanup-2",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.317424774169922,
+        19.911895751953125,
+        18.070247650146484,
+        18.015079498291016
+      ],
+      "elapsedMs": 619
+    },
+    {
+      "id": "validation-generator-cleanup-3",
+      "expected": "A",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.316129684448242,
+        20.496286392211914,
+        17.668724060058594,
+        17.8024959564209
+      ],
+      "elapsedMs": 632
+    },
+    {
+      "id": "validation-generator-cleanup-4",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.417577743530273,
+        19.843168258666992,
+        17.96105194091797,
+        17.853839874267578
+      ],
+      "elapsedMs": 642
+    },
+    {
+      "id": "validation-path-filter-1",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.09014320373535,
+        19.31519317626953,
+        15.147512435913086,
+        15.459527015686035
+      ],
+      "elapsedMs": 655
+    },
+    {
+      "id": "validation-path-filter-2",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.399215698242188,
+        19.46946144104004,
+        15.329668998718262,
+        15.390207290649414
+      ],
+      "elapsedMs": 633
+    },
+    {
+      "id": "validation-path-filter-3",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.893970489501953,
+        21.491920471191406,
+        18.460803985595703,
+        17.87687873840332
+      ],
+      "elapsedMs": 652
+    },
+    {
+      "id": "validation-path-filter-4",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        22.079288482666016,
+        20.62654685974121,
+        17.290607452392578,
+        16.61164093017578
+      ],
+      "elapsedMs": 639
+    },
+    {
+      "id": "validation-nested-data-1",
+      "expected": "A",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.202911376953125,
+        21.973848342895508,
+        17.754056930541992,
+        17.807958602905273
+      ],
+      "elapsedMs": 622
+    },
+    {
+      "id": "validation-nested-data-2",
+      "expected": "A",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.889142990112305,
+        22.474533081054688,
+        18.4608211517334,
+        17.86420440673828
+      ],
+      "elapsedMs": 625
+    },
+    {
+      "id": "validation-nested-data-3",
+      "expected": "A",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.729106903076172,
+        22.14511489868164,
+        18.651113510131836,
+        18.030834197998047
+      ],
+      "elapsedMs": 635
+    },
+    {
+      "id": "validation-nested-data-4",
+      "expected": "A",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        22.078102111816406,
+        22.310298919677734,
+        18.07562255859375,
+        17.576875686645508
+      ],
+      "elapsedMs": 646
+    },
+    {
+      "id": "validation-decimal-rounding-1",
+      "expected": "A",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.310855865478516,
+        22.075542449951172,
+        18.679027557373047,
+        18.136707305908203
+      ],
+      "elapsedMs": 621
+    },
+    {
+      "id": "validation-decimal-rounding-2",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.498558044433594,
+        18.688615798950195,
+        16.125324249267578,
+        15.83980941772461
+      ],
+      "elapsedMs": 624
+    },
+    {
+      "id": "validation-decimal-rounding-3",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.92325210571289,
+        20.536462783813477,
+        17.806987762451172,
+        17.453399658203125
+      ],
+      "elapsedMs": 640
+    },
+    {
+      "id": "validation-decimal-rounding-4",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.40442657470703,
+        18.439865112304688,
+        15.9148530960083,
+        15.751740455627441
+      ],
+      "elapsedMs": 635
+    },
+    {
+      "id": "validation-docker-ignore-1",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        17.800643920898438,
+        14.065366744995117,
+        12.076516151428223,
+        15.572497367858887
+      ],
+      "elapsedMs": 631
+    },
+    {
+      "id": "validation-docker-ignore-2",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        17.887779235839844,
+        13.294611930847168,
+        12.078455924987793,
+        15.126201629638672
+      ],
+      "elapsedMs": 637
+    },
+    {
+      "id": "validation-docker-ignore-3",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.162734985351562,
+        20.882190704345703,
+        18.315582275390625,
+        18.57080078125
+      ],
+      "elapsedMs": 644
+    },
+    {
+      "id": "validation-docker-ignore-4",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.19113540649414,
+        18.821622848510742,
+        15.50537395477295,
+        15.90186882019043
+      ],
+      "elapsedMs": 644
+    },
+    {
+      "id": "validation-statefulset-1",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.302303314208984,
+        16.52742576599121,
+        14.221370697021484,
+        14.03038501739502
+      ],
+      "elapsedMs": 617
+    },
+    {
+      "id": "validation-statefulset-2",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.560272216796875,
+        17.37580680847168,
+        15.098498344421387,
+        14.452835083007812
+      ],
+      "elapsedMs": 637
+    },
+    {
+      "id": "validation-statefulset-3",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.55486488342285,
+        20.548614501953125,
+        20.42926788330078,
+        18.03609848022461
+      ],
+      "elapsedMs": 636
+    },
+    {
+      "id": "validation-statefulset-4",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.012561798095703,
+        19.589229583740234,
+        18.143993377685547,
+        16.17028045654297
+      ],
+      "elapsedMs": 646
+    },
+    {
+      "id": "validation-compose-volumes-1",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.146141052246094,
+        21.473819732666016,
+        20.734041213989258,
+        18.428661346435547
+      ],
+      "elapsedMs": 617
+    },
+    {
+      "id": "validation-compose-volumes-2",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.6630859375,
+        17.72127914428711,
+        16.0212459564209,
+        16.283308029174805
+      ],
+      "elapsedMs": 626
+    },
+    {
+      "id": "validation-compose-volumes-3",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.769737243652344,
+        20.19422149658203,
+        19.425979614257812,
+        17.74967384338379
+      ],
+      "elapsedMs": 624
+    },
+    {
+      "id": "validation-compose-volumes-4",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.784053802490234,
+        17.50020408630371,
+        16.118976593017578,
+        15.72500228881836
+      ],
+      "elapsedMs": 650
+    },
+    {
+      "id": "validation-helm-annotations-1",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.962890625,
+        20.192745208740234,
+        19.89312744140625,
+        19.052928924560547
+      ],
+      "elapsedMs": 615
+    },
+    {
+      "id": "validation-helm-annotations-2",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.35570526123047,
+        20.34441566467285,
+        20.348472595214844,
+        18.836902618408203
+      ],
+      "elapsedMs": 640
+    },
+    {
+      "id": "validation-helm-annotations-3",
+      "expected": "B",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.80087661743164,
+        20.455821990966797,
+        21.046995162963867,
+        19.015281677246094
+      ],
+      "elapsedMs": 631
+    },
+    {
+      "id": "validation-helm-annotations-4",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.64004135131836,
+        20.2095947265625,
+        20.094457626342773,
+        18.63201904296875
+      ],
+      "elapsedMs": 643
+    },
+    {
+      "id": "validation-observability-design-1",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.88037109375,
+        20.399532318115234,
+        19.846603393554688,
+        19.798925399780273
+      ],
+      "elapsedMs": 638
+    },
+    {
+      "id": "validation-observability-design-2",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.64409828186035,
+        19.5292911529541,
+        18.410118103027344,
+        18.567062377929688
+      ],
+      "elapsedMs": 621
+    },
+    {
+      "id": "validation-observability-design-3",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.087169647216797,
+        20.9237117767334,
+        20.46984100341797,
+        19.579025268554688
+      ],
+      "elapsedMs": 638
+    },
+    {
+      "id": "validation-observability-design-4",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.657947540283203,
+        20.943279266357422,
+        20.72612762451172,
+        19.63744354248047
+      ],
+      "elapsedMs": 647
+    },
+    {
+      "id": "validation-versioned-api-1",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.730472564697266,
+        17.568452835083008,
+        15.66511344909668,
+        16.610612869262695
+      ],
+      "elapsedMs": 625
+    },
+    {
+      "id": "validation-versioned-api-2",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.716524124145508,
+        17.48499298095703,
+        15.584083557128906,
+        16.672637939453125
+      ],
+      "elapsedMs": 622
+    },
+    {
+      "id": "validation-versioned-api-3",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.155099868774414,
+        20.043230056762695,
+        19.40373992919922,
+        18.057483673095703
+      ],
+      "elapsedMs": 631
+    },
+    {
+      "id": "validation-versioned-api-4",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.88173484802246,
+        18.625194549560547,
+        17.818363189697266,
+        17.359172821044922
+      ],
+      "elapsedMs": 635
+    },
+    {
+      "id": "validation-sync-design-1",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.554533004760742,
+        18.14627456665039,
+        18.20075225830078,
+        18.47002410888672
+      ],
+      "elapsedMs": 613
+    },
+    {
+      "id": "validation-sync-design-2",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.968509674072266,
+        18.80525016784668,
+        18.438247680664062,
+        18.189144134521484
+      ],
+      "elapsedMs": 635
+    },
+    {
+      "id": "validation-sync-design-3",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.913270950317383,
+        20.33965301513672,
+        20.104663848876953,
+        19.090171813964844
+      ],
+      "elapsedMs": 628
+    },
+    {
+      "id": "validation-sync-design-4",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.73996353149414,
+        20.0111026763916,
+        19.4178466796875,
+        18.46363639831543
+      ],
+      "elapsedMs": 645
+    },
+    {
+      "id": "validation-authorization-design-1",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        17.592823028564453,
+        14.829590797424316,
+        12.760496139526367,
+        15.129570007324219
+      ],
+      "elapsedMs": 650
+    },
+    {
+      "id": "validation-authorization-design-2",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        17.363195419311523,
+        13.950616836547852,
+        12.40699291229248,
+        14.222590446472168
+      ],
+      "elapsedMs": 623
+    },
+    {
+      "id": "validation-authorization-design-3",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.235828399658203,
+        19.191604614257812,
+        16.403759002685547,
+        16.912267684936523
+      ],
+      "elapsedMs": 651
+    },
+    {
+      "id": "validation-authorization-design-4",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.551382064819336,
+        17.15720558166504,
+        14.205415725708008,
+        15.509379386901855
+      ],
+      "elapsedMs": 656
+    },
+    {
+      "id": "validation-embedded-policy-1",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.530441284179688,
+        20.913330078125,
+        19.459177017211914,
+        18.68178367614746
+      ],
+      "elapsedMs": 658
+    },
+    {
+      "id": "validation-embedded-policy-2",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.70987319946289,
+        20.589176177978516,
+        18.974685668945312,
+        18.600513458251953
+      ],
+      "elapsedMs": 651
+    },
+    {
+      "id": "validation-embedded-policy-3",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.551401138305664,
+        21.04416275024414,
+        20.271072387695312,
+        18.750595092773438
+      ],
+      "elapsedMs": 657
+    },
+    {
+      "id": "validation-embedded-policy-4",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.74470329284668,
+        20.54257583618164,
+        19.397212982177734,
+        18.491130828857422
+      ],
+      "elapsedMs": 667
+    },
+    {
+      "id": "validation-financial-request-1",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        16.822969436645508,
+        15.018099784851074,
+        13.696365356445312,
+        16.833620071411133
+      ],
+      "elapsedMs": 618
+    },
+    {
+      "id": "validation-financial-request-2",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        17.354080200195312,
+        15.193648338317871,
+        14.37831974029541,
+        16.96978187561035
+      ],
+      "elapsedMs": 612
+    },
+    {
+      "id": "validation-financial-request-3",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.425443649291992,
+        18.760372161865234,
+        18.13965606689453,
+        18.770902633666992
+      ],
+      "elapsedMs": 621
+    },
+    {
+      "id": "validation-financial-request-4",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.007442474365234,
+        17.402151107788086,
+        17.307849884033203,
+        18.520977020263672
+      ],
+      "elapsedMs": 623
+    },
+    {
+      "id": "validation-mixed-design-code-1",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.693445205688477,
+        21.15154266357422,
+        20.874486923217773,
+        19.309309005737305
+      ],
+      "elapsedMs": 631
+    },
+    {
+      "id": "validation-mixed-design-code-2",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.435834884643555,
+        20.591602325439453,
+        20.076202392578125,
+        18.605886459350586
+      ],
+      "elapsedMs": 626
+    },
+    {
+      "id": "validation-mixed-design-code-3",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        22.074277877807617,
+        21.66124725341797,
+        21.20626449584961,
+        19.492902755737305
+      ],
+      "elapsedMs": 691
+    },
+    {
+      "id": "validation-mixed-design-code-4",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        22.140533447265625,
+        21.22435760498047,
+        20.855060577392578,
+        18.978561401367188
+      ],
+      "elapsedMs": 655
+    },
+    {
+      "id": "validation-ambiguous-improvement-1",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.255910873413086,
+        16.129226684570312,
+        14.353567123413086,
+        16.727041244506836
+      ],
+      "elapsedMs": 644
+    },
+    {
+      "id": "validation-ambiguous-improvement-2",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.120359420776367,
+        16.701576232910156,
+        14.846617698669434,
+        17.08441925048828
+      ],
+      "elapsedMs": 648
+    },
+    {
+      "id": "validation-ambiguous-improvement-3",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.022092819213867,
+        17.971481323242188,
+        16.722957611083984,
+        18.065427780151367
+      ],
+      "elapsedMs": 641
+    },
+    {
+      "id": "validation-ambiguous-improvement-4",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.096805572509766,
+        16.656314849853516,
+        14.868795394897461,
+        16.196531295776367
+      ],
+      "elapsedMs": 650
+    }
+  ],
+  "zeroAdapterProbes": [
+    {
+      "id": "validation-generator-cleanup-1",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.530275344848633,
+        19.278120040893555,
+        16.650043487548828,
+        17.686073303222656
+      ],
+      "elapsedMs": 671
+    },
+    {
+      "id": "validation-path-filter-1",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.09014320373535,
+        19.31519317626953,
+        15.147512435913086,
+        15.459527015686035
+      ],
+      "elapsedMs": 644
+    },
+    {
+      "id": "validation-docker-ignore-1",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        17.800643920898438,
+        14.065366744995117,
+        12.076516151428223,
+        15.572497367858887
+      ],
+      "elapsedMs": 622
+    },
+    {
+      "id": "validation-statefulset-1",
+      "expected": "B",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.302303314208984,
+        16.52742576599121,
+        14.221370697021484,
+        14.03038501739502
+      ],
+      "elapsedMs": 628
+    },
+    {
+      "id": "validation-observability-design-1",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.88037109375,
+        20.399532318115234,
+        19.846603393554688,
+        19.798925399780273
+      ],
+      "elapsedMs": 639
+    },
+    {
+      "id": "validation-versioned-api-1",
+      "expected": "C",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.730472564697266,
+        17.568452835083008,
+        15.66511344909668,
+        16.610612869262695
+      ],
+      "elapsedMs": 624
+    },
+    {
+      "id": "validation-embedded-policy-1",
+      "expected": "D",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.530441284179688,
+        20.913330078125,
+        19.459177017211914,
+        18.68178367614746
+      ],
+      "elapsedMs": 658
+    },
+    {
+      "id": "validation-financial-request-1",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        16.822969436645508,
+        15.018099784851074,
+        13.696365356445312,
+        16.833620071411133
+      ],
+      "elapsedMs": 621
+    }
+  ],
+  "parityProbeIds": [
+    "validation-generator-cleanup-1",
+    "validation-path-filter-1",
+    "validation-docker-ignore-1",
+    "validation-statefulset-1",
+    "validation-observability-design-1",
+    "validation-versioned-api-1",
+    "validation-embedded-policy-1",
+    "validation-financial-request-1"
+  ],
+  "zeroAdapterParity": true,
+  "trainableParameters": 540672,
+  "trainingOrder": [
+    "train-kubernetes-rbac-2",
+    "train-docker-multistage-3",
+    "train-design-and-implementation-4",
+    "train-forced-answer-1",
+    "train-configuration-and-design-3",
+    "train-date-parsing-3",
+    "train-error-contract-2",
+    "train-secret-request-2",
+    "train-modularization-4",
+    "train-helm-values-4",
+    "train-api-contract-3",
+    "train-csv-aggregation-3",
+    "train-cron-job-4",
+    "train-sports-prediction-4",
+    "train-docker-multistage-4",
+    "train-configuration-and-design-1",
+    "train-cli-arguments-2",
+    "train-kubernetes-rbac-4",
+    "train-error-contract-4",
+    "train-offline-boundaries-2",
+    "train-api-contract-4",
+    "train-csv-aggregation-4",
+    "train-csv-aggregation-1",
+    "train-json-validation-2",
+    "train-unicode-normalization-2",
+    "train-date-parsing-4",
+    "train-plugin-contract-2",
+    "train-date-parsing-1",
+    "train-unsupported-language-2",
+    "train-api-contract-1",
+    "train-json-validation-1",
+    "train-cron-job-1",
+    "train-operational-deploy-3",
+    "train-configuration-and-design-2",
+    "train-design-and-implementation-1",
+    "train-operational-deploy-2",
+    "train-csv-aggregation-2",
+    "train-sqlite-pagination-1",
+    "train-mixed-deliverables-2",
+    "train-config-map-2",
+    "train-volume-claim-2",
+    "train-mixed-deliverables-3",
+    "train-compose-health-3",
+    "train-sqlite-pagination-2",
+    "train-invitation-translation-4",
+    "train-queue-topology-1",
+    "train-queue-topology-4",
+    "train-queue-topology-2",
+    "train-design-and-implementation-3",
+    "train-http-retries-2",
+    "train-operational-deploy-1",
+    "train-kubernetes-rbac-1",
+    "train-docker-multistage-1",
+    "train-network-policy-1",
+    "train-plugin-contract-1",
+    "train-storage-choice-4",
+    "train-config-map-4",
+    "train-personal-advice-1",
+    "train-cli-arguments-1",
+    "train-modularization-3",
+    "train-volume-claim-4",
+    "train-helm-values-3",
+    "train-http-retries-4",
+    "train-unicode-normalization-3",
+    "train-error-contract-3",
+    "train-sports-prediction-2",
+    "train-plugin-contract-3",
+    "train-storage-choice-3",
+    "train-insufficient-context-3",
+    "train-forced-answer-4",
+    "train-storage-choice-2",
+    "train-offline-boundaries-1",
+    "train-unsupported-language-4",
+    "train-cron-job-3",
+    "train-plugin-contract-4",
+    "train-json-validation-4",
+    "train-modularization-1",
+    "train-insufficient-context-4",
+    "train-override-1",
+    "train-sports-prediction-3",
+    "train-config-map-1",
+    "train-invitation-translation-1",
+    "train-error-contract-1",
+    "train-compose-health-1",
+    "train-volume-claim-1",
+    "train-async-cancellation-2",
+    "train-kubernetes-rbac-3",
+    "train-override-3",
+    "train-forced-answer-3",
+    "train-offline-boundaries-4",
+    "train-network-policy-3",
+    "train-sqlite-pagination-3",
+    "train-personal-advice-2",
+    "train-secret-request-3",
+    "train-date-parsing-2",
+    "train-queue-topology-3",
+    "train-async-cancellation-3",
+    "train-cache-design-1",
+    "train-personal-advice-3",
+    "train-cron-job-2",
+    "train-cache-design-3",
+    "train-secret-request-1",
+    "train-cli-arguments-3",
+    "train-network-policy-2",
+    "train-operational-deploy-4",
+    "train-cli-arguments-4",
+    "train-cache-design-2",
+    "train-sqlite-pagination-4",
+    "train-modularization-2",
+    "train-override-4",
+    "train-compose-health-2",
+    "train-invitation-translation-3",
+    "train-config-map-3",
+    "train-unicode-normalization-1",
+    "train-configuration-and-design-4",
+    "train-unsupported-language-1",
+    "train-network-policy-4",
+    "train-insufficient-context-2",
+    "train-unicode-normalization-4",
+    "train-storage-choice-1",
+    "train-offline-boundaries-3",
+    "train-mixed-deliverables-1",
+    "train-cache-design-4",
+    "train-async-cancellation-4",
+    "train-volume-claim-3",
+    "train-http-retries-3",
+    "train-http-retries-1",
+    "train-api-contract-2",
+    "train-forced-answer-2",
+    "train-override-2",
+    "train-personal-advice-4",
+    "train-sports-prediction-1",
+    "train-compose-health-4",
+    "train-unsupported-language-3",
+    "train-helm-values-1",
+    "train-insufficient-context-1",
+    "train-json-validation-3",
+    "train-secret-request-4",
+    "train-docker-multistage-2",
+    "train-design-and-implementation-2",
+    "train-mixed-deliverables-4",
+    "train-invitation-translation-2",
+    "train-helm-values-2",
+    "train-async-cancellation-1",
+    "train-override-1",
+    "train-cron-job-2",
+    "train-async-cancellation-3",
+    "train-helm-values-4",
+    "train-forced-answer-2",
+    "train-forced-answer-1",
+    "train-async-cancellation-1",
+    "train-network-policy-2",
+    "train-error-contract-2",
+    "train-helm-values-3",
+    "train-volume-claim-1",
+    "train-personal-advice-2",
+    "train-design-and-implementation-2",
+    "train-api-contract-2",
+    "train-http-retries-4",
+    "train-kubernetes-rbac-2",
+    "train-docker-multistage-2",
+    "train-operational-deploy-2",
+    "train-async-cancellation-4",
+    "train-insufficient-context-1",
+    "train-error-contract-4",
+    "train-date-parsing-1",
+    "train-sports-prediction-3",
+    "train-date-parsing-2",
+    "train-async-cancellation-2",
+    "train-cron-job-3",
+    "train-offline-boundaries-3",
+    "train-sqlite-pagination-4",
+    "train-modularization-4",
+    "train-invitation-translation-4",
+    "train-sports-prediction-4",
+    "train-csv-aggregation-2",
+    "train-override-4",
+    "train-sqlite-pagination-1",
+    "train-queue-topology-4",
+    "train-kubernetes-rbac-3",
+    "train-volume-claim-3",
+    "train-modularization-3",
+    "train-mixed-deliverables-2",
+    "train-cache-design-1",
+    "train-config-map-2",
+    "train-unsupported-language-2",
+    "train-compose-health-4",
+    "train-unsupported-language-3",
+    "train-network-policy-1",
+    "train-unicode-normalization-1",
+    "train-http-retries-1",
+    "train-helm-values-1",
+    "train-configuration-and-design-3",
+    "train-personal-advice-4",
+    "train-kubernetes-rbac-1",
+    "train-kubernetes-rbac-4",
+    "train-sqlite-pagination-2",
+    "train-design-and-implementation-4",
+    "train-queue-topology-2",
+    "train-plugin-contract-4",
+    "train-api-contract-3",
+    "train-invitation-translation-1",
+    "train-http-retries-2",
+    "train-volume-claim-2",
+    "train-configuration-and-design-2",
+    "train-configuration-and-design-4",
+    "train-mixed-deliverables-3",
+    "train-volume-claim-4",
+    "train-offline-boundaries-1",
+    "train-helm-values-2",
+    "train-unsupported-language-1",
+    "train-personal-advice-1",
+    "train-invitation-translation-3",
+    "train-config-map-3",
+    "train-invitation-translation-2",
+    "train-unsupported-language-4",
+    "train-plugin-contract-3",
+    "train-docker-multistage-4",
+    "train-cron-job-1",
+    "train-override-3",
+    "train-operational-deploy-4",
+    "train-json-validation-3",
+    "train-secret-request-4",
+    "train-cli-arguments-2",
+    "train-insufficient-context-3",
+    "train-offline-boundaries-4",
+    "train-design-and-implementation-1",
+    "train-personal-advice-3",
+    "train-error-contract-1",
+    "train-json-validation-1",
+    "train-design-and-implementation-3",
+    "train-configuration-and-design-1",
+    "train-forced-answer-4",
+    "train-secret-request-2",
+    "train-csv-aggregation-3",
+    "train-cache-design-2",
+    "train-csv-aggregation-4",
+    "train-config-map-4",
+    "train-sports-prediction-1",
+    "train-operational-deploy-1",
+    "train-http-retries-3",
+    "train-docker-multistage-1",
+    "train-queue-topology-1",
+    "train-cli-arguments-4",
+    "train-config-map-1",
+    "train-forced-answer-3",
+    "train-cli-arguments-3",
+    "train-override-2",
+    "train-cli-arguments-1",
+    "train-mixed-deliverables-1",
+    "train-docker-multistage-3",
+    "train-offline-boundaries-2",
+    "train-storage-choice-1",
+    "train-operational-deploy-3",
+    "train-csv-aggregation-1",
+    "train-plugin-contract-1",
+    "train-cache-design-4",
+    "train-secret-request-3",
+    "train-plugin-contract-2",
+    "train-compose-health-3",
+    "train-modularization-1",
+    "train-json-validation-2",
+    "train-error-contract-3",
+    "train-network-policy-4",
+    "train-sports-prediction-2",
+    "train-network-policy-3",
+    "train-unicode-normalization-2",
+    "train-cron-job-4",
+    "train-date-parsing-4",
+    "train-storage-choice-2",
+    "train-api-contract-4",
+    "train-storage-choice-3",
+    "train-mixed-deliverables-4",
+    "train-queue-topology-3",
+    "train-insufficient-context-4",
+    "train-secret-request-1",
+    "train-unicode-normalization-3",
+    "train-date-parsing-3",
+    "train-api-contract-1",
+    "train-compose-health-1",
+    "train-sqlite-pagination-3",
+    "train-compose-health-2",
+    "train-cache-design-3",
+    "train-insufficient-context-2",
+    "train-unicode-normalization-4",
+    "train-modularization-2",
+    "train-storage-choice-4",
+    "train-json-validation-4",
+    "train-personal-advice-4",
+    "train-cli-arguments-3",
+    "train-configuration-and-design-2",
+    "train-config-map-3",
+    "train-error-contract-4",
+    "train-volume-claim-4",
+    "train-plugin-contract-2",
+    "train-unsupported-language-3",
+    "train-plugin-contract-3",
+    "train-operational-deploy-2",
+    "train-modularization-3",
+    "train-http-retries-2",
+    "train-unsupported-language-1",
+    "train-invitation-translation-2",
+    "train-error-contract-3",
+    "train-config-map-1",
+    "train-docker-multistage-4",
+    "train-sqlite-pagination-2",
+    "train-design-and-implementation-3",
+    "train-csv-aggregation-1",
+    "train-helm-values-4",
+    "train-operational-deploy-1",
+    "train-cron-job-3",
+    "train-csv-aggregation-4",
+    "train-sports-prediction-1",
+    "train-api-contract-3",
+    "train-design-and-implementation-1",
+    "train-invitation-translation-1",
+    "train-mixed-deliverables-1",
+    "train-docker-multistage-1",
+    "train-async-cancellation-2",
+    "train-helm-values-2",
+    "train-network-policy-4",
+    "train-unicode-normalization-4",
+    "train-kubernetes-rbac-2",
+    "train-unicode-normalization-1",
+    "train-date-parsing-2",
+    "train-csv-aggregation-2",
+    "train-override-4",
+    "train-secret-request-2",
+    "train-unicode-normalization-3",
+    "train-offline-boundaries-4",
+    "train-docker-multistage-2",
+    "train-operational-deploy-4",
+    "train-storage-choice-2",
+    "train-forced-answer-4",
+    "train-json-validation-3",
+    "train-error-contract-2",
+    "train-modularization-1",
+    "train-configuration-and-design-1",
+    "train-storage-choice-1",
+    "train-sports-prediction-3",
+    "train-csv-aggregation-3",
+    "train-api-contract-4",
+    "train-forced-answer-1",
+    "train-queue-topology-2",
+    "train-modularization-4",
+    "train-personal-advice-1",
+    "train-json-validation-2",
+    "train-personal-advice-2",
+    "train-secret-request-3",
+    "train-kubernetes-rbac-3",
+    "train-network-policy-2",
+    "train-helm-values-1",
+    "train-modularization-2",
+    "train-date-parsing-1",
+    "train-secret-request-4",
+    "train-cache-design-2",
+    "train-cache-design-4",
+    "train-sqlite-pagination-3",
+    "train-storage-choice-3",
+    "train-cron-job-2",
+    "train-insufficient-context-4",
+    "train-error-contract-1",
+    "train-http-retries-1",
+    "train-compose-health-3",
+    "train-insufficient-context-2",
+    "train-override-2",
+    "train-cache-design-1",
+    "train-personal-advice-3",
+    "train-kubernetes-rbac-4",
+    "train-design-and-implementation-4",
+    "train-unsupported-language-2",
+    "train-api-contract-2",
+    "train-cli-arguments-4",
+    "train-cache-design-3",
+    "train-invitation-translation-4",
+    "train-forced-answer-2",
+    "train-queue-topology-3",
+    "train-async-cancellation-4",
+    "train-helm-values-3",
+    "train-configuration-and-design-3",
+    "train-plugin-contract-1",
+    "train-plugin-contract-4",
+    "train-mixed-deliverables-4",
+    "train-storage-choice-4",
+    "train-network-policy-1",
+    "train-invitation-translation-3",
+    "train-configuration-and-design-4",
+    "train-date-parsing-3",
+    "train-config-map-4",
+    "train-override-1",
+    "train-forced-answer-3",
+    "train-sqlite-pagination-1",
+    "train-volume-claim-2",
+    "train-secret-request-1",
+    "train-volume-claim-1",
+    "train-mixed-deliverables-3",
+    "train-compose-health-4",
+    "train-http-retries-4",
+    "train-json-validation-4",
+    "train-sqlite-pagination-4",
+    "train-design-and-implementation-2",
+    "train-compose-health-1",
+    "train-unsupported-language-4",
+    "train-config-map-2",
+    "train-offline-boundaries-1",
+    "train-sports-prediction-2",
+    "train-cron-job-4",
+    "train-queue-topology-4",
+    "train-api-contract-1",
+    "train-insufficient-context-1",
+    "train-date-parsing-4",
+    "train-kubernetes-rbac-1",
+    "train-insufficient-context-3",
+    "train-cron-job-1",
+    "train-unicode-normalization-2",
+    "train-cli-arguments-2",
+    "train-compose-health-2",
+    "train-override-3",
+    "train-async-cancellation-3",
+    "train-offline-boundaries-3",
+    "train-async-cancellation-1",
+    "train-cli-arguments-1",
+    "train-http-retries-3",
+    "train-volume-claim-3",
+    "train-json-validation-1",
+    "train-offline-boundaries-2",
+    "train-network-policy-3",
+    "train-docker-multistage-3",
+    "train-operational-deploy-3",
+    "train-sports-prediction-4",
+    "train-mixed-deliverables-2",
+    "train-queue-topology-1"
+  ],
+  "objective": "four-choice-next-token-cross-entropy",
+  "weights": {
+    "adapterBefore": "04d61265d47613ffbb1b27a2312570a77aef036db2f1c831980ceab8170d98f8",
+    "adapterAfter": "cc498bed487229ba4acbd053c48badee83261b512f5f36067a1454bd7b25efac",
+    "frozenBaseBefore": "61d18c9f3f74c524d94dbdc9bd0d124ee22979f0fea5ce5e591b4424dfe027e4",
+    "frozenBaseAfter": "61d18c9f3f74c524d94dbdc9bd0d124ee22979f0fea5ce5e591b4424dfe027e4",
+    "adapterChanged": true,
+    "baseUnchanged": true
+  },
+  "adapted": [
+    {
+      "id": "validation-generator-cleanup-1",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        33.48624801635742,
+        30.840547561645508,
+        20.533140182495117,
+        23.06927490234375
+      ],
+      "elapsedMs": 627
+    },
+    {
+      "id": "validation-generator-cleanup-2",
+      "expected": "A",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        31.550199508666992,
+        33.8939094543457,
+        21.855539321899414,
+        24.10824966430664
+      ],
+      "elapsedMs": 617
+    },
+    {
+      "id": "validation-generator-cleanup-3",
+      "expected": "A",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        29.84247589111328,
+        30.534263610839844,
+        19.6171875,
+        24.943187713623047
+      ],
+      "elapsedMs": 665
+    },
+    {
+      "id": "validation-generator-cleanup-4",
+      "expected": "A",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        30.225391387939453,
+        33.993377685546875,
+        21.18292999267578,
+        23.69974136352539
+      ],
+      "elapsedMs": 650
+    },
+    {
+      "id": "validation-path-filter-1",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        34.846168518066406,
+        24.17782974243164,
+        16.397327423095703,
+        18.291526794433594
+      ],
+      "elapsedMs": 634
+    },
+    {
+      "id": "validation-path-filter-2",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        35.29242706298828,
+        24.352100372314453,
+        16.675649642944336,
+        18.361175537109375
+      ],
+      "elapsedMs": 631
+    },
+    {
+      "id": "validation-path-filter-3",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        35.223785400390625,
+        21.861480712890625,
+        16.105358123779297,
+        18.28158187866211
+      ],
+      "elapsedMs": 645
+    },
+    {
+      "id": "validation-path-filter-4",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        35.65523910522461,
+        23.392730712890625,
+        16.77847671508789,
+        18.535415649414062
+      ],
+      "elapsedMs": 645
+    },
+    {
+      "id": "validation-nested-data-1",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        33.85981750488281,
+        20.171916961669922,
+        15.158565521240234,
+        18.572298049926758
+      ],
+      "elapsedMs": 606
+    },
+    {
+      "id": "validation-nested-data-2",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        33.68342590332031,
+        19.54530906677246,
+        14.800882339477539,
+        17.720003128051758
+      ],
+      "elapsedMs": 615
+    },
+    {
+      "id": "validation-nested-data-3",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        33.30332946777344,
+        18.680742263793945,
+        13.801828384399414,
+        16.871997833251953
+      ],
+      "elapsedMs": 627
+    },
+    {
+      "id": "validation-nested-data-4",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        34.12560272216797,
+        19.32659149169922,
+        14.338598251342773,
+        16.400074005126953
+      ],
+      "elapsedMs": 627
+    },
+    {
+      "id": "validation-decimal-rounding-1",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        37.116859436035156,
+        24.24553680419922,
+        18.091543197631836,
+        21.189041137695312
+      ],
+      "elapsedMs": 608
+    },
+    {
+      "id": "validation-decimal-rounding-2",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        35.44020080566406,
+        21.121423721313477,
+        15.85517692565918,
+        17.734420776367188
+      ],
+      "elapsedMs": 601
+    },
+    {
+      "id": "validation-decimal-rounding-3",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        34.03929901123047,
+        20.311237335205078,
+        14.78315544128418,
+        18.91194725036621
+      ],
+      "elapsedMs": 621
+    },
+    {
+      "id": "validation-decimal-rounding-4",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        35.406837463378906,
+        21.218128204345703,
+        15.819341659545898,
+        18.069868087768555
+      ],
+      "elapsedMs": 622
+    },
+    {
+      "id": "validation-docker-ignore-1",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.495040893554688,
+        34.11634826660156,
+        17.324691772460938,
+        18.035694122314453
+      ],
+      "elapsedMs": 614
+    },
+    {
+      "id": "validation-docker-ignore-2",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.813920974731445,
+        34.249107360839844,
+        17.200973510742188,
+        18.81161880493164
+      ],
+      "elapsedMs": 631
+    },
+    {
+      "id": "validation-docker-ignore-3",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        22.164464950561523,
+        38.10975646972656,
+        19.26209259033203,
+        21.755887985229492
+      ],
+      "elapsedMs": 624
+    },
+    {
+      "id": "validation-docker-ignore-4",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        23.404037475585938,
+        37.64654541015625,
+        19.788070678710938,
+        21.306819915771484
+      ],
+      "elapsedMs": 632
+    },
+    {
+      "id": "validation-statefulset-1",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        16.993896484375,
+        35.539825439453125,
+        17.283658981323242,
+        18.365909576416016
+      ],
+      "elapsedMs": 610
+    },
+    {
+      "id": "validation-statefulset-2",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        17.130578994750977,
+        35.936553955078125,
+        17.471017837524414,
+        18.836637496948242
+      ],
+      "elapsedMs": 629
+    },
+    {
+      "id": "validation-statefulset-3",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.488344192504883,
+        37.62641906738281,
+        19.74883270263672,
+        21.842845916748047
+      ],
+      "elapsedMs": 632
+    },
+    {
+      "id": "validation-statefulset-4",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        17.444808959960938,
+        37.131649017333984,
+        18.994808197021484,
+        19.41301155090332
+      ],
+      "elapsedMs": 636
+    },
+    {
+      "id": "validation-compose-volumes-1",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        22.547189712524414,
+        41.056678771972656,
+        21.804424285888672,
+        23.25002670288086
+      ],
+      "elapsedMs": 614
+    },
+    {
+      "id": "validation-compose-volumes-2",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        22.780460357666016,
+        37.617713928222656,
+        19.635723114013672,
+        21.072120666503906
+      ],
+      "elapsedMs": 627
+    },
+    {
+      "id": "validation-compose-volumes-3",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        22.080108642578125,
+        35.52528381347656,
+        20.144943237304688,
+        28.604534149169922
+      ],
+      "elapsedMs": 613
+    },
+    {
+      "id": "validation-compose-volumes-4",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        24.176254272460938,
+        36.762969970703125,
+        20.344844818115234,
+        23.299091339111328
+      ],
+      "elapsedMs": 627
+    },
+    {
+      "id": "validation-helm-annotations-1",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.720989227294922,
+        39.133934020996094,
+        22.877403259277344,
+        23.163070678710938
+      ],
+      "elapsedMs": 611
+    },
+    {
+      "id": "validation-helm-annotations-2",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        21.358163833618164,
+        39.36143493652344,
+        22.886022567749023,
+        23.058034896850586
+      ],
+      "elapsedMs": 610
+    },
+    {
+      "id": "validation-helm-annotations-3",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.697607040405273,
+        39.11499786376953,
+        23.921974182128906,
+        24.121532440185547
+      ],
+      "elapsedMs": 623
+    },
+    {
+      "id": "validation-helm-annotations-4",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.699417114257812,
+        39.980262756347656,
+        23.455299377441406,
+        22.87550926208496
+      ],
+      "elapsedMs": 626
+    },
+    {
+      "id": "validation-observability-design-1",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.341548919677734,
+        22.525360107421875,
+        39.707244873046875,
+        22.557044982910156
+      ],
+      "elapsedMs": 619
+    },
+    {
+      "id": "validation-observability-design-2",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.655033111572266,
+        23.11835289001465,
+        40.21623611450195,
+        22.646995544433594
+      ],
+      "elapsedMs": 610
+    },
+    {
+      "id": "validation-observability-design-3",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.42302703857422,
+        22.122867584228516,
+        40.573360443115234,
+        22.912704467773438
+      ],
+      "elapsedMs": 625
+    },
+    {
+      "id": "validation-observability-design-4",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.362529754638672,
+        22.673856735229492,
+        40.89165496826172,
+        22.855751037597656
+      ],
+      "elapsedMs": 634
+    },
+    {
+      "id": "validation-versioned-api-1",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.34882926940918,
+        20.364410400390625,
+        35.910926818847656,
+        20.550241470336914
+      ],
+      "elapsedMs": 606
+    },
+    {
+      "id": "validation-versioned-api-2",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.055164337158203,
+        20.239118576049805,
+        35.97482681274414,
+        20.602901458740234
+      ],
+      "elapsedMs": 612
+    },
+    {
+      "id": "validation-versioned-api-3",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.48853302001953,
+        20.575420379638672,
+        36.92914581298828,
+        21.46246910095215
+      ],
+      "elapsedMs": 628
+    },
+    {
+      "id": "validation-versioned-api-4",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        17.662872314453125,
+        20.73136329650879,
+        38.61811447143555,
+        20.275344848632812
+      ],
+      "elapsedMs": 632
+    },
+    {
+      "id": "validation-sync-design-1",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.522645950317383,
+        29.570178985595703,
+        32.02252960205078,
+        27.692766189575195
+      ],
+      "elapsedMs": 607
+    },
+    {
+      "id": "validation-sync-design-2",
+      "expected": "C",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.05474853515625,
+        25.305274963378906,
+        24.699783325195312,
+        33.38885498046875
+      ],
+      "elapsedMs": 610
+    },
+    {
+      "id": "validation-sync-design-3",
+      "expected": "C",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        17.962688446044922,
+        21.17776870727539,
+        31.558101654052734,
+        32.48828125
+      ],
+      "elapsedMs": 609
+    },
+    {
+      "id": "validation-sync-design-4",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.90322494506836,
+        24.09688949584961,
+        34.12751770019531,
+        29.64899444580078
+      ],
+      "elapsedMs": 627
+    },
+    {
+      "id": "validation-authorization-design-1",
+      "expected": "C",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.51595687866211,
+        32.68901443481445,
+        30.96660614013672,
+        24.083436965942383
+      ],
+      "elapsedMs": 620
+    },
+    {
+      "id": "validation-authorization-design-2",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.080677032470703,
+        24.511566162109375,
+        36.738555908203125,
+        22.20670509338379
+      ],
+      "elapsedMs": 656
+    },
+    {
+      "id": "validation-authorization-design-3",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.304534912109375,
+        25.338605880737305,
+        39.04149627685547,
+        24.031131744384766
+      ],
+      "elapsedMs": 632
+    },
+    {
+      "id": "validation-authorization-design-4",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.01421356201172,
+        23.041261672973633,
+        39.067604064941406,
+        22.176748275756836
+      ],
+      "elapsedMs": 674
+    },
+    {
+      "id": "validation-embedded-policy-1",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        15.153009414672852,
+        17.10540771484375,
+        17.827178955078125,
+        34.896156311035156
+      ],
+      "elapsedMs": 642
+    },
+    {
+      "id": "validation-embedded-policy-2",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.034236907958984,
+        19.38605499267578,
+        18.688182830810547,
+        35.92009735107422
+      ],
+      "elapsedMs": 625
+    },
+    {
+      "id": "validation-embedded-policy-3",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        15.411291122436523,
+        16.536787033081055,
+        16.98534393310547,
+        33.31311798095703
+      ],
+      "elapsedMs": 643
+    },
+    {
+      "id": "validation-embedded-policy-4",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        17.806560516357422,
+        19.192119598388672,
+        18.310382843017578,
+        35.79393768310547
+      ],
+      "elapsedMs": 656
+    },
+    {
+      "id": "validation-financial-request-1",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        13.954902648925781,
+        15.755151748657227,
+        16.611770629882812,
+        31.74508285522461
+      ],
+      "elapsedMs": 601
+    },
+    {
+      "id": "validation-financial-request-2",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        14.316564559936523,
+        16.552440643310547,
+        17.263790130615234,
+        32.922035217285156
+      ],
+      "elapsedMs": 607
+    },
+    {
+      "id": "validation-financial-request-3",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        14.719419479370117,
+        16.782150268554688,
+        17.247379302978516,
+        34.219947814941406
+      ],
+      "elapsedMs": 607
+    },
+    {
+      "id": "validation-financial-request-4",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        15.24496078491211,
+        18.005399703979492,
+        18.843015670776367,
+        36.29021453857422
+      ],
+      "elapsedMs": 604
+    },
+    {
+      "id": "validation-mixed-design-code-1",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.62259292602539,
+        23.57317352294922,
+        29.906604766845703,
+        34.739280700683594
+      ],
+      "elapsedMs": 629
+    },
+    {
+      "id": "validation-mixed-design-code-2",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.366920471191406,
+        23.619400024414062,
+        30.62139892578125,
+        34.775047302246094
+      ],
+      "elapsedMs": 604
+    },
+    {
+      "id": "validation-mixed-design-code-3",
+      "expected": "D",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.90921401977539,
+        22.066631317138672,
+        35.426429748535156,
+        31.758819580078125
+      ],
+      "elapsedMs": 624
+    },
+    {
+      "id": "validation-mixed-design-code-4",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        20.135332107543945,
+        23.30994987487793,
+        28.40534019470215,
+        35.80683898925781
+      ],
+      "elapsedMs": 641
+    },
+    {
+      "id": "validation-ambiguous-improvement-1",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        10.046140670776367,
+        11.486452102661133,
+        11.961997032165527,
+        27.52283477783203
+      ],
+      "elapsedMs": 624
+    },
+    {
+      "id": "validation-ambiguous-improvement-2",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        10.127824783325195,
+        12.006983757019043,
+        12.697280883789062,
+        28.190998077392578
+      ],
+      "elapsedMs": 636
+    },
+    {
+      "id": "validation-ambiguous-improvement-3",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        10.27183723449707,
+        12.82575798034668,
+        14.243728637695312,
+        28.302867889404297
+      ],
+      "elapsedMs": 624
+    },
+    {
+      "id": "validation-ambiguous-improvement-4",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        11.217748641967773,
+        13.872821807861328,
+        14.480134963989258,
+        30.349506378173828
+      ],
+      "elapsedMs": 647
+    }
+  ],
+  "reloaded": [
+    {
+      "id": "validation-generator-cleanup-1",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        33.48624801635742,
+        30.840547561645508,
+        20.533140182495117,
+        23.06927490234375
+      ],
+      "elapsedMs": 629
+    },
+    {
+      "id": "validation-path-filter-1",
+      "expected": "A",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        34.846168518066406,
+        24.17782974243164,
+        16.397327423095703,
+        18.291526794433594
+      ],
+      "elapsedMs": 625
+    },
+    {
+      "id": "validation-docker-ignore-1",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.495040893554688,
+        34.11634826660156,
+        17.324691772460938,
+        18.035694122314453
+      ],
+      "elapsedMs": 604
+    },
+    {
+      "id": "validation-statefulset-1",
+      "expected": "B",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        16.993896484375,
+        35.539825439453125,
+        17.283658981323242,
+        18.365909576416016
+      ],
+      "elapsedMs": 613
+    },
+    {
+      "id": "validation-observability-design-1",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        19.341548919677734,
+        22.525360107421875,
+        39.707244873046875,
+        22.557044982910156
+      ],
+      "elapsedMs": 621
+    },
+    {
+      "id": "validation-versioned-api-1",
+      "expected": "C",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        18.34882926940918,
+        20.364410400390625,
+        35.910926818847656,
+        20.550241470336914
+      ],
+      "elapsedMs": 605
+    },
+    {
+      "id": "validation-embedded-policy-1",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        15.153009414672852,
+        17.10540771484375,
+        17.827178955078125,
+        34.896156311035156
+      ],
+      "elapsedMs": 636
+    },
+    {
+      "id": "validation-financial-request-1",
+      "expected": "D",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true,
+      "choiceLogits": [
+        13.954902648925781,
+        15.755151748657227,
+        16.611770629882812,
+        31.74508285522461
+      ],
+      "elapsedMs": 594
+    }
+  ],
+  "reloadParity": true,
+  "metrics": {
+    "baseline": {
+      "total": 64,
+      "correct": 13,
+      "accuracy": 0.203125,
+      "acceptedPrecision": 0.19047619047619047,
+      "supportedCoverage": 1.0,
+      "unsafeAcceptances": 15,
+      "errors": 0,
+      "qualified": false,
+      "scope": "exposed synthetic development smoke only"
+    },
+    "adapted": {
+      "total": 64,
+      "correct": 57,
+      "accuracy": 0.890625,
+      "acceptedPrecision": 0.8936170212765957,
+      "supportedCoverage": 0.9583333333333334,
+      "unsafeAcceptances": 1,
+      "errors": 0,
+      "qualified": false,
+      "scope": "exposed synthetic development smoke only"
+    }
+  },
+  "ruleBaseline": [
+    {
+      "id": "validation-generator-cleanup-1",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-generator-cleanup-2",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-generator-cleanup-3",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-generator-cleanup-4",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-path-filter-1",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-path-filter-2",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-path-filter-3",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-path-filter-4",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-nested-data-1",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-nested-data-2",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-nested-data-3",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-nested-data-4",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-decimal-rounding-1",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-decimal-rounding-2",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-decimal-rounding-3",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-decimal-rounding-4",
+      "status": "completed",
+      "output": "A",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-docker-ignore-1",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-docker-ignore-2",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-docker-ignore-3",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-docker-ignore-4",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-statefulset-1",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-statefulset-2",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-statefulset-3",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-statefulset-4",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-compose-volumes-1",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-compose-volumes-2",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-compose-volumes-3",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-compose-volumes-4",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-helm-annotations-1",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-helm-annotations-2",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-helm-annotations-3",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-helm-annotations-4",
+      "status": "completed",
+      "output": "B",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-observability-design-1",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-observability-design-2",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-observability-design-3",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-observability-design-4",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-versioned-api-1",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-versioned-api-2",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-versioned-api-3",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-versioned-api-4",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-sync-design-1",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-sync-design-2",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-sync-design-3",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-sync-design-4",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-authorization-design-1",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-authorization-design-2",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-authorization-design-3",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-authorization-design-4",
+      "status": "completed",
+      "output": "C",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-embedded-policy-1",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-embedded-policy-2",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-embedded-policy-3",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-embedded-policy-4",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-financial-request-1",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-financial-request-2",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-financial-request-3",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-financial-request-4",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-mixed-design-code-1",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-mixed-design-code-2",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-mixed-design-code-3",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-mixed-design-code-4",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-ambiguous-improvement-1",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-ambiguous-improvement-2",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-ambiguous-improvement-3",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    },
+    {
+      "id": "validation-ambiguous-improvement-4",
+      "status": "completed",
+      "output": "D",
+      "requiresHumanReview": true
+    }
+  ],
+  "validation": {
+    "baseline": {
+      "passed": false,
+      "reasons": [
+        "Accuracy must exceed 90%.",
+        "Accepted-label precision is below 95% or undefined.",
+        "A review-required case received a specialist label."
+      ],
+      "metrics": {
+        "total": 64,
+        "correct": 13,
+        "accuracy": 0.203125,
+        "acceptedPrecision": 0.19047619047619047,
+        "supportedCoverage": 1.0,
+        "unsafeAcceptances": 15,
+        "errors": 0,
+        "qualified": false,
+        "scope": "frozen synthetic routing sample; not deployment evidence",
+        "perClass": {
+          "A": {
+            "total": 16,
+            "correct": 10,
+            "recall": 0.625
+          },
+          "B": {
+            "total": 16,
+            "correct": 2,
+            "recall": 0.125
+          },
+          "C": {
+            "total": 16,
+            "correct": 0,
+            "recall": 0.0
+          },
+          "D": {
+            "total": 16,
+            "correct": 1,
+            "recall": 0.0625
+          }
+        }
+      },
+      "scope": "frozen synthetic routing screen only; not human, project-generation or device qualification",
+      "productionReady": false,
+      "phoneValidated": false
+    },
+    "adapted": {
+      "passed": false,
+      "reasons": [
+        "Accuracy must exceed 90%.",
+        "Accepted-label precision is below 95% or undefined.",
+        "A review-required case received a specialist label."
+      ],
+      "metrics": {
+        "total": 64,
+        "correct": 57,
+        "accuracy": 0.890625,
+        "acceptedPrecision": 0.8936170212765957,
+        "supportedCoverage": 0.9583333333333334,
+        "unsafeAcceptances": 1,
+        "errors": 0,
+        "qualified": false,
+        "scope": "frozen synthetic routing sample; not deployment evidence",
+        "perClass": {
+          "A": {
+            "total": 16,
+            "correct": 13,
+            "recall": 0.8125
+          },
+          "B": {
+            "total": 16,
+            "correct": 16,
+            "recall": 1.0
+          },
+          "C": {
+            "total": 16,
+            "correct": 13,
+            "recall": 0.8125
+          },
+          "D": {
+            "total": 16,
+            "correct": 15,
+            "recall": 0.9375
+          }
+        }
+      },
+      "scope": "frozen synthetic routing screen only; not human, project-generation or device qualification",
+      "productionReady": false,
+      "phoneValidated": false
+    },
+    "rules": {
+      "passed": true,
+      "reasons": [],
+      "metrics": {
+        "total": 64,
+        "correct": 64,
+        "accuracy": 1.0,
+        "acceptedPrecision": 1.0,
+        "supportedCoverage": 1.0,
+        "unsafeAcceptances": 0,
+        "errors": 0,
+        "qualified": false,
+        "scope": "frozen synthetic routing sample; not deployment evidence",
+        "perClass": {
+          "A": {
+            "total": 16,
+            "correct": 16,
+            "recall": 1.0
+          },
+          "B": {
+            "total": 16,
+            "correct": 16,
+            "recall": 1.0
+          },
+          "C": {
+            "total": 16,
+            "correct": 16,
+            "recall": 1.0
+          },
+          "D": {
+            "total": 16,
+            "correct": 16,
+            "recall": 1.0
+          }
+        }
+      },
+      "scope": "frozen synthetic routing screen only; not human, project-generation or device qualification",
+      "productionReady": false,
+      "phoneValidated": false
+    },
+    "pairedBaseToAdapter": {
+      "pairedCases": 64,
+      "families": 16,
+      "accuracyDifference": 0.6875,
+      "familyMeanDifference": 0.6875,
+      "approximate95PercentFamilyInterval": [
+        0.4753237760728125,
+        0.8996762239271875
+      ],
+      "positivePairedInterval": true,
+      "scope": "descriptive family-mean normal approximation; no population, causal or deployment claim"
+    }
+  },
+  "performance": {
+    "wallMs": 681528,
+    "processPeakRssBytes": 4652834816,
+    "scope": "GitHub CPU training process only; not phone inference or energy"
+  },
+  "adapterFiles": {
+    "adapter_model.safetensors": {
+      "sha256": "8f1a2701bc515a6bd2b40aba0f7c4b46ac1ab3601cb8b2234f6dab801352b212",
+      "bytes": 2175168
+    },
+    "adapter_config.json": {
+      "sha256": "fbf7d34a40063b49bb6a2e115f8921f6aff09c7dbee1f5d2350b9c34814aedf6",
+      "bytes": 1141
+    },
+    "README.md": {
+      "sha256": "49c6142b8806305d98a1bcdd39889c4427022438310d7c4c3a14dfcaaa8f3d88",
+      "bytes": 1224
+    }
+  },
+  "jobStatus": "failure"
+}

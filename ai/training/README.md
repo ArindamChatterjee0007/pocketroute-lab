@@ -1,6 +1,31 @@
 # Bounded Qwen Adapter Experiment
 
-## Current Development Follow-Up
+## Latest Result: Quality Still Blocked
+
+[I3 run 43586761036](https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/43586761036), source `ae92339036b6c2815d13c1997b79e511a3390950`, completed all 432 updates and the base-integrity/zero-adapter/reload checks, but failed the unchanged quality screen. The [immutable receipt](../../data/adapter-runs/43586761036.json) records **57/64 correct (89.0625%)**, **42/47 accepted-label precision (89.36%)**, **46/48 supported coverage (95.83%)**, **one unsafe acceptance** and no invalid outputs. The base scored 13/64; I2 scored 47/64 on the same development screen. This is development-tuned evidence, not an independent generalization estimate.
+
+Confirmation was withheld again; its cases and labels remain unchanged and unreviewed by the trainer author. The rule baseline's 64/64 is development-fitted and does not establish independent readiness. No specialist worker, physical phone, end-to-end generated project or production system is qualified by these results.
+
+The I3 adapter is 2,175,168 bytes with SHA-256 `8f1a2701bc515a6bd2b40aba0f7c4b46ac1ab3601cb8b2234f6dab801352b212`, excluding its required base weights. Model-stage wall time was 681,528 ms and peak CPU training-process RSS was 4,652,834,816 bytes. Archive and adapter hashes were verified after download; the receipt has SHA-256 `c912f4c26906da528c8f223775000616ab77e023f1d9aa1db1510f5a2a9d60a1`. These are not phone inference or battery measurements.
+
+All 24 contract checks passed before I3, including reserved-test binding and overlap validation without inference. The model step intentionally returned failure because quality failed. No thresholds were relaxed, no failed case was removed and no independent confirmation prediction was used for tuning. All model jobs are complete; no further training loop is scheduled.
+
+## Routing Task Contract
+
+Apply these boundaries to the requested work, not merely the technology words in the text:
+
+| Route | Included work | Boundary |
+| --- | --- | --- |
+| A: Python | Implement, debug, refactor or test Python code | Implementation plus its own tests is one A deliverable; merely mentioning Python in a configuration/design request does not make it A |
+| B: Infrastructure | Draft or change Docker, Compose, Kubernetes or Helm configuration artifacts | Configuration for a Python service is B; applying it to a live environment or executing operations is not allowed |
+| C: Architecture | Requirements-to-design discussion, interfaces, component boundaries and design tradeoffs | No implementation or configuration artifact is requested; the presence of code or infrastructure terminology alone does not change the route |
+| D: Review | Insufficient information, unsupported work, separate multi-role deliverables, actual operational execution, routing overrides or hidden-information requests | Do not collapse independent deliverables into a single specialist label; clarify or return unsupported |
+
+Instruction overrides and operational-execution requests take precedence over an otherwise supported subject. Every route remains a suggestion requiring human review. A routing label is never permission to execute generated code, deploy infrastructure, access another application's data or take a real-world action.
+
+Next evidence gate: a permitted, independently human-authored and labelled, non-templated evaluation set with adjudicated boundaries. Keep authors blind to these development examples and model predictions; include a separately assessed subset with two independent labels and record disagreements. A proposed first collection is at least 64 requests with at least 32 review-required requests, covering ordinary paraphrases and realistic unsupported/multi-deliverable cases. That collection is for task-contract validation and must not silently replace the existing balanced 64-case screening gate. Freeze its own sampling and acceptance protocol before scoring. No such human data, label agreement or user acceptance is currently available.
+
+## I3 Development Recipe
 
 I2 completed its updates but failed its quality gate. One bounded follow-up adds four original review families, lowers the learning rate to 0.0001 and trains a fresh rank-eight adapter for 432 updates over 144 texts (three shuffled epochs). No quality threshold, base model or runtime limit changes. Validation was used for error analysis and is development-tuned; it is not independent evidence.
 
