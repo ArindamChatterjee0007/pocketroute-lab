@@ -1,6 +1,6 @@
 import unittest
 
-from quality import load_quality_fixture, paired_accuracy, parity_examples, quality_gate, rule_prediction, training_order
+from quality import load_confirmation, load_quality_fixture, paired_accuracy, parity_examples, quality_gate, rule_prediction, training_order
 
 
 class RoutingQualityTests(unittest.TestCase):
@@ -69,6 +69,11 @@ class RoutingQualityTests(unittest.TestCase):
         self.assertEqual(len(examples), 8)
         self.assertEqual(len({entry["family"] for entry in examples}), 8)
         self.assertTrue(all(sum(entry["expected"] == label for entry in examples) == 2 for label in ("A", "B", "C", "D")))
+
+    def test_confirmation_binding_and_overlap_without_inference(self) -> None:
+        cases = load_confirmation(load_quality_fixture())
+        self.assertEqual(len(cases), 64)
+        self.assertEqual(len({entry["family"] for entry in cases}), 64)
 
     def test_rule_baseline_is_conservative_and_separate(self) -> None:
         self.assertEqual(rule_prediction("Write a Python parser."), "A")
