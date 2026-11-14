@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       scope:
-        description: Select checks, the original smoke, or the frozen routing-quality candidate
+        description: Select checks, the original smoke, quality training, or the two-router comparison
         type: choice
-        options: [check, train, quality]
+        options: [check, train, quality, compare]
         default: check
 
 permissions:
@@ -43,13 +43,19 @@ jobs:
         run: |
           python3 -m venv "$RUNNER_TEMP/pocketroute-training-venv"
           "$RUNNER_TEMP/pocketroute-training-venv/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: torch==2.15.0+cpu --index-url https://download.pytorch.org/whl/cpu
-          "$RUNNER_TEMP/pocketroute-training-venv/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: -r ai/training/requirements.txt
+          if [[ "$TRAINING_SCOPE" == "compare" ]]; then
+            "$RUNNER_TEMP/pocketroute-training-venv/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: -r ai/training/requirements-compare.txt
+          else
+            "$RUNNER_TEMP/pocketroute-training-venv/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: -r ai/training/requirements.txt
+          fi
           "$RUNNER_TEMP/pocketroute-training-venv/bin/python" -m pip check
       - name: Run bounded adaptation and reload checks
         if: ${{ inputs.scope != 'check' }}
         timeout-minutes: 16
         run: |
-          if [[ "$TRAINING_SCOPE" == "quality" ]]; then
+          if [[ "$TRAINING_SCOPE" == "compare" ]]; then
+            "$RUNNER_TEMP/pocketroute-training-venv/bin/python" ai/training/compare.py --run
+          elif [[ "$TRAINING_SCOPE" == "quality" ]]; then
             "$RUNNER_TEMP/pocketroute-training-venv/bin/python" ai/training/train.py --quality
           else
             "$RUNNER_TEMP/pocketroute-training-venv/bin/python" ai/training/train.py --run
@@ -62,7 +68,11 @@ jobs:
         env:
           TRAINING_JOB_STATUS: ${{ job.status }}
         run: |
-          python3 ai/training/train.py --outcome "$TRAINING_JOB_STATUS"
+          if [[ "$TRAINING_SCOPE" == "compare" ]]; then
+            python3 ai/training/compare.py --outcome "$TRAINING_JOB_STATUS"
+          else
+            python3 ai/training/train.py --outcome "$TRAINING_JOB_STATUS"
+          fi
           if [[ -x "$RUNNER_TEMP/pocketroute-training-venv/bin/python" ]]; then
             "$RUNNER_TEMP/pocketroute-training-venv/bin/python" -m pip freeze > "training-output/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/requirements-resolved.txt"
           fi
@@ -74,6 +84,8 @@ jobs:
           if-no-files-found: error
           path: |
             training-output/*/receipt.json
+            training-output/*/comparison.json
+            training-output/*/routers/*.json
             training-output/*/fixture.json
             training-output/*/confirmation.json
             training-output/*/requirements-resolved.txt
