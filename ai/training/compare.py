@@ -249,7 +249,7 @@ def run_comparison(directory: Path, receipt: dict[str, Any]) -> None:
                     prediction.update(status="error", output=None, rawOutput=None, probabilities=None, tiedMaximum=False, error=development_errors[prediction["id"]])
         arm["predictions"] = predictions
         arm["developmentGate"] = quality_gate(development, predictions)
-        state: dict[str, Any] = {"schemaVersion": 1, "arm": arm_name, "classes": model.classes_.tolist(), "coefficients": model.coef_.tolist(), "intercept": model.intercept_.tolist(), "threshold": 0.0, "tiePolicy": "review", "encoder": receipt["encoder"] if arm_name != "tfidf-logistic" else None, "productionReady": False}
+        state: dict[str, Any] = {"schemaVersion": 1, "arm": arm_name, "classes": model.classes_.tolist(), "coefficients": model.coef_.tolist(), "coefficientDtype": str(model.coef_.dtype), "intercept": model.intercept_.tolist(), "interceptDtype": str(model.intercept_.dtype), "threshold": 0.0, "tiePolicy": "review", "encoder": receipt["encoder"] if arm_name != "tfidf-logistic" else None, "productionReady": False}
         if arm_name == "tfidf-logistic":
             state["vectorizers"] = [{"name": name, "analyzer": fitted.analyzer, "ngramRange": list(fitted.ngram_range), "vocabulary": {token: int(index) for token, index in fitted.vocabulary_.items()}, "idf": fitted.idf_.tolist(), "lowercase": True, "norm": "l2", "sublinearTf": True} for name, fitted in vectorizer.transformer_list]
         output = directory / "routers" / f"{arm_name}.json"
@@ -270,10 +270,13 @@ def run_comparison(directory: Path, receipt: dict[str, Any]) -> None:
         else:
             restored_features = encoded_training[probe_indices]
             original_features = restored_features
-        restored_probabilities = softmax(restored_features @ np.asarray(restored["coefficients"]).T + np.asarray(restored["intercept"]), axis=1)
-        if not np.allclose(restored_probabilities, model.predict_proba(original_features), rtol=1e-8, atol=1e-10):
+        restored_probabilities = softmax(restored_features @ np.asarray(restored["coefficients"], dtype=restored["coefficientDtype"]).T + np.asarray(restored["intercept"], dtype=restored["interceptDtype"]), axis=1)
+        original_probabilities = model.predict_proba(original_features)
+        tolerance = {"rtol": 1e-6, "atol": 1e-7} if original_probabilities.dtype == np.float32 else {"rtol": 1e-8, "atol": 1e-10}
+        arm["reloadNumericEvidence"] = {"coefficientDtype": str(model.coef_.dtype), "probabilityDtype": str(original_probabilities.dtype), "maximumAbsoluteDifference": float(np.max(np.abs(restored_probabilities - original_probabilities))), "tolerance": tolerance}
+        if not np.allclose(restored_probabilities, original_probabilities, **tolerance):
             raise RuntimeError("Exported classifier probabilities fail reload parity.")
-        original_decisions = routing_predictions(probes, model.predict_proba(original_features).tolist(), 0.0, model.classes_.tolist())
+        original_decisions = routing_predictions(probes, original_probabilities.tolist(), 0.0, model.classes_.tolist())
         restored_decisions = routing_predictions(probes, restored_probabilities.tolist(), restored["threshold"], restored["classes"])
         if [entry["output"] for entry in original_decisions] != [entry["output"] for entry in restored_decisions]:
             raise RuntimeError("Reloaded classifier decisions differ.")
