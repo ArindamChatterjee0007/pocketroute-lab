@@ -1,5 +1,26 @@
 # Bounded Qwen Adapter Experiment
 
+## Two-Router Comparison: Completed
+
+[Run 43618145866](https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/43618145866), source `71733da56bfe6c67b1c82fc216ccf099450ab864`, completed the exploratory TF-IDF versus frozen MiniLM comparison. [Preflight 43618045254](https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/43618045254) passed 35 contract tests. The [immutable comparison receipt](../../data/adapter-runs/comparison-43618145866.json) records both arms, four family-grouped training folds, all C candidates, predictions, exports and limitations.
+
+| Arm | Development accuracy | Accepted precision | Supported coverage | Unsafe acceptances | Full gate |
+| --- | --- | --- | --- | --- | --- |
+| Word/character TF-IDF + logistic regression | 56/64, 87.5% | 40/40, 100% | 40/48, 83.33% | 0 | Failed accuracy |
+| Frozen MiniLM + logistic regression | 62/64, 96.875% | 48/50, 96% | 48/48, 100% | 2 | Failed zero-unsafe requirement |
+
+This is an execution/export pass, not a model-quality pass. The 64 development rows are exposed and contain only 16 underlying families. MiniLM corrected the eight infrastructure false rejections of TF-IDF, but accepted two framings of one mixed design/implementation request as architecture. Neither arm is independently qualified. The reserved confirmation set was not used or rebound, and no threshold was tuned on development.
+
+Both arms selected C=10 from the fixed {0.1, 1, 10} grid by training-only out-of-fold log loss. C=10 is the edge of this grid, not proof of a globally optimal setting. TF-IDF vocabularies/IDFs were fitted inside training folds. The encoder remained frozen at `sentence-transformers/all-MiniLM-L6-v2`, revision `1110a243fdf4706b3f48f1d95db1a4f5529b4d41`, with pinned weight SHA-256 `53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db` and 90,868,376 weight-file bytes. Masked mean pooling and L2 normalization were used; no input was silently truncated.
+
+An initial [attempt 43617679681](https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/43617679681) completed predictions but failed MiniLM's JSON probability round-trip because export lost numeric dtype. The [failed receipt](../../data/adapter-runs/comparison-43617679681.json) is retained. The reproduction changed only serialization precision handling; all predictions are identical. TF-IDF feature/head parity passed with maximum probability difference 2.22e-16. MiniLM classifier-head parity passed with maximum difference zero in float32, but reused in-memory embeddings: it is not full encoder/tokenizer or device reload evidence. Routed decisions, including exact-tie review behavior, also matched on balanced training probes.
+
+JSON exports avoid pickle. The TF-IDF feature/head export is 388,326 bytes, SHA-256 `0d779425fa24ef863384223e05844c31663215718401b3b1f327c1e8d8878915`. The MiniLM head/reference export is 33,813 bytes, SHA-256 `704ccfdd512f7d8f63785a99b9c8ee13ca33084d0266ed32b6a8642d12e0784f`, excluding the required encoder and runtime. The comparison process recorded 5,341 ms and peak RSS 595,415,040 bytes; these are aggregate GitHub CPU development measurements, not per-request phone latency or energy. Arm timings include different setup/download work and must not be compared as inference benchmarks.
+
+The artifact archive was verified before extraction with SHA-256 `0c8a652c8fe6eda562da06a5af6e49ce7d362429cb309f26782ed7a5ea99574b`; the receipt has SHA-256 `63150c0f3dc82dc68e13bec43ea51267403207f5f8a67ec64f23968ff32c55e0`. Research and review roles cross-reviewed design, implementation and results. Their requested GPT-6 Astra/Claude Fable 5.1 identities remain provider-unverified. No model weights, Qwen test binding, private data, production deployment or background service were changed.
+
+Next options remain experiments, not fixes already delivered: training-only nested rejection calibration for MiniLM, or a separately frozen wider regularization check for the conservative TF-IDF arm. Do not choose a cutoff from these development errors or claim that a rule/agent consensus clears safety. Independent human-authored data, untouched confirmation, full runtime export and physical-device qualification remain necessary before readiness claims.
+
 ## Latest Result: Quality Still Blocked
 
 [I3 run 43586761036](https://github.com/ArindamChatterjee0007/pocketroute-lab/actions/runs/43586761036), source `ae92339036b6c2815d13c1997b79e511a3390950`, completed all 432 updates and the base-integrity/zero-adapter/reload checks, but failed the unchanged quality screen. The [immutable receipt](../../data/adapter-runs/43586761036.json) records **57/64 correct (89.0625%)**, **42/47 accepted-label precision (89.36%)**, **46/48 supported coverage (95.83%)**, **one unsafe acceptance** and no invalid outputs. The base scored 13/64; I2 scored 47/64 on the same development screen. This is development-tuned evidence, not an independent generalization estimate.
