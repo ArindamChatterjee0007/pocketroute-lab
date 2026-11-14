@@ -55,14 +55,14 @@ class RoutingQualityTests(unittest.TestCase):
 
     def test_quality_fixture_and_sampling_are_frozen(self) -> None:
         fixture = load_quality_fixture()
-        self.assertEqual(len(fixture["train"]), 128)
+        self.assertEqual(len(fixture["train"]), 144)
         self.assertEqual(len(fixture["development"]), 64)
         self.assertFalse({entry["family"] for entry in fixture["train"]} & {entry["family"] for entry in fixture["development"]})
-        order = training_order(128, 256, 20261114)
-        self.assertEqual(order, training_order(128, 256, 20261114))
-        self.assertEqual(sorted(order[:128]), list(range(128)))
-        self.assertEqual(sorted(order[128:]), list(range(128)))
-        self.assertNotEqual(order[:128], list(range(128)))
+        order = training_order(144, 432, 20261114)
+        self.assertEqual(order, training_order(144, 432, 20261114))
+        for offset in (0, 144, 288):
+            self.assertEqual(sorted(order[offset:offset + 144]), list(range(144)))
+        self.assertNotEqual(order[:144], list(range(144)))
 
     def test_reload_probes_cover_distinct_families_and_all_labels(self) -> None:
         examples = parity_examples(load_quality_fixture()["development"])

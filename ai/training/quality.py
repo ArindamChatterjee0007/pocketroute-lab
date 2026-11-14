@@ -55,9 +55,9 @@ def parity_examples(examples: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 def load_quality_fixture() -> dict[str, Any]:
     fixture = json.loads(QUALITY_PATH.read_text(encoding="utf-8"))
-    if fixture.get("schemaVersion") != 2 or fixture.get("version") != "routing-quality-candidate-v1-2026-11-14":
+    if fixture.get("schemaVersion") != 2 or fixture.get("version") != "routing-quality-candidate-v2-2026-11-14":
         raise ValueError("Unexpected quality protocol version.")
-    expected_settings = {"steps": 256, "seed": 20261114, "maximumTokens": 192, "learningRate": 0.0003, "rank": 8, "alpha": 16, "targetModules": ["q_proj", "v_proj"], "threads": 2, "wallSeconds": 900, "maximumRssBytes": 10737418240}
+    expected_settings = {"steps": 432, "seed": 20261114, "maximumTokens": 192, "learningRate": 0.0001, "rank": 8, "alpha": 16, "targetModules": ["q_proj", "v_proj"], "threads": 2, "wallSeconds": 900, "maximumRssBytes": 10737418240}
     if fixture.get("training") != expected_settings or fixture.get("choices") != {"A": "python", "B": "infrastructure", "C": "architect", "D": "review"}:
         raise ValueError("The frozen quality recipe changed.")
     provenance = fixture.get("provenance", {})
@@ -79,8 +79,8 @@ def load_quality_fixture() -> dict[str, Any]:
                 raise ValueError("Duplicate training or validation text.")
             inputs.add(normalized)
             fixture[split].append({"id": f"{identifier}-{index + 1}", "family": identifier, "input": text, "expected": expected})
-    if any(counts[(split, label)] != expected_count for split, expected_count in (("train", 8), ("development", 4)) for label in LABELS):
-        raise ValueError("Expected eight training and four validation families per class.")
+    if any(counts[("train", label)] != (12 if label == "D" else 8) or counts[("development", label)] != 4 for label in LABELS):
+        raise ValueError("Expected 36 training families, including 12 review families, and 16 validation families.")
     return fixture
 
 

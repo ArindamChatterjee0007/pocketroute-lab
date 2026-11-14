@@ -1,7 +1,10 @@
 {
   "schemaVersion": 1,
   "scope": "independently authored synthetic confirmation; not human or field data",
-  "protocolSha256": "5aa1d5e83322a4f0251c7f5ba4ec0406f02a9bcec3423960abed6d13097ce9ac",
+  "protocolSha256": "7a8011dfb4866ae907717ee6a1a2fc8c6848d7157097f392b02bd724d74de09f",
+  "reboundFromProtocolSha256": "5aa1d5e83322a4f0251c7f5ba4ec0406f02a9bcec3423960abed6d13097ce9ac",
+  "rebindingNotice": "The earlier candidate failed validation and withheld this set. Cases and labels remain unchanged and uninspected; only the binding metadata changed before the next model run.",
+  "caseArraySha256": "4733a27c5a70cdd371ccd3daf89fb4c98b96dde9cdd7ef30e5c9a4485cc17b9a",
   "authoring": {
     "requestedModel": "Claude Fable 5.1 (copilot)",
     "runtimeIdentity": "unverified",

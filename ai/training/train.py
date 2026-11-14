@@ -178,7 +178,7 @@ def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: 
     settings = fixture["training"]
     if quality_mode:
         from quality import CONFIRMATION_PATH, load_confirmation, paired_accuracy, parity_examples, protocol_fingerprint, quality_gate, rule_predictions, training_order
-        receipt.update(profile="routing-quality-v1", protocolSha256=protocol_fingerprint(), scope=fixture["scope"], confirmation={"status": "withheld", "reason": "Validation has not passed."})
+        receipt.update(profile=fixture["version"], protocolSha256=protocol_fingerprint(), scope=fixture["scope"], confirmation={"status": "withheld", "reason": "Validation has not passed."})
     started = time.monotonic()
     torch.manual_seed(settings["seed"])
     torch.set_num_threads(settings["threads"])
@@ -386,7 +386,7 @@ def main() -> int:
         receipt_path = destination / "receipt.json"
         receipt = json.loads(receipt_path.read_text(encoding="utf-8")) if receipt_path.is_file() else initial_receipt(fixture_path)
         if quality_profile:
-            receipt.update(profile="routing-quality-v1", scope=fixture["scope"])
+            receipt.update(profile=fixture["version"], scope=fixture["scope"])
         write_receipt(destination, job_outcome(receipt, arguments.outcome, receipt_path.is_file()))
         return 0
     if destination.exists():
@@ -394,7 +394,7 @@ def main() -> int:
     destination.mkdir(parents=True)
     receipt = initial_receipt(fixture_path)
     if arguments.quality:
-        receipt.update(profile="routing-quality-v1", scope=fixture["scope"])
+        receipt.update(profile=fixture["version"], scope=fixture["scope"])
     write_receipt(destination, receipt)
     shutil.copyfile(fixture_path, destination / "fixture.json")
     for key in tuple(os.environ):
