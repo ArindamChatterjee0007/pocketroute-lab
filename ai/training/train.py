@@ -109,7 +109,7 @@ def job_outcome(receipt: dict[str, Any], status: str, receipt_existed: bool) -> 
     return receipt
 
 
-def adapter_card(source_sha: str) -> str:
+def adapter_card(source_sha: str, examples: int = 8, steps: int = 8, rank: int = 4) -> str:
         return f"""---
 base_model: {BASE_MODEL}
 library_name: peft
@@ -125,8 +125,8 @@ This is a bounded CPU adaptation smoke, not a qualified orchestrator, coding spe
 
 - Base: `{BASE_MODEL}` at revision `{BASE_REVISION}`.
 - Training implementation source: `{source_sha}`.
-- Protocol: rank-four q/v LoRA, eight updates and eight original synthetic training examples.
-- Evaluation: eight exposed development examples; no independent quality or generalization claim.
+- Protocol: rank-{rank} q/v LoRA, {steps} updates and {examples} original synthetic training examples.
+- Evaluation scope and held-out status are recorded in the receipt; no independent human or device-quality claim.
 - The base weights are frozen and are not included. Load this adapter only with the pinned compatible base.
 - Every suggested route requires human review. No specialist worker or generated code is executed.
 - Read the accompanying `receipt.json` for actual update, reload, prediction and failure evidence. This card does not assert that a run passed.
@@ -159,8 +159,8 @@ def output_directory() -> Path:
     return ROOT / "training-output" / f"{os.environ['GITHUB_RUN_ID']}-{os.environ.get('GITHUB_RUN_ATTEMPT', '1')}"
 
 
-def initial_receipt() -> dict[str, Any]:
-    return {"schemaVersion": 1, "status": "started", "phase": "preflight", "runUrl": f"https://github.com/{REPOSITORY}/actions/runs/{os.environ['GITHUB_RUN_ID']}", "sourceSha": os.environ.get("GITHUB_SHA"), "baseModel": BASE_MODEL, "baseRevision": BASE_REVISION, "fixtureSha256": digest_file(FIXTURE_PATH), "implementationSha256": digest_file(Path(__file__)), "scope": "CPU adapter plumbing and exposed development comparison; not distillation or a qualified specialist", "steps": [], "productionReady": False, "phoneValidated": False, "specialistsQualified": 0, "distillationPerformed": False, "localBuildsOrTests": 0}
+def initial_receipt(fixture_path: Path = FIXTURE_PATH) -> dict[str, Any]:
+    return {"schemaVersion": 1, "status": "started", "phase": "preflight", "runUrl": f"https://github.com/{REPOSITORY}/actions/runs/{os.environ['GITHUB_RUN_ID']}", "sourceSha": os.environ.get("GITHUB_SHA"), "baseModel": BASE_MODEL, "baseRevision": BASE_REVISION, "fixtureSha256": digest_file(fixture_path), "implementationSha256": digest_file(Path(__file__)), "scope": "CPU adapter plumbing and exposed development comparison; not distillation or a qualified specialist", "steps": [], "productionReady": False, "phoneValidated": False, "specialistsQualified": 0, "distillationPerformed": False, "localBuildsOrTests": 0}
 
 
 def write_receipt(destination: Path, receipt: dict[str, Any]) -> None:
@@ -169,13 +169,16 @@ def write_receipt(destination: Path, receipt: dict[str, Any]) -> None:
     (destination / "receipt.json").write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n", encoding="utf-8")
 
 
-def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: Path) -> None:
+def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: Path, quality_mode: bool = False) -> None:
     import torch
     from huggingface_hub import snapshot_download
     from peft import LoraConfig, PeftModel, get_peft_model
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     settings = fixture["training"]
+    if quality_mode:
+        from quality import CONFIRMATION_PATH, load_confirmation, paired_accuracy, protocol_fingerprint, quality_gate, rule_predictions, training_order
+        receipt.update(profile="routing-quality-v1", protocolSha256=protocol_fingerprint(), scope=fixture["scope"], confirmation={"status": "withheld", "reason": "Validation has not passed."})
     started = time.monotonic()
     torch.manual_seed(settings["seed"])
     torch.set_num_threads(settings["threads"])
@@ -210,10 +213,10 @@ def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: 
         budget()
         return AutoModelForCausalLM.from_pretrained(str(snapshot), local_files_only=True, trust_remote_code=False, use_safetensors=True, dtype=torch.float32, attn_implementation="eager")
 
-    def evaluate(model: Any) -> list[dict[str, Any]]:
+    def evaluate(model: Any, examples: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
         model.eval()
         results = []
-        for example in fixture["development"]:
+        for example in fixture["development"] if examples is None else examples:
             budget()
             began = time.monotonic()
             prediction = {"id": example["id"], "expected": example["expected"], "status": "error", "output": None, "requiresHumanReview": True}
@@ -262,30 +265,48 @@ def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: 
     receipt["trainableParameters"] = sum(parameter.numel() for parameter in trainable)
     encoded = []
     for example in fixture["train"]:
-        messages = [{"role": "system", "content": fixture["systemPrompt"]}, {"role": "user", "content": example["input"]}, {"role": "assistant", "content": example["expected"]}]
-        complete = chat_tokens(tokenizer, messages, False)
-        labels = completion_labels(prompt_tokens(example), complete, settings["maximumTokens"])
-        encoded.append((torch.tensor([complete]), torch.tensor([labels])))
+        if quality_mode:
+            tokens = prompt_tokens(example)
+            if len(tokens) >= settings["maximumTokens"]:
+                raise ValueError("Quality prompt exceeds the frozen token cap.")
+            encoded.append((torch.tensor([tokens]), torch.tensor([choices.index(example["expected"])])))
+        else:
+            messages = [{"role": "system", "content": fixture["systemPrompt"]}, {"role": "user", "content": example["input"]}, {"role": "assistant", "content": example["expected"]}]
+            complete = chat_tokens(tokenizer, messages, False)
+            labels = completion_labels(prompt_tokens(example), complete, settings["maximumTokens"])
+            encoded.append((torch.tensor([complete]), torch.tensor([labels])))
     optimizer = torch.optim.AdamW(trainable, lr=settings["learningRate"], weight_decay=0.0)
+    order = training_order(len(encoded), settings["steps"], settings["seed"]) if quality_mode else [step % len(encoded) for step in range(settings["steps"])]
+    receipt["trainingOrder"] = [fixture["train"][index]["id"] for index in order]
+    receipt["objective"] = "four-choice-next-token-cross-entropy" if quality_mode else "completion-only-causal-language-loss"
     model.train()
     receipt["phase"] = "optimizer-updates"
     for step in range(settings["steps"]):
         budget()
         began = time.monotonic()
-        input_ids, labels = encoded[step % len(encoded)]
+        example_index = order[step]
+        input_ids, labels = encoded[example_index]
         optimizer.zero_grad(set_to_none=True)
-        result = model(input_ids=input_ids, labels=labels, use_cache=False)
-        loss = result.loss
-        independent_loss = torch.nn.functional.cross_entropy(result.logits[:, :-1, :].float().reshape(-1, result.logits.shape[-1]), labels[:, 1:].reshape(-1), ignore_index=-100)
+        if quality_mode:
+            result = model(input_ids=input_ids, use_cache=False)
+            selected_logits = result.logits[:, -1, choice_ids].float()
+            loss = torch.nn.functional.cross_entropy(selected_logits, labels)
+            independent_loss = -torch.log_softmax(selected_logits, dim=-1).gather(1, labels.unsqueeze(1)).mean()
+        else:
+            result = model(input_ids=input_ids, labels=labels, use_cache=False)
+            loss = result.loss
+            independent_loss = torch.nn.functional.cross_entropy(result.logits[:, :-1, :].float().reshape(-1, result.logits.shape[-1]), labels[:, 1:].reshape(-1), ignore_index=-100)
         if not torch.isfinite(loss) or not torch.allclose(loss, independent_loss, rtol=1e-5, atol=1e-5):
-            raise RuntimeError("Completion-only causal loss is non-finite or inconsistent.")
+            raise RuntimeError("The training loss is non-finite or inconsistent with its independent calculation.")
         loss.backward()
         gradient_norm = torch.nn.utils.clip_grad_norm_(trainable, 1.0, error_if_nonfinite=True)
-        if not math.isfinite(float(gradient_norm)) or float(gradient_norm) <= 0:
+        if not math.isfinite(float(gradient_norm)) or float(gradient_norm) < 0 or (not quality_mode and float(gradient_norm) == 0):
             raise RuntimeError("No finite nonzero adapter gradient.")
         optimizer.step()
-        receipt["steps"].append({"step": step + 1, "exampleId": fixture["train"][step % len(encoded)]["id"], "loss": float(loss.detach()), "gradientNorm": float(gradient_norm), "elapsedMs": round((time.monotonic() - began) * 1000)})
+        receipt["steps"].append({"step": step + 1, "exampleId": fixture["train"][example_index]["id"], "loss": float(loss.detach()), "gradientNorm": float(gradient_norm), "elapsedMs": round((time.monotonic() - began) * 1000)})
         del result, loss, independent_loss
+        if quality_mode:
+            del selected_logits
         write_receipt(destination, receipt)
     adapter_after = tensor_digest(model, True)
     base_after = tensor_digest(model, False)
@@ -299,7 +320,7 @@ def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: 
     model.peft_config["default"].revision = BASE_REVISION
     model.config._name_or_path = BASE_MODEL
     model.save_pretrained(str(adapter_directory), safe_serialization=True, save_embedding_layers=False)
-    (adapter_directory / "README.md").write_text(adapter_card(receipt["sourceSha"]), encoding="utf-8")
+    (adapter_directory / "README.md").write_text(adapter_card(receipt["sourceSha"], len(fixture["train"]), settings["steps"], settings["rank"]), encoding="utf-8")
     del optimizer, trainable, model
     gc.collect()
     model = PeftModel.from_pretrained(load_base(), str(adapter_directory), is_trainable=False, local_files_only=True)
@@ -307,11 +328,30 @@ def run_training(fixture: dict[str, Any], receipt: dict[str, Any], destination: 
     assert_parity(receipt["adapted"], receipt["reloaded"])
     receipt["reloadParity"] = True
     receipt["metrics"] = {"baseline": score(fixture["development"], receipt["baseline"]), "adapted": score(fixture["development"], receipt["adapted"])}
+    if quality_mode:
+        receipt["ruleBaseline"] = rule_predictions(fixture["development"])
+        receipt["validation"] = {"baseline": quality_gate(fixture["development"], receipt["baseline"]), "adapted": quality_gate(fixture["development"], receipt["adapted"]), "rules": quality_gate(fixture["development"], receipt["ruleBaseline"]), "pairedBaseToAdapter": paired_accuracy(receipt["baseline"], receipt["adapted"], fixture["development"])}
+        if receipt["validation"]["adapted"]["passed"]:
+            receipt["phase"] = "frozen-confirmation"
+            cases = load_confirmation(fixture)
+            receipt["confirmationSha256"] = digest_file(CONFIRMATION_PATH)
+            shutil.copyfile(CONFIRMATION_PATH, destination / "confirmation.json")
+            with model.disable_adapter():
+                baseline_predictions = evaluate(model, cases)
+            adapted_predictions = evaluate(model, cases)
+            rules = rule_predictions(cases)
+            receipt["confirmation"] = {"status": "completed", "cases": cases, "baselinePredictions": baseline_predictions, "adaptedPredictions": adapted_predictions, "rulePredictions": rules, "baseline": quality_gate(cases, baseline_predictions), "adapted": quality_gate(cases, adapted_predictions), "rules": quality_gate(cases, rules), "pairedBaseToAdapter": paired_accuracy(baseline_predictions, adapted_predictions, cases), "pairedRulesToAdapter": paired_accuracy(rules, adapted_predictions, cases)}
+        else:
+            receipt["confirmation"] = {"status": "withheld", "reason": "The frozen validation gate failed; no confirmation inference or label inspection was performed."}
     receipt["performance"] = {"wallMs": round((time.monotonic() - started) * 1000), "processPeakRssBytes": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024, "scope": "GitHub CPU training process only; not phone inference or energy"}
     receipt["adapterFiles"] = {path.name: {"sha256": digest_file(path), "bytes": path.stat().st_size} for path in adapter_directory.iterdir() if path.is_file()}
     if sum(entry["bytes"] for entry in receipt["adapterFiles"].values()) > 10 * 1024 * 1024:
         raise RuntimeError("The adapter exceeded the 10 MiB artifact limit.")
-    receipt.update(status="adaptation-smoke-passed", phase="completed")
+    if quality_mode:
+        passed = receipt["confirmation"].get("adapted", {}).get("passed", False)
+        receipt.update(status="synthetic-quality-screen-passed" if passed else "synthetic-quality-screen-failed", phase="completed")
+    else:
+        receipt.update(status="adaptation-smoke-passed", phase="completed")
 
 
 def main() -> int:
@@ -319,13 +359,20 @@ def main() -> int:
     modes = parser.add_mutually_exclusive_group(required=True)
     modes.add_argument("--check", action="store_true")
     modes.add_argument("--run", action="store_true")
+    modes.add_argument("--quality", action="store_true")
     modes.add_argument("--outcome", choices=["success", "failure", "cancelled"])
     arguments = parser.parse_args()
     require_cloud(dict(os.environ))
     fixture = json.loads(FIXTURE_PATH.read_text(encoding="utf-8"))
     validate_fixture(fixture)
+    fixture_path = FIXTURE_PATH
+    if arguments.quality or arguments.check:
+        from quality import QUALITY_PATH, load_quality_fixture
+        quality_fixture = load_quality_fixture()
+        if arguments.quality:
+            fixture, fixture_path = quality_fixture, QUALITY_PATH
     if arguments.check:
-        print(json.dumps({"fixtureValidated": True, "trainingCases": 8, "developmentCases": 8, "modelExecuted": False}))
+        print(json.dumps({"fixtureValidated": True, "trainingCases": 8, "developmentCases": 8, "qualityTrainingCases": len(quality_fixture["train"]), "qualityValidationCases": len(quality_fixture["development"]), "modelExecuted": False}))
         return 0
     destination = output_directory()
     if arguments.outcome:
@@ -336,21 +383,23 @@ def main() -> int:
     if destination.exists():
         raise RuntimeError("A run receipt already exists; preserve it and use a new workflow attempt.")
     destination.mkdir(parents=True)
-    receipt = initial_receipt()
+    receipt = initial_receipt(fixture_path)
+    if arguments.quality:
+        receipt.update(profile="routing-quality-v1", scope=fixture["scope"])
     write_receipt(destination, receipt)
-    shutil.copyfile(FIXTURE_PATH, destination / "fixture.json")
+    shutil.copyfile(fixture_path, destination / "fixture.json")
     for key in tuple(os.environ):
         if key in {"GH_TOKEN", "GITHUB_TOKEN", "HF_TOKEN", "HUGGING_FACE_HUB_TOKEN", "ACTIONS_RUNTIME_TOKEN", "ACTIONS_ID_TOKEN_REQUEST_TOKEN"}:
             os.environ.pop(key)
 
     def deadline(_signum: int, _frame: Any) -> None:
-        raise TimeoutError("The 900-second training smoke deadline expired.")
+        raise TimeoutError("The 900-second model-stage deadline expired.")
 
     signal.signal(signal.SIGALRM, deadline)
     signal.alarm(fixture["training"]["wallSeconds"])
     try:
-        run_training(fixture, receipt, destination)
-        return_code = 0
+        run_training(fixture, receipt, destination, arguments.quality)
+        return_code = int(arguments.quality and receipt["status"] != "synthetic-quality-screen-passed")
     except BaseException as error:
         receipt.update(status="failed" if isinstance(error, Exception) else "interrupted", error=f"{type(error).__name__}: {error}"[:800])
         if not isinstance(error, Exception):
